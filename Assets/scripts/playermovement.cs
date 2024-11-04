@@ -24,26 +24,14 @@ public class playermovement : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 castPos = transform.position;
-        castPos.y += 1;
-        if (Physics.Raycast(castPos, -transform.up, out hit, Mathf.Infinity, terrainLayer)) 
-        {
-            if (hit.collider != null)
-            {
-                Vector3 movePos = transform.position;
-                movePos.y = hit.point.y + groundDist;
-                transform.position = movePos;
-                isGrounded = true;
-            }
-        }
-        else
-        { 
-            isGrounded = false; 
-        }
+
+        isGrounded = Physics.Raycast(castPos, -transform.up, out hit, groundDist, terrainLayer) ;
 
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
+
         Vector3 moveDir = new Vector3(x, 0, y);
-        rb.velocity = moveDir * speed;
+        rb.velocity = moveDir * speed * Time.deltaTime;
 
         if (x != 0 && x < 0)
         {
@@ -57,9 +45,8 @@ public class playermovement : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Jumped");
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce * Time.deltaTime, ForceMode.Impulse);
         }
+        
     }
-
-
 }
