@@ -11,11 +11,13 @@ public class playermovement : MonoBehaviour
     public LayerMask terrainLayer;
     public Rigidbody rb;
     public SpriteRenderer sr;
+    private Animator anim;
     private bool isGrounded;
 
     // Start is called before the first frame update
     void Start()
     {
+        anim = gameObject.GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
     }
 
@@ -31,6 +33,7 @@ public class playermovement : MonoBehaviour
         float y = Input.GetAxis("Vertical");
 
         Vector3 moveDir = new Vector3(x, 0, y);
+        anim.SetFloat("moveSpeed", x);
         rb.velocity = moveDir * speed * Time.deltaTime;
 
         if (x != 0 && x < 0)
