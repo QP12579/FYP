@@ -28,7 +28,7 @@ public class playermovement : MonoBehaviour
         Vector3 castPos = transform.position;
 
         isGrounded = Physics.Raycast(castPos, -transform.up, out hit, groundDist, terrainLayer) ;
-
+        anim.SetBool("isGrounded", isGrounded);
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
 
@@ -49,6 +49,11 @@ public class playermovement : MonoBehaviour
         {
             Debug.Log("Jumped");
             rb.AddForce(Vector3.up * jumpForce * Time.deltaTime, ForceMode.Impulse);
+        }
+
+        if(isGrounded && Input.GetKeyDown(KeyCode.Z))
+        {
+            anim.SetTrigger("Rolling");
         }
         
     }
