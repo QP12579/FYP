@@ -7,10 +7,11 @@ public class ChoiceManager : MonoBehaviour
 {
     public static ChoiceManager instance;
     public GameObject[] ChoicePrefab;
+    public Player P1, P2;
     private int level = 0;
     private void Awake()
     {
-        level = Player.instance.level;
+        level = P1.level;
         instance = this;
     }
     void Start()

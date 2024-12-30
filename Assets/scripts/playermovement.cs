@@ -2,38 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playermovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float speed;
-    public float jumpForce;
     public float groundDist;
 
     public LayerMask terrainLayer;
-    public Rigidbody rb;
-    public SpriteRenderer sr;
+    private Rigidbody rb;
+    [HideInInspector] public SpriteRenderer sr;
     private Animator anim;
     private bool isGrounded;
+    [HideInInspector] public bool isFaceFront;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
+        sr = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
-        Vector3 castPos = transform.position;
-
-        isGrounded = Physics.Raycast(castPos, -transform.up, out hit, groundDist, terrainLayer) ;
-        anim.SetBool("isGrounded", isGrounded);
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
 
         Vector3 moveDir = new Vector3(x, rb.velocity.y, y);
         anim.SetFloat("moveSpeed", x);
+        anim.SetFloat("vmoveSpeed", y);
         rb.velocity = moveDir * speed * Time.deltaTime;
 
         if (x != 0 && x < 0)
@@ -44,17 +41,34 @@ public class playermovement : MonoBehaviour
         {
             sr.flipX = false;
         }
-
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (y != 0 && y < 0)
         {
-            Debug.Log("Jumped");
-            rb.AddForce(Vector3.up * jumpForce * Time.deltaTime, ForceMode.Impulse);
+            isFaceFront = true;
+        }
+        else if (y != 0 && y > 0) 
+        {
+            isFaceFront = false;
         }
 
         if(isGrounded && Input.GetKeyDown(KeyCode.Z))
         {
             anim.SetTrigger("Rolling");
+            rb.AddForce(new Vector3(x, 0, y) * speed);
         }
         
+    }
+
+    private void FixedUpdate()
+    {
+        GroundCheck();
+    }
+
+    void GroundCheck()
+    {
+        RaycastHit hit;
+        Vector3 castPos = transform.position;
+
+        isGrounded = Physics.Raycast(castPos, Vector3.down, out hit, groundDist, terrainLayer);
+        anim.SetBool("isGrounded", isGrounded);
     }
 }

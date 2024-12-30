@@ -3,12 +3,12 @@ using Mirror;
 
 public class NetworkPlayerMovement : NetworkBehaviour
 {
-    private playermovement moveScript;
+    private PlayerMovement moveScript;
 
     void Awake()
     {
         // Get the movement script reference
-        moveScript = GetComponent<playermovement>();
+        moveScript = GetComponent<PlayerMovement>();
     }
 
     public override void OnStartAuthority()

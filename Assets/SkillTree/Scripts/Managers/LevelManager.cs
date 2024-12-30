@@ -5,35 +5,28 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
     public TextMeshProUGUI levelText;
-    private int level = 0;
+    private int levelP1 = 0, levelP2 = 0;
     public GameObject choicePanel;
+    public Player P1, P2;
 
     private void Awake()
     {
         instance = this; 
-        level = Player.instance.level;
+        levelP1 = P1.level;
+        levelP2 = P2.level;
     }
-    public void LevelUp()
+    public void P1LevelUp()
     {
-        level++;
+        levelP1++;
         choicePanel.SetActive(true);
         UpdateLevelText();
         ChoiceManager.instance.AssignRandomChoice();
     }
 
-    public void LevelDown()
-    {
-        if (level > 0)
-        {
-            level--;
-        }
-        UpdateLevelText();
-    }
-
     private void UpdateLevelText()
     {
-        Player.instance.level = level;
+        P1.level = levelP1;
         // Format to two digits
-        levelText.text = level.ToString("D2"); 
+        levelText.text = levelP1.ToString("D2"); 
     }
 }

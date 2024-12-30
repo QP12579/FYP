@@ -82,7 +82,7 @@ public class NetworkPlayerManager : NetworkBehaviour
             spawnedCharacter.transform.SetParent(transform);
 
             // Set up movement
-            var movement = spawnedCharacter.GetComponent<playermovement>();
+            var movement = spawnedCharacter.GetComponent<PlayerMovement>();
             if (movement != null)
             {
                 movement.enabled = isLocalPlayer;
