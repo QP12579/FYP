@@ -20,7 +20,8 @@ MonoBehaviour:
       targets.
     skillType: 0
     DamageOrHeal: 20
-    skillPrefab: {fileID: 101277582124275836, guid: 687ee45929d02394cafa6583c1376ba0, type: 3}
+    skillPrefab: {fileID: 101277582124275836, guid: 687ee45929d02394cafa6583c1376ba0,
+      type: 3}
   - skillName: Spirit Arrows
     icon: {fileID: 21300000, guid: 0825dfa25de4551469e65496af7b3c71, type: 3}
     skillLevel: 2
@@ -28,7 +29,8 @@ MonoBehaviour:
       potentially debuffing enemies.
     skillType: 0
     DamageOrHeal: 40
-    skillPrefab: {fileID: 1920543422595437775, guid: f59a05d503a810147b3ff2f0962fd289, type: 3}
+    skillPrefab: {fileID: 1920543422595437775, guid: f59a05d503a810147b3ff2f0962fd289,
+      type: 3}
   - skillName: Slide
     icon: {fileID: 21300000, guid: 6960c6bd5088317429f7e0e033bee813, type: 3}
     skillLevel: 1
@@ -36,7 +38,8 @@ MonoBehaviour:
       avoiding obstacles or attacks.
     skillType: 1
     DamageOrHeal: 0
-    skillPrefab: {fileID: 5522931680492572753, guid: 9b0d8c29d72ad2e409365dc3b20c16a1, type: 3}
+    skillPrefab: {fileID: 5522931680492572753, guid: 9b0d8c29d72ad2e409365dc3b20c16a1,
+      type: 3}
   - skillName: Dash
     icon: {fileID: 21300000, guid: c67fbf9375ad5c34399c2849430ca7f7, type: 3}
     skillLevel: 2
@@ -44,14 +47,16 @@ MonoBehaviour:
       close the distance to an enemy.
     skillType: 1
     DamageOrHeal: 0
-    skillPrefab: {fileID: 4479183213979172908, guid: a453460d25f2ade4b97241fcb344fefb, type: 3}
+    skillPrefab: {fileID: 4479183213979172908, guid: a453460d25f2ade4b97241fcb344fefb,
+      type: 3}
   - skillName: Reflect
     icon: {fileID: 21300000, guid: f6b8b85cbdc82ce439a41ae3d56d57ee, type: 3}
     skillLevel: 3
     description: A defensive skill that deflects incoming attacks back at the attacker.
     skillType: 1
     DamageOrHeal: 30
-    skillPrefab: {fileID: 2907349890620138047, guid: cc5353c213bac47419c9120aadca4a6e, type: 3}
+    skillPrefab: {fileID: 2907349890620138047, guid: cc5353c213bac47419c9120aadca4a6e,
+      type: 3}
   - skillName: Claw
     icon: {fileID: 21300000, guid: 0389074d1deba1c448d45812db40c0df, type: 3}
     skillLevel: 1
@@ -59,7 +64,8 @@ MonoBehaviour:
       damage.
     skillType: 2
     DamageOrHeal: 10
-    skillPrefab: {fileID: 968869439376740904, guid: 60c42ea11a991854bbafdff106d73686, type: 3}
+    skillPrefab: {fileID: 968869439376740904, guid: 60c42ea11a991854bbafdff106d73686,
+      type: 3}
   - skillName: Psychic Attack
     icon: {fileID: 21300000, guid: bbe833a9207e7fa41bbd3ce71ad09605, type: 3}
     skillLevel: 2
@@ -67,7 +73,8 @@ MonoBehaviour:
       disorienting the enemy.
     skillType: 2
     DamageOrHeal: 20
-    skillPrefab: {fileID: 6496190833275376772, guid: 8c0d41ae617b27d4eb36c97004fd95bc, type: 3}
+    skillPrefab: {fileID: 6496190833275376772, guid: 8c0d41ae617b27d4eb36c97004fd95bc,
+      type: 3}
   - skillName: Blackhole
     icon: {fileID: 21300000, guid: eed44235dcbd621438f7c0c4f05e2356, type: 3}
     skillLevel: 3
@@ -75,7 +82,8 @@ MonoBehaviour:
       and damaging nearby foes.
     skillType: 2
     DamageOrHeal: 50
-    skillPrefab: {fileID: 4206393974876278963, guid: a972b450e23103b449309eeaa691de5a, type: 3}
+    skillPrefab: {fileID: 4206393974876278963, guid: a972b450e23103b449309eeaa691de5a,
+      type: 3}
   - skillName: Stronger Buff
     icon: {fileID: 21300000, guid: a2563f2b8dbc4044b9a50537d3a29962, type: 3}
     skillLevel: 2
@@ -83,14 +91,16 @@ MonoBehaviour:
       of abilities for allies.
     skillType: 3
     DamageOrHeal: 10
-    skillPrefab: {fileID: 5843121499375574265, guid: 195de6867ba09bc4b9affdde09280da0, type: 3}
+    skillPrefab: {fileID: 5843121499375574265, guid: 195de6867ba09bc4b9affdde09280da0,
+      type: 3}
   - skillName: Chop
     icon: {fileID: 21300000, guid: 08c71e4e0565fe4469d1e0a593047156, type: 3}
     skillLevel: 1
     description: A swift, downward strike that deals damage to a single target.
     skillType: 4
     DamageOrHeal: 10
-    skillPrefab: {fileID: 7192353810677831453, guid: 0adbbe00ba4b715428477d5d099fc3ef, type: 3}
+    skillPrefab: {fileID: 7192353810677831453, guid: 0adbbe00ba4b715428477d5d099fc3ef,
+      type: 3}
   - skillName: Punches
     icon: {fileID: 21300000, guid: eecb85004343b0e4d8b78fd7f9877b32, type: 3}
     skillLevel: 2

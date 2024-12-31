@@ -24,6 +24,7 @@ namespace Skill
         private SkillData chosenSkill;
         private TrapData chosenTrap;
         private Sprite defaultImage;
+        public Player player;
 
         private void Start()
         {
@@ -38,7 +39,7 @@ namespace Skill
             gameObject.SetActive(true);
             r = 0;
             c = type;
-            level = Player.instance.level;
+            level = player.level;
 
             chosenItem = null;
             chosenSkill = null;
@@ -68,10 +69,10 @@ namespace Skill
             switch (c)
             {
                 case choices.skill:
-                    if (chosenSkill != null) Player.instance.Skills.Add(chosenSkill);
+                    if (chosenSkill != null) player.Skills.Add(chosenSkill);
                     break;
                 case choices.item:
-                    ItemData itemData = chosenItem;
+                    /*ItemData itemData = chosenItem;
                     foreach (var hadItemData in Player.instance.Items)
                     {
                         if (hadItemData == itemData)
@@ -85,11 +86,11 @@ namespace Skill
                     {
                         chosenItem.number = 1;
                         Player.instance.Items.Add(chosenItem);
-                    }
+                    }*/
                     break;
                 case choices.weapon:
                     WeaponData weaponData = chosenWeapon;
-                    foreach(var hadWeapon in Player.instance.Weapons)
+                    foreach(var hadWeapon in player.Weapons)
                     {
                         if(hadWeapon == weaponData)
                         {
@@ -98,10 +99,10 @@ namespace Skill
                             break;
                         }
                     }
-                    if (chosenWeapon != null) Player.instance.Weapons.Add(chosenWeapon);
+                    if (chosenWeapon != null) player.Weapons.Add(chosenWeapon);
                     break;
                 case choices.trap:
-                    TrapData trapData = chosenTrap;
+                    /*TrapData trapData = chosenTrap;
                     foreach (var hadTrapData in Player.instance.Traps)
                     {
                         if (hadTrapData == trapData)
@@ -115,7 +116,7 @@ namespace Skill
                     {
                         chosenTrap.number = 1;
                         Player.instance.Traps.Add(chosenTrap);
-                    }
+                    }*/
                     break;
             }
         }
@@ -146,7 +147,7 @@ namespace Skill
                 //Randomly get a type in Weapon.data_weapon
                 foreach (var weaponData in Weapon.data_weapon)
                 {
-                    foreach (var s in Player.instance.Weapons) //pick the type which is same from player
+                    foreach (var s in player.Weapons) //pick the type which is same from player
                     {
                         if (s.type == weaponT)
                             playerWeapons.Add(s);
@@ -207,7 +208,7 @@ namespace Skill
                 Debug.Log("skillT: "+skillT);
                 foreach (var skillData in Skill.skillKeeper) //pick the type which is same from Database
                 {
-                    foreach (var s in Player.instance.Skills) //pick the type which is same from player
+                    foreach (var s in player.Skills) //pick the type which is same from player
                     {
                         if (s.skillType == skillT)
                             playerSkills.Add(s);

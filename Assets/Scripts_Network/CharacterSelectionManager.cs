@@ -111,7 +111,7 @@ public class CharacterSelectionManager : NetworkBehaviour
         spawnedCharacter = Instantiate(characterPrefabs[index], previewPosition, Quaternion.identity);
 
         // Disable movement during preview
-        var movement = spawnedCharacter.GetComponent<playermovement>();
+        var movement = spawnedCharacter.GetComponent<PlayerMovement>();
         if (movement != null)
         {
             movement.enabled = false;
@@ -163,7 +163,7 @@ public class CharacterSelectionManager : NetworkBehaviour
             // Enable movement for selected character
             if (spawnedCharacter != null)
             {
-                var movement = spawnedCharacter.GetComponent<playermovement>();
+                var movement = spawnedCharacter.GetComponent<PlayerMovement>();
                 if (movement != null)
                 {
                     movement.enabled = true;

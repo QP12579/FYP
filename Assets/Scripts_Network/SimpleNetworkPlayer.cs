@@ -64,7 +64,7 @@ public class SimpleNetworkPlayer : NetworkBehaviour
             currentCharacter = Instantiate(characterPrefabs[index], transform.position, transform.rotation);
             currentCharacter.transform.SetParent(transform);
 
-            var movement = currentCharacter.GetComponent<playermovement>();
+            var movement = currentCharacter.GetComponent<PlayerMovement>();
             if (movement != null)
             {
                 movement.enabled = true;
