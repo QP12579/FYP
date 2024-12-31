@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3940012431815484974}
   - component: {fileID: 1224859717527305422}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AirBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4348212118933141674}
   - component: {fileID: 5461297655769269785}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AirBlock (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 443881627703442438}
   - component: {fileID: 810919185633168231}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AirBlock (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9221603475685493027}
   - component: {fileID: 5983374010180833687}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AirBlock (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7631293759255405526}
   - component: {fileID: 3696990046988612608}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AirBlock (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6342186666185957151}
   - component: {fileID: 4764890375443063253}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AirBlock (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
