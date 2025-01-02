@@ -61,14 +61,14 @@ public class Player : MonoBehaviour
         {
             vfx.transform.SetParent(VFXPosiR.transform, false);
             vfx.transform.position = VFXPosiR.transform.position;
-            vfxRb.AddForce(Vector3.right * 50 * Time.deltaTime);
+            vfxRb.AddForce(Vector3.right * 500 * Time.deltaTime);
         }
         else
         {
             vfxsp.flipX = true;
             vfx.transform.SetParent(VFXPosiL.transform, false);
             vfx.transform.position = VFXPosiL.transform.position;
-            vfxRb.AddForce(Vector3.left * 50 * Time.deltaTime);
+            vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
         }
         //vfxRb.AddForce(new Vector3(movement.sr.flipX? -50: 50, 0, 0));
         StartCoroutine(vfxCountTime(1.5f, vfx));
