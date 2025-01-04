@@ -9,7 +9,7 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
     public CharacterSelectionUI selectionUI;
-    public float countdownDuration = 3f;
+    public float countdownDuration = 4f;
     public string battleSceneName;
 
     [SyncVar(hook = nameof(OnCountdownChanged))]
@@ -81,10 +81,12 @@ public class GameManager : NetworkBehaviour
         if (timeLeft < 0)
         {
             selectionUI.countdownText.gameObject.SetActive(false);
+            selectionUI.CountPanel.gameObject.SetActive(false);
         }
         else
         {
             selectionUI.countdownText.gameObject.SetActive(true);
+            selectionUI.CountPanel.SetActive(true);
             selectionUI.countdownText.text = Mathf.CeilToInt(timeLeft).ToString();
         }
     }
@@ -98,6 +100,8 @@ public class GameManager : NetworkBehaviour
 
     public void UpdateUIState()
     {
+        if (selectionUI == null) return;
+
         var players = FindObjectsOfType<NetworkPlayerManager>();
 
         // Reset all slots to available first
@@ -112,7 +116,7 @@ public class GameManager : NetworkBehaviour
                     break;
                 }
             }
-            selectionUI.UpdateSlotState(i, CharacterSelectState.Available, isLocalPlayerSlot);
+            selectionUI.UpdateSlotState(i, CharacterSelectState.Available, isLocalPlayerSlot, NetworkServer.active);
         }
 
         // Update based on player selections
@@ -125,13 +129,13 @@ public class GameManager : NetworkBehaviour
                 selectionUI.UpdateSlotState(
                     selectedChar,
                     isLocalPlayer ? CharacterSelectState.SelectedByLocal : CharacterSelectState.SelectedByOther,
-                    isLocalPlayer
+                    isLocalPlayer,
+                    NetworkServer.active
                 );
             }
         }
     }
 }
-
 public enum CharacterSelectState
 {
     Available,
