@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 3459240000410039621}
   - component: {fileID: 3877136711911884008}
   - component: {fileID: 1629717952430611804}
+  - component: {fileID: -8900439243853886936}
   m_Layer: 3
   m_Name: TechnologyPlayer
   m_TagString: Player
@@ -162,13 +163,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
-  jumpForce: 90
   groundDist: 0.65
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
-  rb: {fileID: 7153094505001637918}
   sr: {fileID: 3516694489750110777}
+  isFaceFront: 0
 --- !u!95 &3459240000410039621
 Animator:
   serializedVersion: 5
@@ -228,7 +228,6 @@ MonoBehaviour:
   Health: 100
   level: 0
   Weapons: []
-  Items: []
   Skills:
   - skillName: 
     icon: {fileID: 0}
@@ -238,8 +237,25 @@ MonoBehaviour:
     DamageOrHeal: 0
     skillPrefab: {fileID: 1284241484961176662, guid: 123491c37b61a6345b92e221d8ab889f,
       type: 3}
-  Traps: []
-  WeaponPosi: {fileID: 4188410949577883755}
+  VFXPosiR: {fileID: 0}
+  VFXPosiL: {fileID: 0}
+--- !u!114 &-8900439243853886936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483579375503841955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 229577737
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1290044888189713197
 GameObject:
   m_ObjectHideFlags: 0
