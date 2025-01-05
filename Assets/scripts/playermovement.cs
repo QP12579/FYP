@@ -28,10 +28,10 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
 
-        Vector3 moveDir = new Vector3(x, rb.velocity.y, y);
+        Vector3 moveDir = new Vector3(x, 0, y);
         anim.SetFloat("moveSpeed", x);
         anim.SetFloat("vmoveSpeed", y);
-        rb.velocity = moveDir * speed * Time.deltaTime;
+        rb.velocity = new Vector3( moveDir.x * speed * Time.deltaTime, rb.velocity.y, moveDir.z * speed * Time.deltaTime);
 
         if (x != 0 && x < 0)
         {
