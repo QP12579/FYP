@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class enemycontrolller : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
-    public int maxHP = 100;
-    public int currentHP;
+    public float maxHP = 100;
+    public float currentHP;
 
     public Image hpBar; // Reference to the Image component
     public float animationSpeed = 0.1f; // Speed of the animation
@@ -33,7 +33,7 @@ public class enemycontrolller : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHP -= damage;
         targetFillAmount = (float)currentHP / maxHP;
@@ -80,14 +80,15 @@ public class enemycontrolller : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnTriggerEnter(Collider other)
+    //This part move to Bomb Script
+    /*void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Hbullet"))
+        if (other.CompareTag("Bomb"))
         {
             // Assuming the bullet has a script with a damage value
-            int damage = other.GetComponent<Bullet>().damage;
+            int damage = other.GetComponent<Bomb>().damage;
             TakeDamage(damage);
-            Destroy(other.gameObject); // Destroy the bullet after it hits the enemy
+            //Destroy(other.gameObject); // Destroy the bullet after it hits the enemy
         }
-    }
+    }*/
 }
