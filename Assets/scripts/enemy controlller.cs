@@ -82,12 +82,12 @@ public class enemycontrolller : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Hbullet"))
+        /*if (other.CompareTag("Hbullet"))
         {
             // Assuming the bullet has a script with a damage value
             int damage = other.GetComponent<Bullet>().damage;
             TakeDamage(damage);
             Destroy(other.gameObject); // Destroy the bullet after it hits the enemy
-        }
+        }*/
     }
 }
