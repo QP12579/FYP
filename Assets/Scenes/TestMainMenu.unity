@@ -294,7 +294,7 @@ MonoBehaviour:
   editorAutoStart: 0
   sendRate: 60
   offlineScene: Assets/Scenes/TestMainMenu.unity
-  onlineScene: Assets/Scenes/TestNetwork.unity
+  onlineScene: Assets/Scenes/SideSelection_Test.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 744673609}
   networkAddress: localhost
@@ -306,7 +306,9 @@ MonoBehaviour:
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 2157704106939913972, guid: f36d3701ff7b124438d33fdb67dbb886, type: 3}
+  - {fileID: 4836769602313215637, guid: 8bc51539b7e24fe4a822ae0c2106a8b8, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
