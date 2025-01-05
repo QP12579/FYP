@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        gameObject.GetComponent<Animator>().SetTrigger("hurt");
         currentHP -= damage;
         targetFillAmount = (float)currentHP / maxHP;
         UpdateHPBarColor();

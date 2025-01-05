@@ -58,18 +58,35 @@ public class Player : MonoBehaviour
 
         SpriteRenderer vfxsp = vfx.GetComponent<SpriteRenderer>();
         Rigidbody vfxRb = vfx.GetComponent<Rigidbody>();
-        if (!movement.sr.flipX)
+
+        if (vfx.GetComponent<Bomb>().type != BombType.trap)
         {
-            vfx.transform.SetParent(VFXPosiR.transform, false);
-            vfx.transform.position = VFXPosiR.transform.position;
-            vfxRb.AddForce(Vector3.right * 500 * Time.deltaTime);
+            if (!movement.sr.flipX)
+            {
+                vfx.transform.SetParent(VFXPosiR.transform, false);
+                vfx.transform.position = VFXPosiR.transform.position;
+                vfxRb.AddForce(Vector3.right * 500 * Time.deltaTime);
+            }
+            else
+            {
+                vfxsp.flipX = true;
+                vfx.transform.SetParent(VFXPosiL.transform, false);
+                vfx.transform.position = VFXPosiL.transform.position;
+                vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
+            }
         }
         else
         {
-            vfxsp.flipX = true;
-            vfx.transform.SetParent(VFXPosiL.transform, false);
-            vfx.transform.position = VFXPosiL.transform.position;
-            vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
+            if (!movement.sr.flipX)
+            {
+                vfx.transform.SetParent(VFXPosiR.transform, false);
+                vfx.transform.position = VFXPosiR.transform.position;
+            }
+            else
+            {
+                vfx.transform.SetParent(VFXPosiL.transform, false);
+                vfx.transform.position = VFXPosiL.transform.position;
+            }
         }
     }
 }

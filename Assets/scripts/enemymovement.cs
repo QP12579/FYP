@@ -20,7 +20,7 @@ public class enemymovement : MonoBehaviour
     void Update()
     {
         timeSinceLastChange += Time.deltaTime;
-
+        gameObject.GetComponent<Animator>().SetFloat("moveSpeed", timeSinceLastChange);
         if (timeSinceLastChange >= changeDirectionInterval)
         {
             ChangeDirection();

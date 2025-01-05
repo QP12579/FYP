@@ -47,6 +47,7 @@ public class Bomb : MonoBehaviour
             if(type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
+                Destroy(gameObject, 2f);
             }
         }
     }
