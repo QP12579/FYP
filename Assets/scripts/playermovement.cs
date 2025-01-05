@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public SpriteRenderer sr;
     private Animator anim;
     private bool isGrounded;
+    private bool oneTime;
     [HideInInspector] public bool isFaceFront;
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         sr = gameObject.GetComponent<SpriteRenderer>();
+        oneTime = true;
     }
 
     // Update is called once per frame
@@ -69,6 +71,12 @@ public class PlayerMovement : MonoBehaviour
         Vector3 castPos = transform.position;
 
         isGrounded = Physics.Raycast(castPos, Vector3.down, out hit, groundDist, terrainLayer);
+        if (oneTime != isGrounded && !isGrounded)
+        {
+            anim.SetTrigger("isReadyToFall");
+            oneTime = false;
+        }
+        if (isGrounded) oneTime = true;
         anim.SetBool("isGrounded", isGrounded);
     }
 }
