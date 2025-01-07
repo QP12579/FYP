@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
         {
             hpBar.transform.position = transform.position + Vector3.up;
             // Smoothly animate the fill amount
-            hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, targetFillAmount, animationSpeed * Time.deltaTime);
+            //hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, targetFillAmount, animationSpeed * Time.deltaTime);
         }
     }
 
@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
     {
         gameObject.GetComponent<Animator>().SetTrigger("hurt");
         currentHP -= damage;
-        targetFillAmount = (float)currentHP / maxHP;
+        targetFillAmount = currentHP / maxHP;
         UpdateHPBarColor();
         if (currentHP <= 0)
         {
@@ -78,7 +78,7 @@ public class EnemyController : MonoBehaviour
         // Handle enemy death (e.g., play animation, destroy object)
         Debug.Log("Enemy died");
         Destroy(hpBar.gameObject); // Destroy the HP bar
-        Destroy(gameObject);
+        Destroy(gameObject, 0.5f);
     }
 
     //This part move to Bomb Script

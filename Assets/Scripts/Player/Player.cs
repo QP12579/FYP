@@ -1,12 +1,20 @@
 using Skill;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public int Health = 100;
+    public int MaxHP = 100;
+    public int HP = 100;
+    public Slider HPSlider;
+    public int MaxMP = 50;
+    public int MP = 50;
+    public Slider MPSlider;
     public int level = 1;
+    public TextMeshProUGUI levelText;
     public List<WeaponData> Weapons = null;
     public List<SkillData> Skills = null;
     public Transform VFXPosiR = null, VFXPosiL = null;
@@ -22,8 +30,31 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     public Player()
     {
-        level = 0;
-        Health = 100;
+        level = 1;
+        HP = MaxHP;
+        MP = MaxMP;
+    }
+
+    public void UpdatePlayerUIInfo()
+    {
+        HPSlider.value = HP;
+        MPSlider.value = MP;
+        HPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = HP.ToString() + "/" + MaxHP.ToString();
+        MPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = MP.ToString() + "/" + MaxMP.ToString();
+        levelText.text = level.ToString();
+    }
+
+    public void GetHurt(int hurt)
+    {
+        HP -= hurt;
+        UpdatePlayerUIInfo();
+        gameObject.GetComponent<Animator>().SetTrigger("Hurt");
+        if (HP <= 0) Die();
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject, 1f);
     }
 /*
     private void OnCollisionEnter(Collision collision)
@@ -51,7 +82,8 @@ public class Player : MonoBehaviour
     {
         SkillData skillData = new SkillData();
         skillData = Skills[Skills.Count - 1]; // use the new one
-
+        MP -= skillData.skillLevel;
+        UpdatePlayerUIInfo();
         GameObject vfx = Instantiate(skillData.skillPrefab, Vector3.zero, Quaternion.identity);
         vfx.GetComponent<Bomb>().damage = skillData.DamageOrHeal;
         vfx.transform.localScale = new Vector2(1.2f, 1.2f);
@@ -74,6 +106,7 @@ public class Player : MonoBehaviour
                 vfx.transform.position = VFXPosiL.transform.position;
                 vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
             }
+            StartCoroutine(vfxCountTime(1f * skillData.skillLevel, vfx));
         }
         else
         {
@@ -88,5 +121,10 @@ public class Player : MonoBehaviour
                 vfx.transform.position = VFXPosiL.transform.position;
             }
         }
+    }
+    IEnumerator vfxCountTime(float time, GameObject gameObject)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(gameObject);
     }
 }

@@ -7,7 +7,7 @@ public class ChoiceManager : MonoBehaviour
 {
     public static ChoiceManager instance;
     public GameObject[] ChoicePrefab;
-    public Player P1, P2;
+    private Player P1;
     private int level = 0;
     private void Awake()
     {
@@ -21,9 +21,10 @@ public class ChoiceManager : MonoBehaviour
             ChoicePrefab[i].SetActive(false);
         }
     }
-    public void AssignRandomChoice()
+    public void AssignRandomChoice(Player player)
     {
-        List<choices> rand = new List<choices>((choices[])Enum.GetValues(typeof(choices)));
+        P1 = player;
+        /*List<choices> rand = new List<choices>((choices[])Enum.GetValues(typeof(choices)));
         for (int i = 0; i < ChoicePrefab.Length; i++)
         {
             if(rand.Count <= 0)
@@ -35,8 +36,14 @@ public class ChoiceManager : MonoBehaviour
             choices choose = GetRandomEnumValue(rand.ToArray());
             rand.Remove(choose);
             Choice choice = ChoicePrefab[i].GetComponent<Choice>();
-            choice.RChoice(choose);            
+            choice.RChoice(choose, P1);            
+        }*/
+        for (int i = 0; i < ChoicePrefab.Length; i++)
+        {            
+            Choice choice = ChoicePrefab[i].GetComponent<Choice>();
+            choice.RChoice(choices.skill, P1);
         }
+
     }
 
     public choices AssignOtherChoice(choices now)

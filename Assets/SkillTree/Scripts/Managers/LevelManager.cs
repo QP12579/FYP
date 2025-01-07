@@ -4,7 +4,6 @@ using TMPro;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
-    public TextMeshProUGUI levelText;
     private int levelP1 = 0, levelP2 = 0;
     public GameObject choicePanel;
     public Player P1, P2;
@@ -20,13 +19,19 @@ public class LevelManager : MonoBehaviour
         levelP1++;
         choicePanel.SetActive(true);
         UpdateLevelText();
-        ChoiceManager.instance.AssignRandomChoice();
+        ChoiceManager.instance.AssignRandomChoice(P1);
+    }
+    public void P2LevelUp()
+    {
+        levelP2++;
+        choicePanel.SetActive(true);
+        UpdateLevelText();
+        ChoiceManager.instance.AssignRandomChoice(P2);
     }
 
     private void UpdateLevelText()
     {
         P1.level = levelP1;
-        // Format to two digits
-        levelText.text = levelP1.ToString("D2"); 
+        P2.level = levelP2;
     }
 }

@@ -31,9 +31,6 @@ public class Bomb : MonoBehaviour
         if (c.gameObject.CompareTag("Enemy"))
         {
             c.GetComponent<EnemyController>().TakeDamage(damage);
-        }
-        if (c.gameObject.layer.ToString() != "Terrain")
-        {
             if (type == BombType.bomb)
             {
                 anim.SetTrigger("Explosion");

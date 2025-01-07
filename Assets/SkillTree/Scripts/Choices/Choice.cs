@@ -34,8 +34,9 @@ namespace Skill
            Skill = AssetDatabase.LoadAssetAtPath<Skill>(dataPath + "Skill.asset");
            // Trap = AssetDatabase.LoadAssetAtPath<Trap>(dataPath + "Trap.asset");
         }
-        public void RChoice(choices type)
+        public void RChoice(choices type, Player p)
         {
+            player = p;
             gameObject.SetActive(true);
             r = 0;
             c = type;
