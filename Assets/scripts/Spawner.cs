@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Reference to the enemy prefab
-    public GameObject trapPrefab; // Reference to the trap prefab
+    public List<GameObject> enemyPrefabs; // List of enemy prefabs
+    public List<GameObject> trapPrefabs; // List of trap prefabs
     public int numberOfEnemies = 5; // Number of enemies to spawn
     public int numberOfTraps = 3; // Number of traps to place
     public float spawnAreaScale = 0.8f; // Scale factor for the spawn area
@@ -48,7 +48,8 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < numberOfEnemies; i++)
         {
-            Vector3 spawnPosition = GetRandomPosition();
+            Vector3 spawnPosition = GetRandomPosition(0.66f); // Set the y axis to 0.66 for enemies
+            GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
             Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         }
     }
@@ -57,17 +58,19 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < numberOfTraps; i++)
         {
-            Vector3 trapPosition = GetRandomPosition();
+            Vector3 trapPosition = GetRandomPosition(0f); // Set the y axis to 0 for traps
+            GameObject trapPrefab = trapPrefabs[Random.Range(0, trapPrefabs.Count)];
             Instantiate(trapPrefab, trapPosition, Quaternion.identity);
         }
     }
 
-    Vector3 GetRandomPosition()
+    Vector3 GetRandomPosition(float y)
     {
         float x = Random.Range(spawnAreaMin.x, spawnAreaMax.x);
-        float y = 0.66f; // Set the y axis to 0.66
         float z = Random.Range(spawnAreaMin.y, spawnAreaMax.y);
         return new Vector3(x, y, z);
     }
 }
+
+
 
