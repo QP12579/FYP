@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour
         gameObject.GetComponent<Animator>().SetTrigger("hurt");
         currentHP -= damage;
         targetFillAmount = currentHP / maxHP;
+        Debug.Log("Hurt"+targetFillAmount);
+        UpdateHPBar();
         UpdateHPBarColor();
         if (currentHP <= 0)
         {
@@ -50,6 +52,7 @@ public class EnemyController : MonoBehaviour
         if (hpBar != null)
         {
             hpBar.fillAmount = targetFillAmount;
+            Debug.Log("EnemyHP" + hpBar.fillAmount);
             UpdateHPBarColor();
         }
     }

@@ -112,12 +112,12 @@ public class Player : MonoBehaviour
         {
             if (!movement.sr.flipX)
             {
-                vfx.transform.SetParent(VFXPosiR.transform, false);
+                //vfx.transform.SetParent(VFXPosiR.transform, false);
                 vfx.transform.position = VFXPosiR.transform.position;
             }
             else
             {
-                vfx.transform.SetParent(VFXPosiL.transform, false);
+                //vfx.transform.SetParent(VFXPosiL.transform, false);
                 vfx.transform.position = VFXPosiL.transform.position;
             }
         }

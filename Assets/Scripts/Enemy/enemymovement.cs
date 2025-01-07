@@ -9,10 +9,12 @@ public class enemymovement : MonoBehaviour
 
     private Vector3 moveDirection;
     private float timeSinceLastChange = 0f;
+    private SpriteRenderer sr;
 
     // Start is called before the first frame update
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         ChangeDirection();
     }
 
@@ -32,11 +34,11 @@ public class enemymovement : MonoBehaviour
         // Flip the enemy to face the movement direction
         if (moveDirection.x > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            sr.flipX = true;
         }
         else if (moveDirection.x < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            sr.flipX = false;
         }
     }
 
