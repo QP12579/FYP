@@ -57,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
             anim.SetTrigger("Rolling");
             rb.AddForce(new Vector3(x, 0, y) * speed);
         }
+        if(isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * 500);
+        }
         
     }
 
