@@ -8,15 +8,40 @@ public class Spawner : MonoBehaviour
     public GameObject trapPrefab; // Reference to the trap prefab
     public int numberOfEnemies = 5; // Number of enemies to spawn
     public int numberOfTraps = 3; // Number of traps to place
-    public Vector2 spawnAreaMin; // Minimum coordinates of the spawn area
-    public Vector2 spawnAreaMax; // Maximum coordinates of the spawn area
     public float spawnAreaScale = 0.8f; // Scale factor for the spawn area
+
+    private Vector2 spawnAreaMin; // Minimum coordinates of the spawn area
+    private Vector2 spawnAreaMax; // Maximum coordinates of the spawn area
 
     // Start is called before the first frame update
     void Start()
     {
+        DetectFloorSize();
         SpawnEnemies();
         PlaceTraps();
+    }
+
+    void DetectFloorSize()
+    {
+        // Assuming the floor has a collider
+        Collider floorCollider = GameObject.FindGameObjectWithTag("Floor").GetComponent<Collider>();
+        if (floorCollider != null)
+        {
+            Bounds bounds = floorCollider.bounds;
+            Vector3 floorMin = bounds.min;
+            Vector3 floorMax = bounds.max;
+
+            // Calculate the spawn area based on the floor size and scale factor
+            float xRange = (floorMax.x - floorMin.x) * spawnAreaScale;
+            float zRange = (floorMax.z - floorMin.z) * spawnAreaScale;
+
+            spawnAreaMin = new Vector2(floorMin.x + xRange * 0.5f, floorMin.z + zRange * 0.5f);
+            spawnAreaMax = new Vector2(floorMax.x - xRange * 0.5f, floorMax.z - zRange * 0.5f);
+        }
+        else
+        {
+            Debug.LogError("Floor with tag 'Floor' not found or missing Collider component.");
+        }
     }
 
     void SpawnEnemies()
@@ -39,11 +64,9 @@ public class Spawner : MonoBehaviour
 
     Vector3 GetRandomPosition()
     {
-        float xRange = (spawnAreaMax.x - spawnAreaMin.x) * spawnAreaScale;
-        float zRange = (spawnAreaMax.y - spawnAreaMin.y) * spawnAreaScale;
-        float x = Random.Range(spawnAreaMin.x + xRange * 0.5f, spawnAreaMax.x - xRange * 0.5f);
-        float y = 0; // Assuming the game is 2.5D, so y is fixed
-        float z = Random.Range(spawnAreaMin.y + zRange * 0.5f, spawnAreaMax.y - zRange * 0.5f);
+        float x = Random.Range(spawnAreaMin.x, spawnAreaMax.x);
+        float y = 0.66f; // Set the y axis to 0.66
+        float z = Random.Range(spawnAreaMin.y, spawnAreaMax.y);
         return new Vector3(x, y, z);
     }
 }
