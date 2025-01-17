@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4188410949577883755}
   m_Layer: 3
-  m_Name: weaponPosi (1)
+  m_Name: LPosi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 265222953294875484}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.19799995, y: -0.29999995, z: 0}
+  m_LocalPosition: {x: -0.6, y: -0.29999995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69,6 +69,7 @@ Transform:
   m_Children:
   - {fileID: 5900206659213006639}
   - {fileID: 4188410949577883755}
+  - {fileID: 2216993693785955462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3516694489750110777
@@ -168,6 +169,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   sr: {fileID: 3516694489750110777}
+  anim: {fileID: 0}
   isFaceFront: 0
 --- !u!95 &3459240000410039621
 Animator:
@@ -225,8 +227,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c420bb64d9c39943b98feef5c2ae6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
+  MaxHP: 100
+  HP: 100
+  HPSlider: {fileID: 0}
+  MaxMP: 50
+  MP: 50
+  MPSlider: {fileID: 0}
   level: 0
+  levelText: {fileID: 0}
   Weapons: []
   Skills:
   - skillName: 
@@ -237,8 +245,8 @@ MonoBehaviour:
     DamageOrHeal: 0
     skillPrefab: {fileID: 1284241484961176662, guid: 123491c37b61a6345b92e221d8ab889f,
       type: 3}
-  VFXPosiR: {fileID: 0}
-  VFXPosiL: {fileID: 0}
+  VFXPosiR: {fileID: 2216993693785955462}
+  VFXPosiL: {fileID: 4188410949577883755}
 --- !u!114 &-8900439243853886936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +336,37 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 5278061825818692181}
+--- !u!1 &2330544568735964630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2216993693785955462}
+  m_Layer: 3
+  m_Name: RPosi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2216993693785955462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330544568735964630}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.6, y: -0.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8079693536060654129}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2520351301681093944
 GameObject:
   m_ObjectHideFlags: 0

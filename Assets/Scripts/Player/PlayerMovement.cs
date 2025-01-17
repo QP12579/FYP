@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask terrainLayer;
     private Rigidbody rb;
     [HideInInspector] public SpriteRenderer sr;
-    private Animator anim;
+    [HideInInspector] public Animator anim;
     private bool isGrounded;
     private bool oneTime;
     [HideInInspector] public bool isFaceFront;

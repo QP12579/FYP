@@ -19,11 +19,13 @@ public class Player : MonoBehaviour
     public List<SkillData> Skills = null;
     public Transform VFXPosiR = null, VFXPosiL = null;
     private PlayerMovement movement;
+    private Animator animator;
     private float x = 0;
 
     private void Start()
     {
         movement = gameObject.GetComponent<PlayerMovement>();
+        animator = movement.anim;
         x = VFXPosiR.transform.position.x;
     }
 
@@ -95,16 +97,17 @@ public class Player : MonoBehaviour
         {
             if (!movement.sr.flipX)
             {
-                vfx.transform.SetParent(VFXPosiR.transform, false);
+                //vfx.transform.SetParent(VFXPosiR.transform, false);
                 vfx.transform.position = VFXPosiR.transform.position;
                 vfxRb.AddForce(Vector3.right * 500 * Time.deltaTime);
             }
             else
             {
-                vfxsp.flipX = true;
-                vfx.transform.SetParent(VFXPosiL.transform, false);
+                //vfx.transform.SetParent(VFXPosiL.transform, false);
                 vfx.transform.position = VFXPosiL.transform.position;
                 vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
+                //vfxsp.flipX = true;
+                vfx.transform.localScale = new Vector2(-1f, 1f);
             }
             StartCoroutine(vfxCountTime(1f * skillData.skillLevel, vfx));
         }

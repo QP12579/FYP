@@ -46,6 +46,8 @@ public class Bomb : MonoBehaviour
                 anim.SetTrigger("Explosion");
                 Destroy(gameObject, 2f);
             }
+            if (type == BombType.area)
+                StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
         }
     }
 
@@ -74,14 +76,28 @@ public class Bomb : MonoBehaviour
                 anim.SetTrigger("Explosion");
                 Destroy(gameObject, 2f);
             }
+            if (type == BombType.area)
+                StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
         }
     }
 
+    private IEnumerator AreaHurt(GameObject c, float damge, float time)
+    {
+        float i = 0;
+        while (i < time)
+        {
+            c.GetComponent<EnemyController>().TakeDamage(damage);
+            yield return new WaitForSeconds(0.2f);
+            i+= 0.2f;
+        }
+        Destroy(gameObject);
+    }
 }
 
 public enum BombType
 {
     bomb,
     Shoot,
-    trap
+    trap,
+    area
 }
