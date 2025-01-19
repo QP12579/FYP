@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundFlash : MonoBehaviour
+public class GroundSlash : MonoBehaviour
 {
 
     public float speed = 30;

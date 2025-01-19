@@ -11,7 +11,7 @@ public class GroundSlashShooter : MonoBehaviour
 
     private Vector3 destination;
     private float timeToFire;
-    private GroundFlash groundSlash;
+    private GroundSlash groundSlash;
 
     void Update()
     {
@@ -33,7 +33,7 @@ public class GroundSlashShooter : MonoBehaviour
     {
         var projectileObj = Instantiate(projectile, firePoint.position, Quaternion.identity) as GameObject;
 
-        groundSlash = projectileObj.GetComponent<GroundFlash>();
+        groundSlash = projectileObj.GetComponent<GroundSlash>();
         RotateToDestination(projectileObj, destination, true);
         projectileObj.GetComponent<Rigidbody>().velocity = transform.forward * groundSlash.speed;
     }

@@ -28,7 +28,7 @@ public class Bomb : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
 
-        if (c.gameObject.CompareTag("Enemy"))
+        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>() != null)
         {
             c.GetComponent<EnemyController>().TakeDamage(damage);
             if (type == BombType.bomb)
@@ -46,9 +46,13 @@ public class Bomb : MonoBehaviour
                 anim.SetTrigger("Explosion");
                 Destroy(gameObject, 2f);
             }
-            if (type == BombType.area)
-                StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
         }
+    }
+
+    private void OnTriggerStay(Collider c)
+    {
+            if (type == BombType.area)
+                c.GetComponent<EnemyController>().TakeDamage(damage);
     }
 
     private void OnCollisionEnter(Collision c)
@@ -58,7 +62,7 @@ public class Bomb : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
 
-        if (c.gameObject.CompareTag("Enemy"))
+        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>()!=null)
         {
             c.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             if (type == BombType.bomb)
@@ -76,8 +80,8 @@ public class Bomb : MonoBehaviour
                 anim.SetTrigger("Explosion");
                 Destroy(gameObject, 2f);
             }
-            if (type == BombType.area)
-                StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
+            //if (type == BombType.area)
+              //  StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
         }
     }
 

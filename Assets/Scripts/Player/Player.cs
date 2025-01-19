@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
     {
         Destroy(gameObject, 1f);
     }
-/*
+/* // LevelUP
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Gate"))
@@ -87,42 +87,51 @@ public class Player : MonoBehaviour
         MP -= skillData.skillLevel;
         UpdatePlayerUIInfo();
         GameObject vfx = Instantiate(skillData.skillPrefab, Vector3.zero, Quaternion.identity);
-        vfx.GetComponent<Bomb>().damage = skillData.DamageOrHeal;
-        vfx.transform.localScale = new Vector2(1.2f, 1.2f);
 
-        SpriteRenderer vfxsp = vfx.GetComponent<SpriteRenderer>();
-        Rigidbody vfxRb = vfx.GetComponent<Rigidbody>();
-
-        if (vfx.GetComponent<Bomb>().type != BombType.trap)
+        if (vfx.GetComponent<Bomb>() != null) //if vfx is Sprite vfx
         {
-            if (!movement.sr.flipX)
+            vfx.GetComponent<Bomb>().damage = skillData.DamageOrHeal;
+            vfx.transform.localScale = new Vector2(1.2f, 1.2f);
+
+            SpriteRenderer vfxsp = vfx.GetComponent<SpriteRenderer>();
+            Rigidbody vfxRb = vfx.GetComponent<Rigidbody>();
+
+            if (vfx.GetComponent<Bomb>().type != BombType.trap)
             {
-                //vfx.transform.SetParent(VFXPosiR.transform, false);
-                vfx.transform.position = VFXPosiR.transform.position;
-                vfxRb.AddForce(Vector3.right * 500 * Time.deltaTime);
+                if (!movement.sr.flipX)
+                {
+                    //vfx.transform.SetParent(VFXPosiR.transform, false);
+                    vfx.transform.position = VFXPosiR.transform.position;
+                    vfxRb.AddForce(Vector3.right * 500 * Time.deltaTime);
+                }
+                else
+                {
+                    //vfx.transform.SetParent(VFXPosiL.transform, false);
+                    vfx.transform.position = VFXPosiL.transform.position;
+                    vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
+                    //vfxsp.flipX = true;
+                    vfx.transform.localScale = new Vector2(-1f, 1f);
+                }
+                StartCoroutine(vfxCountTime(1f * skillData.skillLevel, vfx));
             }
             else
             {
-                //vfx.transform.SetParent(VFXPosiL.transform, false);
-                vfx.transform.position = VFXPosiL.transform.position;
-                vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
-                //vfxsp.flipX = true;
-                vfx.transform.localScale = new Vector2(-1f, 1f);
+                if (!movement.sr.flipX)
+                {
+                    //vfx.transform.SetParent(VFXPosiR.transform, false);
+                    vfx.transform.position = VFXPosiR.transform.position;
+                }
+                else
+                {
+                    //vfx.transform.SetParent(VFXPosiL.transform, false);
+                    vfx.transform.position = VFXPosiL.transform.position;
+                }
             }
-            StartCoroutine(vfxCountTime(1f * skillData.skillLevel, vfx));
         }
-        else
+        // if vfx is particle System
+        else if (vfx.GetComponent<GroundSlash>()!=null)
         {
-            if (!movement.sr.flipX)
-            {
-                //vfx.transform.SetParent(VFXPosiR.transform, false);
-                vfx.transform.position = VFXPosiR.transform.position;
-            }
-            else
-            {
-                //vfx.transform.SetParent(VFXPosiL.transform, false);
-                vfx.transform.position = VFXPosiL.transform.position;
-            }
+
         }
     }
     IEnumerator vfxCountTime(float time, GameObject gameObject)
