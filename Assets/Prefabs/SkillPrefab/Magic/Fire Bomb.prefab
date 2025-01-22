@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5599894185399005866}
   - component: {fileID: 1681932686737409833}
   - component: {fileID: -7527656940265216292}
+  - component: {fileID: 8032466613422231587}
   m_Layer: 0
   m_Name: Fire Bomb
   m_TagString: Untagged
@@ -171,3 +172,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   damage: 10
+--- !u!114 &8032466613422231587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522138926694928871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb8283ac72b2024f9a1c38e9b99c1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeXZAxis: 0

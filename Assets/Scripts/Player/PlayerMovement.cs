@@ -38,18 +38,31 @@ public class PlayerMovement : MonoBehaviour
         if (x != 0 && x < 0)
         {
             sr.flipX = true;
+            anim.SetFloat("face", 0);
         }
-        else if (x != 0 && x > 0) 
+        else if (x != 0 && x > 0)
         {
             sr.flipX = false;
+            anim.SetFloat("face", 0);
         }
-        if (y != 0 && y < 0)
+        else
         {
-            isFaceFront = true;
-        }
-        else if (y != 0 && y > 0) 
-        {
-            isFaceFront = false;
+            if (y != 0 && y < 0)
+            {
+                isFaceFront = true;
+                sr.flipX = false;
+                anim.SetFloat("face", 1);
+            }
+            else if (y != 0 && y > 0)
+            {
+                isFaceFront = false;
+                sr.flipX = false;
+                anim.SetFloat("face", -1);
+            }
+            else if (x != 0 && y == 0)
+            {
+                anim.SetFloat("face", 0);
+            }
         }
 
         if(isGrounded && Input.GetKeyDown(KeyCode.Z))
