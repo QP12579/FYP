@@ -37,18 +37,27 @@ public class SpeechRecognitionTest : MonoBehaviour
     {
         clip = Microphone.Start(null, false, 10, 44100);
         recording = true;
+        startButton.interactable = false;
+    
+        stopButton.interactable = true;
     }
 
     private void StopRecording() 
-    { 
+    {
+        if (!recording) return;
+
         var position = Microphone.GetPosition(null);
         Microphone.End(null);
+
         var samples = new float[clip.samples * clip.channels];
         clip.GetData(samples, 0);
         bytes = EncodeAsWAV(samples, clip.frequency, clip.channels);
         recording = false;
+
         File.WriteAllBytes(Application.dataPath + "/test.wav", bytes);
         SendRecording();
+        
+        stopButton.interactable = false;
     }
 
     private void SendRecording()
