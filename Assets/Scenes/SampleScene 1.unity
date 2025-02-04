@@ -2058,6 +2058,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
+      propertyPath: level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
       propertyPath: HPSlider
       value: 
       objectReference: {fileID: 301120806}
@@ -2073,8 +2078,51 @@ PrefabInstance:
       objectReference: {fileID: 786062940}
     - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
+      propertyPath: Skills.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
       propertyPath: groundMask.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: Skills.Array.data[1].icon
+      value: 
+      objectReference: {fileID: -946000942377729262, guid: 284e94ec97dfd604ba0cc871504d5876,
+        type: 3}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: Skills.Array.data[1].skillName
+      value: fire bomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: Skills.Array.data[1].skillType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: Skills.Array.data[0].skillPrefab
+      value: 
+      objectReference: {fileID: 7834434380170384362, guid: a4d2e0d97396f9848a3bcbc1b8028042,
+        type: 3}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: Skills.Array.data[1].description
+      value: fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: Skills.Array.data[1].skillPrefab
+      value: 
+      objectReference: {fileID: 8522138926694928871, guid: 8bdfb6a6ce97b334eb92400a7d1b1d67,
+        type: 3}
+    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: Skills.Array.data[1].DamageOrHeal
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8055088752099955597, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}

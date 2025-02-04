@@ -19,13 +19,11 @@ public class Player : MonoBehaviour
     public List<SkillData> Skills = null;
     public Transform weaponPosi;
     [SerializeField] private LayerMask groundMask;
-    private Camera mainCamera;
     private PlayerMovement movement;
     private Animator animator;
 
     private void Start()
     {
-        mainCamera = Camera.main;
         movement = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
     }
@@ -82,7 +80,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
     void SpawnVFX()
     {
         SkillData skillData = new SkillData();
@@ -90,84 +87,20 @@ public class Player : MonoBehaviour
         MP -= skillData.skillLevel;
         UpdatePlayerUIInfo();
 
-        // Get Mouse Position
-        Vector3 mouseWorldPosition = GetMouseWorldPosition();
-
         // Create VFX
         GameObject vfx = Instantiate(skillData.skillPrefab, transform.position, Quaternion.identity);
+        Bomb newBomb = vfx.GetComponent<Bomb>();
+        newBomb.damage = skillData.DamageOrHeal;
+        newBomb.groundMask = groundMask;
+        newBomb.SetTrapTypeBomb(weaponPosi);
 
-        if (vfx.GetComponent<Bomb>() != null)
-        {
-            vfx.GetComponent<Bomb>().damage = skillData.DamageOrHeal;
-            vfx.transform.localScale = new Vector2(1.2f, 1.2f);
-
-            if (vfx.GetComponent<Bomb>().type != BombType.trap)
-            {
-                vfx.transform.position = weaponPosi.transform.position;
-                //Let vfx move front to mouse position
-                Vector3 direction = (mouseWorldPosition - transform.position).normalized;
-                direction.y = 0;
-
-                vfx.GetComponent<Rigidbody>().velocity = direction * Time.timeScale;
-            }
-            else
-                StartCoroutine(MoveAndThrowVFX(vfx, mouseWorldPosition));
-        }
-        // if vfx is particle System
-        else if (vfx.GetComponent<GroundSlash>() != null)
-        {
-
-        }
-
-        StartCoroutine(vfxCountTime(level * 2, vfx));
+        Destroy(vfx, level * 2f);
     }
+
     IEnumerator vfxCountTime(float time, GameObject gameObject)
     {
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
     }
 
-    private Vector3 GetMouseWorldPosition()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, groundMask))
-        {
-            return hitInfo.point;
-        }
-        return Vector3.zero;
-    }
-    private IEnumerator MoveAndThrowVFX(GameObject vfx, Vector3 targetPosition)
-    {
-        float elapsedTime = 0.1f;
-        float maxThrowTime = 1f; // 最大拋出時間
-        float throwHeight = 1f; // 最大拋高
-
-        while (Input.GetMouseButton(1) && elapsedTime < maxThrowTime)
-        {
-            vfx.transform.position = transform.position;
-            elapsedTime += 0.1f;
-            yield return new WaitForSeconds(0.1f);
-        }
-        Vector3 startPosition = vfx.transform.position;
-
-        float throwAmount = Mathf.Lerp(0, throwHeight, elapsedTime / maxThrowTime);
-
-        float duration = 1f;
-        float moveElapsedTime = 0f;
-
-        while (moveElapsedTime < duration)
-        {
-            // 計算 VFX 的位置
-            float t = moveElapsedTime / duration;
-
-            // 計算拋出位置
-            Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition * elapsedTime, t);
-            currentPosition.y += Mathf.Sin(t * Mathf.PI) * throwAmount;
-
-            vfx.transform.position = currentPosition;
-
-            moveElapsedTime += Time.deltaTime;
-            yield return null; // 等待下一幀
-        }
-    }
 }

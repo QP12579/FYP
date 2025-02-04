@@ -284,6 +284,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   sr: {fileID: 0}
+  anim: {fileID: 0}
   isFaceFront: 0
 --- !u!54 &8260492
 Rigidbody:
@@ -403,8 +404,10 @@ MonoBehaviour:
   levelText: {fileID: 0}
   Weapons: []
   Skills: []
-  VFXPosiR: {fileID: 0}
-  VFXPosiL: {fileID: 0}
+  weaponPosi: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &27580680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,7 +1474,7 @@ MonoBehaviour:
   MaxMP: 50
   MP: 50
   MPSlider: {fileID: 1798862771}
-  level: 0
+  level: 50
   levelText: {fileID: 786062940}
   Weapons: []
   Skills:
@@ -1483,8 +1486,10 @@ MonoBehaviour:
     DamageOrHeal: 30
     skillPrefab: {fileID: 762561748974927365, guid: 61a27dc5282995542a271e5d7365e967,
       type: 3}
-  VFXPosiR: {fileID: 1077544304}
-  VFXPosiL: {fileID: 716319617}
+  weaponPosi: {fileID: 1077544304}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &532803344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1503,6 +1508,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   sr: {fileID: 0}
+  anim: {fileID: 0}
   isFaceFront: 0
 --- !u!4 &606894580 stripped
 Transform:

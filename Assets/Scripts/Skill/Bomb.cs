@@ -5,15 +5,36 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
+    public float speed = 5f;
     public BombType type;
     private Animator anim;
     private Rigidbody rb;
+    public LayerMask groundMask;
+
     [HideInInspector] public float damage = 10;
 
     private void Start()
     {
         anim = GetComponent<Animator>(); 
         rb = gameObject.GetComponent<Rigidbody>();
+        if (type != BombType.trap)
+            StartCoroutine(MoveAndThrowVFX(this.gameObject));
+
+        transform.localScale = Vector3.one * 1.2f;
+    }
+
+    public Bomb SetTrapTypeBomb (Transform weaponPosi)
+    {
+        if (type != BombType.trap) return this;
+
+        transform.position = weaponPosi.position;
+        //Let vfx move front to mouse position
+        Vector3 direction = (GetMouseWorldPosition() - transform.position).normalized;
+        direction.y = 0;
+
+        GetComponent<Rigidbody>().velocity = direction * speed * Time.timeScale;
+
+        return this;
     }
 
     public void ShootLength(float length)
@@ -51,8 +72,12 @@ public class Bomb : MonoBehaviour
 
     private void OnTriggerStay(Collider c)
     {
-            if (type == BombType.area)
+        if (type == BombType.area)
+        {
+            if (c.GetComponent<EnemyController>())
                 c.GetComponent<EnemyController>().TakeDamage(damage);
+        }
+                
     }
 
     private void OnCollisionEnter(Collision c)
@@ -95,6 +120,50 @@ public class Bomb : MonoBehaviour
             i+= 0.2f;
         }
         Destroy(gameObject);
+    }
+
+    private IEnumerator MoveAndThrowVFX(GameObject vfx)
+    {
+        float elapsedTime = 0.1f;
+        float maxThrowTime = 1f; // 最大拋出時間
+        float throwHeight = 1f; // 最大拋高
+
+        while (Input.GetMouseButton(1) && elapsedTime < maxThrowTime)
+        {
+            vfx.transform.position = transform.position;
+            elapsedTime += 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        Vector3 startPosition = vfx.transform.position;
+        Vector3 targetPosition = GetMouseWorldPosition();
+
+        float throwAmount = Mathf.Lerp(0, throwHeight, elapsedTime / maxThrowTime);
+
+        float duration = 1f;
+        float moveElapsedTime = 0f;
+
+        while (moveElapsedTime < duration)
+        {
+            float t = moveElapsedTime / duration;
+
+            Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition * elapsedTime, t);
+            currentPosition.y += Mathf.Sin(t * Mathf.PI) * throwAmount;
+
+            vfx.transform.position = currentPosition;
+
+            moveElapsedTime += Time.deltaTime;
+            yield return null; 
+        }
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, groundMask))
+        {
+            return hitInfo.point;
+        }
+        return Vector3.zero;
     }
 }
 
