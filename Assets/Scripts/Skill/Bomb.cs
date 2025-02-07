@@ -17,23 +17,23 @@ public class Bomb : MonoBehaviour
     {
         anim = GetComponent<Animator>(); 
         rb = gameObject.GetComponent<Rigidbody>();
-        if (type != BombType.trap)
-            StartCoroutine(MoveAndThrowVFX(this.gameObject));
 
         transform.localScale = Vector3.one * 1.2f;
     }
 
     public Bomb SetTrapTypeBomb (Transform weaponPosi)
     {
-        if (type != BombType.trap) return this;
-
         transform.position = weaponPosi.position;
-        //Let vfx move front to mouse position
-        Vector3 direction = (GetMouseWorldPosition() - transform.position).normalized;
-        direction.y = 0;
+        if (type != BombType.trap)
+        {
+            //Let vfx move front to mouse position
+            Vector3 direction = (GetMouseWorldPosition() - transform.position).normalized;
+            direction.y = 0;
 
-        GetComponent<Rigidbody>().velocity = direction * speed * Time.timeScale;
-
+            rb.velocity = direction * speed;
+            return this;
+        }
+        StartCoroutine(MoveAndThrowVFX(weaponPosi));
         return this;
     }
 
@@ -122,19 +122,19 @@ public class Bomb : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private IEnumerator MoveAndThrowVFX(GameObject vfx)
+    private IEnumerator MoveAndThrowVFX(Transform vfx)
     {
         float elapsedTime = 0.1f;
-        float maxThrowTime = 1f; // 最大拋出時間
-        float throwHeight = 1f; // 最大拋高
+        float maxThrowTime = 1f;
+        float throwHeight = 1f;
 
-        while (Input.GetMouseButton(1) && elapsedTime < maxThrowTime)
+        while (Input.GetMouseButton(1) && elapsedTime < maxThrowTime) // Hold in hand
         {
-            vfx.transform.position = transform.position;
+            transform.position = vfx.position;
             elapsedTime += 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
-        Vector3 startPosition = vfx.transform.position;
+        Vector3 startPosition = transform.position;
         Vector3 targetPosition = GetMouseWorldPosition();
 
         float throwAmount = Mathf.Lerp(0, throwHeight, elapsedTime / maxThrowTime);
@@ -149,8 +149,7 @@ public class Bomb : MonoBehaviour
             Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition * elapsedTime, t);
             currentPosition.y += Mathf.Sin(t * Mathf.PI) * throwAmount;
 
-            vfx.transform.position = currentPosition;
-
+            transform.position = currentPosition;
             moveElapsedTime += Time.deltaTime;
             yield return null; 
         }

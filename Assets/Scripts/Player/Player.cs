@@ -94,13 +94,6 @@ public class Player : MonoBehaviour
         newBomb.groundMask = groundMask;
         newBomb.SetTrapTypeBomb(weaponPosi);
 
-        Destroy(vfx, level * 2f);
+        //Destroy(vfx, level + 1);
     }
-
-    IEnumerator vfxCountTime(float time, GameObject gameObject)
-    {
-        yield return new WaitForSeconds(time);
-        Destroy(gameObject);
-    }
-
 }
