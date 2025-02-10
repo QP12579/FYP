@@ -45,12 +45,16 @@ public class Player : MonoBehaviour
         levelText.text = level.ToString();
     }
 
-    public void GetHurt(int hurt)
+    public void TakeDamage(int damage)
     {
-        HP -= hurt;
+        int realDamage = Mathf.Min(damage, HP);
+        HP -= realDamage;
+
         UpdatePlayerUIInfo();
         animator.SetTrigger("Hurt");
-        if (HP <= 0) Die();
+
+        if (HP <= 0)
+            Die();
     }
 
     public void Die()

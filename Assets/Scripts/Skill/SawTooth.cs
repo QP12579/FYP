@@ -9,7 +9,7 @@ public class SawTooth : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player")){
-            collision.gameObject.GetComponent<Player>().GetHurt(hurt);
+            collision.gameObject.GetComponent<Player>(). TakeDamage(hurt);
         }
     }
 }
