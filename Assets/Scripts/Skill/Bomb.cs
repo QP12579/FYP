@@ -15,8 +15,8 @@ public class Bomb : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponent<Animator>(); 
-        rb = gameObject.GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
 
         transform.localScale = Vector3.one * 1.2f;
     }
@@ -29,11 +29,14 @@ public class Bomb : MonoBehaviour
             //Let vfx move front to mouse position
             Vector3 direction = (GetMouseWorldPosition() - transform.position).normalized;
             direction.y = 0;
-
+            if (direction.x < 0 && GetComponent<SpriteRenderer>() != null) gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            rb = GetComponent<Rigidbody>();
+            if(rb == null) rb = gameObject.AddComponent<Rigidbody>();
             rb.velocity = direction * speed;
+            ShootLength(5f);
             return this;
         }
-        StartCoroutine(MoveAndThrowVFX(weaponPosi));
+        StartCoroutine(HoldAndThrowVFX(weaponPosi));
         return this;
     }
 
@@ -52,21 +55,23 @@ public class Bomb : MonoBehaviour
         if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>() != null)
         {
             c.GetComponent<EnemyController>().TakeDamage(damage);
-            if (type == BombType.bomb)
-            {
-                anim.SetTrigger("Explosion");
-                rb.velocity = Vector3.zero;
-                Destroy(gameObject, 2f);
-            }
-            if (type == BombType.Shoot)
-            {
-                Destroy(gameObject);
-            }
-            if(type == BombType.trap)
+            if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
                 Destroy(gameObject, 2f);
             }
+            if (type == BombType.area)
+                StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
+        }
+        if (type == BombType.bomb)
+        {
+            anim.SetTrigger("Explosion");
+            rb.velocity = Vector3.zero;
+            Destroy(gameObject, 2f);
+        }
+        if (type == BombType.Shoot)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -86,27 +91,25 @@ public class Bomb : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
         }
-
-        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>()!=null)
+        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>() != null)
         {
             c.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
-            if (type == BombType.bomb)
-            {
-                anim.SetTrigger("Explosion");
-                rb.velocity = Vector3.zero;
-                Destroy(gameObject, 2f);
-            }
-            if (type == BombType.Shoot)
-            {
-                Destroy(gameObject);
-            }
             if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
                 Destroy(gameObject, 2f);
             }
-            //if (type == BombType.area)
-              //  StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
+        }
+
+        if (type == BombType.Shoot)
+        {
+            Destroy(gameObject);
+        }
+        if (type == BombType.bomb)
+        {
+            anim.SetTrigger("Explosion");
+            rb.velocity = Vector3.zero;
+            Destroy(gameObject, 2f);
         }
     }
 
@@ -122,7 +125,7 @@ public class Bomb : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private IEnumerator MoveAndThrowVFX(Transform vfx)
+    private IEnumerator HoldAndThrowVFX(Transform vfx)
     {
         float elapsedTime = 0.1f;
         float maxThrowTime = 1f;
@@ -139,20 +142,10 @@ public class Bomb : MonoBehaviour
 
         float throwAmount = Mathf.Lerp(0, throwHeight, elapsedTime / maxThrowTime);
 
-        float duration = 1f;
-        float moveElapsedTime = 0f;
+        Vector3 direction = (targetPosition - startPosition).normalized;
+        direction.y = throwAmount * 2.5f;
 
-        while (moveElapsedTime < duration)
-        {
-            float t = moveElapsedTime / duration;
-
-            Vector3 currentPosition = Vector3.Lerp(startPosition, targetPosition * elapsedTime, t);
-            currentPosition.y += Mathf.Sin(t * Mathf.PI) * throwAmount;
-
-            transform.position = currentPosition;
-            moveElapsedTime += Time.deltaTime;
-            yield return null; 
-        }
+        rb.velocity = direction * 2;
     }
 
     private Vector3 GetMouseWorldPosition()
