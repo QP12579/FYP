@@ -1,22 +1,9 @@
 using UnityEngine;
 using Mirror;
-using UnityEngine.UI;
-using TMPro;
-using Cinemachine;
 using System.Collections.Generic;
-using System.Collections;
 
 public class NetworkPlayerManager : NetworkBehaviour
 {
-    [Header("Character Prefabs")]
-    [SerializeField] private GameObject[] characterPrefabs;
-
-    
-    [Header("Character Spawn Points")]
-    [SerializeField] private Vector3 magicSpawnPoint = Vector3.zero;  // 0, 0, 0
-    [SerializeField] private Vector3 techSpawnPoint = new Vector3(0, 0, 85);  // 0, 0, 85
-
-
     // Use SyncVars to ensure consistent IDs
     [SyncVar]
     private int playerId = -1;
@@ -27,7 +14,6 @@ public class NetworkPlayerManager : NetworkBehaviour
     [SyncVar]
     private bool isReady = false;
 
-    private GameObject spawnedCharacter;
     private static Dictionary<int, int> playerSelections = new Dictionary<int, int>();
 
     public override void OnStartServer()
@@ -51,24 +37,6 @@ public class NetworkPlayerManager : NetworkBehaviour
         {
             CmdRestoreCharacterSelection(playerSelections[playerId]);
         }
-
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GameManager.Instance.battleSceneName)
-        {
-            if (isServer)
-            {
-                SpawnCharacterOnServer();
-            }
-            else if (isLocalPlayer)
-            {
-                CmdRequestSpawn();
-            }
-        }
-    }
-
-    [Command]
-    private void CmdRequestSpawn()
-    {
-        SpawnCharacterOnServer();
     }
 
     [Command]
@@ -76,98 +44,9 @@ public class NetworkPlayerManager : NetworkBehaviour
     {
         Debug.Log($"Restoring character selection to: {index} for player {playerId}");
         selectedCharacterIndex = index;
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GameManager.Instance.battleSceneName)
-        {
-            SpawnCharacterOnServer();
-        }
     }
 
-    private Vector3 GetSpawnPosition()
-    {
-        return selectedCharacterIndex == 0 ? magicSpawnPoint : techSpawnPoint;
-    }
-
-    private void SpawnCharacterOnServer()
-    {
-        if (!isServer) return;
-
-        Debug.Log($"SpawnCharacterOnServer: SelectedIndex={selectedCharacterIndex}, PlayerId={playerId}");
-
-        if (selectedCharacterIndex < 0 || selectedCharacterIndex >= characterPrefabs.Length)
-        {
-            Debug.LogError($"Invalid character index: {selectedCharacterIndex}");
-            return;
-        }
-
-        Vector3 spawnPos = GetSpawnPosition();
-        transform.position = spawnPos;
-
-        GameObject characterPrefab = characterPrefabs[selectedCharacterIndex];
-        GameObject character = Instantiate(characterPrefab, spawnPos, Quaternion.identity);
-
-        NetworkServer.Spawn(character, connectionToClient);
-        RpcSetupCharacter(character);
-    }
-
-    [ClientRpc]
-    private void RpcSetupCharacter(GameObject character)
-    {
-        if (character == null) return;
-
-        Debug.Log($"RpcSetupCharacter - IsLocalPlayer: {isLocalPlayer}, ConnectionId: {connectionToClient?.connectionId}, Character: {character.name}");
-
-        if (spawnedCharacter != null)
-        {
-            Destroy(spawnedCharacter);
-        }
-
-        spawnedCharacter = character;
-        spawnedCharacter.transform.SetParent(transform);
-
-        var movement = spawnedCharacter.GetComponent<PlayerMovement>();
-        if (movement != null)
-        {
-            movement.enabled = isLocalPlayer;
-        }
-        // Setup camera priority based on ownership
-        var vcam = FindObjectOfType<CinemachineVirtualCamera>();
-        if (vcam != null)
-        {
-            vcam.Follow = spawnedCharacter.transform;
-            // Set high priority if we own this character, low if we don't
-            vcam.Priority = isOwned ? 10 : 0;
-            Debug.Log($"Camera priority set to {vcam.Priority} for {(isOwned ? "owned" : "non-owned")} character");
-        }
-    }
-
-    private IEnumerator SetupCameraForLocalPlayer()
-    {
-        // Wait a frame to ensure all components are properly initialized
-        yield return new WaitForEndOfFrame();
-
-        Debug.Log($"Setting up camera for local player. ConnectionId: {connectionToClient?.connectionId}");
-
-        var vcam = FindObjectOfType<CinemachineVirtualCamera>();
-        if (vcam != null && spawnedCharacter != null)
-        {
-            // Find all PlayerReferences and debug log their connection IDs
-            var allPlayerRefs = FindObjectsOfType<PlayerReference>();
-            foreach (var playerRef in allPlayerRefs)
-            {
-                Debug.Log($"Found player with ConnectionId: {playerRef.connectionId}");
-            }
-
-            vcam.Follow = spawnedCharacter.transform;
-            vcam.Priority = 10;
-            Debug.Log($"Camera following character for ConnectionId: {connectionToClient?.connectionId}");
-        }
-        else
-        {
-            Debug.LogError($"Camera setup failed! Camera: {vcam != null}, Character: {spawnedCharacter != null}");
-        }
-    }
-
-        public void SelectCharacter(int index)
+    public void SelectCharacter(int index)
     {
         if (!isLocalPlayer) return;
 
@@ -183,7 +62,7 @@ public class NetworkPlayerManager : NetworkBehaviour
     void CmdSelectCharacter(int index)
     {
         // Validate the selection
-        if (index != -1 && (index < 0 || index >= characterPrefabs.Length))
+        if (index != -1 && (index < 0 || index >= 2)) // Assuming 2 characters: Magic and Tech
         {
             Debug.LogError($"Invalid character index: {index}");
             return;
@@ -258,5 +137,11 @@ public class NetworkPlayerManager : NetworkBehaviour
     public bool IsReady()
     {
         return isReady;
+    }
+
+    [TargetRpc]
+    public void TargetLoadScene(string sceneName)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 }

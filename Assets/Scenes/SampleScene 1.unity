@@ -2051,6 +2051,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MagicPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 4606641454445231472, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6094767713929198868, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
       propertyPath: speed
