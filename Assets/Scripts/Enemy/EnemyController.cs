@@ -11,7 +11,23 @@ public class EnemyController : MonoBehaviour
     public Image hpBar; // Reference to the Image component
     public float animationSpeed = 0.1f; // Speed of the animation
 
+    public float detectionRange = 10f; // Range to detect the player
+    public GameObject bulletPrefab; // Reference to the bullet prefab
+    public Transform bulletSpawnPoint; // Point from where the bullet will be spawned
+    public float bulletSpeed = 10f; // Speed of the bullet
+    public LayerMask obstacleLayer; // Layer mask to detect obstacles
+
+    public float dashRange = 5f; // Range to dash towards the player
+    public float dashSpeed = 20f; // Speed of the dash
+    public float dashDamage = 20f; // Damage dealt by the dash
+
+    public float attackCooldown = 3f; // Cooldown time between attacks
+
     private float targetFillAmount;
+    private Transform player;
+    private bool isDashing = false;
+    private bool isAttacking = false;
+    private bool isOnCooldown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +35,7 @@ public class EnemyController : MonoBehaviour
         currentHP = maxHP;
         targetFillAmount = 1f;
         UpdateHPBar();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -31,6 +48,11 @@ public class EnemyController : MonoBehaviour
             // Smoothly animate the fill amount
             //hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, targetFillAmount, animationSpeed * Time.deltaTime);
         }
+
+        if (!isDashing && !isAttacking && !isOnCooldown)
+        {
+            DetectAndAttackPlayer();
+        }
     }
 
     public void TakeDamage(float damage)
@@ -38,7 +60,7 @@ public class EnemyController : MonoBehaviour
         gameObject.GetComponent<Animator>().SetTrigger("hurt");
         currentHP -= damage;
         targetFillAmount = currentHP / maxHP;
-        Debug.Log("Hurt"+targetFillAmount);
+        Debug.Log("Hurt" + targetFillAmount);
         UpdateHPBar();
         UpdateHPBarColor();
         if (currentHP <= 0)
@@ -84,22 +106,101 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject, 0.5f);
     }
 
-    //This part move to Bomb Script
-    /*void OnTriggerEnter(Collider other)
+    void DetectAndAttackPlayer()
     {
+        if (player == null) return;
 
-        /*if (other.CompareTag("Hbullet"))
-
-        if (other.CompareTag("Bomb"))
-
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= detectionRange)
         {
-            // Assuming the bullet has a script with a damage value
-            int damage = other.GetComponent<Bomb>().damage;
-            TakeDamage(damage);
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, directionToPlayer, out hit, detectionRange, obstacleLayer))
+            {
+                if (hit.transform.CompareTag("Player"))
+                {
+                    int attackType = Random.Range(0, 2); // Randomly choose between 0 and 1
+                    if (attackType == 0)
+                    {
+                        StartCoroutine(PerformShootPlayer());
+                    }
+                    else
+                    {
+                        StartCoroutine(PerformDashToPlayer(directionToPlayer));
+                    }
+                }
+            }
+        }
+    }
 
-            Destroy(other.gameObject); // Destroy the bullet after it hits the enemy
+    IEnumerator PerformDashToPlayer(Vector3 direction)
+    {
+        isOnCooldown = true;
 
+        for (int i = 0; i < 2; i++)
+        {
+            yield return DashToPlayer(direction);
+            yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds between dashes
+        }
 
-    }*/
+        yield return new WaitForSeconds(attackCooldown); // Wait for cooldown
+        isOnCooldown = false;
+    }
 
+    IEnumerator DashToPlayer(Vector3 direction)
+    {
+        isDashing = true;
+        isAttacking = true;
+
+        // Stop moving for 0.5 seconds before dashing
+        yield return new WaitForSeconds(0.5f);
+
+        float dashTime = dashRange / dashSpeed;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < dashTime)
+        {
+            transform.position += direction * dashSpeed * Time.deltaTime;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if (Vector3.Distance(transform.position, player.position) <= 1f)
+        {
+            //player.GetComponent<PlayerController>().TakeDamage(dashDamage);
+        }
+
+        isDashing = false;
+        isAttacking = false;
+    }
+
+    IEnumerator PerformShootPlayer()
+    {
+        isOnCooldown = true;
+
+        for (int i = 0; i < 2; i++)
+        {
+            yield return ShootPlayer();
+            yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds between shots
+        }
+
+        yield return new WaitForSeconds(attackCooldown); // Wait for cooldown
+        isOnCooldown = false;
+    }
+
+    IEnumerator ShootPlayer()
+    {
+        isAttacking = true;
+
+        // Stop moving for 0.5 seconds before shooting
+        yield return new WaitForSeconds(0.5f);
+
+        Vector3 directionToPlayer = (player.position - bulletSpawnPoint.position).normalized;
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.velocity = directionToPlayer * bulletSpeed;
+
+        isAttacking = false;
+    }
 }
+
