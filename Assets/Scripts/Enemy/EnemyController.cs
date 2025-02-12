@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHP = maxHP;
+        
         targetFillAmount = 1f;
         UpdateHPBar();
         player = GameObject.FindGameObjectWithTag("Player").transform;

@@ -11,6 +11,15 @@
         "com.unity.test-framework": "1.4.2"
       }
     },
+    "com.huggingface.api": {
+      "version": "file:C:/Users/user/Downloads/unity-api-main/unity-api-main",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.6",
+        "com.unity.nuget.newtonsoft-json": "3.0.1"
+      }
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

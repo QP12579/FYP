@@ -17,14 +17,15 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI levelText;
     public List<WeaponData> Weapons = null;
     public List<SkillData> Skills = null;
-    public Transform VFXPosiR = null, VFXPosiL = null;
+    public Transform weaponPosi;
+    [SerializeField] private LayerMask groundMask;
     private PlayerMovement movement;
-    private float x = 0;
+    private Animator animator;
 
     private void Start()
     {
-        movement = gameObject.GetComponent<PlayerMovement>();
-        x = VFXPosiR.transform.position.x;
+        movement = GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -44,19 +45,23 @@ public class Player : MonoBehaviour
         levelText.text = level.ToString();
     }
 
-    public void GetHurt(int hurt)
+    public void TakeDamage(int damage)
     {
-        HP -= hurt;
+        int realDamage = Mathf.Min(damage, HP);
+        HP -= realDamage;
+
         UpdatePlayerUIInfo();
-        gameObject.GetComponent<Animator>().SetTrigger("Hurt");
-        if (HP <= 0) Die();
+        animator.SetTrigger("Hurt");
+
+        if (HP <= 0)
+            Die();
     }
 
     public void Die()
     {
         Destroy(gameObject, 1f);
     }
-/*
+/* // LevelUP
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Gate"))
@@ -72,59 +77,27 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetMouseButtonDown(1))
         {
             SpawnVFX();
+            animator.SetTrigger("Attack");
         }
     }
 
     void SpawnVFX()
     {
         SkillData skillData = new SkillData();
-        skillData = Skills[Skills.Count - 1]; // use the new one
+        skillData = Skills[Skills.Count - 1]; // use the new Skill
         MP -= skillData.skillLevel;
         UpdatePlayerUIInfo();
-        GameObject vfx = Instantiate(skillData.skillPrefab, Vector3.zero, Quaternion.identity);
-        vfx.GetComponent<Bomb>().damage = skillData.DamageOrHeal;
-        vfx.transform.localScale = new Vector2(1.2f, 1.2f);
 
-        SpriteRenderer vfxsp = vfx.GetComponent<SpriteRenderer>();
-        Rigidbody vfxRb = vfx.GetComponent<Rigidbody>();
+        // Create VFX
+        GameObject vfx = Instantiate(skillData.skillPrefab, transform.position, Quaternion.identity);
+        Bomb newBomb = vfx.GetComponent<Bomb>();
+        newBomb.damage = skillData.DamageOrHeal;
+        newBomb.groundMask = groundMask;
+        newBomb.SetTrapTypeBomb(weaponPosi);
 
-        if (vfx.GetComponent<Bomb>().type != BombType.trap)
-        {
-            if (!movement.sr.flipX)
-            {
-                vfx.transform.SetParent(VFXPosiR.transform, false);
-                vfx.transform.position = VFXPosiR.transform.position;
-                vfxRb.AddForce(Vector3.right * 500 * Time.deltaTime);
-            }
-            else
-            {
-                vfxsp.flipX = true;
-                vfx.transform.SetParent(VFXPosiL.transform, false);
-                vfx.transform.position = VFXPosiL.transform.position;
-                vfxRb.AddForce(Vector3.left * 500 * Time.deltaTime);
-            }
-            StartCoroutine(vfxCountTime(1f * skillData.skillLevel, vfx));
-        }
-        else
-        {
-            if (!movement.sr.flipX)
-            {
-                //vfx.transform.SetParent(VFXPosiR.transform, false);
-                vfx.transform.position = VFXPosiR.transform.position;
-            }
-            else
-            {
-                //vfx.transform.SetParent(VFXPosiL.transform, false);
-                vfx.transform.position = VFXPosiL.transform.position;
-            }
-        }
-    }
-    IEnumerator vfxCountTime(float time, GameObject gameObject)
-    {
-        yield return new WaitForSeconds(time);
-        Destroy(gameObject);
+        //Destroy(vfx, level + 1);
     }
 }
