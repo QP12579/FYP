@@ -23,7 +23,7 @@ public class PlayerMain : MonoBehaviour
         
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         playerHealth.TakeDamage(damage);
     }
