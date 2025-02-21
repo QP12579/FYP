@@ -31,7 +31,7 @@ namespace Skill
             defaultImage = icon.sprite;
            // Weapon = AssetDatabase.LoadAssetAtPath<Weapon>(dataPath + "Weapon.asset"); // it can automatically find the path of the asset file and assign in inspector
            // Item = AssetDatabase.LoadAssetAtPath<Item>(dataPath + "Item.asset");
-           Skill = AssetDatabase.LoadAssetAtPath<Skill>(dataPath + "Skill.asset");
+           //Skill = AssetDatabase.LoadAssetAtPath<Skill>(dataPath + "Skill.asset");
            // Trap = AssetDatabase.LoadAssetAtPath<Trap>(dataPath + "Trap.asset");
         }
         public void RChoice(choices type, Player p)

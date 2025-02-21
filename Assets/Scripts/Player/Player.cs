@@ -7,18 +7,26 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [Header("HP MP")]
     public int MaxHP = 100;
-    public int HP = 100;
-    public Slider HPSlider;
+    public float HP = 100;
     public int MaxMP = 50;
     public int MP = 50;
-    public Slider MPSlider;
     public int level = 1;
+
+    [Header("UI")]
+    public Slider HPSlider;
+    public Slider MPSlider;
     public TextMeshProUGUI levelText;
+
+    [Header("Skills")]
     public List<WeaponData> Weapons = null;
     public List<SkillData> Skills = null;
     public Transform weaponPosi;
     [SerializeField] private LayerMask groundMask;
+
+    private float blockPercentage = 0.5f;
+    private float blockTimes;
     private PlayerMovement movement;
     private Animator animator;
 
@@ -45,9 +53,21 @@ public class Player : MonoBehaviour
         levelText.text = level.ToString();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        int realDamage = Mathf.Min(damage, HP);
+        float time = Time.time;
+        if (blockTimes > time && (blockTimes - 3) < time)
+        {
+            if (blockTimes - 2 > time)
+            {
+                Debug.Log("Perfect Block");
+                damage = 0;
+                return;
+            }
+            damage *= blockPercentage;
+            Debug.Log("Normal Block");
+        }
+        float realDamage = Mathf.Min(damage, HP);
         HP -= realDamage;
 
         UpdatePlayerUIInfo();
@@ -61,26 +81,30 @@ public class Player : MonoBehaviour
     {
         Destroy(gameObject, 1f);
     }
-/* // LevelUP
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Gate"))
+    /* // LevelUP
+        private void OnCollisionEnter(Collision collision)
         {
-            LevelUp();
+            if (collision.gameObject.CompareTag("Gate"))
+            {
+                LevelUp();
+            }
         }
-    }
 
-    void LevelUp()
-    {
-        //LevelManager.instance.LevelUp();
-    }*/
+        void LevelUp()
+        {
+            //LevelManager.instance.LevelUp();
+        }*/
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
-            SpawnVFX();
             animator.SetTrigger("Attack");
+            SpawnVFX();
+        }
+        if (Input.GetKeyDown(KeyCode.E) && Time.time > blockTimes + 1) //delay time
+        {
+            BlockAttack(Time.time);
         }
     }
 
@@ -99,5 +123,11 @@ public class Player : MonoBehaviour
         newBomb.SetTrapTypeBomb(weaponPosi);
 
         //Destroy(vfx, level + 1);
+    }
+
+    void BlockAttack(float blockTime)
+    {
+        blockTimes = blockTime + 3;
+        Debug.Log("blockTimes:" + blockTimes + "\nTime: " + blockTime);
     }
 }

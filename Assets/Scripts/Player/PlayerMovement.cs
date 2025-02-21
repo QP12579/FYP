@@ -35,6 +35,21 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("vmoveSpeed", y);
         rb.velocity = new Vector3( moveDir.x * speed * Time.deltaTime, rb.velocity.y, moveDir.z * speed * Time.deltaTime);
 
+        if(isGrounded && Input.GetKeyDown(KeyCode.Z))
+        {
+            anim.SetTrigger("Rolling");
+            rb.AddForce(new Vector3(x, 0, y) * speed);
+        }
+        if(isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * 500);
+        }
+
+        ChracterFacing(x, y);
+    }
+
+    private void ChracterFacing(float x, float y)
+    {
         if (x != 0 && x < 0)
         {
             sr.flipX = true;
@@ -64,17 +79,6 @@ public class PlayerMovement : MonoBehaviour
                 anim.SetFloat("face", 0);
             }
         }
-
-        if(isGrounded && Input.GetKeyDown(KeyCode.Z))
-        {
-            anim.SetTrigger("Rolling");
-            rb.AddForce(new Vector3(x, 0, y) * speed);
-        }
-        if(isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.AddForce(Vector3.up * 500);
-        }
-        
     }
 
     private void FixedUpdate()

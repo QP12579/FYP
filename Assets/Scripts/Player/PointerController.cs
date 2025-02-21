@@ -15,10 +15,10 @@ public class PointerController : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
         }
-            if (Input.GetMouseButtonDown(0))
+            /*if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("direction: "+ direction);
-        }
+        }*/
     }
 
     private Vector3 GetMouseWorldPosition()
