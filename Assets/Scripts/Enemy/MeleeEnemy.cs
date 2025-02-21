@@ -9,11 +9,9 @@ public class MeleeEnemy : Enemy
     [Header("Attack")]
     [SerializeField] private int damage;
     [SerializeField] private float attackFrequency;
-   
+
     private float attackDelay;
     private float attackTimer;
-
-    
 
     // Start is called before the first frame update
     protected override void Start()
@@ -24,24 +22,18 @@ public class MeleeEnemy : Enemy
         Debug.Log("Attack Delay : " + attackDelay);
     }
 
-
     // Update is called once per frame
     void Update()
     {
-      
-
         if (attackTimer >= attackDelay)
             TryAttack();
-
         else
             Wait();
-
     }
 
     private void Wait()
     {
         attackTimer += Time.deltaTime;
-
     }
 
     private void TryAttack()
@@ -60,5 +52,9 @@ public class MeleeEnemy : Enemy
         player.TakeDamage(damage);
     }
 
-    
+    public void GetHit(Vector2 hitDirection, float damage)
+    {
+        Debug.Log("Enemy got hit");
+        Enemy.Instance.GetHit(hitDirection, damage);
+    }
 }

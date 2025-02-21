@@ -5,6 +5,25 @@ using System;
 
 public abstract class Enemy : MonoBehaviour
 {
+    // Singleton instance
+    private static Enemy instance;
+
+    public static Enemy Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<Enemy>();
+                if (instance == null)
+                {
+                    Debug.LogError("No instance of Enemy found in the scene.");
+                }
+            }
+            return instance;
+        }
+    }
+
     [Header(" Components ")]
     protected EnemyMovement1 movement;
     private Rigidbody2D rb;
@@ -34,6 +53,17 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
+        // Initialize singleton instance
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         movement = GetComponent<EnemyMovement1>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
