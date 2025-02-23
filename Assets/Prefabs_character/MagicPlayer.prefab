@@ -210,8 +210,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c420bb64d9c39943b98feef5c2ae6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
+  MaxHP: 100
+  HP: 100
+  HPSlider: {fileID: 0}
+  MaxMP: 50
+  MP: 50
+  MPSlider: {fileID: 0}
   level: 0
+  levelText: {fileID: 0}
   Weapons: []
   Skills:
   - skillName: fire bomb
@@ -222,8 +228,10 @@ MonoBehaviour:
     DamageOrHeal: 10
     skillPrefab: {fileID: 8522138926694928871, guid: 8bdfb6a6ce97b334eb92400a7d1b1d67,
       type: 3}
-  VFXPosiR: {fileID: 0}
-  VFXPosiL: {fileID: 0}
+  weaponPosi: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!54 &7353509737799477799
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -269,6 +277,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   sr: {fileID: 8775283390288597435}
+  anim: {fileID: 0}
   isFaceFront: 0
 --- !u!95 &2883269097203241474
 Animator:
@@ -328,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   _assetId: 3165569061
-  serverOnly: 0
+  serverOnly: 1
   visibility: 0
   hasSpawned: 0
 --- !u!114 &4901034461340916389

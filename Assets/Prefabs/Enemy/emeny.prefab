@@ -75,6 +75,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &998245267944120211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6299123293716790581}
+  m_Layer: 0
+  m_Name: bullet spw
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6299123293716790581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998245267944120211}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.269, y: -0.114, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8100131675709448389}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3436449579679506838
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +243,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6014383080686933985}
+  - {fileID: 6299123293716790581}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &937333539423217826
@@ -337,6 +369,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  currentHP: 50
+  currentHP: 100
   hpBar: {fileID: 4426702829857933552}
   animationSpeed: 0.1
+  detectionRange: 100
+  bulletPrefab: {fileID: 8962575845184196004, guid: 385cac3fda1481e47a41de852d6f71bb,
+    type: 3}
+  bulletSpawnPoint: {fileID: 6299123293716790581}
+  bulletSpeed: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  dashRange: 5
+  dashSpeed: 20
+  dashDamage: 20
+  attackCooldown: 3

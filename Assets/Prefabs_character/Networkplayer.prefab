@@ -68,5 +68,5 @@ MonoBehaviour:
   characterPrefabs:
   - {fileID: 2157704106939913972, guid: f36d3701ff7b124438d33fdb67dbb886, type: 3}
   - {fileID: 4836769602313215637, guid: 8bc51539b7e24fe4a822ae0c2106a8b8, type: 3}
-  magicSpawnPoint: {x: 0, y: 1.3, z: 0}
-  techSpawnPoint: {x: 0, y: 1.32, z: 80}
+  magicPlayerScene: SampleScene 1
+  techPlayerScene: SampleScene
