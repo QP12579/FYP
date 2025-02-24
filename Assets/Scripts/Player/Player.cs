@@ -97,12 +97,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.SetTrigger("Attack");
+        }
         if (Input.GetMouseButtonDown(1))
         {
             animator.SetTrigger("Attack");
             SpawnVFX();
         }
-        if (Input.GetKeyDown(KeyCode.E) && Time.time > blockTimes + 1) //delay time
+        if (Input.GetKeyDown(KeyCode.Q) && Time.time > blockTimes + 1) //delay time
         {
             BlockAttack(Time.time);
         }
@@ -117,11 +121,13 @@ public class Player : MonoBehaviour
 
         // Create VFX
         GameObject vfx = Instantiate(skillData.skillPrefab, transform.position, Quaternion.identity);
-        Bomb newBomb = vfx.GetComponent<Bomb>();
-        newBomb.damage = skillData.DamageOrHeal;
-        newBomb.groundMask = groundMask;
-        newBomb.SetTrapTypeBomb(weaponPosi);
-
+        if (vfx.GetComponent<Bomb>() != null)
+        {
+            Bomb newBomb = vfx.GetComponent<Bomb>();
+            newBomb.damage = skillData.DamageOrHeal;
+            newBomb.groundMask = groundMask;
+            newBomb.SetTrapTypeBomb(weaponPosi);
+        }
         //Destroy(vfx, level + 1);
     }
 
