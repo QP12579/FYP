@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public abstract class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
+    private EnemyController controller;
 
     [Header(" Elements ")]
     protected Player player;
@@ -44,12 +46,35 @@ public abstract class Enemy : MonoBehaviour
     [Header("Attack")]
     [SerializeField] protected float playerDetectionRadius;
 
+    [Header("Actions")]
+    public static Action<Vector3> OnPassAway;
+
     [Header("  DEBUG  ")]
     [SerializeField] protected bool gizmos;
 
     [Header("Hit Effect")]
     [SerializeField] protected float hitEffectDuration = 0.2f;
     [SerializeField] protected float hitBackForce = 5f;
+
+    [Header("EnemyController")]
+    public float maxHP = 100;
+    public float currentHP;
+    public Image hpBar; // Reference to the Image component
+    public float animationSpeed = 0.1f; // Speed of the animation
+    public float detectionRange = 10f; // Range to detect the player
+    public GameObject bulletPrefab; // Reference to the bullet prefab
+    public Transform bulletSpawnPoint; // Point from where the bullet will be spawned
+    public float bulletSpeed = 10f; // Speed of the bullet
+    public LayerMask obstacleLayer; // Layer mask to detect obstacles
+    public float dashRange = 5f; // Range to dash towards the player
+    public float dashSpeed = 20f; // Speed of the dash
+    public float dashDamage = 20f; // Damage dealt by the dash
+    public float attackCooldown = 3f; // Cooldown time between attacks
+    private float targetFillAmount;
+    private bool isDashing = false;
+    private bool isAttacking = false;
+    private bool isOnCooldown = false;
+    private Transform playerTransform;
 
     protected virtual void Start()
     {
@@ -63,6 +88,10 @@ public abstract class Enemy : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        targetFillAmount = 1f;
+        UpdateHPBar();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
 
         movement = GetComponent<EnemyMovement1>();
         rb = GetComponent<Rigidbody2D>();
@@ -83,7 +112,18 @@ public abstract class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update the position of the hpBar to follow the enemy
+        if (hpBar != null)
+        {
+            hpBar.transform.position = transform.position + Vector3.up;
+            // Smoothly animate the fill amount
+            //hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, targetFillAmount, animationSpeed * Time.deltaTime);
+        }
 
+        if (!isDashing && !isAttacking && !isOnCooldown)
+        {
+            //DetectAndAttackPlayer();
+        }
     }
 
     private void StartSpawnSequence()
@@ -116,13 +156,63 @@ public abstract class Enemy : MonoBehaviour
         spawnIndicator.enabled = !visibility;
     }
 
-    private void PassAway()
+    public void TakeDamage(float damage)
     {
+        gameObject.GetComponent<Animator>().SetTrigger("hurt");
+        float realdamage = Mathf.Min(damage, currentHP);
+        currentHP -= realdamage;
+        targetFillAmount = currentHP / maxHP;
+        Debug.Log("Hurt" + targetFillAmount);
+        UpdateHPBar();
+        UpdateHPBarColor();
+        if (currentHP <= 0)
+        {
+            PassAway();
+        }
+    }
+
+    void UpdateHPBar()
+    {
+        if (hpBar != null)
+        {
+            hpBar.fillAmount = targetFillAmount;
+            Debug.Log("EnemyHP" + hpBar.fillAmount);
+            UpdateHPBarColor();
+        }
+    }
+
+    void UpdateHPBarColor()
+    {
+        if (hpBar != null)
+        {
+            if (currentHP > maxHP * 0.5f)
+            {
+                hpBar.color = Color.green;
+            }
+            else if (currentHP > maxHP * 0.25f)
+            {
+                hpBar.color = Color.yellow;
+            }
+            else
+            {
+                hpBar.color = Color.red;
+            }
+        }
+    }
+
+
+    public void PassAway()
+    {
+        OnPassAway?.Invoke(transform.position);
         // Unparent the particles and play them
         passAwayParticles.transform.SetParent(null);
-        passAwayParticles.Play();
 
-        Destroy(gameObject);
+       
+        passAwayParticles.Play();
+        Destroy(hpBar.gameObject); // Destroy the HP bar
+        Destroy(gameObject, 0.5f);
+        
+       
     }
 
     private void OnDrawGizmos()
