@@ -91,7 +91,7 @@ public class Bomb : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
         }
-        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>() != null)
+        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<Enemy>() != null)
         {
             c.gameObject.GetComponent<Enemy>().TakeDamage(damage);
             if (type == BombType.trap)
