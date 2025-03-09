@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     public Transform weaponPosi;
     [SerializeField] private LayerMask groundMask;
 
+    public float defenceTime = 0.5f;
+    public float defenceDelayTime = 1f;
     private float blockPercentage = 0.5f;
     private float blockTimes;
     private PlayerMovement movement;
@@ -98,14 +100,14 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            animator.SetTrigger("Attack");
+            animator.SetTrigger("NrmAtk");
         }
         if (Input.GetMouseButtonDown(1))
         {
             animator.SetTrigger("Attack");
             SpawnVFX();
         }
-        if (Input.GetKeyDown(KeyCode.Q) && Time.time > blockTimes + 1) //delay time
+        if (Input.GetKeyDown(KeyCode.Q) && Time.time > blockTimes + defenceDelayTime) //delay time
         {
             animator.SetTrigger("Defence");
             BlockAttack(Time.time);
@@ -135,7 +137,7 @@ public class Player : MonoBehaviour
 
     void BlockAttack(float blockTime)
     {
-        blockTimes = blockTime + 3;
+        blockTimes = blockTime + defenceTime;
         Debug.Log("blockTimes:" + blockTimes + "\nTime: " + blockTime);
     }
 }
