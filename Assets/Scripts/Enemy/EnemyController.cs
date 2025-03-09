@@ -102,7 +102,7 @@ public class EnemyController : MonoBehaviour
     {
         // Handle enemy death (e.g., play animation, destroy object)
         Debug.Log("Enemy died");
-        Destroy(hpBar.gameObject); // Destroy the HP bar
+        //Destroy(hpBar.gameObject); // Destroy the HP bar
         Destroy(gameObject, 0.5f);
     }
 
