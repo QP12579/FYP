@@ -107,6 +107,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > blockTimes + 1) //delay time
         {
+            animator.SetTrigger("Defence");
             BlockAttack(Time.time);
         }
     }
