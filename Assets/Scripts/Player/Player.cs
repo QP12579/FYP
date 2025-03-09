@@ -57,9 +57,9 @@ public class Player : MonoBehaviour
     public void TakeDamage(float damage)
     {
         float time = Time.time;
-        if (blockTimes > time && (blockTimes - 3) < time)
+        if (blockTimes > time && (blockTimes - defenceTime) < time)
         {
-            if (blockTimes - 2 > time)
+            if (blockTimes - defenceTime/3 > time)
             {
                 Debug.Log("Perfect Block");
                 damage = 0;

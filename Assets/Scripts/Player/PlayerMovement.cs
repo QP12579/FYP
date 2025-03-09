@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed;
     public float groundDist;
+    public float jumpForce = 500;
 
     public LayerMask terrainLayer;
     private Rigidbody rb;
@@ -42,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(Vector3.up * 500);
+            rb.AddForce(Vector3.up * jumpForce);
         }
 
         ChracterFacing(x, y);
