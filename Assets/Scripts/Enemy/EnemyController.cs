@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,17 +30,18 @@ public class EnemyController : MonoBehaviour
     private bool isAttacking = false;
     private bool isOnCooldown = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
         
-        targetFillAmount = 1f;
-        UpdateHPBar();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        
+       // player = GameObject.FindGameObjectWithTag("Player").transform;
+        
     }
 
     // Update is called once per frame
-    void Update()
+   /* void Update()
     {
         // Update the position of the hpBar to follow the enemy
         if (hpBar != null)
@@ -51,62 +53,26 @@ public class EnemyController : MonoBehaviour
 
         if (!isDashing && !isAttacking && !isOnCooldown)
         {
-            DetectAndAttackPlayer();
+            //DetectAndAttackPlayer();
         }
     }
 
-    public void TakeDamage(float damage)
-    {
-        gameObject.GetComponent<Animator>().SetTrigger("hurt");
-        currentHP -= damage;
-        targetFillAmount = currentHP / maxHP;
-        Debug.Log("Hurt" + targetFillAmount);
-        UpdateHPBar();
-        UpdateHPBarColor();
-        if (currentHP <= 0)
-        {
-            Die();
-        }
-    }
+   
 
-    void UpdateHPBar()
-    {
-        if (hpBar != null)
-        {
-            hpBar.fillAmount = targetFillAmount;
-            Debug.Log("EnemyHP" + hpBar.fillAmount);
-            UpdateHPBarColor();
-        }
-    }
+   
 
-    void UpdateHPBarColor()
+     /*public void Die()
     {
-        if (hpBar != null)
-        {
-            if (currentHP > maxHP * 0.5f)
-            {
-                hpBar.color = Color.green;
-            }
-            else if (currentHP > maxHP * 0.25f)
-            {
-                hpBar.color = Color.yellow;
-            }
-            else
-            {
-                hpBar.color = Color.red;
-            }
-        }
-    }
+        OnPassAway?.Invoke(transform.position);
 
-    void Die()
-    {
         // Handle enemy death (e.g., play animation, destroy object)
         Debug.Log("Enemy died");
         //Destroy(hpBar.gameObject); // Destroy the HP bar
         Destroy(gameObject, 0.5f);
+        
     }
 
-    void DetectAndAttackPlayer()
+   /* void DetectAndAttackPlayer()
     {
         if (player == null) return;
 
@@ -119,7 +85,7 @@ public class EnemyController : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Player"))
                 {
-                    int attackType = Random.Range(0, 2); // Randomly choose between 0 and 1
+                    int attackType = UnityEngine.Random.Range(0, 2); // Randomly choose between 0 and 1
                     if (attackType == 0)
                     {
                         StartCoroutine(PerformShootPlayer());
@@ -131,9 +97,9 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
-    IEnumerator PerformDashToPlayer(Vector3 direction)
+   /* IEnumerator PerformDashToPlayer(Vector3 direction)
     {
         isOnCooldown = true;
 
@@ -201,6 +167,6 @@ public class EnemyController : MonoBehaviour
         rb.velocity = directionToPlayer * bulletSpeed;
 
         isAttacking = false;
-    }
+    }*/
 }
 

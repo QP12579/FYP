@@ -36,7 +36,6 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Start is called before the first frame update
     public Player()
     {
         level = 1;
@@ -97,7 +96,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             animator.SetTrigger("Attack");
         }
@@ -114,12 +113,14 @@ public class Player : MonoBehaviour
 
     void SpawnVFX()
     {
+        if (Skills == null) { Debug.Log("No Skill.");  return; }
         SkillData skillData = new SkillData();
         skillData = Skills[Skills.Count - 1]; // use the new Skill
         MP -= skillData.skillLevel;
         UpdatePlayerUIInfo();
 
         // Create VFX
+        if(skillData.skillPrefab == null) { Debug.Log("No Prefab in this skill."); return; }
         GameObject vfx = Instantiate(skillData.skillPrefab, transform.position, Quaternion.identity);
         if (vfx.GetComponent<Bomb>() != null)
         {

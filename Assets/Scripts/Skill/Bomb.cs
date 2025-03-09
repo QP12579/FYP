@@ -52,9 +52,9 @@ public class Bomb : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
 
-        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>() != null)
+        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<Enemy>() != null)
         {
-            c.GetComponent<EnemyController>().TakeDamage(damage);
+            c.GetComponent<Enemy>().TakeDamage(damage);
             if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
@@ -79,8 +79,8 @@ public class Bomb : MonoBehaviour
     {
         if (type == BombType.area)
         {
-            if (c.GetComponent<EnemyController>())
-                c.GetComponent<EnemyController>().TakeDamage(damage);
+            if (c.GetComponent<Enemy>())
+                c.GetComponent<Enemy>().TakeDamage(damage);
         }
                 
     }
@@ -91,9 +91,9 @@ public class Bomb : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
         }
-        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<EnemyController>() != null)
+        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<Enemy>() != null)
         {
-            c.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            c.gameObject.GetComponent<Enemy>().TakeDamage(damage);
             if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
@@ -118,7 +118,7 @@ public class Bomb : MonoBehaviour
         float i = 0;
         while (i < time)
         {
-            c.GetComponent<EnemyController>().TakeDamage(damage);
+            c.GetComponent<Enemy>().TakeDamage(damage);
             yield return new WaitForSeconds(0.2f);
             i+= 0.2f;
         }
