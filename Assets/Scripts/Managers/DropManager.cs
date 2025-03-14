@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+using Random = UnityEngine.Random;
 
 public class DropManager : MonoBehaviour
 {
@@ -33,7 +36,7 @@ public class DropManager : MonoBehaviour
 
     private void EnemyPassAwayCallBack(Vector3 enemyPosition)
     {
-        Instantiate(coinPrefab , enemyPosition, Quaternion.identity , transform);
-
+       Coins coinInstance =  Instantiate(coinPrefab , enemyPosition, Quaternion.identity , transform);
+        coinInstance.name = "Coin " + Random.Range(0, 5000);
     }
 }
