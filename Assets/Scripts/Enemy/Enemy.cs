@@ -36,7 +36,7 @@ public abstract class Enemy : MonoBehaviour
     protected Player player;
 
     [Header("Spawn Sequence Related ")]
-    [SerializeField] protected SpriteRenderer renderer;
+    [SerializeField] protected SpriteRenderer spriterenderer;
     [SerializeField] protected SpriteRenderer spawnIndicator;
     protected bool hasSpawned;
 
@@ -110,7 +110,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         // Update the position of the hpBar to follow the enemy
         if (hpBar != null)
@@ -124,13 +124,16 @@ public abstract class Enemy : MonoBehaviour
         {
             //DetectAndAttackPlayer();
         }
+
+        if (!spriteRenderer.enabled)
+            return;
     }
 
     private void StartSpawnSequence()
     {
         SetRendererVisibility(false);
         // Hide renderer
-        renderer.enabled = false;
+        spriterenderer.enabled = false;
 
         // Show spawn indicator
         spawnIndicator.enabled = true;
@@ -152,7 +155,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void SetRendererVisibility(bool visibility = true)
     {
-        renderer.enabled = visibility;
+        spriterenderer.enabled = visibility;
         spawnIndicator.enabled = !visibility;
     }
 
@@ -205,11 +208,11 @@ public abstract class Enemy : MonoBehaviour
     {
         OnPassAway?.Invoke(transform.position);
         // Unparent the particles and play them
-        passAwayParticles.transform.SetParent(null);
+       // passAwayParticles.transform.SetParent(null);
 
        
-        passAwayParticles.Play();
-        Destroy(hpBar.gameObject); // Destroy the HP bar
+        //passAwayParticles.Play();
+        //Destroy(hpBar.gameObject); // Destroy the HP bar
         Destroy(gameObject, 0.5f);
         
        

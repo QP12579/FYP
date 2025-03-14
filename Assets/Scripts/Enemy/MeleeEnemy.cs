@@ -19,16 +19,17 @@ public class MeleeEnemy : Enemy
         base.Start();
 
         attackDelay = 1f / attackFrequency;
-        Debug.Log("Attack Delay : " + attackDelay);
+        
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
         if (attackTimer >= attackDelay)
             TryAttack();
         else
             Wait();
+        
     }
 
     private void Wait()
@@ -38,7 +39,7 @@ public class MeleeEnemy : Enemy
 
     private void TryAttack()
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer < playerDetectionRadius)
             Attack();
@@ -52,7 +53,7 @@ public class MeleeEnemy : Enemy
         player.TakeDamage(damage);
     }
 
-    public void GetHit(Vector2 hitDirection, float damage)
+    public void EnemyGetHit(Vector3 hitDirection, float damage)
     {
         Debug.Log("Enemy got hit");
         Enemy.Instance.GetHit(hitDirection, damage);
