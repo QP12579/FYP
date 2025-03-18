@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public Animator anim;
     private bool isGrounded;
     private bool oneTime;
+    public bool canMove;
     [HideInInspector] public bool isFaceFront;
 
     // Start is called before the first frame update
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         oneTime = true;
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -31,21 +33,23 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
 
-        Vector3 moveDir = new Vector3(x, 0, y);
-        anim.SetFloat("moveSpeed", x);
-        anim.SetFloat("vmoveSpeed", y);
-        rb.velocity = new Vector3( moveDir.x * speed * Time.deltaTime, rb.velocity.y, moveDir.z * speed * Time.deltaTime);
-
-        if(isGrounded && Input.GetKeyDown(KeyCode.Z))
+        if (canMove)
         {
-            anim.SetTrigger("Rolling");
-            rb.AddForce(new Vector3(x, 0, y) * speed);
-        }
-        if(isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.AddForce(Vector3.up * jumpForce);
-        }
+            Vector3 moveDir = new Vector3(x, 0, y);
+            anim.SetFloat("moveSpeed", x);
+            anim.SetFloat("vmoveSpeed", y);
+            rb.velocity = new Vector3(moveDir.x * speed * Time.deltaTime, rb.velocity.y, moveDir.z * speed * Time.deltaTime);
 
+            if (isGrounded && Input.GetKeyDown(KeyCode.Z))
+            {
+                anim.SetTrigger("Rolling");
+                rb.AddForce(new Vector3(x, 0, y) * speed);
+            }
+            if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.AddForce(Vector3.up * jumpForce);
+            }
+        }
         ChracterFacing(x, y);
     }
 

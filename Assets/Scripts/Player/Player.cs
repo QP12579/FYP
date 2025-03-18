@@ -137,7 +137,14 @@ public class Player : MonoBehaviour
 
     void BlockAttack(float blockTime)
     {
+        movement.canMove = false;
         blockTimes = blockTime + defenceTime;
         Debug.Log("blockTimes:" + blockTimes + "\nTime: " + blockTime);
+        LeanTween.delayedCall(defenceTime, canMove);
+    }
+
+    void canMove()
+    {
+        movement.canMove = true;
     }
 }
