@@ -6007,6 +6007,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3087977625734767486, guid: 44561a7d05d7128458a20fadec4015cc,
         type: 3}
+      propertyPath: spriterenderer
+      value: 
+      objectReference: {fileID: 1143411398}
+    - target: {fileID: 3087977625734767486, guid: 44561a7d05d7128458a20fadec4015cc,
+        type: 3}
       propertyPath: passAwayParticles
       value: 
       objectReference: {fileID: 1867142055}
@@ -6687,6 +6692,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128452721}
   m_CullTransparentMesh: 1
+--- !u!212 &1143411398 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 937333539423217826, guid: 44561a7d05d7128458a20fadec4015cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 987013905}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1147645190
 GameObject:
   m_ObjectHideFlags: 0
@@ -6945,11 +6956,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
-      propertyPath: level
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
-        type: 3}
       propertyPath: HPSlider
       value: 
       objectReference: {fileID: 301120806}
@@ -6963,11 +6969,6 @@ PrefabInstance:
       propertyPath: levelText
       value: 
       objectReference: {fileID: 786062940}
-    - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
-        type: 3}
-      propertyPath: Skills.Array.data[0].skillLevel
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
       propertyPath: Skills.Array.data[0].skillPrefab
