@@ -1,8 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +8,7 @@ public class UIController : MonoBehaviour
 
     public GameObject SkillOrAbilityPanel;
     public GameObject SpecialAttackPanel;
+    public GameObject SettingPanel;
 
     public Scrollbar SkillAbilityscrollbar;
     public Scrollbar SpecialAttackscrollbar;
@@ -23,6 +20,7 @@ public class UIController : MonoBehaviour
     public Button arrowButton; 
     public Button skillOrAbilityButton;
     public Button specialAttackButton;
+    public Button settingButton;
     public Button EseButton;
 
     public GameObject SkillClickArea;
@@ -38,10 +36,14 @@ public class UIController : MonoBehaviour
         arrowButton.onClick.AddListener(OnArrowButtonClick);
         skillOrAbilityButton.onClick.AddListener(OnSkillOrAbilityButtonClick);
         specialAttackButton.onClick.AddListener(OnSpecialAttackButtonClick);
+        settingButton.onClick.AddListener(OnSettingButtonClick);
         EseButton.onClick.AddListener(OnEseButtonClick);
 
         UpdateButtonActive();
 
+        SkillOrAbilityPanel.SetActive(true);
+        SpecialAttackPanel.SetActive(false);
+        SettingPanel.SetActive(false);
         SkillClickArea.SetActive(false);
         AbilityClickArea.SetActive(false);
     }
@@ -113,6 +115,7 @@ public class UIController : MonoBehaviour
     { 
         SkillOrAbilityPanel.SetActive(true);
         SpecialAttackPanel.SetActive(false);
+        SettingPanel.SetActive(false);
     }
 
     public void ShowSkillPart() { SkillAbilityscrollbar.value = 0f; }
@@ -126,6 +129,7 @@ public class UIController : MonoBehaviour
     private void OnSpecialAttackButtonClick()
     {
         SkillOrAbilityPanel.SetActive(false);
+        SettingPanel.SetActive(false);
         SpecialAttackPanel.SetActive(true);
 
         //reset special attack scrollbar
@@ -134,6 +138,17 @@ public class UIController : MonoBehaviour
         // set scale to 0.5, and back to 1 in 0.2 sec
         specialAttackButton.transform.localScale = Vector3.one * 0.5f;
         specialAttackButton.transform.DOScale(Vector3.one, 0.2f);
+    }
+
+    private void OnSettingButtonClick()
+    {
+        SkillOrAbilityPanel.SetActive(false);
+        SpecialAttackPanel.SetActive(false);
+        SkillAbilityscrollbar.value = 1f;
+        // set scale to 0.5, and back to 1 in 0.2 sec
+        settingButton.transform.localScale = Vector3.one * 0.5f;
+        settingButton.transform.DOScale(Vector3.one, 0.2f);
+        SettingPanel.SetActive(true);
     }
 
     private void UpdateButtonActive()
@@ -170,7 +185,11 @@ public class UIController : MonoBehaviour
             cyanSelectedBlock.anchoredPosition = new Vector2(275, 8);
             cyanSelectedBlock.sizeDelta = new Vector2(365, cyanSelectedBlock.sizeDelta.y);
         }
-
+        else if(SettingPanel.activeInHierarchy == true)
+        {
+            cyanSelectedBlock.anchoredPosition = new Vector2(725, 8);
+            cyanSelectedBlock.sizeDelta = new Vector2(300, cyanSelectedBlock.sizeDelta.y);
+        }
         else if (SkillAbilityscrollbar.value > 0.6f)
         {
             cyanSelectedBlock.anchoredPosition = new Vector2(-138, 8);

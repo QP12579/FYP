@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Floor
+  - BGMSource
   layers:
   - Default
   - TransparentFX
