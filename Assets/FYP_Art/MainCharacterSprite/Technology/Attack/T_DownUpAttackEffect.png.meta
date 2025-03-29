@@ -100,9 +100,9 @@ TextureImporter:
       name: T_DownUpAttackEffect_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 64
         y: 0
-        width: 128
+        width: 64
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -121,9 +121,9 @@ TextureImporter:
       name: T_DownUpAttackEffect_1
       rect:
         serializedVersion: 2
-        x: 128
+        x: 192
         y: 0
-        width: 128
+        width: 64
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -142,9 +142,9 @@ TextureImporter:
       name: T_DownUpAttackEffect_2
       rect:
         serializedVersion: 2
-        x: 256
+        x: 320
         y: 0
-        width: 128
+        width: 64
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -163,9 +163,9 @@ TextureImporter:
       name: T_DownUpAttackEffect_3
       rect:
         serializedVersion: 2
-        x: 384
+        x: 448
         y: 0
-        width: 128
+        width: 64
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -184,9 +184,9 @@ TextureImporter:
       name: T_DownUpAttackEffect_4
       rect:
         serializedVersion: 2
-        x: 512
+        x: 576
         y: 0
-        width: 128
+        width: 64
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -205,9 +205,9 @@ TextureImporter:
       name: T_DownUpAttackEffect_5
       rect:
         serializedVersion: 2
-        x: 640
+        x: 704
         y: 0
-        width: 128
+        width: 64
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
