@@ -6,36 +6,27 @@ using UnityEngine;
 
 public class EnemyMovement1 : MonoBehaviour
 {
-    [Header (" Elements ")]
-    private Player player; 
+    [Header(" Elements ")]
+    private Player player;
 
     [Header("Settings")]
     [SerializeField] private float moveSpeed;
-   
 
     void Update()
     {
-        if(player != null)
+        if (player != null)
             FollowPlayer();
-
-        }
+    }
 
     public void StorePlayer(Player player)
     {
         this.player = player;
     }
 
-
     private void FollowPlayer()
     {
-        Vector3 direction = (player.transform.position - transform.position).normalized ;
-
-        Vector3 targetPosition = (Vector3)(transform.position + direction * moveSpeed * Time.deltaTime);
-
+        Vector3 direction = (player.transform.position - transform.position).normalized;
+        Vector3 targetPosition = transform.position + direction * moveSpeed * Time.deltaTime;
         transform.position = targetPosition;
     }
-
-   
-
-    
 }

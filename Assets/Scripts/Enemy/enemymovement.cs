@@ -22,7 +22,6 @@ public class enemymovement : MonoBehaviour
     void Update()
     {
         timeSinceLastChange += Time.deltaTime;
-        gameObject.GetComponent<Animator>().SetFloat("moveSpeed", timeSinceLastChange);
         if (timeSinceLastChange >= changeDirectionInterval)
         {
             ChangeDirection();
@@ -32,14 +31,7 @@ public class enemymovement : MonoBehaviour
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
 
         // Flip the enemy to face the movement direction
-        if (moveDirection.x > 0)
-        {
-            sr.flipX = true;
-        }
-        else if (moveDirection.x < 0)
-        {
-            sr.flipX = false;
-        }
+        sr.flipX = moveDirection.x > 0;
     }
 
     void ChangeDirection()
