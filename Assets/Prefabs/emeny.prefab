@@ -96,7 +96,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2648971008811822033
 Transform:
   m_ObjectHideFlags: 0
@@ -276,10 +276,6 @@ MonoBehaviour:
   hpBar: {fileID: 5385145691911859546}
   animationSpeed: 0.1
   detectionRange: 10
-  bulletPrefab: {fileID: 8962575845184196004, guid: 385cac3fda1481e47a41de852d6f71bb,
-    type: 3}
-  bulletSpawnPoint: {fileID: 3027191196420836669}
-  bulletSpeed: 10
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -5,11 +5,13 @@ public class Skill
     public bool locked = true;
 }
 
+[System.Serializable]
 public class SkillData
 {
     public string id;
-    public string name;
     public int level;
+    public string name;
+    public string description;
     public float power;
     public string IconPath;
 
