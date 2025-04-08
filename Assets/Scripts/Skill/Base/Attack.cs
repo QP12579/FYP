@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public interface IAttack { void Function(); }
+public abstract class Attack: Skill { public abstract void Function(); }
 public interface IAttackable { void TakeDamage(float damage); }
 
-public class AttackLock : IAttack
+public class AttackLock : Attack
 {
     GameObject SkillPrefab { get; set; }
     GameObject Target { get; set; }
-    public void Function()
+    public override void Function()
     {
         LeanTween.followSpring(SkillPrefab.transform, Target.transform, LeanProp.position, 0.1f);
     }
@@ -18,14 +18,14 @@ public class AttackLock : IAttack
         if (attackableObject != null) attackableObject.TakeDamage(damage);
     }
 }
-public class IAttackOfEffect : IAttack
+public class IAttackOfEffect : Attack
 {
     GameObject SkillPrefab { get; set; }
     float radius { get; set; }
     float duration { get; set; } // How Long with the Area
     int frequency { get; set; } // number of attack in time
     float damage { get; set; }
-    public void Function() // 
+    public override void Function() // 
     {
             LeanTween.delayedCall(duration / frequency, () => Damage(damage)).setRepeat(frequency);
     }
@@ -39,12 +39,12 @@ public class IAttackOfEffect : IAttack
         }
     }
 }
-public class FollowAttack : IAttack
+public class FollowAttack : Attack
 {
     GameObject SkillPrefab { get; set; }
     GameObject Target { get; set; }
     float radius { get; set; }
-    public void Function()
+    public override void Function()
     {
         LeanTween.followSpring(SkillPrefab.transform, Target.transform, LeanProp.position, 0.1f);
     }
