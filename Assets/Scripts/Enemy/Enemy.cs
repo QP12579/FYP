@@ -30,7 +30,6 @@ public abstract class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
-    private EnemyController controller;
 
     [Header(" Elements ")]
     protected Player player;
@@ -62,9 +61,6 @@ public abstract class Enemy : MonoBehaviour
     public Image hpBar; // Reference to the Image component
     public float animationSpeed = 0.1f; // Speed of the animation
     public float detectionRange = 10f; // Range to detect the player
-    public GameObject bulletPrefab; // Reference to the bullet prefab
-    public Transform bulletSpawnPoint; // Point from where the bullet will be spawned
-    public float bulletSpeed = 10f; // Speed of the bullet
     public LayerMask obstacleLayer; // Layer mask to detect obstacles
     public float dashRange = 5f; // Range to dash towards the player
     public float dashSpeed = 20f; // Speed of the dash
@@ -92,7 +88,6 @@ public abstract class Enemy : MonoBehaviour
         UpdateHPBar();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
-
         movement = GetComponent<EnemyMovement1>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -116,8 +111,6 @@ public abstract class Enemy : MonoBehaviour
         if (hpBar != null)
         {
             hpBar.transform.position = transform.position + Vector3.up;
-            // Smoothly animate the fill amount
-            //hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, targetFillAmount, animationSpeed * Time.deltaTime);
         }
 
         if (!isDashing && !isAttacking && !isOnCooldown)
@@ -155,7 +148,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void SetRendererVisibility(bool visibility = true)
     {
-        spriterenderer.enabled = visibility;
+        //spriterenderer.enabled = visibility;
         spawnIndicator.enabled = !visibility;
     }
 
@@ -203,19 +196,10 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-
     public void PassAway()
     {
         OnPassAway?.Invoke(transform.position);
-        // Unparent the particles and play them
-       // passAwayParticles.transform.SetParent(null);
-
-       
-        //passAwayParticles.Play();
-        //Destroy(hpBar.gameObject); // Destroy the HP bar
         Destroy(gameObject, 0.5f);
-        
-       
     }
 
     private void OnDrawGizmos()
@@ -229,13 +213,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void GetHit(Vector2 hitDirection, float damage)
     {
-        // Apply damage
-        // (You can add your own damage handling logic here)
-
-        // Apply hit effect
         StartCoroutine(ShowHitEffect());
-
-        // Apply knockback
         ApplyHitBack(hitDirection);
     }
 

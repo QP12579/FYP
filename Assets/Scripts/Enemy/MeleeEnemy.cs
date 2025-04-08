@@ -17,24 +17,16 @@ public class MeleeEnemy : Enemy
     protected override void Start()
     {
         base.Start();
-
         attackDelay = 1f / attackFrequency;
-        
     }
 
     // Update is called once per frame
-    new void Update()
+    protected void Update()
     {
         if (attackTimer >= attackDelay)
             TryAttack();
         else
-            Wait();
-        
-    }
-
-    private void Wait()
-    {
-        attackTimer += Time.deltaTime;
+            attackTimer += Time.deltaTime;
     }
 
     private void TryAttack()
@@ -49,13 +41,12 @@ public class MeleeEnemy : Enemy
     {
         Debug.Log("Dealing " + damage + " damage to player ");
         attackTimer = 0;
-
         player.TakeDamage(damage);
     }
 
     public void EnemyGetHit(Vector3 hitDirection, float damage)
     {
         Debug.Log("Enemy got hit");
-        Enemy.Instance.GetHit(hitDirection, damage);
+        GetHit(hitDirection, damage);
     }
 }
