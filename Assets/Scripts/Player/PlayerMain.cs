@@ -8,7 +8,7 @@ public class PlayerMain : MonoBehaviour
 {
 
 
-    [Header(" Componbents ")]
+    [Header(" Components ")]
     private Player playerHealth;
 
     // Start is called before the first frame update

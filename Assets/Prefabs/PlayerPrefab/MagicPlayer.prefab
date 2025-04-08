@@ -140,8 +140,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bc9559d2b8c8b429887bc2d7a08be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMP: {fileID: 7286353846663120720}
   attack: 5
   waitTime: 0.5
+  Weapons: []
+  Skills:
+  - skillName: 
+    icon: {fileID: 0}
+    skillLevel: 0
+    description: 
+    skillType: 0
+    DamageOrHeal: 0
+    skillPrefab: {fileID: 0}
+  weaponPosi: {fileID: 4822267913083150260}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  defenceTime: 0.5
+  defenceDelayTime: 1
 --- !u!95 &4219044515920981859
 Animator:
   serializedVersion: 5
@@ -420,22 +436,9 @@ MonoBehaviour:
   HPSlider: {fileID: 0}
   MPSlider: {fileID: 0}
   levelText: {fileID: 0}
-  Weapons: []
-  Skills:
-  - skillName: fire bomb
-    icon: {fileID: -946000942377729262, guid: 284e94ec97dfd604ba0cc871504d5876, type: 3}
-    skillLevel: 1
-    description: fire
-    skillType: 5
-    DamageOrHeal: 10
-    skillPrefab: {fileID: 8522138926694928871, guid: 8bdfb6a6ce97b334eb92400a7d1b1d67,
-      type: 3}
-  weaponPosi: {fileID: 4822267913083150260}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
   defenceTime: 0.5
   defenceDelayTime: 1
+  animator: {fileID: 0}
 --- !u!114 &-5166725570588088538
 MonoBehaviour:
   m_ObjectHideFlags: 0

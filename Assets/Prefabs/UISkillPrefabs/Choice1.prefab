@@ -353,7 +353,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7916549591190321626}
   - component: {fileID: 4585728508434035023}
-  - component: {fileID: 4112296006688626431}
   - component: {fileID: 59330253030362129}
   - component: {fileID: 3968473680590973178}
   - component: {fileID: 8546867632321279890}
@@ -394,23 +393,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4793268868519557028}
   m_CullTransparentMesh: 1
---- !u!114 &4112296006688626431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4793268868519557028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9375af71767dca458bb716c8cea45d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  c: 2
-  level: 0
-  choiceName: {fileID: 2343061678779911766}
-  description: {fileID: 7393573300531597820}
-  icon: {fileID: 5009597232929534317}
 --- !u!114 &59330253030362129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,19 +436,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3968473680590973178}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4112296006688626431}
-        m_TargetAssemblyTypeName: Skill.Choice, Assembly-CSharp
-        m_MethodName: OnChosenEnter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &3968473680590973178
 MonoBehaviour:
   m_ObjectHideFlags: 0
