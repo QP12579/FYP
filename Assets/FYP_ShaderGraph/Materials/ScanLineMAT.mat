@@ -105,8 +105,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScanSpeed: 1
-    - _ScanTime: 0.15
+    - _ScanSpeed: 0.01
+    - _ScanTime: 70
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -117,9 +117,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0, g: 11.984312, b: 7.960207, a: 1}
+    - _Color: {r: 0, g: 2.996078, b: 1.9900517, a: 0.19607843}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ScanPosition: {r: 1, g: 0, b: 0, a: 0}
+    - _ScanPosition: {r: 0, g: 0, b: -1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5992932556223229506
