@@ -126,7 +126,7 @@ public abstract class Enemy : MonoBehaviour
     {
         SetRendererVisibility(false);
         // Hide renderer
-        spriterenderer.enabled = false;
+        //spriterenderer.enabled = false;
 
         // Show spawn indicator
         spawnIndicator.enabled = true;

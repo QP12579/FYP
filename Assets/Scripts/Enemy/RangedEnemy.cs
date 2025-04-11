@@ -50,6 +50,9 @@ public class RangedEnemy : Enemy
     {
         Debug.Log("Shooting at player with " + damage + " damage");
 
+        // 停止移動
+        GetComponent<enemymovement>().StartAttack();
+
         // Instantiate and shoot the projectile
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         bullet bulletScript = projectile.GetComponent<bullet>();
@@ -58,6 +61,9 @@ public class RangedEnemy : Enemy
             bulletScript.SetTarget(player.transform.position);
             bulletScript.damage = damage;
         }
+
+        // 恢復移動
+        GetComponent<enemymovement>().StopAttack();
     }
 
     public void EnemyGetHit(Vector3 hitDirection, float damage)

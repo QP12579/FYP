@@ -10,6 +10,7 @@ public class enemymovement : MonoBehaviour
     private Vector3 moveDirection;
     private float timeSinceLastChange = 0f;
     private SpriteRenderer sr;
+    private bool isAttacking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,22 +22,35 @@ public class enemymovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeSinceLastChange += Time.deltaTime;
-        if (timeSinceLastChange >= changeDirectionInterval)
+        if (!isAttacking)
         {
-            ChangeDirection();
-            timeSinceLastChange = 0f;
+            timeSinceLastChange += Time.deltaTime;
+            if (timeSinceLastChange >= changeDirectionInterval)
+            {
+                ChangeDirection();
+                timeSinceLastChange = 0f;
+            }
+
+            transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+
+            // Flip the enemy to face the movement direction
+            sr.flipX = moveDirection.x > 0;
         }
-
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-
-        // Flip the enemy to face the movement direction
-        sr.flipX = moveDirection.x > 0;
     }
 
     void ChangeDirection()
     {
         float randomAngle = Random.Range(0f, 360f);
         moveDirection = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad), 0, Mathf.Sin(randomAngle * Mathf.Deg2Rad)).normalized;
+    }
+
+    public void StartAttack()
+    {
+        isAttacking = true;
+    }
+
+    public void StopAttack()
+    {
+        isAttacking = false;
     }
 }
