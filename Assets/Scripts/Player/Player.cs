@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI levelText;
 
     [Header("Skills")]
-    public List<WeaponData> Weapons = null;
+    //public List<WeaponData> Weapons = null;
     public List<SkillData> Skills = null;
     public Transform weaponPosi;
     [SerializeField] private LayerMask groundMask;

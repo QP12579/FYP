@@ -55,9 +55,6 @@ namespace Skill
                 case choices.item:
                     chosenItem = ItemC();
                     break;
-                case choices.weapon:
-                    chosenWeapon = WeaponC();
-                    break;
                 case choices.trap:
                     chosenTrap = TrapC();
                     break;
@@ -89,19 +86,7 @@ namespace Skill
                         Player.instance.Items.Add(chosenItem);
                     }*/
                     break;
-                case choices.weapon:
-                    WeaponData weaponData = chosenWeapon;
-                    foreach(var hadWeapon in player.Weapons)
-                    {
-                        if(hadWeapon == weaponData)
-                        {
-                            hadWeapon.damage += 5; // upgrate weapon damage
-                            chosenWeapon = null;
-                            break;
-                        }
-                    }
-                    if (chosenWeapon != null) player.Weapons.Add(chosenWeapon);
-                    break;
+               
                 case choices.trap:
                     /*TrapData trapData = chosenTrap;
                     foreach (var hadTrapData in Player.instance.Traps)
@@ -133,68 +118,7 @@ namespace Skill
             return canChooseItem;
         }
 
-        private WeaponData WeaponC()
-        {
-            bool haveweapon = false;
-            List<WeaponType> countT = new List<WeaponType>((WeaponType[])System.Enum.GetValues(typeof(WeaponType)));
-            do
-            {
-                r = random.Next(0, countT.Count);
-                List<WeaponData> canChooseWeapons = new List<WeaponData>();
-                List<WeaponData> playerWeapons = new List<WeaponData>();
-                WeaponType weaponT = countT[r];
-                countT.Remove(weaponT);
-                Debug.Log("weaponT:"+weaponT);
-                //Randomly get a type in Weapon.data_weapon
-                foreach (var weaponData in Weapon.data_weapon)
-                {
-                    foreach (var s in player.Weapons) //pick the type which is same from player
-                    {
-                        if (s.type == weaponT)
-                            playerWeapons.Add(s);
-                    }
-                    if (weaponData.type == weaponT && weaponData.Level <= level) //when player's level higher than the weapon data's level, it can be add
-                    {
-                        canChooseWeapons.Add(weaponData);
-                    }
-                }
-                //get player's had weapons
-                foreach (var hadWeapon in playerWeapons)
-                {
-                    if (canChooseWeapons.Count <= 0) break;
-                    canChooseWeapons.Sort((x, y) => { return x.Level.CompareTo(y.Level); });
-                    if (hadWeapon == canChooseWeapons[0] && canChooseWeapons.Count != 1)
-                        canChooseWeapons.Remove(hadWeapon);
-                    if (hadWeapon == canChooseWeapons[0] && canChooseWeapons.Count==1) // check if this is the last weapon, just upgrate it.
-                    {
-                        WeaponData canChooseWeapon = canChooseWeapons[0];
-                        choiceName.text = canChooseWeapon.weaponName;
-                        description.text = "Upgrade " + choiceName.text;
-                        icon.sprite = canChooseWeapon.icon;
-                        return canChooseWeapon;
-                    }
-                }
-                if (canChooseWeapons.Count > 0)
-                {
-                    canChooseWeapons.Sort((x, y) => { return x.Level.CompareTo(y.Level); });
-                    haveweapon = true;
-                    WeaponData canChooseWeapon = canChooseWeapons[0];
-                    choiceName.text = canChooseWeapon.weaponName;
-                    description.text = canChooseWeapon.description;
-                    icon.sprite = canChooseWeapon.icon;
-                    return canChooseWeapon;
-                }
-                else
-                {
-                    icon.sprite = defaultImage;
-                    choiceName.text = "Weapons";
-                    description.text = "Nothing can give you now. You already have a lot.";
-                }
-            } while (!haveweapon && countT.Count > 0);
-            Debug.LogWarning("None Weapon.");
-            gameObject.SetActive(false);
-            return null;
-        }
+        
         private SkillData SkillC()
         {
             bool haveskill = false;
