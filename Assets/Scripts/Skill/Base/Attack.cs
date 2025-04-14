@@ -1,7 +1,41 @@
 using UnityEngine;
 
-public abstract class Attack: Skill { public abstract void Function(); }
+public abstract class Attack: SkillData { public abstract void Function(); }
 public interface IAttackable { void TakeDamage(float damage); }
+
+public class AttackSkill : MonoBehaviour
+{
+    private float damage;
+
+    public void Initialize(float power)
+    {
+        damage = power;
+        Destroy(gameObject, 3f); // Auto-destroy after 3 seconds
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<Enemy>().TakeDamage(damage);
+        }
+    }
+}
+
+// HealSkill.cs
+public class HealSkill : MonoBehaviour
+{
+    private float healAmount;
+
+    public void Initialize(float power)
+    {
+        healAmount = power;
+        Destroy(gameObject, 1f);
+
+        // Heal player immediately
+        Player.instance.Heal(healAmount);
+    }
+}
 
 public class AttackLock : Attack
 {

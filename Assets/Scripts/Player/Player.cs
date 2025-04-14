@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : Singleton<Player>
 {
     [Header("HP MP")]
     public int MaxHP = 100;
@@ -74,6 +74,11 @@ public class Player : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject, 1f);
+    }
+
+    public void Heal(float h)
+    {
+        HP += h;
     }
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)
