@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Floor
   - BGMSource
+  - PlayerSpawn
   layers:
   - Default
   - TransparentFX

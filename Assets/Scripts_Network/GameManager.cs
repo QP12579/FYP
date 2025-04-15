@@ -3,23 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static CharacterSelectionUI;
+
+public enum CharacterSelectState
+{
+    Available,
+    SelectedByLocal,
+    SelectedByOther
+}
 
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
     public CharacterSelectionUI selectionUI;
     public float countdownDuration = 4f;
-    
-
-    public string magicSceneName;  // Scene for magic character
-    public string techSceneName;   // Scene for tech character
-
+    public string gameplaySceneName; // Name of the gameplay scene to load
 
     [SyncVar(hook = nameof(OnCountdownChanged))]
     private float countdown = -1;
+
     [SyncVar]
     private bool isCountingDown = false;
+
     private void Awake()
     {
         Instance = this;
@@ -75,40 +79,34 @@ public class GameManager : NetworkBehaviour
 
         if (countdown <= 0 && isCountingDown)
         {
-            // Get all players
-            var players = FindObjectsOfType<NetworkPlayerManager>();
+            // Store all player selections before scene change
+            StorePlayerSelections();
 
-            // Send scene load command to each player based on their selection
-            foreach (var player in players)
-            {
-                int selectedChar = player.GetSelectedCharacter();
-                string targetScene = selectedChar == 0 ? magicSceneName : techSceneName;
+            Debug.Log("Countdown finished - Transitioning to gameplay scene: " + gameplaySceneName);
 
-                // Use TargetRpc in NetworkPlayerManager to load scene
-                player.TargetLoadScene(targetScene);
-            }
+            // Use Mirror's built-in scene management to change scene
+            NetworkManager.singleton.ServerChangeScene(gameplaySceneName);
         }
     }
 
-    [TargetRpc]
-    private void LoadSceneForPlayer(NetworkConnection target, string sceneName)
+    [Server]
+    private void StorePlayerSelections()
     {
-        Debug.Log($"Loading scene {sceneName} for player");
-        // Load scene on the specific client
-        NetworkManager.singleton.StartCoroutine(LoadSceneDelayed(sceneName));
-    }
+        // Get all players
+        var players = FindObjectsOfType<NetworkPlayerManager>();
 
-    private IEnumerator LoadSceneDelayed(string sceneName)
-    {
-        yield return new WaitForSeconds(0.1f); // Small delay to ensure network messages are processed
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-    }
+        // Clear any existing data
+        PlayerSelectionData.ClearSelections();
 
-    [TargetRpc]
-    private void ClientLoadScene(NetworkConnection target, string sceneName)
-    {
-        // This will be called on the target client to load their scene
-        NetworkManager.singleton.ServerChangeScene(sceneName);
+        // Store each player's selection
+        foreach (var player in players)
+        {
+            int playerId = player.connectionToClient.connectionId;
+            int characterIndex = player.GetSelectedCharacter();
+
+            PlayerSelectionData.StoreSelection(playerId, characterIndex);
+            Debug.Log($"Stored selection: Player {playerId} selected character {characterIndex}");
+        }
     }
 
     [ClientRpc]
@@ -131,8 +129,6 @@ public class GameManager : NetworkBehaviour
     {
         RpcUpdateCountdownDisplay(newValue);
     }
-
-
 
     public void UpdateUIState()
     {
@@ -172,10 +168,3 @@ public class GameManager : NetworkBehaviour
         }
     }
 }
-public enum CharacterSelectState
-{
-    Available,
-    SelectedByLocal,
-    SelectedByOther
-}
-

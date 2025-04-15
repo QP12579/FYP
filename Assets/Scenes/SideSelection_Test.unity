@@ -1509,8 +1509,7 @@ MonoBehaviour:
   syncInterval: 0
   selectionUI: {fileID: 1100721677}
   countdownDuration: 3
-  magicSceneName: SampleScene
-  techSceneName: EnemyTesting
+  gameplaySceneName: ConnectionTestPlay
 --- !u!4 &1100721675
 Transform:
   m_ObjectHideFlags: 0

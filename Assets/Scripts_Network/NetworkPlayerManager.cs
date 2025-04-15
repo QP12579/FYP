@@ -14,6 +14,12 @@ public class NetworkPlayerManager : NetworkBehaviour
     [SyncVar]
     private bool isReady = false;
 
+    // Add this to track the player's spawned character
+    [SyncVar]
+    private uint playerCharacterNetId;
+
+    private GameObject playerCharacter;
+
     private static Dictionary<int, int> playerSelections = new Dictionary<int, int>();
 
     public override void OnStartServer()
@@ -37,6 +43,30 @@ public class NetworkPlayerManager : NetworkBehaviour
         {
             CmdRestoreCharacterSelection(playerSelections[playerId]);
         }
+    }
+
+    // Call this when a character is spawned for this player
+    public void AssignCharacter(GameObject character)
+    {
+        playerCharacter = character;
+        playerCharacterNetId = character.GetComponent<NetworkIdentity>().netId;
+    }
+
+    // Get reference to player's spawned character
+    public GameObject GetPlayerCharacter()
+    {
+        if (playerCharacter != null) return playerCharacter;
+
+        if (playerCharacterNetId != 0)
+        {
+            // Find the object by netId using NetworkClient
+            playerCharacter = NetworkClient.spawned.ContainsKey(playerCharacterNetId)
+                ? NetworkClient.spawned[playerCharacterNetId].gameObject
+                : null;
+            return playerCharacter;
+        }
+
+        return null;
     }
 
     [Command]
@@ -126,6 +156,11 @@ public class NetworkPlayerManager : NetworkBehaviour
         return selectedCharacterIndex;
     }
 
+    public int GetPlayerId()
+    {
+        return playerId;
+    }
+
     public void CancelSelection()
     {
         if (!isLocalPlayer) return;
@@ -139,9 +174,5 @@ public class NetworkPlayerManager : NetworkBehaviour
         return isReady;
     }
 
-    [TargetRpc]
-    public void TargetLoadScene(string sceneName)
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-    }
+
 }
