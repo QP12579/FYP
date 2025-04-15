@@ -6,7 +6,7 @@ public enum SkillType
     DFN,    // Defense
     Buff,   // Buff
     Heal,   // Healing
-    DTC     // Detection
+    DTC,     // Detection
 }
 
 [System.Serializable]

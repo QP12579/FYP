@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 
-public class SkillManager : MonoBehaviour
+public class SkillManager : Singleton<SkillManager>
 {
     public TextAsset skillsTSV;
     public Dictionary<int, List<SkillData>> skillsByID = new Dictionary<int, List<SkillData>>();

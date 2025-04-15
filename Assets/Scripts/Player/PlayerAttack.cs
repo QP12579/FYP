@@ -18,9 +18,6 @@ public class PlayerAttack : MonoBehaviour
     public Transform weaponPosi;
     [SerializeField] private LayerMask groundMask;
 
-    public float defenceTime = 0.5f;
-    public float defenceDelayTime = 1f;
-    private float blockPercentage = 0.5f;
     private float blockTimes;
     private void Start()
     {

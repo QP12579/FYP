@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class PlayerSkillController : MonoBehaviour
+public class PlayerSkillController : Singleton<PlayerSkillController>
 {
     [System.Serializable]
     public class EquippedSkill
