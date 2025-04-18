@@ -45,5 +45,4 @@ public class SkillData
     public float power = 1f;
     public string iconPath;
     public float cooldown = 5f;
-    public string prefabPath;
 }

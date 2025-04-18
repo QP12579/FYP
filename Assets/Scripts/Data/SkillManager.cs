@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using System.Linq;
 
 public class SkillManager : Singleton<SkillManager>
 {
     public TextAsset skillsTSV;
-    public string skillDataPath = "Skills/SkillData";
     public Dictionary<int, List<SkillData>> skillsByID = new Dictionary<int, List<SkillData>>();
     public List<SkillData> unlockedSkills = new List<SkillData>();
     public List<SkillData> specialSkills = new List<SkillData>(); // ID 5 skills
 
+    private string skillDataPath = "Skills/SkillData";
     void Awake()
     {
         if (skillsTSV == null)
@@ -48,13 +47,12 @@ public class SkillManager : Singleton<SkillManager>
                 power = int.Parse(fields[5]),
                 cooldown = int.Parse(fields[6]),
                 Description = fields[7],
-                prefabPath = fields[8],
-                iconPath = fields[2] // Assuming this is the path to load the sprite later
+                //iconPath = fields[2] // Assuming this is the path to load the sprite later
                 
             };
 
             // Load icon sprite (you'll need to implement this based on your project)
-            skill.Icon = Resources.Load<Sprite>(skill.iconPath);
+            skill.Icon = Resources.Load<Sprite>($"Skills/SkillUIIcon/UI_Skill_Icon_{skill.Name}");
 
             // Organize by ID
             if (skill.ID == 5)

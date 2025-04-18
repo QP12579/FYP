@@ -19,10 +19,14 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
     public Transform skillSpawnPoint;
     public SkillManager skillManager;
 
+    private bool canShoot = true;
     private void Start()
     {
+        canShoot = true;
         // Initialize with default keys (Q and E)
+        if(equippedSkills[0].activationKey == null)
         equippedSkills[0].activationKey = KeyCode.Q;
+        if(equippedSkills[1].activationKey == null)
         equippedSkills[1].activationKey = KeyCode.E;
     }
 
@@ -36,12 +40,13 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
             // Update cooldown
             if (equippedSkills[i].cooldownTimer > 0)
             {
+                canShoot = false;
                 equippedSkills[i].cooldownTimer -= Time.deltaTime;
                 continue;
-            }
+            }else canShoot = true;
 
             // Check key press
-            if (Input.GetKeyDown(equippedSkills[i].activationKey))
+            if (Input.GetKeyDown(equippedSkills[i].activationKey)&&canShoot)
             {
                 ActivateSkill(i);
             }
@@ -74,11 +79,12 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         // Set cooldown
         equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown;
 
+        canShoot = false;
         // Optional: Add skill behavior based on type
         switch (equippedSkill.skillData.types[0])
         {
             case SkillType.ATK:
-                skillInstance.GetComponent<AttackSkill>().Initialize(equippedSkill.skillData.power, equippedSkill.skillData.cooldown);
+                skillInstance.GetComponent<AttackSkill>().Initialize(equippedSkill.skillData.power);
                 break;
             case SkillType.Heal:
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
@@ -93,6 +99,6 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         // Example: return Resources.Load<GameObject>($"Skills/{skillData.Name}");
 
         // For now, return a default prefab
-        return Resources.Load<GameObject>("Skills/Prefabs/"+ skillData.prefabPath);
+        return Resources.Load<GameObject>($"Skills/Prefabs/{skillData.Name}");
     }
 }

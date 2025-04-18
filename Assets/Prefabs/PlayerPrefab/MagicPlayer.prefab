@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 8717358104338401509}
   - component: {fileID: 4219044515920981859}
   - component: {fileID: 6876538700667962937}
+  - component: {fileID: 3581703021960453594}
   m_Layer: 3
   m_Name: weaponPosi
   m_TagString: Untagged
@@ -140,24 +141,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bc9559d2b8c8b429887bc2d7a08be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMP: {fileID: 7286353846663120720}
+  player: {fileID: 7286353846663120720}
   attack: 5
   waitTime: 0.5
-  Weapons: []
-  Skills:
-  - skillName: 
-    icon: {fileID: 0}
-    skillLevel: 0
-    description: 
-    skillType: 0
-    DamageOrHeal: 0
-    skillPrefab: {fileID: 0}
   weaponPosi: {fileID: 4822267913083150260}
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  defenceTime: 0.5
-  defenceDelayTime: 1
 --- !u!95 &4219044515920981859
 Animator:
   serializedVersion: 5
@@ -231,6 +221,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 1
+--- !u!114 &3581703021960453594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4135366712226937655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c420bb64d9c39943b98feef5c2ae6f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHP: 100
+  HP: 100
+  MaxMP: 50
+  MP: 50
+  level: 1
+  HPSlider: {fileID: 0}
+  MPSlider: {fileID: 0}
+  levelText: {fileID: 0}
+  defenceTime: 0.5
+  defenceDelayTime: 1
+  animator: {fileID: 0}
 --- !u!1 &4606641454445231472
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +259,7 @@ GameObject:
   - component: {fileID: 7299618711359665749}
   - component: {fileID: 987260385121371369}
   - component: {fileID: 7286353846663120720}
+  - component: {fileID: 2641640491229284674}
   - component: {fileID: -5166725570588088538}
   m_Layer: 3
   m_Name: MagicPlayer
@@ -439,6 +453,47 @@ MonoBehaviour:
   defenceTime: 0.5
   defenceDelayTime: 1
   animator: {fileID: 0}
+--- !u!114 &2641640491229284674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4606641454445231472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 272e1fd71bad6e843a936e0dcaa1f572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equippedSkills:
+  - activationKey: 0
+    skillData:
+      ID: 0
+      level: 0
+      Icon: {fileID: 0}
+      Name: 
+      types: 
+      Description: 
+      power: 1
+      iconPath: 
+      cooldown: 5
+    skillPrefab: {fileID: 0}
+    cooldownTimer: 0
+  - activationKey: 0
+    skillData:
+      ID: 0
+      level: 0
+      Icon: {fileID: 0}
+      Name: 
+      types: 
+      Description: 
+      power: 1
+      iconPath: 
+      cooldown: 5
+    skillPrefab: {fileID: 0}
+    cooldownTimer: 0
+  skillSpawnPoint: {fileID: 4822267913083150260}
+  skillManager: {fileID: 0}
 --- !u!114 &-5166725570588088538
 MonoBehaviour:
   m_ObjectHideFlags: 0

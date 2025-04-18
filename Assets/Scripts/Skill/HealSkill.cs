@@ -9,9 +9,8 @@ public class HealSkill : MonoBehaviour
     public void Initialize(float power)
     {
         healAmount = power;
-        Destroy(gameObject, 1f);
-
         // Heal player immediately
         Player.instance.Heal(healAmount);
+        Destroy(gameObject, 1f);
     }
 }

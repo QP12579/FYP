@@ -5,18 +5,19 @@ using UnityEngine;
 public class AttackSkill : MonoBehaviour
 {
     public float damage;
-    public float coolDown;
-    public Rigidbody rb;
-    public LayerMask groundMask;
+    public LayerMask EnemyMask;
 
-    public void Initialize(float power, float cool)
+    public void Initialize(float power)
     {
         damage = power;
-        coolDown = cool;
-        rb = GetComponent<Rigidbody>();
     }
 
-    public void OnTriggerEnter(Collider other)
+    public float GetDamageValue()
+    {
+        return damage;
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
         IAttackable attackable = other.GetComponent<IAttackable>();
         if(attackable != null)
@@ -25,7 +26,7 @@ public class AttackSkill : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter(Collision other)
+    protected virtual void OnCollisionEnter(Collision other)
     {
         IAttackable attackable = other.gameObject.GetComponent<IAttackable>();
         if (attackable != null)

@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class AOEAttack : AttackSkill
 {
-    public float duration;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float duration = 0.2f;
 
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        StartCoroutine(AreaHurt(other.gameObject, damage, duration));
+    }
+    private IEnumerator AreaHurt(GameObject c, float damge, float time)
+    {
+        float i = 0;
+        while (i < time)
+        {
+            c.GetComponent<Enemy>().TakeDamage(damage);
+            yield return new WaitForSeconds(0.2f);
+            i += 0.2f;
+        }
+        Destroy(gameObject);
+    }
 }
