@@ -6,12 +6,15 @@ using System.Linq;
 public class SkillManager : Singleton<SkillManager>
 {
     public TextAsset skillsTSV;
+    public string skillDataPath = "Skills/SkillData";
     public Dictionary<int, List<SkillData>> skillsByID = new Dictionary<int, List<SkillData>>();
     public List<SkillData> unlockedSkills = new List<SkillData>();
     public List<SkillData> specialSkills = new List<SkillData>(); // ID 5 skills
 
     void Awake()
     {
+        if (skillsTSV == null)
+            skillsTSV = Resources.Load<TextAsset>(skillDataPath);
         LoadSkillsFromTSV();
     }
 
@@ -36,14 +39,18 @@ public class SkillManager : Singleton<SkillManager>
                 }
             }
 
-            SkillData skill = new SkillData()
+            SkillData skill = new SkillData() // ID, level, iconPath, name, type, power, cooldown, description, prefabPath
             {
                 ID = int.Parse(fields[0]),
                 level = int.Parse(fields[1]),
                 Name = fields[3],
                 types = types,
-                Description = fields[5],
+                power = int.Parse(fields[5]),
+                cooldown = int.Parse(fields[6]),
+                Description = fields[7],
+                prefabPath = fields[8],
                 iconPath = fields[2] // Assuming this is the path to load the sprite later
+                
             };
 
             // Load icon sprite (you'll need to implement this based on your project)

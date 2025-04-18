@@ -6,9 +6,9 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     [Header(" Components ")]
-    public Player playerMP;
+    public Player player;
 
-    [Header("Attack")]
+    [Header("NormalAttack")]
     public float attack = 5;
     public float waitTime = 0.5f;
     private bool canAtk = false;
@@ -23,17 +23,19 @@ public class PlayerAttack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         canAtk = true;
+        if(player == null)
+            player = FindObjectOfType<Player>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            playerMP.animator.SetTrigger("NrmAtk");
+            player.animator.SetTrigger("NrmAtk");
         }
         if (Input.GetMouseButtonDown(1))
         {
-            playerMP.animator.SetTrigger("Attack");
+            player.animator.SetTrigger("Attack");
             SpawnVFX();
         }
     }
@@ -46,8 +48,8 @@ public class PlayerAttack : MonoBehaviour
             LeanTween.delayedCall(waitTime, DetectOnce);
             animator.SetTrigger("normalATK");
             print("NATK");
-            if (c.gameObject.GetComponent<Enemy>())
-                c.gameObject.GetComponent<Enemy>().TakeDamage(attack);
+            if (c.gameObject.GetComponent<IAttackable>()!=null)
+                c.gameObject.GetComponent<IAttackable>().TakeDamage(attack);
         }
     }
 

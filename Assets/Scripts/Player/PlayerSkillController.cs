@@ -78,7 +78,7 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         switch (equippedSkill.skillData.types[0])
         {
             case SkillType.ATK:
-                skillInstance.GetComponent<AttackSkill>().Initialize(equippedSkill.skillData.power);
+                skillInstance.GetComponent<AttackSkill>().Initialize(equippedSkill.skillData.power, equippedSkill.skillData.cooldown);
                 break;
             case SkillType.Heal:
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
@@ -93,6 +93,6 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         // Example: return Resources.Load<GameObject>($"Skills/{skillData.Name}");
 
         // For now, return a default prefab
-        return Resources.Load<GameObject>("Skills/DefaultSkill");
+        return Resources.Load<GameObject>("Skills/Prefabs/"+ skillData.prefabPath);
     }
 }

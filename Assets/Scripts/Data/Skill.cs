@@ -3,10 +3,34 @@ using UnityEngine;
 public enum SkillType
 {
     ATK,    // Attack
-    DFN,    // Defense
     Buff,   // Buff
+    DeBuff,
+    DFN,    // Defense
     Heal,   // Healing
-    DTC,     // Detection
+    DTC     // Detection
+}
+
+public enum AttackType
+{
+    AOE,
+    Single,
+    Follow
+}
+
+public enum BuffType
+{
+    PowerUP,
+    DropUP
+}
+
+public enum DeBuffType
+{
+    Poison,
+    Dizziness,
+    Blooding,
+    Slow,
+    Blind,
+
 }
 
 [System.Serializable]
