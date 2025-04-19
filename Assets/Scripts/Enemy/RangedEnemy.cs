@@ -23,8 +23,9 @@ public class RangedEnemy : Enemy
     }
 
     // Update is called once per frame
-    protected void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Time.time >= nextAttackTime)
         {
             TryAttack();
@@ -36,6 +37,7 @@ public class RangedEnemy : Enemy
     {
         if (IsPlayerInRange())
         {
+            Debug.Log("Player is in range. Attempting to attack.");
             Attack();
         }
     }

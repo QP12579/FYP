@@ -6,25 +6,6 @@ using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    // Singleton instance
-    private static Enemy instance;
-
-    public static Enemy Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<Enemy>();
-                if (instance == null)
-                {
-                    Debug.LogError("No instance of Enemy found in the scene.");
-                }
-            }
-            return instance;
-        }
-    }
-
     [Header(" Components ")]
     protected EnemyMovement1 movement;
     private Rigidbody2D rb;
@@ -74,16 +55,6 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-        // Initialize singleton instance
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
         targetFillAmount = 1f;
         UpdateHPBar();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -105,7 +76,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    protected void Update()
+    protected virtual void Update()
     {
         // Update the position of the hpBar to follow the enemy
         if (hpBar != null)
