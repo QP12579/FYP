@@ -4903,11 +4903,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 7627629014636749971, guid: 03cf8725a2e515e43bc123df9b940fd6,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6679,7 +6674,7 @@ GameObject:
   - component: {fileID: 2117817172}
   - component: {fileID: 2117817171}
   - component: {fileID: 2117817170}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerSkillController : Singleton<PlayerSkillController>
 {
@@ -19,37 +20,21 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
     public Transform skillSpawnPoint;
     public SkillManager skillManager;
 
-    private bool canShoot = true;
     private void Start()
     {
-        canShoot = true;
         // Initialize with default keys (Q and E)
-        if(equippedSkills[0].activationKey == null)
+        if(equippedSkills[0].activationKey == KeyCode.None)
         equippedSkills[0].activationKey = KeyCode.Q;
-        if(equippedSkills[1].activationKey == null)
+        if(equippedSkills[1].activationKey == KeyCode.None)
         equippedSkills[1].activationKey = KeyCode.E;
     }
 
     private void Update()
     {
-        // Check for skill activation
-        for (int i = 0; i < equippedSkills.Length; i++)
+        // Check key press
+        if (Input.GetKeyDown(equippedSkills[0].activationKey) && equippedSkills[0].cooldownTimer <= 0)
         {
-            if (equippedSkills[i].skillData == null) continue;
-
-            // Update cooldown
-            if (equippedSkills[i].cooldownTimer > 0)
-            {
-                canShoot = false;
-                equippedSkills[i].cooldownTimer -= Time.deltaTime;
-                continue;
-            }else canShoot = true;
-
-            // Check key press
-            if (Input.GetKeyDown(equippedSkills[i].activationKey)&&canShoot)
-            {
-                ActivateSkill(i);
-            }
+            ActivateSkill(0);
         }
     }
 
@@ -78,13 +63,14 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
 
         // Set cooldown
         equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown;
-
-        canShoot = false;
+        StartCoroutine(CoolDownTimer(slotIndex, equippedSkill.cooldownTimer));
         // Optional: Add skill behavior based on type
         switch (equippedSkill.skillData.types[0])
         {
             case SkillType.ATK:
-                skillInstance.GetComponent<AttackSkill>().Initialize(equippedSkill.skillData.power);
+                AttackSkill skill = skillInstance.GetComponent<AttackSkill>();
+                skill.Initialize(equippedSkill.skillData.power);
+                skill.SetAttackType(skillSpawnPoint);
                 break;
             case SkillType.Heal:
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
@@ -100,5 +86,11 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
 
         // For now, return a default prefab
         return Resources.Load<GameObject>($"Skills/Prefabs/{skillData.Name}");
+    }
+
+    IEnumerator CoolDownTimer(int i, float cooldown)
+    {
+        yield return new WaitForSeconds(cooldown);
+        equippedSkills[i].cooldownTimer = 0;
     }
 }

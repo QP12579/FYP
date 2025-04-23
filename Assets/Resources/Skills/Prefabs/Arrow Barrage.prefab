@@ -143,9 +143,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  type: 2
   EnemyMask:
     serializedVersion: 2
     m_Bits: 512
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
   rb: {fileID: 6533105618082411618}
   speed: 5
 --- !u!54 &6533105618082411618
@@ -174,4 +178,4 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 4
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2

@@ -353,7 +353,7 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 321
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
   jumpForce: 500
   terrainLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   sr: {fileID: 518056724874452019}
   anim: {fileID: 0}
   canMove: 0
