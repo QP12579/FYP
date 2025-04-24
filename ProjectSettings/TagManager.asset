@@ -8,6 +8,8 @@ TagManager:
   - Floor
   - BGMSource
   - PlayerSpawn
+  - Character1Spawn
+  - Character2Spawn
   layers:
   - Default
   - TransparentFX
