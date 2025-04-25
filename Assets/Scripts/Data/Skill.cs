@@ -25,12 +25,9 @@ public enum BuffType
 
 public enum DeBuffType
 {
-    Poison,
-    Dizziness,
     Blooding,
-    Slow,
-    Blind,
-
+    Dizziness,
+    Slow
 }
 
 [System.Serializable]

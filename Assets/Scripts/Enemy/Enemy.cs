@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public abstract class Enemy : MonoBehaviour, IAttackable
+public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
 {
     // Singleton instance
     private static Enemy instance;
@@ -229,6 +229,33 @@ public abstract class Enemy : MonoBehaviour, IAttackable
         if (rb != null)
         {
             rb.AddForce(hitDirection * hitBackForce, ForceMode2D.Impulse);
+        }
+    }
+
+    public void DeBuff(DeBuffType deBuffType, float time, float debuffStats)
+    {
+        switch (deBuffType)
+        {
+            case DeBuffType.Blooding:
+                StartCoroutine(BloodingTimer(deBuffType, time, debuffStats));
+                break;
+            case DeBuffType.Dizziness:
+                movement.DizzinessStart(time);
+                break;
+            case DeBuffType.Slow:
+                movement.LowerSpeedStart(time, debuffStats);
+                break;
+
+        }
+    }
+
+    IEnumerator BloodingTimer(DeBuffType deBuffType, float time, float debuffP) 
+    {
+        while (time > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            TakeDamage(debuffP);
+            time -= 1f;
         }
     }
 }

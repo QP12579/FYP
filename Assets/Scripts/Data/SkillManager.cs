@@ -38,7 +38,7 @@ public class SkillManager : Singleton<SkillManager>
                 }
             }
 
-            SkillData skill = new SkillData() // ID, level, iconPath, name, type, power, cooldown, description, prefabPath
+            SkillData skill = new SkillData() // ID, level, iconPath, name, type, power, cooldown, description
             {
                 ID = int.Parse(fields[0]),
                 level = int.Parse(fields[1]),

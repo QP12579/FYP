@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class DebuffSkill : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public DeBuffType DebuffType;
+    public float debuffP;
+    public float time = 5f;
 
-    // Update is called once per frame
-    void Update()
+    public void DebuffTarget(IDebuffable target)
     {
-        
+        target.DeBuff(DebuffType, time, debuffP);
     }
 }

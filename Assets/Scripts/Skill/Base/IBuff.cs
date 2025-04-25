@@ -1,7 +1,4 @@
 public interface IBuff
 {
-    float time { get; set; }
-    float baseStats {  get; set; }
-    float buffStats {  get; set; }
-    void Buff();
+    public void Buff(float time, float baseStats, float buffStats);
 }

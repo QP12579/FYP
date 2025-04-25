@@ -7,9 +7,18 @@ public class AttackSkill : MonoBehaviour
     [SerializeField] private LayerMask EnemyMask;
     [SerializeField] public LayerMask groundMask;
 
+    private bool haveDebuff = false;
+    private DebuffSkill debuff;
+
     public void Initialize(float power)
     {
         damage = power;
+    }
+
+    public void HaveDebuff()
+    {
+        haveDebuff = true;
+        debuff = GetComponent<DebuffSkill>();
     }
 
     public AttackSkill SetAttackType(Transform weaponPosi)
@@ -61,9 +70,17 @@ public class AttackSkill : MonoBehaviour
     protected virtual void OnTriggerEnter(Collider other)
     {
         IAttackable attackable = other.GetComponent<IAttackable>();
-        if(attackable != null)
+        if (attackable != null)
         {
             attackable.TakeDamage(damage);
+            if (haveDebuff)
+            {
+                IDebuffable debuffable = other.GetComponent<IDebuffable>();
+                if (debuffable != null)
+                {
+                    debuff.DebuffTarget(debuffable);
+                }
+            }
         }
     }
 
@@ -73,6 +90,14 @@ public class AttackSkill : MonoBehaviour
         if (attackable != null)
         {
             attackable.TakeDamage(damage);
+            if (haveDebuff)
+            {
+                IDebuffable debuffable = other.gameObject.GetComponent<IDebuffable>();
+                if (debuffable != null)
+                {
+                    debuff.DebuffTarget(debuffable);
+                }
+            }
         }
     }
 

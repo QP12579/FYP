@@ -20,6 +20,7 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
     public Transform skillSpawnPoint;
     public SkillManager skillManager;
 
+
     private void Start()
     {
         // Initialize with default keys (Q and E)
@@ -27,6 +28,8 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         equippedSkills[0].activationKey = KeyCode.Q;
         if(equippedSkills[1].activationKey == KeyCode.None)
         equippedSkills[1].activationKey = KeyCode.E;
+        equippedSkills[0].cooldownTimer = 0;
+        equippedSkills[1].cooldownTimer = 0;
     }
 
     private void Update()
@@ -71,11 +74,15 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
                 AttackSkill skill = skillInstance.GetComponent<AttackSkill>();
                 skill.Initialize(equippedSkill.skillData.power);
                 skill.SetAttackType(skillSpawnPoint);
+                if (equippedSkill.skillData.types[1] == SkillType.DeBuff)
+                    skill.HaveDebuff();
                 break;
             case SkillType.Heal:
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
                 break;
-                // Add other skill types as needed
+            case SkillType.Buff:
+
+                break;
         }
     }
 

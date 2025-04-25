@@ -12,9 +12,12 @@ public class EnemyMovement1 : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float moveSpeed;
 
+    //Debuff Part
+    private bool isDizziness = false; 
+
     void Update()
     {
-        if (player != null)
+        if (player != null && !isDizziness)
             FollowPlayer();
     }
 
@@ -28,5 +31,29 @@ public class EnemyMovement1 : MonoBehaviour
         Vector3 direction = (player.transform.position - transform.position).normalized;
         Vector3 targetPosition = transform.position + direction * moveSpeed * Time.deltaTime;
         transform.position = targetPosition;
+    }
+
+    //Debuff
+    public void LowerSpeedStart(float time, float lowSpeedPersentage)
+    {
+        float baseMoveS = moveSpeed;
+        moveSpeed *= lowSpeedPersentage;
+        LeanTween.delayedCall(time, ()=>GoToBaseSpeed(baseMoveS));
+    }
+
+    public void GoToBaseSpeed(float baseSpeed) 
+    {
+        moveSpeed = baseSpeed;
+    }
+
+    public void DizzinessStart(float time)
+    {
+        isDizziness = true;
+        Invoke("DizzinessEnd", time);
+    }
+
+    public void DizzinessEnd()
+    {
+        isDizziness = false;
     }
 }

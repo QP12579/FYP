@@ -3182,6 +3182,11 @@ PrefabInstance:
       objectReference: {fileID: 1195227936}
     - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
+      propertyPath: equippedSkills.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
       propertyPath: equippedSkills.Array.data[0].skillPrefab
       value: 
       objectReference: {fileID: 8522138926694928871, guid: 298469283f21d7742a15ec78af3d0ddf,
@@ -3198,8 +3203,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
+      propertyPath: equippedSkills.Array.data[1].activationKey
+      value: 324
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
       propertyPath: equippedSkills.Array.data[0].skillData.power
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: equippedSkills.Array.data[2].skillData.power
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: equippedSkills.Array.data[2].skillData.cooldown
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}

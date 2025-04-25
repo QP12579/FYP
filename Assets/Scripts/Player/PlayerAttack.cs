@@ -14,10 +14,6 @@ public class PlayerAttack : MonoBehaviour
     private bool canAtk = false;
     private Animator animator;
 
-    [Header("Skills")]
-    public Transform weaponPosi;
-    [SerializeField] private LayerMask groundMask;
-
     private float blockTimes;
     private void Start()
     {
@@ -36,7 +32,6 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             player.animator.SetTrigger("Attack");
-            SpawnVFX();
         }
     }
 
@@ -47,7 +42,6 @@ public class PlayerAttack : MonoBehaviour
             canAtk = false;
             LeanTween.delayedCall(waitTime, DetectOnce);
             animator.SetTrigger("normalATK");
-            print("NATK");
             if (c.gameObject.GetComponent<IAttackable>()!=null)
                 c.gameObject.GetComponent<IAttackable>().TakeDamage(attack);
         }
@@ -56,24 +50,5 @@ public class PlayerAttack : MonoBehaviour
     private void DetectOnce()
     {
         canAtk = true;
-    }
-    void SpawnVFX()
-    {/*
-        if (Skills == null) { Debug.Log("No Skill."); return; }
-        SkillData skillData = new SkillData();
-        skillData = Skills[Skills.Count - 1]; // use the new Skill
-        playerMP.MP -= skillData.skillLevel;
-        playerMP.UpdatePlayerUIInfo();
-
-        // Create VFX
-        if (skillData.skillPrefab == null) { Debug.Log("No Prefab in this skill."); return; }
-        GameObject vfx = Instantiate(skillData.skillPrefab, transform.position, Quaternion.identity);
-        if (vfx.GetComponent<Bomb>() != null)
-        {
-            Bomb newBomb = vfx.GetComponent<Bomb>();
-            newBomb.damage = skillData.DamageOrHeal;
-            newBomb.groundMask = groundMask;
-            newBomb.SetTrapTypeBomb(weaponPosi);
-        }*/
     }
 }
