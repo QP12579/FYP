@@ -2,15 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Player))]
-
-public class PlayerMain : MonoBehaviour
+public class DefenceSkill : MonoBehaviour
 {
-
-
-    [Header(" Components ")]
-    private Player playerHealth;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +14,5 @@ public class PlayerMain : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void TakeDamage(float damage)
-    {
-        playerHealth.TakeDamage(damage);
     }
 }
