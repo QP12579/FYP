@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 3471931814997396868}
   - component: {fileID: 417874250152519305}
   - component: {fileID: -2410281935126162777}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Robot2
   m_TagString: Enemy
   m_Icon: {fileID: 0}

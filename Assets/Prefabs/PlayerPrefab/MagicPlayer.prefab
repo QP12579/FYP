@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bc9559d2b8c8b429887bc2d7a08be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 7286353846663120720}
   attack: 5
   waitTime: 0.5
 --- !u!95 &4219044515920981859
@@ -230,6 +231,7 @@ GameObject:
   - component: {fileID: 7299618711359665749}
   - component: {fileID: 987260385121371369}
   - component: {fileID: 7286353846663120720}
+  - component: {fileID: 2641640491229284674}
   - component: {fileID: -5166725570588088538}
   m_Layer: 3
   m_Name: MagicPlayer
@@ -323,7 +325,7 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 321
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -351,7 +353,7 @@ MonoBehaviour:
   jumpForce: 500
   terrainLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   sr: {fileID: 518056724874452019}
   anim: {fileID: 0}
   canMove: 0
@@ -420,22 +422,50 @@ MonoBehaviour:
   HPSlider: {fileID: 0}
   MPSlider: {fileID: 0}
   levelText: {fileID: 0}
-  Weapons: []
-  Skills:
-  - skillName: fire bomb
-    icon: {fileID: -946000942377729262, guid: 284e94ec97dfd604ba0cc871504d5876, type: 3}
-    skillLevel: 1
-    description: fire
-    skillType: 5
-    DamageOrHeal: 10
-    skillPrefab: {fileID: 8522138926694928871, guid: 8bdfb6a6ce97b334eb92400a7d1b1d67,
-      type: 3}
-  weaponPosi: {fileID: 4822267913083150260}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
   defenceTime: 0.5
   defenceDelayTime: 1
+  animator: {fileID: 0}
+--- !u!114 &2641640491229284674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4606641454445231472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 272e1fd71bad6e843a936e0dcaa1f572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equippedSkills:
+  - activationKey: 0
+    skillData:
+      ID: 0
+      level: 0
+      Icon: {fileID: 0}
+      Name: 
+      types: 
+      Description: 
+      power: 1
+      iconPath: 
+      cooldown: 5
+    skillPrefab: {fileID: 0}
+    cooldownTimer: 0
+  - activationKey: 0
+    skillData:
+      ID: 0
+      level: 0
+      Icon: {fileID: 0}
+      Name: 
+      types: 
+      Description: 
+      power: 1
+      iconPath: 
+      cooldown: 5
+    skillPrefab: {fileID: 0}
+    cooldownTimer: 0
+  skillSpawnPoint: {fileID: 4822267913083150260}
+  skillManager: {fileID: 0}
 --- !u!114 &-5166725570588088538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,7 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 256
 --- !u!1 &7181410041848808872
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,10 @@
-using Skill;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : Singleton<Player>
 {
     [Header("HP MP")]
     public int MaxHP = 100;
@@ -19,18 +18,12 @@ public class Player : MonoBehaviour
     public Slider MPSlider;
     public TextMeshProUGUI levelText;
 
-    [Header("Skills")]
-    //public List<WeaponData> Weapons = null;
-    public List<SkillData> Skills = null;
-    public Transform weaponPosi;
-    [SerializeField] private LayerMask groundMask;
-
     public float defenceTime = 0.5f;
     public float defenceDelayTime = 1f;
     private float blockPercentage = 0.5f;
     private float blockTimes;
     private PlayerMovement movement;
-    private Animator animator;
+    [HideInInspector] public Animator animator;
 
     private void Start()
     {
@@ -82,6 +75,11 @@ public class Player : MonoBehaviour
     {
         Destroy(gameObject, 1f);
     }
+
+    public void Heal(float h)
+    {
+        HP += h;
+    }
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)
         {
@@ -98,15 +96,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            animator.SetTrigger("NrmAtk");
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            animator.SetTrigger("Attack");
-            SpawnVFX();
-        }
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > blockTimes + defenceDelayTime) //delay time
         {
             animator.SetTrigger("Defence");
@@ -114,26 +103,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void SpawnVFX()
-    {
-        if (Skills == null) { Debug.Log("No Skill.");  return; }
-        SkillData skillData = new SkillData();
-        skillData = Skills[Skills.Count - 1]; // use the new Skill
-        MP -= skillData.skillLevel;
-        UpdatePlayerUIInfo();
-
-        // Create VFX
-        if(skillData.skillPrefab == null) { Debug.Log("No Prefab in this skill."); return; }
-        GameObject vfx = Instantiate(skillData.skillPrefab, transform.position, Quaternion.identity);
-        if (vfx.GetComponent<Bomb>() != null)
-        {
-            Bomb newBomb = vfx.GetComponent<Bomb>();
-            newBomb.damage = skillData.DamageOrHeal;
-            newBomb.groundMask = groundMask;
-            newBomb.SetTrapTypeBomb(weaponPosi);
-        }
-        //Destroy(vfx, level + 1);
-    }
 
     void BlockAttack(float blockTime)
     {

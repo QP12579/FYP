@@ -1229,12 +1229,14 @@ MonoBehaviour:
     segments:
     - tStartEnd: {x: 0, y: 30}
       spawnmFrequency: 2.33
-      prefab: {fileID: 891610023}
+      prefab: {fileID: 7686363277280844216, guid: a0a4d56a45d62124b8f411ec11d20dce,
+        type: 3}
   - name: Wave 01
     segments:
     - tStartEnd: {x: 33, y: 100}
       spawnmFrequency: 1
-      prefab: {fileID: 891610023}
+      prefab: {fileID: 7686363277280844216, guid: e32567f31dcdf0f4d93250e7bbe29304,
+        type: 3}
   player: {fileID: 532803343}
 --- !u!1 &410087039
 GameObject:

@@ -61,6 +61,7 @@ public class GameplayManager : NetworkBehaviour
             Transform spawnPoint = GetSpawnPoint(playerId);
 
             // Create the player's character
+           
             GameObject character = Instantiate(
                 characterPrefabs[characterIndex],
                 spawnPoint.position,
@@ -70,8 +71,8 @@ public class GameplayManager : NetworkBehaviour
             // Store reference to spawned character
             spawnedCharacters[playerId] = character;
 
-            // Give control to the player
-            NetworkServer.Spawn(character, conn);
+            Destroy(conn.identity.gameObject, 0.1f);
+            NetworkServer.ReplacePlayerForConnection(conn, character, true);
 
             Debug.Log($"Spawned character {characterIndex} for player {playerId}");
         }
@@ -79,15 +80,46 @@ public class GameplayManager : NetworkBehaviour
 
     private Transform GetSpawnPoint(int playerId)
     {
-        if (playerSpawnPoints == null || playerSpawnPoints.Length == 0)
+        if (NetworkManager.startPositions.Count == 0)
         {
-            Debug.LogError("No spawn points assigned!");
+            Debug.LogError("No start positions assigned!");
             return transform;
         }
 
-        int spawnIndex = playerId % playerSpawnPoints.Length;
-        return playerSpawnPoints[spawnIndex];
+        // Retrieve character selection for the given player
+        int characterIndex = PlayerSelectionData.GetSelection(playerId);
+
+        // Define separate spawn points for each character type
+        List<Transform> character1SpawnPoints = new List<Transform>();
+        List<Transform> character2SpawnPoints = new List<Transform>();
+
+        // Categorize start positions based on predefined setup
+        foreach (Transform startPosition in NetworkManager.startPositions)
+        {
+            if (startPosition.CompareTag("Character1Spawn"))
+            {
+                character1SpawnPoints.Add(startPosition);
+            }
+            else if (startPosition.CompareTag("Character2Spawn"))
+            {
+                character2SpawnPoints.Add(startPosition);
+            }
+        }
+
+        // Choose spawn point based on selected character
+        if (characterIndex == 0 && character1SpawnPoints.Count > 0)
+        {
+            return character1SpawnPoints[Random.Range(0, character1SpawnPoints.Count)];
+        }
+        else if (characterIndex == 1 && character2SpawnPoints.Count > 0)
+        {
+            return character2SpawnPoints[Random.Range(0, character2SpawnPoints.Count)];
+        }
+
+        Debug.LogError("No valid spawn points for chosen character, using default spawn.");
+        return transform;
     }
+
 
     // Helper method to find other players (for ability targeting)
     public GameObject GetOtherPlayerCharacter(int myPlayerId)
