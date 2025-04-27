@@ -18,16 +18,12 @@ public class Player : Singleton<Player>
     public Slider MPSlider;
     public TextMeshProUGUI levelText;
 
-    public float defenceTime = 0.5f;
-    public float defenceDelayTime = 1f;
-    private float blockPercentage = 0.5f;
-    private float blockTimes;
-    private PlayerMovement movement;
+    private PlayerMovement move;
     [HideInInspector] public Animator animator;
 
     private void Start()
     {
-        movement = GetComponent<PlayerMovement>();
+        move = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
     }
 
@@ -47,18 +43,22 @@ public class Player : Singleton<Player>
         levelText.text = level.ToString();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject attacker = null)
     {
         float time = Time.time;
-        if (blockTimes > time && (blockTimes - defenceTime) < time)
+        if (move.blockTimes > time && (move.blockTimes - move.defenceTime) < time)
         {
-            if (blockTimes - defenceTime/3 > time)
+            if (move.blockTimes - move.defenceTime /3 > time)
             {
                 Debug.Log("Perfect Block");
+                if (move.isReflect && attacker != null)
+                { //Reflect
+                    attacker.GetComponent<IAttackable>().TakeDamage(damage * move.reflectDamageMultiplier);
+                }
                 damage = 0;
                 return;
             }
-            damage *= blockPercentage;
+            damage *= move.blockPercentage;
             Debug.Log("Normal Block");
         }
         float realDamage = Mathf.Min(damage, HP);
@@ -80,6 +80,14 @@ public class Player : Singleton<Player>
     {
         HP += h;
     }
+
+    public bool canUseSkill(int mp)
+    {
+        if(mp > MP) return false;
+        MP -= mp;
+        UpdatePlayerUIInfo();
+        return true;
+    }
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)
         {
@@ -92,28 +100,6 @@ public class Player : Singleton<Player>
         void LevelUp()
         {
             //LevelManager.instance.LevelUp();
-        }*/
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q) && Time.time > blockTimes + defenceDelayTime) //delay time
-        {
-            animator.SetTrigger("Defence");
-            BlockAttack(Time.time);
         }
-    }
-
-
-    void BlockAttack(float blockTime)
-    {
-        movement.canMove = false;
-        blockTimes = blockTime + defenceTime;
-        Debug.Log("blockTimes:" + blockTimes + "\nTime: " + blockTime);
-        LeanTween.delayedCall(defenceTime, canMove);
-    }
-
-    void canMove()
-    {
-        movement.canMove = true;
-    }
+    */
 }

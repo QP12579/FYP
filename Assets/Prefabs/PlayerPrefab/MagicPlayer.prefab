@@ -141,8 +141,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7286353846663120720}
+  NATKKey: 323
   attack: 5
   waitTime: 0.5
+  FATKKey: 324
+  ATKPrefab: {fileID: 762561748974927365, guid: 61a27dc5282995542a271e5d7365e967,
+    type: 3}
+  FarAtk: 5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!95 &4219044515920981859
 Animator:
   serializedVersion: 5
@@ -348,16 +356,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110b09cd0eb15b746a88d7164e098ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 200
   groundDist: 0.65
-  jumpForce: 500
+  jumpForce: 250
   terrainLayer:
     serializedVersion: 2
     m_Bits: 320
+  RollKey: 304
+  JumpKey: 32
+  DEFKey: 102
+  isReflect: 0
+  reflectDamageMultiplier: 1
+  RollingATK: 0
+  defenceTime: 0.5
+  defenceDelayTime: 1
+  rollingTime: 0.5
+  blockPercentage: 0.5
+  blockTimes: 0
+  damage: 0
   sr: {fileID: 518056724874452019}
   anim: {fileID: 0}
   canMove: 0
   isFaceFront: 0
+  groundCheckRadius: 0.3
+  groundCheckOffset: 0.1
 --- !u!95 &7299618711359665749
 Animator:
   serializedVersion: 5
@@ -422,8 +444,6 @@ MonoBehaviour:
   HPSlider: {fileID: 0}
   MPSlider: {fileID: 0}
   levelText: {fileID: 0}
-  defenceTime: 0.5
-  defenceDelayTime: 1
   animator: {fileID: 0}
 --- !u!114 &2641640491229284674
 MonoBehaviour:
@@ -438,7 +458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equippedSkills:
-  - activationKey: 0
+  - activationKey: 113
     skillData:
       ID: 0
       level: 0
@@ -447,11 +467,11 @@ MonoBehaviour:
       types: 
       Description: 
       power: 1
-      iconPath: 
+      MP: 5
       cooldown: 5
     skillPrefab: {fileID: 0}
     cooldownTimer: 0
-  - activationKey: 0
+  - activationKey: 101
     skillData:
       ID: 0
       level: 0
@@ -460,12 +480,14 @@ MonoBehaviour:
       types: 
       Description: 
       power: 1
-      iconPath: 
+      MP: 5
       cooldown: 5
     skillPrefab: {fileID: 0}
     cooldownTimer: 0
   skillSpawnPoint: {fileID: 4822267913083150260}
   skillManager: {fileID: 0}
+  player: {fileID: 7286353846663120720}
+  move: {fileID: 6094767713929198868}
 --- !u!114 &-5166725570588088538
 MonoBehaviour:
   m_ObjectHideFlags: 0

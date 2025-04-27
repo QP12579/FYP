@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 public class PlayerSkillController : Singleton<PlayerSkillController>
 {
@@ -10,7 +11,7 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         public KeyCode activationKey;
         public SkillData skillData;
         public GameObject skillPrefab;
-        public float cooldownTimer;
+        [HideInInspector] public float cooldownTimer;
     }
 
     [Header("Skill Slots")]
@@ -19,10 +20,16 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
     [Header("References")]
     public Transform skillSpawnPoint;
     public SkillManager skillManager;
+    public Player player;
+    public PlayerMovement move;
 
 
     private void Start()
     {
+        if (player == null)
+            player = GetComponent<Player>();
+        if(move == null)
+            move = GetComponent<PlayerMovement>();
         // Initialize with default keys (Q and E)
         if(equippedSkills[0].activationKey == KeyCode.None)
         equippedSkills[0].activationKey = KeyCode.Q;
@@ -57,6 +64,12 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         var equippedSkill = equippedSkills[slotIndex];
         if (equippedSkill.skillPrefab == null) return;
 
+        if (!player.canUseSkill(equippedSkill.skillData.MP)) return ;
+
+        // Set cooldown
+        equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown;
+        StartCoroutine(CoolDownTimer(slotIndex, equippedSkill.cooldownTimer));
+
         // Instantiate the skill prefab
         GameObject skillInstance = Instantiate(
             equippedSkill.skillPrefab,
@@ -64,9 +77,6 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
             skillSpawnPoint.rotation
         );
 
-        // Set cooldown
-        equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown;
-        StartCoroutine(CoolDownTimer(slotIndex, equippedSkill.cooldownTimer));
         // Optional: Add skill behavior based on type
         switch (equippedSkill.skillData.types[0])
         {
@@ -80,8 +90,23 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
             case SkillType.Heal:
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
                 break;
-            case SkillType.Buff:
-
+            case SkillType.DFN:
+                switch (equippedSkill.skillData.level)
+                {
+                    case 1:  //Slide
+                        move.Rolling();
+                        move.BlockAttack(true);
+                        break;
+                    //Dash
+                    case 2:
+                        move.Rolling(true, equippedSkill.skillData.power);
+                        move.BlockAttack(true);
+                        break;
+                    //Reflect
+                    case 3:
+                        move.BlockAttack(true);
+                        break;
+                }
                 break;
         }
     }
@@ -90,9 +115,12 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
     {
         // Load from Resources or use a dictionary
         // Example: return Resources.Load<GameObject>($"Skills/{skillData.Name}");
-
+        GameObject prefab = Resources.Load<GameObject>($"Skills/Prefabs/{skillData.Name}");
+        if (prefab == null) {
+            Debug.Log("No prefab.");
+            return null; }
         // For now, return a default prefab
-        return Resources.Load<GameObject>($"Skills/Prefabs/{skillData.Name}");
+        return prefab;
     }
 
     IEnumerator CoolDownTimer(int i, float cooldown)
