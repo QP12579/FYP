@@ -21,8 +21,8 @@ public class EliteEnemy : MonoBehaviour
         void ExitState();
     }
     private elitemovement movement;
-    private Player player;
-    private bool lastAttackWasFast = false;
+    public Player player;
+    public bool lastAttackWasFast = false;
 
     // Start is called before the first frame update
     private void Start()
@@ -212,7 +212,7 @@ public class AttackState : EliteEnemy.IEnemyState
 
         if (attackTimer >= attackCooldown)
         {
-            if (enemy.LastAttackWasFast) // Use the public property
+            if (enemy.lastAttackWasFast) // Use the public property
             {
                 enemy.SlowMeleeAttack();
             }
