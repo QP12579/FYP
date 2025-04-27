@@ -32,6 +32,12 @@ public class MeleeEnemy : Enemy
 
     private void TryAttack()
     {
+        if (player == null) // Check if the player has been destroyed
+        {
+            Debug.Log("Player has been destroyed. Stopping attack.");
+            return;
+        }
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer < playerDetectionRadius)

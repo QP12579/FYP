@@ -18,7 +18,8 @@ public class RangedEnemy : Enemy
     protected override void Start()
     {
         base.Start();
-        attackDelay = 1f / attackFrequency;
+        attackFrequency = Mathf.Clamp(attackFrequency, 0.01f, 2f); // 將最大攻擊頻率降低到 2
+        attackDelay = 30f / attackFrequency; // 增加攻擊延遲，將分母調整為 3
         nextAttackTime = Time.time + attackDelay;
     }
 
@@ -29,7 +30,7 @@ public class RangedEnemy : Enemy
         if (Time.time >= nextAttackTime)
         {
             TryAttack();
-            nextAttackTime = Time.time + attackDelay;
+            nextAttackTime = Time.time + attackDelay; // Add a delay between attacks
         }
     }
 
@@ -50,6 +51,12 @@ public class RangedEnemy : Enemy
 
     private void Attack()
     {
+        if (projectilePrefab == null || firePoint == null || player == null)
+        {
+            Debug.LogWarning("Missing required components for attack.");
+            return;
+        }
+
         Debug.Log("Shooting at player with " + damage + " damage");
 
         // 停止移動

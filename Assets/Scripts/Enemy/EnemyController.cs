@@ -26,9 +26,9 @@ public class EnemyController : MonoBehaviour
 
     private float targetFillAmount;
     private Transform player;
-    private bool isDashing = false;
-    private bool isAttacking = false;
-    private bool isOnCooldown = false;
+    //private bool isDashing = false;
+    //private bool isAttacking = false;
+    //private bool isOnCooldown = false;
 
 
     // Start is called before the first frame update
