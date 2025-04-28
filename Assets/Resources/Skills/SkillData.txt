@@ -1,19 +1,19 @@
-ID	level	Icon	Name	type	power	coolDown	Description
-1	1		Arrow Barrage	ATK, DeBuff	10	3	A rapid-fire attack that unleashes a flurry of arrows at multiple targets.
-1	2		Spirit Arrows	ATK, DeBuff	20	5	Ethereal arrows imbued with spiritual energy, dealing damage and potentially debuffing enemies.
-2	1		Slide	DEF	0	3	A movement technique that allows the user to glide across the ground, avoiding obstacles or attacks.
-2	2		Dash	DEF	5	3	A quick movement ability that allows the user to evade attacks or close the distance to an enemy.
-2	3		Reflect	DEF	10	5	A defensive skill that deflects incoming attacks back at the attacker.
-3	1		Claw	ATK	15	3	A fierce attack using sharp claws to slash at enemies, causing bleeding damage.
-3	2		Psychic Attack	ATK, DeBuff	20	5	An attack that targets the mind, dealing damage and potentially disorienting the enemy.
-3	3		Blackhole	ATK, DeBuff	25	10	A powerful ability that creates a gravitational pull, drawing in and damaging nearby foes.
-4	1		Stronger Buff	Buff	10	5	An enhancement that temporarily increases the power and effectiveness of abilities for allies.
-4	2		Chop	ATK	10	3	A swift, downward strike that deals damage to a single target.
-4	3		Punches	ATK	15	5	A series of quick, powerful punches aimed at dealing rapid damage to a target.
-4	4		Meteor Shower	ATK	20	10	A devastating rain of meteors that crashes down on the battlefield, causing area damage.
-5	0		Pound	ATK	20	5	A heavy strike that slams down on the ground, creating shockwaves that damage nearby foes.
-5	0		Light Beam	ATK	25	10	A concentrated beam of light that deals damage to enemies in its path.
-5	0		Slash	ATK	15	3	A quick, slicing motion with a weapon that damages an enemy in front of the user.
-5	0		Recon	DTC	0	3	A scouting ability that reveals the positions of enemies in a certain area.
-5	0		Heal	Heal	25	10	A restorative ability that replenishes health for the user or an ally.	治療:
-5	0		Resurrection	Heal	35	20	A powerful spell that revives a fallen ally, restoring them to life.
+ID	level	Icon	Name	type	MP	power	coolDown	Description
+1	1		Arrow Barrage	ATK, DeBuff	5	10	3	A rapid-fire attack that unleashes a flurry of arrows at multiple targets.
+1	2		Spirit Arrows	ATK, DeBuff	10	20	5	Ethereal arrows imbued with spiritual energy, dealing damage and potentially debuffing enemies.
+2	1		Slide	DEF	3	0	3	A movement technique that allows the user to glide across the ground, avoiding obstacles or attacks.
+2	2		Dash	DEF	5	5	3	A quick movement ability that allows the user to evade attacks or close the distance to an enemy.
+2	3		Reflect	DEF	10	10	5	A defensive skill that deflects incoming attacks back at the attacker.
+3	1		Claw	ATK	10	15	3	A fierce attack using sharp claws to slash at enemies, causing bleeding damage.
+3	2		Psychic Attack	ATK, DeBuff	15	20	5	An attack that targets the mind, dealing damage and potentially disorienting the enemy.
+3	3		Blackhole	ATK, DeBuff	20	25	10	A powerful ability that creates a gravitational pull, drawing in and damaging nearby foes.
+4	1		Stronger Buff	Buff	7	10	5	An enhancement that temporarily increases the power and effectiveness of abilities for allies.
+4	2		Chop	ATK	10	10	3	A swift, downward strike that deals damage to a single target.
+4	3		Punches	ATK	15	15	5	A series of quick, powerful punches aimed at dealing rapid damage to a target.
+4	4		Meteor Shower	ATK	20	20	10	A devastating rain of meteors that crashes down on the battlefield, causing area damage.
+5	0		Pound	ATK	12	20	5	A heavy strike that slams down on the ground, creating shockwaves that damage nearby foes.
+5	0		Light Beam	ATK	15	25	10	A concentrated beam of light that deals damage to enemies in its path.
+5	0		Slash	ATK	15	15	3	A quick, slicing motion with a weapon that damages an enemy in front of the user.
+5	0		Recon	DTC	3	0	3	A scouting ability that reveals the positions of enemies in a certain area.
+5	0		Heal	Heal	20	25	10	A restorative ability that replenishes health for the user or an ally.	治療:
+5	0		Resurrection	Heal	35	35	20	A powerful spell that revives a fallen ally, restoring them to life.

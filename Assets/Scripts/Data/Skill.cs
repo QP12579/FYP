@@ -40,6 +40,6 @@ public class SkillData
     public SkillType[] types;
     public string Description;
     public float power = 1f;
-    public string iconPath;
+    public int MP = 5;
     public float cooldown = 5f;
 }

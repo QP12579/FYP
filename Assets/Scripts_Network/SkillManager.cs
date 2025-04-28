@@ -38,15 +38,16 @@ public class SkillManager : Singleton<SkillManager>
                 }
             }
 
-            SkillData skill = new SkillData() // ID, level, iconPath, name, type, power, cooldown, description
+            SkillData skill = new SkillData() // ID, level, iconSpace, name, type, mp, power, cooldown, description
             {
                 ID = int.Parse(fields[0]),
                 level = int.Parse(fields[1]),
                 Name = fields[3],
                 types = types,
-                power = int.Parse(fields[5]),
-                cooldown = int.Parse(fields[6]),
-                Description = fields[7],
+                MP = int.Parse(fields[5]),
+                power = int.Parse(fields[6]),
+                cooldown = int.Parse(fields[7]),
+                Description = fields[8],
                 //iconPath = fields[2] // Assuming this is the path to load the sprite later
                 
             };

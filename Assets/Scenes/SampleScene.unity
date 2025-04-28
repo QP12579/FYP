@@ -3235,8 +3235,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
-      propertyPath: equippedSkills.Array.data[0].activationKey
-      value: 323
+      propertyPath: equippedSkills.Array.data[1].skillData.ID
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
@@ -3245,18 +3245,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
+      propertyPath: equippedSkills.Array.data[1].skillData.level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: equippedSkills.Array.data[1].skillData.power
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
       propertyPath: equippedSkills.Array.data[0].skillData.types.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: equippedSkills.Array.data[1].skillData.types.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641640491229284674, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: equippedSkills.Array.data[1].skillData.types.Array.data[0]
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4606641454445231472, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
       propertyPath: m_Name
       value: MagicPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 6094767713929198868, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
-        type: 3}
-      propertyPath: speed
-      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7286353846663120720, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
