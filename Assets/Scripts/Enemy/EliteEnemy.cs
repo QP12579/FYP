@@ -187,6 +187,38 @@ public class PatrolState : IEnemyState
     }
 }
 
+public class ChaseState : IEnemyState
+{
+    private EliteEnemy enemy;
+
+    public ChaseState(EliteEnemy enemy)
+    {
+        this.enemy = enemy;
+    }
+
+    public void EnterState()
+    {
+        Debug.Log("Chasing the player!");
+    }
+
+    public void UpdateState()
+    {
+        if (enemy.IsPlayerInRange(enemy.attackRange))
+        {
+            enemy.ChangeState(new AttackState(enemy));
+            return;
+        }
+
+        Vector3 directionToPlayer = (enemy.player.transform.position - enemy.transform.position).normalized;
+        enemy.transform.position += directionToPlayer * Time.deltaTime;
+    }
+
+    public void ExitState()
+    {
+        enemy.StopMovement();
+    }
+}
+
 public class AttackState : IEnemyState
 {
     private EliteEnemy enemy;
