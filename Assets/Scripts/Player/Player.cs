@@ -8,9 +8,14 @@ public class Player : Singleton<Player>
 {
     [Header("HP MP")]
     public int MaxHP = 100;
+    [HideInInspector]
     public float HP = 100;
-    public int MaxMP = 50;
-    public int MP = 50;
+    [HideInInspector]    public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxHPUp));
+    [HideInInspector]    public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxMPUp));
+
+    public float MaxMP = 50;
+    [HideInInspector]
+    public float MP = 50;
     public int level = 1;
 
     [Header("UI")]
@@ -81,13 +86,15 @@ public class Player : Singleton<Player>
         HP += h;
     }
 
-    public bool canUseSkill(int mp)
+    public bool canUseSkill(float mp)
     {
         if(mp > MP) return false;
         MP -= mp;
         UpdatePlayerUIInfo();
         return true;
     }
+
+
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)
         {

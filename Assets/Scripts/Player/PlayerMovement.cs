@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float speed;
+    private float baseSpeed => speed;
     public float groundDist;
     public float jumpForce = 500;
 
@@ -156,6 +157,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (RollingATK && !canMove)
             collision.gameObject.GetComponent<IAttackable>().TakeDamage(damage);
+    }
+
+    public void SpeedUp(float upPower)
+    {
+        speed = baseSpeed * (1 + upPower);
+    }
+
+    public void ResetSpeed()
+    {
+        speed = baseSpeed;
     }
 
     [Header("Ground Check")]
