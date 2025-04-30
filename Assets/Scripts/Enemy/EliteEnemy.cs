@@ -24,12 +24,6 @@ public class EliteEnemy : MonoBehaviour
     private void Start()
     {
         movement = GetComponent<elitemovement>();
-        enemyRenderer = GetComponent<Renderer>();
-
-        if (enemyRenderer != null)
-        {
-            originalColor = enemyRenderer.material.color; // 儲存原始顏色
-        }
 
         if (movement == null)
         {
