@@ -38,7 +38,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 
     private void Start()
     {
-        player = Player.instance;
+        //player = Player.instance;
         movement = GetComponent<PlayerMovement>();
         skillController = PlayerSkillController.instance;
         playerAttack = GetComponent<PlayerAttack>();

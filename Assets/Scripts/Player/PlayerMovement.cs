@@ -1,8 +1,10 @@
+using Cinemachine;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Movement")]
     public float speed;
@@ -24,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Defense/Rolling")]
     public bool isReflect = false;
     public float reflectDamageMultiplier = 1.0f;
-    [HideInInspector] public bool RollingATK = false;
+    public bool RollingATK = false;
 
     public float defenceTime = 0.5f;
     public float defenceDelayTime = 1f;
@@ -37,31 +39,68 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float damage;
 
     private Rigidbody rb;
-    [HideInInspector] public SpriteRenderer sr;
-    [HideInInspector] public Animator anim;
-    private bool isGrounded;
+     public SpriteRenderer sr;
+     public Animator anim;
+    [SerializeField] private bool isGrounded;
+
+    private bool jumpRequest = false;
     private bool oneTime;
     public bool canMove;
     [HideInInspector] public bool isFaceFront;
 
+    private CinemachineVirtualCamera virtualCamera;
+
     // x, y
     private float x, y, rx, ry;
 
-    // Start is called before the first frame update
-    void Start()
+   
+
+    void Awake()
     {
         anim = gameObject.GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         oneTime = true;
         canMove = true;
+
+    }
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+
+        // Setup camera only for local player
+        StartCoroutine(SetupCameraDelayed());
+    }
+
+    private System.Collections.IEnumerator SetupCameraDelayed()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
+        if (virtualCamera != null)
+        {
+            virtualCamera.Follow = this.transform;
+            Debug.Log("Camera assigned to local player");
+        }
+        else
+        {
+            Debug.LogError("No CinemachineVirtualCamera found!");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer) return;
+
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
+
+        if (isGrounded && canMove && Input.GetKeyDown(JumpKey))
+        {
+            jumpRequest = true;
+        }
 
         if (canMove)
         {
@@ -119,9 +158,14 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat("moveSpeed", x);
             anim.SetFloat("vmoveSpeed", y);
             rb.velocity = new Vector3(moveDir.x * speed * Time.deltaTime, rb.velocity.y, moveDir.z * speed * Time.deltaTime);
-            if (isGrounded && Input.GetKeyDown(JumpKey))
+            if (isGrounded && jumpRequest)
             {
                 rb.AddForce(Vector3.up * jumpForce);
+                jumpRequest = false;
+            }
+            else if (!isGrounded)
+            {
+                jumpRequest = false;
             }
             if (isGrounded && Input.GetKeyDown(RollKey))
             {
@@ -203,4 +247,6 @@ public class PlayerMovement : MonoBehaviour
     {
         transform.position = SpawnPoint;
     }
+
+   
 }

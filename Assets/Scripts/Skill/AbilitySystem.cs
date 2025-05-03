@@ -53,7 +53,7 @@ public class AbilitySystem : Singleton<AbilitySystem>
     // Start is called before the first frame update
     void Start()
     {
-        player = Player.instance;
+        //player = Player.instance;
         movement = FindObjectOfType<PlayerMovement>();
         skillController = PlayerSkillController.instance;
         playerAttack = FindObjectOfType<PlayerAttack>();

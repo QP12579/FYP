@@ -278,12 +278,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110b09cd0eb15b746a88d7164e098ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   speed: 500
   groundDist: 0.65
   jumpForce: 500
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
+  spawn: {fileID: 0}
   RollKey: 304
   JumpKey: 32
   DEFKey: 102
@@ -293,11 +297,14 @@ MonoBehaviour:
   defenceTime: 0.5
   defenceDelayTime: 1
   rollingTime: 0.5
+  rollingSpeed: 1.3
+  abilityRollingSpeed: 0
   blockPercentage: 0.5
   blockTimes: 0
   damage: 0
   sr: {fileID: 0}
   anim: {fileID: 0}
+  isGrounded: 0
   canMove: 0
   isFaceFront: 0
   groundCheckRadius: 0.3
@@ -410,15 +417,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c420bb64d9c39943b98feef5c2ae6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   MaxHP: 100
   HP: 100
+  SP: 0
   MaxMP: 50
   MP: 50
   level: 0
   HPSlider: {fileID: 0}
   MPSlider: {fileID: 0}
+  SpecialAttackSlider: {fileID: 0}
+  SPFullEffect: {fileID: 0}
+  SPHintKeywords: {fileID: 0}
   levelText: {fileID: 0}
   animator: {fileID: 0}
+  abilityPerfectDefenceluck: 0
+  abilityNormalDefencePlus: 0
+  abilityAutoDefence: 0
+  abilityDecreaseMP: 0
+  abilityAutoFillMP: 0
 --- !u!1 &27580680
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +541,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 532803336}
   m_Follow: {fileID: 532803336}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 42.17
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -881,7 +900,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 42.17
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -1368,6 +1387,7 @@ GameObject:
   - component: {fileID: 532803341}
   - component: {fileID: 532803342}
   - component: {fileID: 532803345}
+  - component: {fileID: 532803346}
   m_Layer: 3
   m_Name: MagicPlayer
   m_TagString: Player
@@ -1527,15 +1547,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c420bb64d9c39943b98feef5c2ae6f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   MaxHP: 100
   HP: 100
+  SP: 0
   MaxMP: 50
   MP: 50
   level: 50
   HPSlider: {fileID: 301120806}
   MPSlider: {fileID: 1798862771}
+  SpecialAttackSlider: {fileID: 0}
+  SPFullEffect: {fileID: 0}
+  SPHintKeywords: {fileID: 0}
   levelText: {fileID: 786062940}
   animator: {fileID: 0}
+  abilityPerfectDefenceluck: 0
+  abilityNormalDefencePlus: 0
+  abilityAutoDefence: 0
+  abilityDecreaseMP: 0
+  abilityAutoFillMP: 0
 --- !u!114 &532803344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1548,12 +1580,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110b09cd0eb15b746a88d7164e098ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   speed: 200
   groundDist: 0.65
   jumpForce: 500
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
+  spawn: {fileID: 0}
   RollKey: 304
   JumpKey: 32
   DEFKey: 102
@@ -1563,11 +1599,14 @@ MonoBehaviour:
   defenceTime: 0.5
   defenceDelayTime: 1
   rollingTime: 0.5
+  rollingSpeed: 1.3
+  abilityRollingSpeed: 0
   blockPercentage: 0.5
   blockTimes: 0
   damage: 0
   sr: {fileID: 0}
   anim: {fileID: 0}
+  isGrounded: 0
   canMove: 0
   isFaceFront: 0
   groundCheckRadius: 0.3
@@ -1585,6 +1624,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCollider: {fileID: 532803342}
+--- !u!114 &532803346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532803332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 890642046
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!4 &606894580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4623807890482607900, guid: 1f46f2f98f3015749854c92089841fa9,
@@ -1905,6 +1961,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 0
+  AbilityATKPlus: 0
+  AbilityATKSpeedPlus: 0
+  AbilityATKArea: 0
 --- !u!65 &661611438
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4969,6 +5028,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 0
+  AbilityATKPlus: 0
+  AbilityATKSpeedPlus: 0
+  AbilityATKArea: 0
 --- !u!65 &1857460650
 BoxCollider:
   m_ObjectHideFlags: 0
