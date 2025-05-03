@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Player : Singleton<Player>
 {
-    [Header("HP MP")]
+    [Header("HP MP SP")]
     public int MaxHP = 100;
     [HideInInspector]
     public float HP = 100;
+    //[HideInInspector]
+    public float SP = 0;
+    private bool isSPFullEffectAnimating = false;
+
     [HideInInspector]    public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxHPUp));
     [HideInInspector]    public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxMPUp));
 
@@ -21,6 +26,9 @@ public class Player : Singleton<Player>
     [Header("UI")]
     public Slider HPSlider;
     public Slider MPSlider;
+    public Slider SpecialAttackSlider;
+    public GameObject SPFullEffect;
+    public GameObject SPHintKeywords;
     public TextMeshProUGUI levelText;
 
     private PlayerMovement move;
@@ -28,8 +36,36 @@ public class Player : Singleton<Player>
 
     private void Start()
     {
+        SetAlpha(SPFullEffect, 0f);
+        SPHintKeywords.SetActive(false);
+
         move = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        SP = Mathf.Clamp(SP, 0, 1f);
+        SpecialAttackSlider.value = SP;
+
+        if (SpecialAttackSlider.value == 1) 
+        {
+            if (!isSPFullEffectAnimating)
+            {
+                AnimateAlpha();
+                SPHintKeywords.SetActive(true);
+            }
+        }
+        else
+        {
+            if (isSPFullEffectAnimating)
+            {
+                DOTween.Kill(SPFullEffect);
+                isSPFullEffectAnimating = false; 
+            }
+            SetAlpha(SPFullEffect, 0f);
+            SPHintKeywords.SetActive(false);
+        }
     }
 
     public Player()
@@ -45,6 +81,7 @@ public class Player : Singleton<Player>
         MPSlider.value = MP;
         HPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = HP.ToString() + "/" + MaxHP.ToString();
         MPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = MP.ToString() + "/" + MaxMP.ToString();
+        
         levelText.text = level.ToString();
     }
 
@@ -94,6 +131,30 @@ public class Player : Singleton<Player>
         return true;
     }
 
+    private void AnimateAlpha()
+    {
+        isSPFullEffectAnimating = true;
+
+        SPFullEffect.GetComponent<CanvasGroup>().DOFade(1f, 1f).OnComplete(() =>
+        {
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                SPFullEffect.GetComponent<CanvasGroup>().DOFade(0f, 1f).OnComplete(() =>
+                {
+                    isSPFullEffectAnimating = false;
+                });
+            });
+        });
+    }
+    private void SetAlpha(GameObject obj, float alpha)
+    {
+        var canvasGroup = obj.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = obj.AddComponent<CanvasGroup>();
+        }
+        canvasGroup.alpha = alpha;
+    }
 
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)
