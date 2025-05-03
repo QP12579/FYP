@@ -20,17 +20,27 @@ public class PlayerAttack : MonoBehaviour
     public float FarAtk = 5;
     [SerializeField] private LayerMask groundMask;
 
+    [HideInInspector]
+    public float AbilityATKPlus = 0;
+    [HideInInspector]
+    public float AbilityATKSpeedPlus = 0;
+    [HideInInspector]
+    public float AbilityATKArea = 0;
+    [HideInInspector]
+    private BoxCollider ATKCollider;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         canAtk = true;
         if(player == null)
             player = FindObjectOfType<Player>();
+        ATKCollider = GetComponent<BoxCollider>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(FATKKey))
+        if (Input.GetKeyDown(FATKKey) && canAtk)
         {
             player.animator.SetTrigger("Attack");
             FarAttack();
@@ -45,6 +55,12 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void IncreaseATKArea()
+    {
+        if (ATKCollider == null) return;
+        ATKCollider.size *= 1 + AbilityATKArea;
+    }
+
     private void DetectOnce()
     {
         canAtk = true;
@@ -53,24 +69,27 @@ public class PlayerAttack : MonoBehaviour
     void NrmATK(Collider c)
     {
             canAtk = false;
-            LeanTween.delayedCall(waitTime, DetectOnce);
+            LeanTween.delayedCall(waitTime * (1 - AbilityATKSpeedPlus) , DetectOnce);
             player.animator.SetTrigger("NrmAtk");
             animator.SetTrigger("normalATK");
             if (c.gameObject.GetComponent<IAttackable>()!=null)
-                c.gameObject.GetComponent<IAttackable>().TakeDamage(attack);
+                c.gameObject.GetComponent<IAttackable>().TakeDamage(attack * (1 + AbilityATKPlus));
     }
 
     void FarAttack()
     {
-        if(ATKPrefab == null) { Debug.Log("No Far Attack Prefab."); return; }
-        if (player.canUseSkill((int)FarAtk))
+        canAtk = false;
+        LeanTween.delayedCall(waitTime * (1 - AbilityATKSpeedPlus), DetectOnce);
+        if (ATKPrefab == null) { Debug.Log("No Far Attack Prefab."); return; }
+        if (player.canUseSkill(FarAtk))
         {
             GameObject vfx = Instantiate(ATKPrefab, transform.position, Quaternion.identity);
             if (vfx.GetComponent<Bomb>() != null)
             {
                 Bomb newBomb = vfx.GetComponent<Bomb>();
-                newBomb.damage = FarAtk;
+                newBomb.damage = FarAtk * (1 + AbilityATKPlus);
                 newBomb.groundMask = groundMask;
+                newBomb.gameObject.transform.localScale *= (1+AbilityATKArea);
                 newBomb.SetTrapTypeBomb(transform);
             }
         }

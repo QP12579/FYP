@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
 
     public LayerMask terrainLayer;
 
+    [SerializeField] private GameObject spawn;
+    private Vector3 SpawnPoint => spawn.transform.position;
+    private float LowerYPosi = -1;
+
     [Header("KeyCode")]
     [SerializeField] private KeyCode RollKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode JumpKey = KeyCode.Space;
@@ -25,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     public float defenceTime = 0.5f;
     public float defenceDelayTime = 1f;
     public float rollingTime = 0.5f;
+    public float rollingSpeed = 1.3f;
+    [HideInInspector] public float abilityRollingSpeed = 0;
 
     [HideInInspector] public float blockPercentage = 0.5f;
     [HideInInspector] public float blockTimes;
@@ -148,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
         if(x == 0 && y == 0) 
             rb.velocity = new Vector3(rx, 0, ry) * speed * Time.deltaTime;
         else
-            rb.velocity = new Vector3(x, 0, y) * speed * Time.deltaTime;
+            rb.velocity = new Vector3(x, 0, y) * speed * rollingSpeed * (1+ abilityRollingSpeed) * Time.deltaTime;
 
         LeanTween.delayedCall(rollingTime, CanMove);
     }
@@ -187,5 +193,14 @@ public class PlayerMovement : MonoBehaviour
             anim.SetTrigger("isReadyToFall");
         
         anim.SetBool("isGrounded", isGrounded);
+        if(!isGrounded)
+            if(transform.position.y < LowerYPosi)
+                GoBackToSpawnPoint();
+
+    }
+
+    void GoBackToSpawnPoint()
+    {
+        transform.position = SpawnPoint;
     }
 }

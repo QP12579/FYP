@@ -26,6 +26,15 @@ public class Player : Singleton<Player>
     private PlayerMovement move;
     [HideInInspector] public Animator animator;
 
+    // Defense
+    [HideInInspector] public float abilityPerfectDefenceluck = 0;
+    [HideInInspector] public float abilityNormalDefencePlus = 0;
+    [HideInInspector] public float abilityAutoDefence = 0;
+
+    //MP
+    [HideInInspector] public float abilityDecreaseMP = 0;
+    [HideInInspector] public float abilityAutoFillMP = 0;
+
     private void Start()
     {
         move = GetComponent<PlayerMovement>();
@@ -53,7 +62,7 @@ public class Player : Singleton<Player>
         float time = Time.time;
         if (move.blockTimes > time && (move.blockTimes - move.defenceTime) < time)
         {
-            if (move.blockTimes - move.defenceTime /3 > time)
+            if ((move.blockTimes - 2 * (move.defenceTime * (1 + abilityPerfectDefenceluck) /3) ) > time)
             {
                 Debug.Log("Perfect Block");
                 if (move.isReflect && attacker != null)
@@ -63,10 +72,10 @@ public class Player : Singleton<Player>
                 damage = 0;
                 return;
             }
-            damage *= move.blockPercentage;
+            damage *= move.blockPercentage * (1 - abilityNormalDefencePlus);
             Debug.Log("Normal Block");
         }
-        float realDamage = Mathf.Min(damage, HP);
+        float realDamage = Mathf.Min(damage*( 1 - abilityAutoDefence), HP) ;
         HP -= realDamage;
 
         UpdatePlayerUIInfo();
@@ -88,12 +97,19 @@ public class Player : Singleton<Player>
 
     public bool canUseSkill(float mp)
     {
+        mp *= 1 - abilityDecreaseMP;
         if(mp > MP) return false;
         MP -= mp;
         UpdatePlayerUIInfo();
         return true;
     }
 
+    public void FillMP(float mp)
+    {
+        mp += abilityAutoFillMP;
+        float realFill = Mathf.Min(MP+mp, MaxMP);
+        MP = realFill;
+    }
 
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)

@@ -23,6 +23,13 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
     public Player player;
     public PlayerMovement move;
 
+    [HideInInspector]
+    public float AbilitySkillDamagePlus = 0;
+    [HideInInspector]
+    public float AbilitySkillSpeedPlus = 0;
+    [HideInInspector]
+    public float AbilitySkillSizePlus = 0;
+
 
     private void Start()
     {
@@ -46,6 +53,10 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         {
             ActivateSkill(0);
         }
+        if (Input.GetKeyDown(equippedSkills[1].activationKey) && equippedSkills[1].cooldownTimer <= 0)
+        {
+            ActivateSkill(1);
+        }
     }
 
     public void EquipSkill(int slotIndex, SkillData skillData)
@@ -67,7 +78,7 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
         if (!player.canUseSkill(equippedSkill.skillData.MP)) return ;
 
         // Set cooldown
-        equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown;
+        equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown * ( 1 - AbilitySkillSpeedPlus);
         StartCoroutine(CoolDownTimer(slotIndex, equippedSkill.cooldownTimer));
 
         // Instantiate the skill prefab
@@ -77,12 +88,16 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
             skillSpawnPoint.rotation
         );
 
+        if (AbilitySkillSizePlus > 0) skillInstance.gameObject.transform.localScale *= 1 + AbilitySkillSizePlus;
+
         // Optional: Add skill behavior based on type
         switch (equippedSkill.skillData.types[0])
         {
+            default:
+
             case SkillType.ATK:
                 AttackSkill skill = skillInstance.GetComponent<AttackSkill>();
-                skill.Initialize(equippedSkill.skillData.power);
+                skill.Initialize(equippedSkill.skillData.power *(1 + AbilitySkillDamagePlus));
                 skill.SetAttackType(skillSpawnPoint);
                 if (equippedSkill.skillData.types[1] == SkillType.DeBuff)
                     skill.HaveDebuff();
@@ -91,6 +106,7 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
                 break;
             case SkillType.DFN:
+                Destroy(skillInstance);
                 switch (equippedSkill.skillData.level)
                 {
                     case 1:  //Slide
@@ -99,7 +115,7 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
                         break;
                     //Dash
                     case 2:
-                        move.Rolling(true, equippedSkill.skillData.power);
+                        move.Rolling(true, equippedSkill.skillData.power * (1 + AbilitySkillDamagePlus));
                         move.BlockAttack(true);
                         break;
                     //Reflect
