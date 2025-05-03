@@ -338,7 +338,7 @@ MonoBehaviour:
   headlessStartMode: 0
   editorAutoStart: 0
   sendRate: 60
-  offlineScene: Assets/Scenes/TestMainMenu.unity
+  offlineScene: 
   onlineScene: Assets/Scenes/SampleScene 1.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 744673609}

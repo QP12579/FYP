@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ConnectionTestPlay.unity
     guid: 7050c6bc61f3cae408f5c1dcb52a1ec9
+  - enabled: 1
+    path: Assets/Scenes/QPisVerySEXY.unity
+    guid: 958f47e92cd7594409c9459fbd291ccb
   m_configObjects: {}
