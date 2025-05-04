@@ -12,7 +12,18 @@ public class Portal : MonoBehaviour
     {
         Player player = other.GetComponent<Player>();
 
+        if (player.isLocalPlayer)
+            Debug.Log(" is local ");
+
+        if (player != null)
+            Debug.Log(" player found ");
+
+        if (player = null)
+            Debug.Log(" player not found ");
+
+
         if (player != null && player.isLocalPlayer)
+            
         {
             
             PlayerData.HP = player.HP;
