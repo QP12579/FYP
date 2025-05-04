@@ -26,7 +26,7 @@ public class UIValue
     public string description;
 }
 
-public class AbilitySystem : Singleton<AbilitySystem>
+public class AbilitySystem : MonoBehaviour
 {
     [Header("Data")]
     public TextAsset abilityTSV;
@@ -102,7 +102,7 @@ public class AbilitySystem : Singleton<AbilitySystem>
 
     void Start()
     {
-        //player = Player.instance;
+        player = FindObjectOfType<Player>();
         movement = FindObjectOfType<PlayerMovement>();
         skillController = PlayerSkillController.instance;
         playerAttack = FindObjectOfType<PlayerAttack>();
