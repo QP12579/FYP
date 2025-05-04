@@ -39,9 +39,9 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
     private void Start()
     {
         //player = Player.instance;
-        movement = GetComponent<PlayerMovement>();
-        skillController = PlayerSkillController.instance;
-        playerAttack = GetComponent<PlayerAttack>();
+        movement = FindObjectOfType<PlayerMovement>();
+        skillController = FindObjectOfType<PlayerSkillController>();
+        playerAttack = FindObjectOfType<PlayerAttack>();
     }
 
     public void AddBuff(BuffType type, float value, float duration)

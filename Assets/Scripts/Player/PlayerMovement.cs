@@ -13,7 +13,7 @@ public class PlayerMovement : NetworkBehaviour
     public LayerMask terrainLayer;
 
     [SerializeField] private GameObject spawn;
-    private Vector3 SpawnPoint => spawn.transform.position;
+    private Vector3 SpawnPoint;
     private float LowerYPosi = -1;
 
     [Header("KeyCode")]
@@ -60,7 +60,11 @@ public class PlayerMovement : NetworkBehaviour
         sr = gameObject.GetComponent<SpriteRenderer>();
         oneTime = true;
         canMove = true;
-
+        if (spawn == null)
+        {
+            spawn = GameObject.FindGameObjectWithTag("SpawnPoint");
+        }
+            SpawnPoint = spawn.transform.position;
     }
     public override void OnStartAuthority()
     {

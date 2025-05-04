@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using Mirror;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class Player : NetworkBehaviour
 {
@@ -14,9 +15,6 @@ public class Player : NetworkBehaviour
     public int MaxHP = 100;
     [HideInInspector]
     public float HP = 100;
-    //[HideInInspector]
-    public float SP = 0;
-    private bool isSPFullEffectAnimating = false;
 
     [HideInInspector]    public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxHPUp));
     [HideInInspector]    public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxMPUp));
@@ -24,21 +22,16 @@ public class Player : NetworkBehaviour
     public float MaxMP = 50;
     [HideInInspector]
     public float MP = 50;
+    //[HideInInspector]
+    public float SP = 0;
 
     public int level = 1;
 
     [SyncVar]
     private float speedModifier = 1.0f;
 
-    [Header("UI")]
-    public Slider HPSlider;
-    public Slider MPSlider;
-    public Slider SpecialAttackSlider;
-    public GameObject SPFullEffect;
-    public GameObject SPHintKeywords;
-    public TextMeshProUGUI levelText;
-
     private PlayerMovement move;
+    private PersistentUI persistentUI;
     [HideInInspector] public Animator animator;
 
     // Defense
@@ -52,36 +45,30 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
-        move = GetComponent<PlayerMovement>();
-        animator = GetComponent<Animator>();
-        
-        SetAlpha(SPFullEffect, 0f);
-        SPHintKeywords.SetActive(false);
+        InitializeUI();
+    }
+
+    private void InitializeUI()
+    {
+        if (move == null)
+            move = GetComponentInChildren<PlayerMovement>();
+        if (animator == null)
+            animator = move.gameObject.GetComponent<Animator>();
+        if(persistentUI == null)
+        persistentUI = FindAnyObjectByType<PersistentUI>();
+
+
+        if (move == null || animator == null)
+            LeanTween.delayedCall(0.1f, InitializeUI);
+        else
+        {
+            LeanTween.delayedCall(1f, AutoFillMP);
+        }
     }
 
     private void Update()
     {
         SP = Mathf.Clamp(SP, 0, 1f);
-        SpecialAttackSlider.value = SP;
-
-        if (SpecialAttackSlider.value == 1) 
-        {
-            if (!isSPFullEffectAnimating)
-            {
-                AnimateAlpha();
-                SPHintKeywords.SetActive(true);
-            }
-        }
-        else
-        {
-            if (isSPFullEffectAnimating)
-            {
-                DOTween.Kill(SPFullEffect);
-                isSPFullEffectAnimating = false; 
-            }
-            SetAlpha(SPFullEffect, 0f);
-            SPHintKeywords.SetActive(false);
-        }
     }
 
     public Player()
@@ -93,13 +80,10 @@ public class Player : NetworkBehaviour
 
     public void UpdatePlayerUIInfo()
     {
-       /* HPSlider.value = HP;
-        MPSlider.value = MP;
-        HPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = HP.ToString() + "/" + MaxHP.ToString();
-        MPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = MP.ToString() + "/" + MaxMP.ToString();
-        levelText.text = level.ToString();*/
-
-        PersistentUI.Instance.UpdatePlayerUI(HP, MaxHP, MP, MaxMP, level);
+        if(persistentUI == null)
+            persistentUI = gameObject.GetOrAddComponent<PersistentUI>();        
+        if(persistentUI != null) 
+        persistentUI.UpdatePlayerUI(HP, MaxHP, MP, MaxMP, SP, level);
     }
 
     public void TakeDamage(float damage, GameObject attacker = null)
@@ -150,35 +134,21 @@ public class Player : NetworkBehaviour
         return true;
     }
 
-    public void FillMP(float mp)
+    public void GetMP(float mp)
     {
+        float realFill = Mathf.Min(MP + mp, MaxMP);
+        MP = realFill;
+        UpdatePlayerUIInfo();
+    }
+
+    public void AutoFillMP()
+    {
+        float mp = 1;
         mp += abilityAutoFillMP;
         float realFill = Mathf.Min(MP+mp, MaxMP);
         MP = realFill;
-    }
-    private void AnimateAlpha()
-    {
-        isSPFullEffectAnimating = true;
-
-        SPFullEffect.GetComponent<CanvasGroup>().DOFade(1f, 1f).OnComplete(() =>
-        {
-            DOVirtual.DelayedCall(0.5f, () =>
-            {
-                SPFullEffect.GetComponent<CanvasGroup>().DOFade(0f, 1f).OnComplete(() =>
-                {
-                    isSPFullEffectAnimating = false;
-                });
-            });
-        });
-    }
-    private void SetAlpha(GameObject obj, float alpha)
-    {
-        var canvasGroup = obj.GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = obj.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = alpha;
+        UpdatePlayerUIInfo();
+        LeanTween.delayedCall(1f, AutoFillMP);
     }
 
      //  affects another player

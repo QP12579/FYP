@@ -73,8 +73,8 @@ MonoBehaviour:
   blockPercentage: 0.5
   blockTimes: 0
   damage: 0
-  sr: {fileID: 0}
-  anim: {fileID: 0}
+  sr: {fileID: 6894068220349007545}
+  anim: {fileID: 8353556344618713818}
   isGrounded: 0
   canMove: 0
   isFaceFront: 0
@@ -278,7 +278,7 @@ MonoBehaviour:
   FATKKey: 324
   ATKPrefab: {fileID: 762561748974927365, guid: 61a27dc5282995542a271e5d7365e967,
     type: 3}
-  FarAtk: 5
+  FarAtk: 10
   groundMask:
     serializedVersion: 2
     m_Bits: 256
@@ -372,7 +372,6 @@ GameObject:
   - component: {fileID: -5166725570588088538}
   - component: {fileID: 3754686762581669411}
   - component: {fileID: 7788241043753214851}
-  - component: {fileID: -3563719203913434506}
   m_Layer: 3
   m_Name: MagicPlayer
   m_TagString: Player
@@ -414,9 +413,9 @@ MonoBehaviour:
   syncInterval: 0
   MaxHP: 100
   HP: 100
-  SP: 0
   MaxMP: 50
   MP: 50
+  SP: 0
   level: 1
   HPSlider: {fileID: 0}
   MPSlider: {fileID: 0}
@@ -542,27 +541,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   connectionId: 0
---- !u!95 &-3563719203913434506
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4606641454445231472}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 74ff10ba1a9b1dc499ab2cd902a2f23a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5643439963480589926
 GameObject:
   m_ObjectHideFlags: 0

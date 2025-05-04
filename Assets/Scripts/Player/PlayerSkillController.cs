@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
-public class PlayerSkillController : Singleton<PlayerSkillController>
+public class PlayerSkillController : MonoBehaviour
 {
+    public static PlayerSkillController instance;
     [System.Serializable]
     public class EquippedSkill
     {
@@ -33,10 +34,18 @@ public class PlayerSkillController : Singleton<PlayerSkillController>
 
     private void Start()
     {
+        Initialize();
+    }
+
+    private void Initialize()
+    {
         if (player == null)
-            player = GetComponent<Player>();
+            player = GetComponentInParent<Player>();
         if(move == null)
-            move = GetComponent<PlayerMovement>();
+            move = GetComponentInChildren<PlayerMovement>();
+        if(skillManager == null) 
+        skillManager = FindObjectOfType<SkillManager>();
+        if(skillManager == null)    skillManager = gameObject.AddComponent<SkillManager>();
         // Initialize with default keys (Q and E)
         if(equippedSkills[0].activationKey == KeyCode.None)
         equippedSkills[0].activationKey = KeyCode.Q;

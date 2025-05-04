@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 281687692}
   m_Layer: 0
   m_Name: SpawnPoint
-  m_TagString: Untagged
+  m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3960,9 +3960,9 @@ MonoBehaviour:
   syncInterval: 0
   MaxHP: 100
   HP: 100
-  SP: 0
   MaxMP: 50
   MP: 50
+  SP: 0
   level: 0
   HPSlider: {fileID: 0}
   MPSlider: {fileID: 0}

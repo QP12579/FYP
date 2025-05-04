@@ -102,10 +102,21 @@ public class AbilitySystem : MonoBehaviour
 
     void Start()
     {
+        CheckAbilityReference();
+    }
+
+    private void CheckAbilityReference()
+    {
+        if (player == null)
         player = FindObjectOfType<Player>();
+        if(movement == null)
         movement = FindObjectOfType<PlayerMovement>();
-        skillController = PlayerSkillController.instance;
+        if(skillController == null)
+        skillController = FindObjectOfType<PlayerSkillController>();
+        if(playerAttack == null)
         playerAttack = FindObjectOfType<PlayerAttack>();
+        if (player == null || movement == null || skillController == null || playerAttack == null) 
+            LeanTween.delayedCall(0.5f, CheckAbilityReference);
     }
 
     // Ability UI Button information
