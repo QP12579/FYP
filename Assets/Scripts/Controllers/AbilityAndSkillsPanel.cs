@@ -60,6 +60,7 @@ public class AbilityAndSkillsPanel : MonoBehaviour
         BaseValue button = BaseValueButtons.Find(i => i.id == id);
         if (button.level >= button.maxLevel) return;
         if (AbilityPoint <= 0) return;
+        AbilityPoint--;
 
         if(AbilityPointText!=null)
             AbilityPointText.text = AbilityPoint.ToString();
