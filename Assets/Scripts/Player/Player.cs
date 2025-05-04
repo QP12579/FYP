@@ -1,11 +1,14 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
-public class Player : Singleton<Player>
+public class Player : NetworkBehaviour
 {
     [Header("HP MP SP")]
     public int MaxHP = 100;
@@ -21,7 +24,11 @@ public class Player : Singleton<Player>
     public float MaxMP = 50;
     [HideInInspector]
     public float MP = 50;
+
     public int level = 1;
+
+    [SyncVar]
+    private float speedModifier = 1.0f;
 
     [Header("UI")]
     public Slider HPSlider;
@@ -86,12 +93,13 @@ public class Player : Singleton<Player>
 
     public void UpdatePlayerUIInfo()
     {
-        HPSlider.value = HP;
+       /* HPSlider.value = HP;
         MPSlider.value = MP;
         HPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = HP.ToString() + "/" + MaxHP.ToString();
         MPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = MP.ToString() + "/" + MaxMP.ToString();
-        
-        levelText.text = level.ToString();
+        levelText.text = level.ToString();*/
+
+        PersistentUI.Instance.UpdatePlayerUI(HP, MaxHP, MP, MaxMP, level);
     }
 
     public void TakeDamage(float damage, GameObject attacker = null)
@@ -130,6 +138,7 @@ public class Player : Singleton<Player>
     public void Heal(float h)
     {
         HP += h;
+        UpdatePlayerUIInfo();
     }
 
     public bool canUseSkill(float mp)
@@ -171,6 +180,88 @@ public class Player : Singleton<Player>
         }
         canvasGroup.alpha = alpha;
     }
+
+     //  affects another player
+    [Command]
+    public void CmdApplySpeedModifier(uint targetPlayerId, float modifier, float duration)
+    {
+        // Find target player by network ID
+        if (NetworkServer.spawned.TryGetValue(targetPlayerId, out NetworkIdentity targetIdentity))
+        {
+            Player targetPlayer = targetIdentity.GetComponent<Player>();
+            if (targetPlayer != null)
+            {
+                targetPlayer.RpcApplySpeedEffect(modifier, duration);
+            }
+        }
+    }
+
+    [ClientRpc]
+    public void RpcApplySpeedEffect(float modifier, float duration)
+    {
+        // Store 
+        speedModifier = modifier;
+
+        // Apply 
+        UpdatePlayerSpeed();
+
+        // Schedule removal after duration
+        StartCoroutine(RemoveSpeedEffectAfterDuration(duration));
+
+    }
+    private void UpdatePlayerSpeed()
+    {
+        if (move != null)
+        {
+            move.SpeedUp(speedModifier);
+        }
+    }
+    private IEnumerator RemoveSpeedEffectAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        speedModifier = 1.0f;
+        move.ResetSpeed();
+    }
+
+    void PrepareForSceneChange()
+    {
+        PlayerData.SavePlayerState(this);
+    }
+
+    void OnEnable()
+    {
+        if (isLocalPlayer)
+        {
+            PlayerData.LoadPlayerState(this);
+        }
+    }
+
+    // tracking win condition
+    [Command]
+    public void CmdReportLevelComplete(int levelId, float completionTime)
+    {
+        
+        BattleManager.Instance.RecordLevelCompletion(connectionToClient.connectionId, levelId, completionTime);
+    }
+
+    [Command]
+    public void CmdRequestSceneChange(string sceneName)
+    {
+        // Server-side logic before changing scene
+        Debug.Log($"Player {gameObject.name} requested scene change to {sceneName}");
+
+        // Tell this specific client to change scene
+        TargetChangeScene(connectionToClient, sceneName);
+    }
+
+    [TargetRpc]
+    private void TargetChangeScene(NetworkConnection target, string sceneName)
+    {
+        // Client loads the new scene additively
+        Debug.Log($"Loading scene: {sceneName}");
+        SceneManager.LoadSceneAsync(sceneName);
+    }
+
 
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)

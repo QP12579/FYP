@@ -102,7 +102,7 @@ public class AbilitySystem : Singleton<AbilitySystem>
 
     void Start()
     {
-        player = Player.instance;
+        //player = Player.instance;
         movement = FindObjectOfType<PlayerMovement>();
         skillController = PlayerSkillController.instance;
         playerAttack = FindObjectOfType<PlayerAttack>();
