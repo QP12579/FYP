@@ -55,9 +55,9 @@ public class PlayerMovement : NetworkBehaviour
 
     void Awake()
     {
-        anim = gameObject.GetComponent<Animator>();
-        rb = gameObject.GetComponent<Rigidbody>();
-        sr = gameObject.GetComponent<SpriteRenderer>();
+        anim = gameObject.GetComponentInParent<Animator>();
+        rb = gameObject.GetComponentInParent<Rigidbody>();
+        sr = gameObject.GetComponentInParent<SpriteRenderer>();
         oneTime = true;
         canMove = true;
 

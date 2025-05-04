@@ -8,8 +8,13 @@ public class TrapsDamage : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")){
-            collision.gameObject.GetComponent<Player>().TakeDamage(damage);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player player = collision.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(damage);
+            }
         }
     }
 }
