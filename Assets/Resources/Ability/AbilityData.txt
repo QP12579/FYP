@@ -1,0 +1,9 @@
+ID	Description1	Description2	Level 1	power1	power2	Level2	power1	power2	Level3	power1	power2	Level4	power1	power2
+1	Normal Attack damage	Move Speed	1	25	5	2	35	8	3	50	15	4	75	25
+2	Skill damage	Move Speed	1	15	5	2	25	8	3	40	15	4	65	25
+3	Damage from normal attack and skill	Damage taken from enemies	1	12.5	10	2	30	20	3	32.5	30	4	45	40
+4	Normal attack speed	and skill cooldown	1	10	5	2	20	10	3	30	15
+5	Rolling speed is	, and rolling distance is increased	1	10	0	2	15	0	3	30	0	4	50	0
+6	The success rate of perfect block	Damage taken by normal block	1	3	10	2	5	15	3	8	25
+7	When using skills, MP consumption	MP can be automatically restored at	1	10	1.2	2	15	1.5	3	25	2
+8	Distance of normal attackand skill effect range	 	1	5	0	2	8	0	3	12	0

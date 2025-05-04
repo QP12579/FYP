@@ -45,11 +45,11 @@ public class Player : Singleton<Player>
 
     private void Start()
     {
-        SetAlpha(SPFullEffect, 0f);
-        SPHintKeywords.SetActive(false);
-
         move = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
+        
+        SetAlpha(SPFullEffect, 0f);
+        SPHintKeywords.SetActive(false);
     }
 
     private void Update()
