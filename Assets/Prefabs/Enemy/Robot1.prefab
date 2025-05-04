@@ -305,7 +305,6 @@ GameObject:
   - component: {fileID: 937333539423217826}
   - component: {fileID: 4502292986517328008}
   - component: {fileID: 2612305851596040287}
-  - component: {fileID: 4453329202206260529}
   - component: {fileID: 5725760265536791643}
   - component: {fileID: 3087977625734767486}
   m_Layer: 9
@@ -429,34 +428,6 @@ CapsuleCollider:
   m_Height: 1.28
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4453329202206260529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686363277280844216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5be6b8f3c5087fe40ba2cd46fee8495c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 100
-  hpBar: {fileID: 4426702829857933552}
-  animationSpeed: 0.1
-  detectionRange: 100
-  bulletPrefab: {fileID: 8962575845184196004, guid: 385cac3fda1481e47a41de852d6f71bb,
-    type: 3}
-  bulletSpawnPoint: {fileID: 6299123293716790581}
-  bulletSpeed: 10
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  dashRange: 5
-  dashSpeed: 20
-  dashDamage: 20
-  attackCooldown: 3
 --- !u!114 &5725760265536791643
 MonoBehaviour:
   m_ObjectHideFlags: 0

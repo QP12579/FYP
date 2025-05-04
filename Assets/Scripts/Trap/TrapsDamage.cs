@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SawTooth : MonoBehaviour
+public class TrapsDamage : MonoBehaviour
 {
     public float damage = 5;
 

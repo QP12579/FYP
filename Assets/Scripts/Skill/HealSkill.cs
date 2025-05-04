@@ -5,12 +5,13 @@ using UnityEngine;
 public class HealSkill : MonoBehaviour
 {
     private float healAmount;
+    private Player player;
 
     public void Initialize(float power)
     {
         healAmount = power;
         // Heal player immediately
-        Player.instance.Heal(healAmount);
+        player.Heal(healAmount);
         Destroy(gameObject, 1f);
     }
 }

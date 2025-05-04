@@ -1,15 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cinemachine;
+using Mirror;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Movement")]
     public float speed;
+    private float baseSpeed => speed;
     public float groundDist;
     public float jumpForce = 500;
 
     public LayerMask terrainLayer;
+
+    [SerializeField] private GameObject spawn;
+    private Vector3 SpawnPoint => spawn.transform.position;
+    private float LowerYPosi = -1;
 
     [Header("KeyCode")]
     [SerializeField] private KeyCode RollKey = KeyCode.LeftShift;
@@ -19,42 +24,81 @@ public class PlayerMovement : MonoBehaviour
     [Header("Defense/Rolling")]
     public bool isReflect = false;
     public float reflectDamageMultiplier = 1.0f;
-    [HideInInspector] public bool RollingATK = false;
+    public bool RollingATK = false;
 
     public float defenceTime = 0.5f;
     public float defenceDelayTime = 1f;
     public float rollingTime = 0.5f;
+    public float rollingSpeed = 1.3f;
+    [HideInInspector] public float abilityRollingSpeed = 0;
 
     [HideInInspector] public float blockPercentage = 0.5f;
     [HideInInspector] public float blockTimes;
     [HideInInspector] public float damage;
 
     private Rigidbody rb;
-    [HideInInspector] public SpriteRenderer sr;
-    [HideInInspector] public Animator anim;
-    private bool isGrounded;
+     public SpriteRenderer sr;
+     public Animator anim;
+    [SerializeField] private bool isGrounded;
+
+    private bool jumpRequest = false;
     private bool oneTime;
     public bool canMove;
     [HideInInspector] public bool isFaceFront;
 
+    private CinemachineVirtualCamera virtualCamera;
+
     // x, y
     private float x, y, rx, ry;
 
-    // Start is called before the first frame update
-    void Start()
+   
+
+    void Awake()
     {
         anim = gameObject.GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         oneTime = true;
         canMove = true;
+
+    }
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+
+        // Setup camera only for local player
+        StartCoroutine(SetupCameraDelayed());
+    }
+
+    private System.Collections.IEnumerator SetupCameraDelayed()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
+        if (virtualCamera != null)
+        {
+            virtualCamera.Follow = this.transform;
+            Debug.Log("Camera assigned to local player");
+        }
+        else
+        {
+            Debug.LogError("No CinemachineVirtualCamera found!");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer) return;
+
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
+
+        if (isGrounded && canMove && Input.GetKeyDown(JumpKey))
+        {
+            jumpRequest = true;
+        }
 
         if (canMove)
         {
@@ -112,9 +156,14 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat("moveSpeed", x);
             anim.SetFloat("vmoveSpeed", y);
             rb.velocity = new Vector3(moveDir.x * speed * Time.deltaTime, rb.velocity.y, moveDir.z * speed * Time.deltaTime);
-            if (isGrounded && Input.GetKeyDown(JumpKey))
+            if (isGrounded && jumpRequest)
             {
                 rb.AddForce(Vector3.up * jumpForce);
+                jumpRequest = false;
+            }
+            else if (!isGrounded)
+            {
+                jumpRequest = false;
             }
             if (isGrounded && Input.GetKeyDown(RollKey))
             {
@@ -147,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
         if(x == 0 && y == 0) 
             rb.velocity = new Vector3(rx, 0, ry) * speed * Time.deltaTime;
         else
-            rb.velocity = new Vector3(x, 0, y) * speed * Time.deltaTime;
+            rb.velocity = new Vector3(x, 0, y) * speed * rollingSpeed * (1+ abilityRollingSpeed) * Time.deltaTime;
 
         LeanTween.delayedCall(rollingTime, CanMove);
     }
@@ -156,6 +205,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (RollingATK && !canMove)
             collision.gameObject.GetComponent<IAttackable>().TakeDamage(damage);
+    }
+
+    public void SpeedUp(float upPower)
+    {
+        speed = baseSpeed * (1 + upPower);
+    }
+
+    public void ResetSpeed()
+    {
+        speed = baseSpeed;
     }
 
     [Header("Ground Check")]
@@ -176,5 +235,16 @@ public class PlayerMovement : MonoBehaviour
             anim.SetTrigger("isReadyToFall");
         
         anim.SetBool("isGrounded", isGrounded);
+        if(!isGrounded)
+            if(transform.position.y < LowerYPosi)
+                GoBackToSpawnPoint();
+
     }
+
+    void GoBackToSpawnPoint()
+    {
+        transform.position = SpawnPoint;
+    }
+
+   
 }

@@ -89,8 +89,8 @@ public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
             //DetectAndAttackPlayer();
         }
 
-        if (!spriteRenderer.enabled)
-            return;
+       // if (!spriteRenderer.enabled)
+           // return;
     }
 
     private void StartSpawnSequence()

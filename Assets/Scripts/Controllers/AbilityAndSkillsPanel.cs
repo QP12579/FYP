@@ -1,85 +1,131 @@
 using DG.Tweening;
+using Mirror.BouncyCastle.Ocsp;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityAndSkillsPanel : BasePanel
+public class AbilityAndSkillsPanel : MonoBehaviour
 {
-    public Scrollbar SkillAbilityscrollbar;
-    private bool isIncreasing = false;
-    private bool isDecreasing = false;
-    public Button arrowButton;
-    public Button skillOrAbilityButton;
-
-    public GameObject SkillClickArea;
-    public GameObject AbilityClickArea;
-    public float scrollSpeed = 0.1f;
-    protected override void Start()
+    [System.Serializable]
+    public class BaseValue
     {
-        base.Start();
-        SkillAbilityscrollbar.value = 0;
+        public Button button;
+        public int id;
+        [HideInInspector]
+        public int level = 0;
+        [HideInInspector]
+        public int maxLevel = 3;
+        public TextMeshProUGUI description;
+        public TextMeshProUGUI levelText;
+        public List<int> unlockRequirementsID;
+        public List<int> unlockTargetsID;
     }
 
-    // Update is called once per frame
-    void Update()
+    [Header("BaseValue")]
+    [SerializeField] private TextMeshProUGUI AbilityPointText;
+    public int AbilityPoint = 0; 
+    public List<BaseValue> BaseValueButtons = new List<BaseValue>();
+
+    private AbilitySystem ability;
+    private bool isAbilityFileLoaded = false;
+    private void Start()
     {
+        ability = FindObjectOfType<AbilitySystem>();
+        CheckAbilityTSV();
 
-        // get mouse scroll value
-        float scrollDelta = Input.mouseScrollDelta.y;
+        if (isAbilityFileLoaded) Initialize();
+        else LeanTween.delayedCall(0.5f, CheckAbilityTSV);
+    }
 
-        // update value if have scroll value
-        if (scrollDelta != 0)
+    private void Initialize()
+    {        
+        foreach(var basebutton in BaseValueButtons)
         {
-            // update scrollbar value between 0 and 1
-            SkillAbilityscrollbar.value += scrollDelta * scrollSpeed;
-            SkillAbilityscrollbar.value = Mathf.Clamp01(SkillAbilityscrollbar.value);
+            basebutton.level = 0;
+            UpdateButtonDisplay(basebutton);
+            UpdateButtonInteractable(basebutton);
+        }
+    }
+
+    private void CheckAbilityTSV()
+    {
+        isAbilityFileLoaded = ability.IsAbilityTSVLoadedCompletely();
+        if(isAbilityFileLoaded) Initialize();
+        else LeanTween.delayedCall(0.5f, CheckAbilityTSV);
+    }
+
+    public void OnBaseButtonClick(int id)
+    {
+        BaseValue button = BaseValueButtons.Find(i => i.id == id);
+        if (button.level >= button.maxLevel) return;
+        if (AbilityPoint <= 0) return;
+        AbilityPoint--;
+
+        if(AbilityPointText!=null)
+            AbilityPointText.text = AbilityPoint.ToString();
+        print($"before:{button.level}");
+        button.level++;
+        print($"after:{button.level}");
+        button.levelText.text = button.level + "/" + button.maxLevel;
+
+        UpdateButtonDisplay(button);
+        UpdateButtonInteractable(button);
+        CheckUnlockedConditions(button);
+        ability.UpgradeBaseValue(button.id, button.level);
+        print("End1");
+    }
+
+    void UpdateButtonDisplay(BaseValue button)
+    {
+        if (ability == null)
+        {
+            Debug.LogError("AbilitySystem reference is null!");
+            return;
         }
 
-        if (isIncreasing)
+        UIValue ui = ability.GetAbilityValue(button.id, button.level);
+
+        if (ui == null)
         {
-            isDecreasing = false;
-            // value +0.2 per sec
-            SkillAbilityscrollbar.value += 3f * Time.deltaTime;
-            if (SkillAbilityscrollbar.value >= 1f)
+            Debug.LogError($"Failed to get UI value for ability {button.id} level {button.level}");
+            return;
+        }
+
+        button.maxLevel = ui.maxLevel;
+        button.levelText.text = $"{button.level}/{button.maxLevel}";
+        button.description.text = ui.description;
+    }
+    void UpdateButtonInteractable(BaseValue button)
+    {
+        if (button.level >= button.maxLevel)
+        {
+            button.button.interactable = false;
+            return;
+        }
+
+        if (button.unlockRequirementsID.Count == 0) { button.button.interactable = true; return; }
+
+        bool isUnlocked = false;
+        foreach (var req in button.unlockRequirementsID)
+        {
+            BaseValue baseValue = BaseValueButtons.Find(r => r.id == req);
+            if (baseValue.level > 0)
             {
-                SkillAbilityscrollbar.value = 1f; // make sure that is not more than 1
-                isIncreasing = false; // stop growing
-                UpdateButtonActive();
+                isUnlocked = true;
+                break;
             }
         }
 
-        if (isDecreasing)
-        {
-            isIncreasing = false;
-            // value -0.2 per sec
-            SkillAbilityscrollbar.value -= 3f * Time.deltaTime;
-            if (SkillAbilityscrollbar.value <= 0f)
-            {
-                SkillAbilityscrollbar.value = 0f; // make sure that is 0
-                isDecreasing = false; // stop going down
-                UpdateButtonActive();
-            }
-        }
-
-
-        if (this.gameObject.activeInHierarchy == false)
-        {
-            skillOrAbilityButton.enabled = false;
-            SkillClickArea.SetActive(true);
-            AbilityClickArea.SetActive(true);
-        }
-        else
-        {
-            skillOrAbilityButton.enabled = true;
-            SkillClickArea.SetActive(false);
-            AbilityClickArea.SetActive(false);
-        }
-        // control button active
-        UpdateButtonActive();
-
+        button.button.interactable = isUnlocked;
     }
-    private void UpdateButtonActive()
+
+    void CheckUnlockedConditions(BaseValue button)
     {
-        // value < 0.7, ArrowButton setActive true
-        arrowButton.gameObject.SetActive(SkillAbilityscrollbar.value < 0.7f);
+        foreach(var target in button.unlockTargetsID)
+        {
+            BaseValue baseValue = BaseValueButtons.Find(t => t.id == target);
+            UpdateButtonInteractable(baseValue);
+        }
     }
 }

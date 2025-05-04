@@ -24,12 +24,6 @@ public class EliteEnemy : MonoBehaviour
     private void Start()
     {
         movement = GetComponent<elitemovement>();
-        enemyRenderer = GetComponent<Renderer>();
-
-        if (enemyRenderer != null)
-        {
-            originalColor = enemyRenderer.material.color; // 儲存原始顏色
-        }
 
         if (movement == null)
         {
@@ -183,6 +177,38 @@ public class PatrolState : IEnemyState
     public void ExitState()
     {
         Debug.Log("Exiting Patrol State");
+        enemy.StopMovement();
+    }
+}
+
+public class ChaseState : IEnemyState
+{
+    private EliteEnemy enemy;
+
+    public ChaseState(EliteEnemy enemy)
+    {
+        this.enemy = enemy;
+    }
+
+    public void EnterState()
+    {
+        Debug.Log("Chasing the player!");
+    }
+
+    public void UpdateState()
+    {
+        if (enemy.IsPlayerInRange(enemy.attackRange))
+        {
+            enemy.ChangeState(new AttackState(enemy));
+            return;
+        }
+
+        Vector3 directionToPlayer = (enemy.player.transform.position - enemy.transform.position).normalized;
+        enemy.transform.position += directionToPlayer * Time.deltaTime;
+    }
+
+    public void ExitState()
+    {
         enemy.StopMovement();
     }
 }
