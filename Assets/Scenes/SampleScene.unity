@@ -1858,16 +1858,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -5166725570588088538, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
-        type: 3}
-      propertyPath: sceneId
-      value: 3719806354
-      objectReference: {fileID: 0}
-    - target: {fileID: 6094767713929198868, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
-        type: 3}
-      propertyPath: spawn
-      value: 
-      objectReference: {fileID: 281687689}
     - target: {fileID: -5166725570588088538, guid: d9c18e4cdbf9f7e4f9bb2108fc5dddcb,
         type: 3}
       propertyPath: sceneId
@@ -1968,6 +1958,16 @@ PrefabInstance:
       propertyPath: SpecialAttackSlider
       value: 
       objectReference: {fileID: 940658624}
+    - target: {fileID: -5166725570588088538, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: sceneId
+      value: 3719806354
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094767713929198868, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
+        type: 3}
+      propertyPath: spawn
+      value: 
+      objectReference: {fileID: 281687689}
     m_RemovedComponents:
     - {fileID: -5166725570588088538, guid: 22ca3be760c02fa47a9d100a5ac13e5a, type: 3}
     - {fileID: -5166725570588088538, guid: d9c18e4cdbf9f7e4f9bb2108fc5dddcb, type: 3}
@@ -2073,7 +2073,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1041605068}
-  - component: {fileID: 1041605067}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -2081,18 +2080,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1041605067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041605066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acff4036e024d2b46a07c5a81b5d82e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1041605068
 Transform:
   m_ObjectHideFlags: 0

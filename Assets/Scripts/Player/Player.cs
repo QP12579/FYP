@@ -69,6 +69,8 @@ public class Player : NetworkBehaviour
     private void Update()
     {
         SP = Mathf.Clamp(SP, 0, 1f);
+        if (SP == 1)
+            UpdatePlayerUIInfo();
     }
 
     public Player()
@@ -96,7 +98,7 @@ public class Player : NetworkBehaviour
                 Debug.Log("Perfect Block");
                 if (move.isReflect && attacker != null)
                 { //Reflect
-                    attacker.GetComponent<IAttackable>().TakeDamage(damage * move.reflectDamageMultiplier);
+                    attacker.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage * move.reflectDamageMultiplier);
                 }
                 damage = 0;
                 return;

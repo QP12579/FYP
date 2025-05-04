@@ -93,7 +93,6 @@ public class AbilitySystem : MonoBehaviour
                     power1 = float.Parse(fields[j+1]),
                     power2 = float.Parse(fields[j+2]),
                 };
-                Debug.Log($"{valueLevel} , {valueLevel.level}, {valueLevel.power1}");
                 abilityData.levelValues.Add(valueLevel);
             }
             AbilityCases.Add(abilityData);
@@ -161,13 +160,13 @@ public class AbilitySystem : MonoBehaviour
             // d +% d +%
             case 1:
             case 2:
-            UI.description = $"{value.description1} +{levelvalue.power1}%, {value.description2} +{levelvalue.power2}%";
+            UI.description = $"{value.description1} +{levelvalue.power1}%, \n{value.description2} +{levelvalue.power2}%";
                 break;
             // d+% d-%
             case 3:
             case 4:
             case 6:
-            UI.description = $"{value.description1} +{levelvalue.power1}%, {value.description2} -{levelvalue.power2}%";
+            UI.description = $"{value.description1} +{levelvalue.power1}%, \n{value.description2} -{levelvalue.power2}%";
                 break;
             // d +% d
             case 5:
@@ -176,7 +175,7 @@ public class AbilitySystem : MonoBehaviour
                 break;
             // d +% d n per second
             case 7:
-                UI.description = $"{value.description1} -{levelvalue.power1}%, {value.description2} {levelvalue.power2} per second";
+                UI.description = $"{value.description1} -{levelvalue.power1}%, \n{value.description2} {levelvalue.power2} per second";
                 break;
             default:
                 UI.description = "Unknown ability type";

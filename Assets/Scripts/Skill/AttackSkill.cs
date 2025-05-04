@@ -47,7 +47,7 @@ public class AttackSkill : MonoBehaviour
     public Vector3 GetTargetPosi()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] hits = Physics.RaycastAll(ray, 30f, EnemyMask);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 50f, EnemyMask);
         Vector3 currentTarget = Vector3.zero;
         if (hits.Length > 0)
         {
@@ -72,7 +72,7 @@ public class AttackSkill : MonoBehaviour
         IAttackable attackable = other.GetComponent<IAttackable>();
         if (attackable != null)
         {
-            attackable.TakeDamage(damage);
+            attackable.TakeDamage(gameObject.transform.position, damage);
             if (haveDebuff)
             {
                 IDebuffable debuffable = other.GetComponent<IDebuffable>();
@@ -81,6 +81,7 @@ public class AttackSkill : MonoBehaviour
                     debuff.DebuffTarget(debuffable);
                 }
             }
+            gameObject.GetComponent<Animator>().SetTrigger(0);
         }
     }
 
@@ -89,7 +90,7 @@ public class AttackSkill : MonoBehaviour
         IAttackable attackable = other.gameObject.GetComponent<IAttackable>();
         if (attackable != null)
         {
-            attackable.TakeDamage(damage);
+            attackable.TakeDamage(gameObject.transform.position, damage);
             if (haveDebuff)
             {
                 IDebuffable debuffable = other.gameObject.GetComponent<IDebuffable>();
@@ -98,6 +99,7 @@ public class AttackSkill : MonoBehaviour
                     debuff.DebuffTarget(debuffable);
                 }
             }
+            gameObject.GetComponent<Animator>().SetTrigger(0);
         }
     }
 

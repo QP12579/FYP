@@ -57,7 +57,6 @@ public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
     {
         targetFillAmount = 1f;
         UpdateHPBar();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
         movement = GetComponent<EnemyMovement1>();
         rb = GetComponent<Rigidbody2D>();
@@ -66,13 +65,23 @@ public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
 
         player = FindFirstObjectByType<Player>();
 
+        FindingPlayer();
+    }
+
+    protected virtual void FindingPlayer()
+    {
         if (player == null)
         {
-            Debug.LogWarning(" No player found , Auto Destroying..");
-            Destroy(gameObject);
+            Debug.LogWarning(" No player found, Finding..");
+            player = FindFirstObjectByType<Player>();
+            LeanTween.delayedCall(0.1f, FindingPlayer);
         }
+        else
+        {
+            Debug.Log("Found Player.");
 
-        StartSpawnSequence();
+            StartSpawnSequence();
+        }
     }
 
     // Update is called once per frame
@@ -123,13 +132,13 @@ public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
         spawnIndicator.enabled = !visibility;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(Vector3 attackerPosi, float damage)
     {
         gameObject.GetComponent<Animator>().SetTrigger("hurt");
         float realdamage = Mathf.Min(damage, currentHP);
         currentHP -= realdamage;
         targetFillAmount = currentHP / maxHP;
-        Debug.Log("Hurt" + targetFillAmount);
+        GetHit(attackerPosi, realdamage);
         UpdateHPBar();
         UpdateHPBarColor();
         if (currentHP <= 0)
@@ -225,7 +234,7 @@ public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
         while (time > 0)
         {
             yield return new WaitForSeconds(1f);
-            TakeDamage(debuffP);
+            TakeDamage(gameObject.transform.position, debuffP);
             time -= 1f;
         }
     }

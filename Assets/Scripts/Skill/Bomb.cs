@@ -54,7 +54,7 @@ public class Bomb : MonoBehaviour
 
         if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<Enemy>() != null)
         {
-            c.GetComponent<Enemy>().TakeDamage(damage);
+            c.GetComponent<Enemy>().TakeDamage(gameObject.transform.position, damage);
             if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
@@ -80,7 +80,7 @@ public class Bomb : MonoBehaviour
         if (type == BombType.area)
         {
             if (c.GetComponent<Enemy>())
-                c.GetComponent<Enemy>().TakeDamage(damage);
+                c.GetComponent<Enemy>().TakeDamage(gameObject.transform.position, damage);
         }
                 
     }
@@ -93,7 +93,7 @@ public class Bomb : MonoBehaviour
         }
         if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<Enemy>() != null)
         {
-            c.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            c.gameObject.GetComponent<Enemy>().TakeDamage(gameObject.transform.position, damage);
             if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
@@ -118,7 +118,7 @@ public class Bomb : MonoBehaviour
         float i = 0;
         while (i < time)
         {
-            c.GetComponent<Enemy>().TakeDamage(damage);
+            c.GetComponent<Enemy>().TakeDamage(gameObject.transform.position, damage);
             yield return new WaitForSeconds(0.2f);
             i+= 0.2f;
         }

@@ -73,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
             player.animator.SetTrigger("NrmAtk");
             animator.SetTrigger("normalATK");
             if (c.gameObject.GetComponent<IAttackable>()!=null)
-                c.gameObject.GetComponent<IAttackable>().TakeDamage(attack * (1 + AbilityATKPlus));
+                c.gameObject.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, attack * (1 + AbilityATKPlus));
     }
 
     void FarAttack()

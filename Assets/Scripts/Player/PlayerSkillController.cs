@@ -102,13 +102,11 @@ public class PlayerSkillController : MonoBehaviour
         // Optional: Add skill behavior based on type
         switch (equippedSkill.skillData.types[0])
         {
-            default:
-
             case SkillType.ATK:
                 AttackSkill skill = skillInstance.GetComponent<AttackSkill>();
                 skill.Initialize(equippedSkill.skillData.power *(1 + AbilitySkillDamagePlus));
                 skill.SetAttackType(skillSpawnPoint);
-                if (equippedSkill.skillData.types[1] == SkillType.DeBuff)
+                if (equippedSkill.skillData.types.Length > 1 && equippedSkill.skillData.types[1] == SkillType.DeBuff)
                     skill.HaveDebuff();
                 break;
             case SkillType.Heal:
@@ -132,6 +130,10 @@ public class PlayerSkillController : MonoBehaviour
                         move.BlockAttack(true);
                         break;
                 }
+                break;
+            default:
+
+            
                 break;
         }
     }

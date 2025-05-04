@@ -29,6 +29,7 @@ public class PersistentUI : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        InitializeUI();
     }
 
     private void InitializeUI()

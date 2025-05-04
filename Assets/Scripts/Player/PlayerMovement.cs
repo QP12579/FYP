@@ -208,7 +208,7 @@ public class PlayerMovement : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (RollingATK && !canMove)
-            collision.gameObject.GetComponent<IAttackable>().TakeDamage(damage);
+            collision.gameObject.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage);
     }
 
     public void SpeedUp(float upPower)
