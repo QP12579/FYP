@@ -345,16 +345,10 @@ MonoBehaviour:
   syncInterval: 0
   MaxHP: 100
   HP: 100
-  SP: 0
   MaxMP: 50
   MP: 50
+  SP: 0
   level: 0
-  HPSlider: {fileID: 0}
-  MPSlider: {fileID: 0}
-  SpecialAttackSlider: {fileID: 0}
-  SPFullEffect: {fileID: 0}
-  SPHintKeywords: {fileID: 0}
-  levelText: {fileID: 0}
   animator: {fileID: 0}
   abilityPerfectDefenceluck: 0
   abilityNormalDefencePlus: 0
@@ -2124,7 +2118,7 @@ PrefabInstance:
     - target: {fileID: 4606641454445231472, guid: d9c18e4cdbf9f7e4f9bb2108fc5dddcb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5166725570588088538, guid: 22ca3be760c02fa47a9d100a5ac13e5a,
         type: 3}
