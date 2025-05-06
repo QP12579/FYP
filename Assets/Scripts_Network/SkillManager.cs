@@ -86,6 +86,13 @@ public class SkillManager : Singleton<SkillManager>
         return new List<SkillData>();
     }
 
+    public SkillData GetSkillByID(int id, int level)
+    {
+        if (skillsByID.ContainsKey(id))
+            return skillsByID[id].Find(l =>l.level == level);
+        return null;
+    }
+
     public SkillData GetRandomSpecialSkill()
     {
         if (specialSkills.Count == 0) return null;

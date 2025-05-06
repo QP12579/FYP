@@ -19,8 +19,19 @@ public enum AttackType
 
 public enum BuffType
 {
-    PowerUP,
-    DropUP
+    AttackPowerUp,      // 攻擊力提升
+    DamageReduction,    // 抗傷
+    MaxHPUp,            // HP最大值提升
+    MaxMPUp,            // MP最大值提升
+    HPRegen,            // HP自動回復
+    MPRegen,            // MP自動回復
+    MoveSpeedUp,        // 移動速度提升
+    CooldownLower,      // 冷卻縮減
+    CriticalRateUp,     // 暴擊率提升
+    CriticalDamageUp,
+    DodgeRateUp,         // 迴避率提升
+    ItemDropUp,
+    DoubleCoinDropUp
 }
 
 public enum DeBuffType
