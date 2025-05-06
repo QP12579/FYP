@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3322579800115965039}
-  - component: {fileID: 9006451434478045690}
+  - component: {fileID: 2027344488009931479}
   m_Layer: 3
   m_Name: Movement
   m_TagString: Player
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 4781352758879556930}
   m_Father: {fileID: 435520242052897476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9006451434478045690
+--- !u!114 &2027344488009931479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,6 +155,10 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  criticalRate: 0.2
+  criticalMultiplier: 1.5
+  criticalEffectPrefab: {fileID: 0}
+  criticalSound: {fileID: 0}
   AbilityATKPlus: 0
   AbilityATKSpeedPlus: 0
   AbilityATKArea: 0
@@ -297,7 +301,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   abilityPerfectDefenceluck: 0
   abilityNormalDefencePlus: 0
-  abilityAutoDefence: 0
+  abilityDamageReduction: 0
   abilityDecreaseMP: 0
   abilityAutoFillMP: 0
 --- !u!114 &2641640491229284674
@@ -342,7 +346,7 @@ MonoBehaviour:
   skillSpawnPoint: {fileID: 4822267913083150260}
   skillManager: {fileID: 0}
   player: {fileID: 7286353846663120720}
-  move: {fileID: 9006451434478045690}
+  move: {fileID: 0}
   AbilitySkillDamagePlus: 0
   AbilitySkillSpeedPlus: 0
   AbilitySkillSizePlus: 0
@@ -436,9 +440,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &4273359748465608371
 CapsuleCollider:
   m_ObjectHideFlags: 0

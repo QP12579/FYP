@@ -79,6 +79,10 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  criticalRate: 0.2
+  criticalMultiplier: 1.5
+  criticalEffectPrefab: {fileID: 0}
+  criticalSound: {fileID: 0}
   AbilityATKPlus: 0
   AbilityATKSpeedPlus: 0
   AbilityATKArea: 0
@@ -169,11 +173,11 @@ GameObject:
   - component: {fileID: -5166725570588088538}
   - component: {fileID: 3754686762581669411}
   - component: {fileID: 7788241043753214851}
-  - component: {fileID: 7725524197785969727}
   - component: {fileID: 5738234729394631221}
   - component: {fileID: 3369173495879608747}
   - component: {fileID: 530061124973392260}
   - component: {fileID: 8083189896737119438}
+  - component: {fileID: 5168789776997637792}
   m_Layer: 3
   m_Name: MagicPlayer
   m_TagString: Player
@@ -222,7 +226,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   abilityPerfectDefenceluck: 0
   abilityNormalDefencePlus: 0
-  abilityAutoDefence: 0
+  abilityDamageReduction: 0
   abilityDecreaseMP: 0
   abilityAutoFillMP: 0
 --- !u!114 &2641640491229284674
@@ -268,7 +272,7 @@ MonoBehaviour:
   skillSpawnPoint: {fileID: 4822267913083150260}
   skillManager: {fileID: 0}
   player: {fileID: 7286353846663120720}
-  move: {fileID: 0}
+  move: {fileID: 5168789776997637792}
   AbilitySkillDamagePlus: 0
   AbilitySkillSpeedPlus: 0
   AbilitySkillSizePlus: 0
@@ -338,49 +342,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   connectionId: 0
---- !u!114 &7725524197785969727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4606641454445231472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 110b09cd0eb15b746a88d7164e098ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  speed: 200
-  groundDist: 0.65
-  jumpForce: 320
-  terrainLayer:
-    serializedVersion: 2
-    m_Bits: 320
-  spawn: {fileID: 0}
-  RollKey: 304
-  JumpKey: 32
-  DEFKey: 102
-  isReflect: 0
-  reflectDamageMultiplier: 1
-  RollingATK: 0
-  defenceTime: 0.5
-  defenceDelayTime: 1
-  rollingTime: 0.5
-  rollingSpeed: 1.3
-  abilityRollingSpeed: 0
-  blockPercentage: 0.5
-  blockTimes: 0
-  damage: 0
-  sr: {fileID: 8083189896737119438}
-  anim: {fileID: 3369173495879608747}
-  isGrounded: 0
-  canMove: 0
-  isFaceFront: 0
-  groundCheckRadius: 0.3
-  groundCheckOffset: 0.1
 --- !u!136 &5738234729394631221
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -449,9 +410,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!212 &8083189896737119438
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -504,6 +465,49 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5168789776997637792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4606641454445231472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 110b09cd0eb15b746a88d7164e098ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  speed: 200
+  groundDist: 0.65
+  jumpForce: 320
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 320
+  spawn: {fileID: 0}
+  RollKey: 304
+  JumpKey: 32
+  DEFKey: 102
+  isReflect: 0
+  reflectDamageMultiplier: 1
+  RollingATK: 0
+  defenceTime: 0.5
+  defenceDelayTime: 1
+  rollingTime: 0.5
+  rollingSpeed: 1.3
+  abilityRollingSpeed: 0
+  blockPercentage: 0.5
+  blockTimes: 0
+  damage: 0
+  sr: {fileID: 8083189896737119438}
+  anim: {fileID: 3369173495879608747}
+  isGrounded: 0
+  canMove: 0
+  isFaceFront: 0
+  groundCheckRadius: 0.3
+  groundCheckOffset: 0.1
 --- !u!1 &5643439963480589926
 GameObject:
   m_ObjectHideFlags: 0

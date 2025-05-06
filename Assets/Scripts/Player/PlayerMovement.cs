@@ -95,7 +95,11 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer)
+        {
+            Debug.Log("not local ");
+            return;
+        }
 
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
