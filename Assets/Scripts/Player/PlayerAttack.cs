@@ -36,10 +36,6 @@ public class PlayerAttack : MonoBehaviour
     [HideInInspector]
     private BoxCollider ATKCollider;
 
-    // Buff
-    private float BuffATKPlus = 0;
-    private float BuffATKCooldownPlus = 0;
-
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -120,7 +116,7 @@ public class PlayerAttack : MonoBehaviour
         canAtk = false;
         float finalDamage = CalculateDamage();
 
-        float cooldown = waitTime * (1 - AbilityATKSpeedPlus - BuffATKCooldownPlus);
+        float cooldown = waitTime * (1 - AbilityATKSpeedPlus - PlayerBuffSystem.instance.GetBuffValue(BuffType.CooldownLower));
 
         LeanTween.delayedCall(cooldown, DetectOnce);  
 
@@ -137,7 +133,7 @@ public class PlayerAttack : MonoBehaviour
 
         float finalDamage = CalculateDamage(true);
 
-        float cooldownTime = waitTime * (1 - AbilityATKSpeedPlus - BuffATKCooldownPlus);
+        float cooldownTime = waitTime * (1 - AbilityATKSpeedPlus - PlayerBuffSystem.instance.GetBuffValue(BuffType.CooldownLower));
 
         LeanTween.delayedCall(cooldownTime, DetectOnce);
 

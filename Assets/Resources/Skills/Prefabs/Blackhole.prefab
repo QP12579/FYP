@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3595898397889240422}
   - component: {fileID: 7193020553959572320}
   m_Layer: 0
-  m_Name: VFX_Blackhole
+  m_Name: Blackhole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,6 +10,15 @@ public class SkillManager : Singleton<SkillManager>
     public List<SkillData> specialSkills = new List<SkillData>(); // ID 5 skills
 
     private string skillDataPath = "Skills/SkillData";
+
+    private int _skillPoints;
+    public int SkillPoints => _skillPoints;
+
+    public void AddSkillPoints(int amount)
+    {
+        _skillPoints += amount;
+        SkillPanel.instance.RefreshAllButtons();
+    }
     void Awake()
     {
         if (skillsTSV == null)
@@ -98,6 +107,29 @@ public class SkillManager : Singleton<SkillManager>
         if (specialSkills.Count == 0) return null;
         return specialSkills[UnityEngine.Random.Range(0, specialSkills.Count)];
     }
+    public bool AddSpecialSkill(SkillData specialSkill)
+    {
+        if (specialSkill == null || specialSkill.ID != 5) return false;
+
+        // 檢查是否已擁有該特殊技能
+        if (unlockedSkills.Exists(s => s.ID == 5 && s.Name == specialSkill.Name))
+        {
+            Debug.Log("已經擁有這個特殊技能");
+            return false;
+        }
+
+        unlockedSkills.Add(specialSkill);
+        SkillPanel.instance?.RefreshAllButtons();
+        return true;
+    }
+    public List<SkillData> GetUnlockedSpecialSkills()
+    {
+        return unlockedSkills.FindAll(s => s.ID == 5);
+    }
+    public bool HasSpecialSkill(string skillName)
+    {
+        return unlockedSkills.Exists(s => s.ID == 5 && s.Name == skillName);
+    }
     public bool CanUnlockSkill(SkillData skill)
     {
         // Check if already unlocked
@@ -111,11 +143,21 @@ public class SkillManager : Singleton<SkillManager>
         return unlockedSkills.Exists(s => s.ID == skill.ID && s.level == previousLevel);
     }
 
-    public void UnlockSkill(SkillData skill)
+    public bool UnlockSkill(SkillData skill)
     {
-        if (!CanUnlockSkill(skill)) return; 
-        unlockedSkills.Add(skill);
-        Debug.Log($"Unlocked: {skill.Name} (ID:{skill.ID}, Lvl:{skill.level})");
+        if (unlockedSkills.Contains(skill)) return false;
+
+        bool canUnlock = skill.level == 1 ||
+                       (unlockedSkills.Exists(s => s.ID == skill.ID && s.level == skill.level - 1));
+
+        if (canUnlock && _skillPoints > 0)
+        {
+            unlockedSkills.Add(skill);
+            _skillPoints--;
+            SkillPanel.instance.RefreshAllButtons();
+            return true;
+        }
+        return false;
     }
 
     public bool HasNextLevelSkill(int id, int currentLevel)
@@ -128,5 +170,68 @@ public class SkillManager : Singleton<SkillManager>
     {
         if (!skillsByID.ContainsKey(id)) return null;
         return skillsByID[id].Find(s => s.level == currentLevel + 1);
+    }
+    public bool HasAnyUnlockableSkills()
+    {
+        foreach (var skillList in skillsByID.Values)
+        {
+            foreach (var skill in skillList)
+            {
+                if (CanUnlockSkill(skill)) return true;
+            }
+        }
+        return false;
+    }
+    public List<SkillData> GetAllUnlockableSkills()
+    {
+        List<SkillData> unlockableSkills = new List<SkillData>();
+        foreach (var skillList in skillsByID.Values)
+        {
+            foreach (var skill in skillList)
+            {
+                if (CanUnlockSkill(skill)) unlockableSkills.Add(skill);
+            }
+        }
+        return unlockableSkills;
+    }
+    public bool ResetSkill(int id, int level)
+    {
+        SkillData skillToRemove = unlockedSkills.Find(s => s.ID == id && s.level == level);
+        if (skillToRemove != null)
+        {
+            unlockedSkills.Remove(skillToRemove);
+            _skillPoints++;
+            return true;
+        }
+        return false;
+    }
+    public int ResetAllSkills()
+    {
+        int refundedPoints = unlockedSkills.Count;
+        unlockedSkills.Clear();
+        _skillPoints += refundedPoints;
+        return refundedPoints;
+    }
+    public bool CanEquipToSlot(SkillData skill, int slotIndex)
+    {
+        if (skill == null) return false;
+
+        if (slotIndex == 0 && (skill.ID == 1 || skill.ID == 3 || skill.ID == 4))
+        {
+            return true;
+        }
+        else if (slotIndex == 1 && (skill.ID == 2 || skill.ID == 4 || skill.ID == 5))
+        {
+            return true;
+        }
+
+        return false;
+    }
+    public SkillData GetEquippedSkill(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= PlayerSkillController.instance.equippedSkills.Length)
+            return null;
+
+        return PlayerSkillController.instance.equippedSkills[slotIndex].skillData;
     }
 }

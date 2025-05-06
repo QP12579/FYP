@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityAndSkillsPanel : MonoBehaviour
+public class AbilityPanel : MonoBehaviour
 {
     [System.Serializable]
     public class BaseValue
@@ -26,7 +26,8 @@ public class AbilityAndSkillsPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI AbilityPointText;
     public int AbilityPoint = 0; 
     public List<BaseValue> BaseValueButtons = new List<BaseValue>();
-
+    [Header("UI")]
+    [SerializeField] private Button resetAllButton;
     private AbilitySystem ability;
     private bool isAbilityFileLoaded = false;
     private void Start()
@@ -46,6 +47,7 @@ public class AbilityAndSkillsPanel : MonoBehaviour
             UpdateButtonDisplay(basebutton);
             UpdateButtonInteractable(basebutton);
         }
+        UpdateAbilityPointDisplay();
     }
 
     private void CheckAbilityTSV()
@@ -62,18 +64,20 @@ public class AbilityAndSkillsPanel : MonoBehaviour
         if (AbilityPoint <= 0) return;
         AbilityPoint--;
 
-        if(AbilityPointText!=null)
-            AbilityPointText.text = AbilityPoint.ToString();
-        print($"before:{button.level}");
+        UpdateAbilityPointDisplay();
         button.level++;
-        print($"after:{button.level}");
         button.levelText.text = button.level + "/" + button.maxLevel;
 
         UpdateButtonDisplay(button);
         UpdateButtonInteractable(button);
         CheckUnlockedConditions(button);
         ability.UpgradeBaseValue(button.id, button.level);
-        print("End1");
+    }
+
+    void UpdateAbilityPointDisplay()
+    {
+        if (AbilityPointText!=null)
+            AbilityPointText.text = AbilityPoint.ToString();
     }
 
     void UpdateButtonDisplay(BaseValue button)
@@ -126,6 +130,30 @@ public class AbilityAndSkillsPanel : MonoBehaviour
         {
             BaseValue baseValue = BaseValueButtons.Find(t => t.id == target);
             UpdateButtonInteractable(baseValue);
+        }
+    }
+    public void OnResetAllClick()
+    {
+        int totalRefunded = 0;
+
+        foreach (var button in BaseValueButtons)
+        {
+            if (button.level > 0)
+            {
+                totalRefunded += ability.RevertUpgrade(button.id, button.level);
+                button.level = 0;
+                UpdateButtonDisplay(button);
+                UpdateButtonInteractable(button);
+            }
+        }
+
+        AbilityPoint += totalRefunded;
+        print(totalRefunded);
+        UpdateAbilityPointDisplay();
+
+        foreach (var button in BaseValueButtons)
+        {
+            UpdateButtonInteractable(button);
         }
     }
 }

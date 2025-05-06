@@ -114,7 +114,7 @@ public class PlayerSkillController : MonoBehaviour
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
                 break;
             case SkillType.DFN:
-                skillInstance.transform.position = gameObject.transform.position;
+                Destroy(skillInstance);
                 switch (equippedSkill.skillData.level)
                 {
                     case 1:  //Slide

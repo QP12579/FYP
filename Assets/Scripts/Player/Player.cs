@@ -139,6 +139,11 @@ public class Player : NetworkBehaviour
         UpdatePlayerUIInfo();
     }
 
+    public float GetMP()
+    {
+        return MP;
+    }
+
     public void BuffHPRegen(float hpRegen)
     {
         if (hpRegen < 0) return;

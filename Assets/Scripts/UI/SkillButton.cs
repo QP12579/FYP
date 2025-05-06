@@ -1,25 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.EventSystems;
 
-public class SkillButton : MonoBehaviour
+
+[System.Serializable]
+public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public Button button;
+    public int id;
+    public int level;
     public Image iconImage;
-    public TMP_Text nameText;
-    public TMP_Text descriptionText;
 
-    private System.Action onClickAction;
+    [HideInInspector] public bool isUnlocked;
+    [HideInInspector] public bool isSelected;
 
-    public void Initialize(SkillData skill, System.Action onClick)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        iconImage.sprite = skill.Icon;
-        nameText.text = skill.Name;
-        descriptionText.text = skill.Description;
-        onClickAction = onClick;
+        SkillPanel.instance.ShowTooltip(this);
     }
 
-    public void OnClick()
+    public void OnPointerExit(PointerEventData eventData)
     {
-        onClickAction?.Invoke();
+        SkillPanel.instance.HideTooltip();
     }
 }
