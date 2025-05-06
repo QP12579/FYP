@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static BuffDataManager;
 
-public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
-{
     [System.Serializable]
     public class Buff
     {
@@ -13,86 +12,123 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         public float timer;     // 剩餘時間
     }
 
-    public enum BuffType
+public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
+{
+    [System.Serializable]
+    public class ActiveBuff
     {
-        AttackPowerUp,      // 攻擊力提升
-        DamageReduction,    // 抗傷
-        MaxHPUp,            // HP最大值提升
-        MaxMPUp,            // MP最大值提升
-        HPRegen,            // HP自動回復
-        MPRegen,            // MP自動回復
-        MoveSpeedUp,        // 移動速度提升
-        CooldownLower,      // 冷卻縮減
-        CriticalRateUp,     // 暴擊率提升
-        DodgeRateUp         // 迴避率提升
+        public BuffType type;
+        public float value;
+        public float duration;
+        public float timer;
+        public int level;
     }
+
+    private List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
+    private Dictionary<BuffType, int> buffLevels = new Dictionary<BuffType, int>();
 
     private Player player;
     private PlayerMovement movement;
     private PlayerSkillController skillController;
     private PlayerAttack playerAttack;
-    private List<Buff> activeBuffs = new List<Buff>(); 
     
     private bool hasActiveBuffs = false;
     private bool hasRegenBuffs = false;
 
+    public static event Action OnBuffsUpdated;
+
     private void Start()
     {
-        //player = Player.instance;
-        movement = FindObjectOfType<PlayerMovement>();
-        skillController = FindObjectOfType<PlayerSkillController>();
-        playerAttack = FindObjectOfType<PlayerAttack>();
+        GetPlayerInfo();
     }
 
-    public void AddBuff(BuffType type, float value, float duration)
+    private void GetPlayerInfo()
     {
-        var existingBuff = activeBuffs.Find(b => b.type == type);
+        if(player == null)
+        player = FindObjectOfType<Player>();
+        if (movement == null)
+            movement = FindObjectOfType<PlayerMovement>();
+        if (skillController == null)
+            skillController = FindObjectOfType<PlayerSkillController>();
+        if (playerAttack == null)
+            playerAttack = FindObjectOfType<PlayerAttack>();
+        if (player == null || movement == null || skillController == null || playerAttack == null)
+            LeanTween.delayedCall(0.1f, GetPlayerInfo);
+        else
+            Debug.Log("PlayerBuffSystem Reference ready.");
+    }
+
+    // Main method to add buff (auto-levels)
+    public void AddBuff(BuffType type)
+    {
+        BuffData data = BuffDataManager.instance.GetBuffData(type);
+        if (data == null) return;
+
+        // Auto-level logic
+        int currentLevel = GetCurrentLevel(type);
+        int newLevel = Mathf.Min(currentLevel + 1, data.maxLevel);
+        float effectValue = data.values[newLevel - 1];
+
+        // Apply or refresh buff
+        ActiveBuff existingBuff = activeBuffs.Find(b => b.type == type);
         if (existingBuff != null)
         {
-            existingBuff.timer = duration;
-            existingBuff.value = Mathf.Max(existingBuff.value, value); 
+            existingBuff.value = effectValue;
+            existingBuff.timer = data.duration;
+            existingBuff.level = newLevel;
         }
         else
         {
-            activeBuffs.Add(new Buff
+            activeBuffs.Add(new ActiveBuff
             {
                 type = type,
-                value = value,
-                duration = duration,
-                timer = duration
+                value = effectValue,
+                duration = data.duration,
+                timer = data.duration,
+                level = newLevel
             });
-            ApplyBuffEffect(type, value);
         }
-        hasActiveBuffs = activeBuffs.Count > 0;
-        hasRegenBuffs = HasRegenBuff();
-    }
 
-    private bool HasRegenBuff()
-    {
-        return activeBuffs.Exists(b => b.type == BuffType.HPRegen || b.type == BuffType.MPRegen);
+        buffLevels[type] = newLevel;
+        ApplyBuffEffect(type, effectValue);
     }
 
     private void ApplyBuffEffect(BuffType type, float value)
     {
-        switch (type) 
+        switch (type)
         {
-                case BuffType.AttackPowerUp:
+            case BuffType.AttackPowerUp:
+                skillController.BuffApplyATKDamage(value);
                 break;
-            case BuffType.DamageReduction:
-                break;
-                case BuffType.MaxHPUp: break;
-                case BuffType.MaxMPUp: break;
             case BuffType.HPRegen:
+                player.BuffHPRegen(value);
                 break;
-                case BuffType.MPRegen:
+            case BuffType.MPRegen:
+                player.BuffMPRegen(value);
                 break;
             case BuffType.MoveSpeedUp:
+                movement.SpeedUp(value);
+                break;
+            case BuffType.ItemDropUp:
+                break;
+            case BuffType.DoubleCoinDropUp:
                 break;
         }
     }
 
-    private void UpdateBuffs()
+    private int GetCurrentLevel(BuffType type)
     {
+        return buffLevels.ContainsKey(type) ? buffLevels[type] : 0;
+    }
+
+    private void Update()
+    {
+        UpdateActiveBuffs();
+    }
+
+    private void UpdateActiveBuffs()
+    {
+        // Update active buff timers
         for (int i = activeBuffs.Count - 1; i >= 0; i--)
         {
             activeBuffs[i].timer -= Time.deltaTime;
@@ -109,26 +145,42 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         switch (type)
         {
             case BuffType.AttackPowerUp:
-                playerAttack.attack /= (1 + GetBuffValue(type));
+                skillController.ResetBuffATKDamage();
                 break;
             case BuffType.MoveSpeedUp:
                 movement.ResetSpeed();
                 break;
+            case BuffType.ItemDropUp:
+                break;
+            case BuffType.DoubleCoinDropUp:
+                break;
+            default:
+                break;
         }
-    }
-
-    // 處理 HP/MP 自動回復
-    private void HandleRegenBuffs()
-    {
-        float hpRegen = GetBuffValue(BuffType.HPRegen);
-        float mpRegen = GetBuffValue(BuffType.MPRegen);
-        if (hpRegen > 0) player.Heal(hpRegen * Time.deltaTime);
-        if (mpRegen > 0) player.MP = Mathf.Min(player.MaxMP, player.MP + mpRegen * Time.deltaTime);
+        buffLevels.Remove(type);
     }
 
     public float GetBuffValue(BuffType type)
     {
         var buff = activeBuffs.Find(b => b.type == type);
         return buff != null ? buff.value : 0;
+    }
+
+    public void ResetBuffLevel(BuffType type)
+    {
+        if (buffLevels.ContainsKey(type))
+        {
+            buffLevels[type] = 0; 
+        }
+
+        // 2. 立即移除當前生效的該類型 Buff
+        ActiveBuff activeBuff = activeBuffs.Find(b => b.type == type);
+        if (activeBuff != null)
+        {
+            RemoveBuff(type); // 會觸發對應的 Reset 邏輯
+            activeBuffs.Remove(activeBuff);
+        }
+
+        Debug.Log($"已重置 {type} 的等級");
     }
 }

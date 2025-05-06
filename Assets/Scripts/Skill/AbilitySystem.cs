@@ -259,12 +259,12 @@ public class AbilitySystem : MonoBehaviour
 
     private void UpMoveSpeed(float p) 
     {
-        movement.SpeedUp(p);
+        movement.AbilitySpeedUp(p);
     }
 
     private void autoDefense(float p)
     {
-        player.abilityAutoDefence += p;
+        player.abilityDamageReduction += p;
     }
 
     private void UpATKSpeed(float p) 

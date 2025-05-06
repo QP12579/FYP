@@ -30,7 +30,8 @@ public class PlayerSkillController : MonoBehaviour
     public float AbilitySkillSpeedPlus = 0;
     [HideInInspector]
     public float AbilitySkillSizePlus = 0;
-
+    private float buffATKPlus = 0;
+    private float buffSkillCooldownMinus = 0;
 
     private void Start()
     {
@@ -87,7 +88,7 @@ public class PlayerSkillController : MonoBehaviour
         if (!player.canUseSkill(equippedSkill.skillData.MP)) return ;
 
         // Set cooldown
-        equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown * ( 1 - AbilitySkillSpeedPlus);
+        equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown * ( 1 - AbilitySkillSpeedPlus - buffSkillCooldownMinus);
         StartCoroutine(CoolDownTimer(slotIndex, equippedSkill.cooldownTimer));
 
         // Instantiate the skill prefab
@@ -104,7 +105,7 @@ public class PlayerSkillController : MonoBehaviour
         {
             case SkillType.ATK:
                 AttackSkill skill = skillInstance.GetComponent<AttackSkill>();
-                skill.Initialize(equippedSkill.skillData.power *(1 + AbilitySkillDamagePlus));
+                skill.Initialize(equippedSkill.skillData.power *(1 + AbilitySkillDamagePlus + buffATKPlus));
                 skill.SetAttackType(skillSpawnPoint);
                 if (equippedSkill.skillData.types.Length > 1 && equippedSkill.skillData.types[1] == SkillType.DeBuff)
                     skill.HaveDebuff();
@@ -113,7 +114,7 @@ public class PlayerSkillController : MonoBehaviour
                 skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
                 break;
             case SkillType.DFN:
-                Destroy(skillInstance);
+                skillInstance.transform.position = gameObject.transform.position;
                 switch (equippedSkill.skillData.level)
                 {
                     case 1:  //Slide
@@ -131,11 +132,26 @@ public class PlayerSkillController : MonoBehaviour
                         break;
                 }
                 break;
+                case SkillType.Buff:
+                BuffType[] allBuffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
+                List<BuffType> randomBuffs = GetRandomElements(allBuffTypes, 3);
+                break;
             default:
-
-            
                 break;
         }
+    }
+    private List<T> GetRandomElements<T>(T[] array, int count)
+    {
+        List<T> list = new List<T>(array);
+        List<T> result = new List<T>();
+
+        while (result.Count < count && list.Count > 0)
+        {
+            int index = Random.Range(0, list.Count);
+            result.Add(list[index]);
+            list.RemoveAt(index); 
+        }
+        return result;
     }
 
     private GameObject GetPrefabForSkill(SkillData skillData)
@@ -155,4 +171,17 @@ public class PlayerSkillController : MonoBehaviour
         yield return new WaitForSeconds(cooldown);
         equippedSkills[i].cooldownTimer = 0;
     }
+
+    public void BuffApplyATKDamage(float p)
+    {
+        buffATKPlus = p;
+    }
+
+    public void ResetBuffATKDamage() { buffATKPlus = 0; }
+
+    public void BuffApplySkillCooldown(float p) { buffSkillCooldownMinus = p; }
+
+    public void ResetBuffSkillCooldown() { buffSkillCooldownMinus = 0; }
+
+
 }

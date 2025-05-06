@@ -1,0 +1,14 @@
+BuffName	p1	p2	p3	p4
+AttackPowerUp	10	15	30	
+DamageReduction	10	25	40	
+MaxHPUp	35	50	75	
+MaxMPUp	35	50	75	
+HPRegen	15	30	45	
+MPRegen	15	30	45	
+MoveSpeedUp	5	10	15	
+CooldownLower	8	14	20	
+CriticalRateUp	5	15	25	
+CriticalDamageUp	20	50	75	
+DodgeRateUp	15	25	55	100
+ItemDropUp	25	50	75	
+DoubleCoinDropUp	25	50		

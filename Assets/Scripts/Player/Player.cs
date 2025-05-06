@@ -1,12 +1,7 @@
 using Mirror;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Mirror;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
 using Unity.VisualScripting;
 
 public class Player : NetworkBehaviour
@@ -16,10 +11,10 @@ public class Player : NetworkBehaviour
     [HideInInspector]
     public float HP = 100;
 
-    [HideInInspector]    public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxHPUp));
-    [HideInInspector]    public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxMPUp));
-
     public float MaxMP = 50;
+
+    public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(BuffType.MaxHPUp));
+    public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(BuffType.MaxMPUp));
     [HideInInspector]
     public float MP = 50;
     //[HideInInspector]
@@ -37,7 +32,7 @@ public class Player : NetworkBehaviour
     // Defense
     [HideInInspector] public float abilityPerfectDefenceluck = 0;
     [HideInInspector] public float abilityNormalDefencePlus = 0;
-    [HideInInspector] public float abilityAutoDefence = 0;
+    [HideInInspector] public float abilityDamageReduction = 0;
 
     //MP
     [HideInInspector] public float abilityDecreaseMP = 0;
@@ -76,8 +71,8 @@ public class Player : NetworkBehaviour
     public Player()
     {
         level = 1;
-        HP = MaxHP;
-        MP = MaxMP;
+        HP = CurrentMaxHP;
+        MP = CurrentMaxMP;
     }
 
     public void UpdatePlayerUIInfo()
@@ -85,7 +80,7 @@ public class Player : NetworkBehaviour
         if(persistentUI == null)
             persistentUI = gameObject.GetOrAddComponent<PersistentUI>();        
         if(persistentUI != null) 
-        persistentUI.UpdatePlayerUI(HP, MaxHP, MP, MaxMP, SP, level);
+        persistentUI.UpdatePlayerUI(HP, CurrentMaxHP, MP, CurrentMaxMP, SP, level);
     }
 
     public void TakeDamage(float damage, GameObject attacker = null)
@@ -106,7 +101,7 @@ public class Player : NetworkBehaviour
             damage *= move.blockPercentage * (1 - abilityNormalDefencePlus);
             Debug.Log("Normal Block");
         }
-        float realDamage = Mathf.Min(damage*( 1 - abilityAutoDefence), HP) ;
+        float realDamage = Mathf.Min(damage*( 1 - abilityDamageReduction - PlayerBuffSystem.instance.GetBuffValue(BuffType.DamageReduction)), HP) ;
         HP -= realDamage;
 
         UpdatePlayerUIInfo();
@@ -123,7 +118,8 @@ public class Player : NetworkBehaviour
 
     public void Heal(float h)
     {
-        HP += h;
+        float realHill = Mathf.Min(HP + h, MaxHP);
+        HP += realHill;
         UpdatePlayerUIInfo();
     }
 
@@ -141,6 +137,37 @@ public class Player : NetworkBehaviour
         float realFill = Mathf.Min(MP + mp, MaxMP);
         MP = realFill;
         UpdatePlayerUIInfo();
+    }
+
+    public void BuffHPRegen(float hpRegen)
+    {
+        if (hpRegen < 0) return;
+        StartCoroutine(RegenHPRoutine(hpRegen));
+    }
+    private IEnumerator RegenHPRoutine(float hpRegen)
+    {
+        float minus = hpRegen/10;
+        
+        for(float timer = hpRegen; timer > 0; timer -= minus)
+        {
+            Heal(minus);
+        yield return new WaitForSeconds(1f);
+        }
+    }
+    public void BuffMPRegen(float mpRegen)
+    {
+        if (mpRegen < 0) return;
+        StartCoroutine(RegenMPRoutine(mpRegen));
+    }
+    private IEnumerator RegenMPRoutine(float mpRegen)
+    {
+        float minus = mpRegen/10;
+        
+        for(float timer = mpRegen; timer > 0; timer -= minus)
+        {
+            GetMP(minus);
+        yield return new WaitForSeconds(1f);
+        }
     }
 
     public void AutoFillMP()

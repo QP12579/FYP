@@ -7,6 +7,7 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Movement")]
     public float speed;
     private float baseSpeed => speed;
+    private float abilitySpeed = 0;
     public float groundDist;
     public float jumpForce = 500;
 
@@ -213,12 +214,17 @@ public class PlayerMovement : NetworkBehaviour
 
     public void SpeedUp(float upPower)
     {
-        speed = baseSpeed * (1 + upPower);
+        speed = baseSpeed * (1 + abilitySpeed + upPower);
+    }
+
+    public void AbilitySpeedUp(float upP)
+    {
+        abilitySpeed += upP;
     }
 
     public void ResetSpeed()
     {
-        speed = baseSpeed;
+        speed = baseSpeed * (1 + abilitySpeed);
     }
 
     [Header("Ground Check")]
