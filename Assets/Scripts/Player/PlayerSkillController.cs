@@ -71,7 +71,11 @@ public class PlayerSkillController : MonoBehaviour
 
     public void EquipSkill(int slotIndex, SkillData skillData)
     {
-        if (slotIndex < 0 || slotIndex >= equippedSkills.Length) return;
+        if (slotIndex < 0 || slotIndex >= equippedSkills.Length)
+        {
+            Debug.Log("Returned??? OAO");
+            return;
+        }
 
         equippedSkills[slotIndex].skillData = skillData;
         equippedSkills[slotIndex].skillPrefab = GetPrefabForSkill(skillData);

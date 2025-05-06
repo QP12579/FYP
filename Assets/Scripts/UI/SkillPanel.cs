@@ -22,7 +22,14 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] private float tooltipOffsetX = 10f;
     [SerializeField] private float tooltipOffsetY = 10f;
 
+    [Header("Button Color Settings")]
+    [SerializeField] private Color NormalColor = Color.white;
+    [SerializeField] private Color CanUnlockColor = Color.gray;
+    [SerializeField] private Color lockedColor = Color.gray;
+    [SerializeField] private Color selectedColor = Color.white;
+
     private SkillManager skillManager;
+    private PlayerSkillController playerSkillController;
     private int _skillPoints;
     private SkillButton currentlySelectedSkill;
     private GameObject currentTooltip;
@@ -44,14 +51,32 @@ public class SkillPanel : MonoBehaviour
 
     private void Start()
     {
-        skillManager = SkillManager.instance;
         InitializePanel();
+        FindRefences();
+    }
 
+    private void OnEnable()
+    {
+        FindRefences();
+    }
+
+    private void FindRefences()
+    {
+        if (skillManager != null && playerSkillController != null) return;
+        skillManager = SkillManager.instance;
+        playerSkillController = FindObjectOfType<PlayerSkillController>();
+        if (playerSkillController == null || skillManager == null)
+            LeanTween.delayedCall(0.5f, FindRefences);
+    }
+
+    private void InitializeTooltip()
+    {
         // 初始化 Tooltip
         if (tooltipPanelPrefab != null)
         {
             currentTooltip = Instantiate(tooltipPanelPrefab, transform);
             currentTooltip.SetActive(false);
+            currentTooltip.gameObject.transform.SetParent(transform, false);
 
             // 獲取 Tooltip 組件
             tooltipRectTransform = currentTooltip.GetComponent<RectTransform>();
@@ -62,12 +87,13 @@ public class SkillPanel : MonoBehaviour
                 tooltipDescriptionText = texts[1];
             }
         }
+
     }
 
     private void Update()
     {
         // 更新 Tooltip 位置
-        if (currentTooltip != null && currentTooltip.activeSelf)
+        if (currentTooltip != null)
         {
             Vector2 mousePosition = Input.mousePosition;
             tooltipRectTransform.position = new Vector3(
@@ -99,14 +125,26 @@ public class SkillPanel : MonoBehaviour
 
     public void ShowTooltip(SkillButton button)
     {
-        if (currentTooltip == null) return;
+        if (currentTooltip == null)
+            InitializeTooltip();
+        if (currentTooltip == null)
+        {
+            Debug.LogError("Current Tooltip is null!");
+            return;
+        }
 
         SkillData skillData = skillManager.GetSkillByID(button.id, button.level);
-        if (skillData == null) return;
+        if (skillData == null)
+        {
+            Debug.LogWarning($"Skill data not found for ID: {button.id}, Level: {button.level}");
+            return;
+        }
 
         // 更新 Tooltip 內容
         if (tooltipNameText != null) tooltipNameText.text = skillData.Name;
+        else Debug.LogError("tooltipNameText is null!");
         if (tooltipDescriptionText != null) tooltipDescriptionText.text = skillData.Description;
+        else Debug.LogError("tooltipDescriptionText is null!");
 
         // 顯示 Tooltip
         currentTooltip.SetActive(true);
@@ -181,7 +219,7 @@ public class SkillPanel : MonoBehaviour
             }
         }
         else skillData = skillManager.GetSkillByID(button.id, button.level);
-        if (skillData == null) return;
+        if (skillData == null) { button.button.interactable = false; return; }
 
         button.isUnlocked = skillManager.IsSkillUnlocked(skillData);
         button.isSelected = false;
@@ -197,7 +235,7 @@ public class SkillPanel : MonoBehaviour
         {
             button.button.interactable = true;
             var colors = button.button.colors;
-            colors.normalColor = Color.white;
+            colors.normalColor = NormalColor;
             button.button.colors = colors;
         }
         else
@@ -207,7 +245,7 @@ public class SkillPanel : MonoBehaviour
             button.button.interactable = canUnlock && _skillPoints > 0;
 
             var colors = button.button.colors;
-            colors.normalColor = canUnlock ? Color.yellow : Color.gray;
+            colors.normalColor = canUnlock ? CanUnlockColor : lockedColor;
             button.button.colors = colors;
         }
     }
@@ -244,9 +282,9 @@ public class SkillPanel : MonoBehaviour
         }
     }
 
-    private void OnEquipButtonClick(int slotIndex)
+    public void OnEquipButtonClick(int slotIndex)
     {
-        if (currentlySelectedSkill == null) return;
+        if (currentlySelectedSkill == null) { Debug.Log("Current no selected skill so Returned??? OAO"); return; }
         SkillData skillData = null;
 
         // 普通技能
@@ -269,21 +307,14 @@ public class SkillPanel : MonoBehaviour
             }
         }
 
-        if (skillData == null) return;
+        if (skillData == null)
+        {
+            Debug.Log("DataNull so Returned??? OAO"); return; }
         // check equipped rule
-        bool canEquip = false;
-        if (slotIndex == 0 && (currentlySelectedSkill.id == 1 || currentlySelectedSkill.id == 3 || currentlySelectedSkill.id == 4))
-        {
-            canEquip = true;
-        }
-        else if (slotIndex == 1 && (currentlySelectedSkill.id == 2 || currentlySelectedSkill.id == 4 || currentlySelectedSkill.id == 5))
-        {
-            canEquip = true;
-        }
-
+        bool canEquip = skillManager.CanEquipToSlot(skillData, slotIndex);
         if (canEquip)
         {
-            PlayerSkillController.instance.EquipSkill(slotIndex, skillData);
+            playerSkillController.EquipSkill(slotIndex, skillData);
             UpdateEquippedSkillDisplay();
         }
         else
@@ -298,13 +329,13 @@ public class SkillPanel : MonoBehaviour
 
         if (button.isSelected)
         {
-            colors.normalColor = Color.green;
-            colors.highlightedColor = Color.green;
+            colors.normalColor = selectedColor;
+            colors.highlightedColor = selectedColor;
         }
         else if (button.isUnlocked)
         {
-            colors.normalColor = Color.white;
-            colors.highlightedColor = Color.white;
+            colors.normalColor = NormalColor;
+            colors.highlightedColor = NormalColor;
         }
 
         button.button.colors = colors;
@@ -314,15 +345,15 @@ public class SkillPanel : MonoBehaviour
     {
         for (int i = 0; i < equippedSkillIcons.Length; i++)
         {
-            var skillData = PlayerSkillController.instance.equippedSkills[i].skillData;
+            var skillData = playerSkillController.equippedSkills[i].skillData;
             if (skillData != null && skillData.Icon != null)
             {
                 equippedSkillIcons[i].sprite = skillData.Icon;
-                equippedSkillIcons[i].gameObject.SetActive(true);
+                equippedSkillIcons[i].color = NormalColor;
             }
             else
             {
-                equippedSkillIcons[i].gameObject.SetActive(false);
+                equippedSkillIcons[i].color = Color.clear;
             }
         }
     }
@@ -333,9 +364,9 @@ public class SkillPanel : MonoBehaviour
         _skillPoints += refundedPoints;
 
         // 清除已裝備技能
-        for (int i = 0; i < PlayerSkillController.instance.equippedSkills.Length; i++)
+        for (int i = 0; i < playerSkillController.equippedSkills.Length; i++)
         {
-            PlayerSkillController.instance.EquipSkill(i, null);
+            playerSkillController.EquipSkill(i, null);
         }
 
         UpdateSkillPointDisplay();

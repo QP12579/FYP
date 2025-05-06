@@ -7,11 +7,11 @@ public class SkillManager : Singleton<SkillManager>
     public TextAsset skillsTSV;
     public Dictionary<int, List<SkillData>> skillsByID = new Dictionary<int, List<SkillData>>();
     public List<SkillData> unlockedSkills = new List<SkillData>();
-    public List<SkillData> specialSkills = new List<SkillData>(); // ID 5 skills
+    public List<SkillData> ID5Skills = new List<SkillData>(); // ID 5 skills
 
     private string skillDataPath = "Skills/SkillData";
 
-    private int _skillPoints;
+    [SerializeField] private int _skillPoints;
     public int SkillPoints => _skillPoints;
 
     public void AddSkillPoints(int amount)
@@ -67,7 +67,7 @@ public class SkillManager : Singleton<SkillManager>
             // Organize by ID
             if (skill.ID == 5)
             {
-                specialSkills.Add(skill);
+                ID5Skills.Add(skill);
             }
             else
             {
@@ -104,9 +104,21 @@ public class SkillManager : Singleton<SkillManager>
 
     public SkillData GetRandomSpecialSkill()
     {
-        if (specialSkills.Count == 0) return null;
-        return specialSkills[UnityEngine.Random.Range(0, specialSkills.Count)];
+        if (ID5Skills.Count == 0) return null;
+        return ID5Skills[UnityEngine.Random.Range(0, ID5Skills.Count)];
     }
+
+    public SkillData GetID5SkillData(string name)
+    {
+        foreach (var skill in ID5Skills) 
+        {
+            if(skill.Name == name)
+                return skill;
+        }
+        Debug.Log("Cannot found SpecialSkillData");
+        return null;
+    }
+
     public bool AddSpecialSkill(SkillData specialSkill)
     {
         if (specialSkill == null || specialSkill.ID != 5) return false;
@@ -148,7 +160,8 @@ public class SkillManager : Singleton<SkillManager>
         if (unlockedSkills.Contains(skill)) return false;
 
         bool canUnlock = skill.level == 1 ||
-                       (unlockedSkills.Exists(s => s.ID == skill.ID && s.level == skill.level - 1));
+                       (unlockedSkills.Exists(s => s.ID == skill.ID && s.level == skill.level - 1)) ||
+                       skill.ID == 5;
 
         if (canUnlock && _skillPoints > 0)
         {
