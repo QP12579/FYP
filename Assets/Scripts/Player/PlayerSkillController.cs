@@ -129,7 +129,8 @@ public class PlayerSkillController : MonoBehaviour
                 BuffSpawnPoint.rotation
             );
 
-            BuffSkill.transform.SetParent( transform, false );
+            BuffSkill.transform.SetParent( transform, false ); 
+            BuffSkill.transform.localPosition = Vector3.zero;
             switch (equippedSkill.skillData.types[0])
             {
                 case SkillType.Heal:
@@ -144,12 +145,12 @@ public class PlayerSkillController : MonoBehaviour
                     {
                         baseBuff.AssignBuffType(randomBuffs[i]);
                     }
-            Destroy(BuffSkill, equippedSkill.cooldownTimer);
+                    Destroy(BuffSkill, equippedSkill.cooldownTimer);
 
                     break;
             }
+            return;
         }
-
 
         // Instantiate the skill prefab
         GameObject skillInstance = Instantiate(

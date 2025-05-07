@@ -45,7 +45,6 @@ public class MeleeEnemy : Enemy
             FindingPlayer();
             return;
         }
-        Debug.Log("Found player, Attack.");
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer < 0) distanceToPlayer *= -1;

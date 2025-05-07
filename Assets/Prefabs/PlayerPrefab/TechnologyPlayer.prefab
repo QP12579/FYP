@@ -344,9 +344,10 @@ MonoBehaviour:
     skillPrefab: {fileID: 0}
     cooldownTimer: 0
   skillSpawnPoint: {fileID: 4822267913083150260}
+  BuffSpawnPoint: {fileID: 0}
   skillManager: {fileID: 0}
   player: {fileID: 7286353846663120720}
-  move: {fileID: 0}
+  move: {fileID: 2027344488009931479}
   AbilitySkillDamagePlus: 0
   AbilitySkillSpeedPlus: 0
   AbilitySkillSizePlus: 0
