@@ -44,6 +44,7 @@ public class StageManager : NetworkBehaviour
     [Server]
     public void RegisterPlayer(Player player, bool isMagicCharacter)
     {
+        Debug.Log($"Registering player {player.netId} as {(isMagicCharacter ? "Magic" : "Techno")} character");
         // Create player info
         PlayerStageInfo info = new PlayerStageInfo
         {
@@ -62,20 +63,45 @@ public class StageManager : NetworkBehaviour
     [Server]
     private void SpawnStageForPlayer(Player player)
     {
+        if (!playerStages.ContainsKey(player.netId))
+        {
+            Debug.LogError($"No stage info found for player {player.netId}! Did RegisterPlayer run?");
+            return;
+        }
+
         PlayerStageInfo info = playerStages[player.netId];
 
         // Get the appropriate stage array
         GameObject[] stageArray = info.isMagicCharacter ? magicStages : technoStages;
 
+        Debug.Log($"SpawnStageForPlayer: Player {player.netId}, Magic: {info.isMagicCharacter}, Stage Index: {info.currentStageIndex}");
+
+        // Check if the stage arrays are properly set up
+        if (stageArray == null || stageArray.Length == 0)
+        {
+            Debug.LogError($"Stage array is null or empty for {(info.isMagicCharacter ? "Magic" : "Techno")} player!");
+            return;
+        }
+
         // Check if player has completed all stages
         if (info.currentStageIndex >= stageArray.Length)
         {
+            Debug.Log($"Player {player.netId} has completed all stages");
             PlayerCompletedAllStages(player);
             return;
         }
 
-        // Instantiate the stage
+        // Make sure the stage prefab is valid
         GameObject stagePrefab = stageArray[info.currentStageIndex];
+        if (stagePrefab == null)
+        {
+            Debug.LogError($"Stage prefab at index {info.currentStageIndex} is null for {(info.isMagicCharacter ? "Magic" : "Techno")} player!");
+            return;
+        }
+
+        Debug.Log($"Instantiating stage {info.currentStageIndex} for player {player.netId}");
+
+        // Instantiate the stage
         GameObject stageInstance = Instantiate(stagePrefab);
 
         // Set as the current stage
@@ -85,17 +111,32 @@ public class StageManager : NetworkBehaviour
         WaveManager waveManager = stageInstance.GetComponentInChildren<WaveManager>();
         if (waveManager != null)
         {
+            Debug.Log($"Found WaveManager in stage {info.currentStageIndex} for player {player.netId}");
+
             // Set player reference
-            waveManager.SetPlayer(player);
+            waveManager.SetPlayer(player, info.isMagicCharacter);
 
             // Subscribe to wave completion event
             waveManager.OnAllWavesCompleted += () => HandleStageCompleted(player);
         }
+        else
+        {
+            Debug.LogError($"No WaveManager found in stage {info.currentStageIndex} for player {player.netId}!");
+        }
+
+        // Check if NetworkIdentity is present
+        NetworkIdentity netId = stageInstance.GetComponent<NetworkIdentity>();
+        if (netId == null)
+        {
+            Debug.LogError($"No NetworkIdentity on stage prefab {stagePrefab.name}!");
+            netId = stageInstance.AddComponent<NetworkIdentity>();
+        }
 
         // Spawn on network
+        Debug.Log($"Spawning stage {info.currentStageIndex} on network for player {player.netId}");
         NetworkServer.Spawn(stageInstance);
 
-        // Notify clients to set up the stage
+        // Notify clients
         RpcSetupStage(player.netId, info.currentStageIndex, stageInstance.GetComponent<NetworkIdentity>().netId);
     }
 

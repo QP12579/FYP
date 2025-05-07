@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveDuration: 30
   defaultSpawnHeight: 0.59
+  isMagicPath: 1
   waves:
   - name: Wave0
     segments:
