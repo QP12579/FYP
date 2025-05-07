@@ -1,0 +1,4 @@
+DebuffName	p1	p2	p3
+Blooding	10	15	30
+Dizziness	0		
+Slow	10	15	30

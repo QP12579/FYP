@@ -65,10 +65,10 @@ public class PersistentUI : MonoBehaviour
 
     public void UpdatePlayerUI(float currentHP, float maxHP, float currentMP, float maxMP, float SP, int level)
     {
-        HPSlider.maxValue = maxHP;
-        MPSlider.maxValue = maxMP;
         HPSlider.value = currentHP;
         MPSlider.value = currentMP;
+        HPSlider.maxValue = maxHP;
+        MPSlider.maxValue = maxMP;
 
         HPSlider.transform.GetComponentInChildren<TextMeshProUGUI>().text =
             currentHP.ToString("####") + "/" + maxHP.ToString();

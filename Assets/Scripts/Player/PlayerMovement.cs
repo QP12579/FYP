@@ -216,9 +216,10 @@ public class PlayerMovement : NetworkBehaviour
             collision.gameObject.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage);
     }
 
-    public void SpeedUp(float upPower)
+    public void SpeedChange()
     {
-        speed = baseSpeed * (1 + abilitySpeed + upPower);
+        speed = baseSpeed * (1 + abilitySpeed + PlayerBuffSystem.instance.GetBuffValue(BuffType.MoveSpeedUp)
+            - PlayerBuffSystem.instance.GetDeBuffValue(DeBuffType.Slow));
     }
 
     public void AbilitySpeedUp(float upP)
@@ -260,5 +261,10 @@ public class PlayerMovement : NetworkBehaviour
         transform.position = SpawnPoint;
     }
 
-   
+    public void Dizziness(float time)
+    {
+        canMove = false;
+        anim.SetTrigger("Hurt");
+        LeanTween.delayedCall(time, CanMove);
+    }
 }
