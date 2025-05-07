@@ -20,6 +20,7 @@ public class PlayerSkillController : MonoBehaviour
 
     [Header("References")]
     public Transform skillSpawnPoint;
+    public Transform BuffSpawnPoint;
     public SkillManager skillManager;
     public Player player;
     public PlayerMovement move;
@@ -32,6 +33,8 @@ public class PlayerSkillController : MonoBehaviour
     public float AbilitySkillSizePlus = 0;
     private float buffATKPlus = 0;
     private float buffSkillCooldownMinus = 0;
+
+    private string PlayerMorT;
 
     private void Start()
     {
@@ -54,6 +57,8 @@ public class PlayerSkillController : MonoBehaviour
         equippedSkills[1].activationKey = KeyCode.E;
         equippedSkills[0].cooldownTimer = 0;
         equippedSkills[1].cooldownTimer = 0;
+
+        PlayerMorT = gameObject.name[0] == 'M' ? "Magic" : "Tech";
     }
 
     private void Update()
@@ -95,6 +100,57 @@ public class PlayerSkillController : MonoBehaviour
         equippedSkill.cooldownTimer = equippedSkill.skillData.cooldown * ( 1 - AbilitySkillSpeedPlus - buffSkillCooldownMinus);
         StartCoroutine(CoolDownTimer(slotIndex, equippedSkill.cooldownTimer));
 
+        // Defense
+        if(equippedSkill.skillData.types[0] == SkillType.DFN)
+        {
+            switch (equippedSkill.skillData.level)
+            {
+                case 1:  //Slide
+                    move.Rolling();
+                    move.BlockAttack(true);
+                    break;
+                //Dash
+                case 2:
+                    move.Rolling(true, equippedSkill.skillData.power * (1 + AbilitySkillDamagePlus));
+                    move.BlockAttack(true);
+                    break;
+                //Reflect
+                case 3:
+                    move.BlockAttack(true);
+                    break;
+            }
+            return;
+        }
+        else if (equippedSkill.skillData.types[0] == SkillType.Heal || equippedSkill.skillData.types[0] == SkillType.Buff)
+        {
+            GameObject BuffSkill = Instantiate(
+                equippedSkill.skillPrefab,
+                BuffSpawnPoint.position,
+                BuffSpawnPoint.rotation
+            );
+
+            BuffSkill.transform.SetParent( transform, false );
+            switch (equippedSkill.skillData.types[0])
+            {
+                case SkillType.Heal:
+                    BuffSkill.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
+                    break;
+                case SkillType.Buff:
+                    BuffType[] allBuffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
+                    List<BuffType> randomBuffs = GetRandomElements(allBuffTypes, 3);
+                    BaseBuff baseBuff = BuffSkill.GetComponent<BaseBuff>();
+                    if(baseBuff == null) baseBuff = BuffSkill.AddComponent<BaseBuff>();
+                    for (int i = 0; i < randomBuffs.Count; i++)
+                    {
+                        baseBuff.AssignBuffType(randomBuffs[i]);
+                    }
+            Destroy(BuffSkill, equippedSkill.cooldownTimer);
+
+                    break;
+            }
+        }
+
+
         // Instantiate the skill prefab
         GameObject skillInstance = Instantiate(
             equippedSkill.skillPrefab,
@@ -109,36 +165,11 @@ public class PlayerSkillController : MonoBehaviour
         {
             case SkillType.ATK:
                 AttackSkill skill = skillInstance.GetComponent<AttackSkill>();
+                if(skill == null) skill = skillInstance.AddComponent<AttackSkill>() ;
                 skill.Initialize(equippedSkill.skillData.power *(1 + AbilitySkillDamagePlus + buffATKPlus));
                 skill.SetAttackType(skillSpawnPoint);
                 if (equippedSkill.skillData.types.Length > 1 && equippedSkill.skillData.types[1] == SkillType.DeBuff)
                     skill.HaveDebuff();
-                break;
-            case SkillType.Heal:
-                skillInstance.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
-                break;
-            case SkillType.DFN:
-                Destroy(skillInstance);
-                switch (equippedSkill.skillData.level)
-                {
-                    case 1:  //Slide
-                        move.Rolling();
-                        move.BlockAttack(true);
-                        break;
-                    //Dash
-                    case 2:
-                        move.Rolling(true, equippedSkill.skillData.power * (1 + AbilitySkillDamagePlus));
-                        move.BlockAttack(true);
-                        break;
-                    //Reflect
-                    case 3:
-                        move.BlockAttack(true);
-                        break;
-                }
-                break;
-                case SkillType.Buff:
-                BuffType[] allBuffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
-                List<BuffType> randomBuffs = GetRandomElements(allBuffTypes, 3);
                 break;
             default:
                 break;
@@ -162,8 +193,10 @@ public class PlayerSkillController : MonoBehaviour
     {
         // Load from Resources or use a dictionary
         // Example: return Resources.Load<GameObject>($"Skills/{skillData.Name}");
-        GameObject prefab = Resources.Load<GameObject>($"Skills/Prefabs/{skillData.Name}");
-        if (prefab == null) {
+        GameObject prefab = Resources.Load<GameObject>($"Skills/Prefabs/VFX_{skillData.Name}");
+        if (prefab == null) prefab = Resources.Load<GameObject>($"Skills/Prefabs/VFX_{skillData.Name}_{PlayerMorT}");
+        else if (prefab == null) prefab = Resources.Load<GameObject>($"Skills/Prefabs/{skillData.Name}");
+        else if (prefab == null) {
             Debug.Log("No prefab.");
             return null; }
         // For now, return a default prefab

@@ -66,8 +66,8 @@ public class PersistentUI : MonoBehaviour
     public void UpdatePlayerUI(float currentHP, float maxHP, float currentMP, float maxMP, float SP, int level)
     {
         HPSlider.maxValue = maxHP;
-        HPSlider.value = currentHP;
         MPSlider.maxValue = maxMP;
+        HPSlider.value = currentHP;
         MPSlider.value = currentMP;
 
         HPSlider.transform.GetComponentInChildren<TextMeshProUGUI>().text =

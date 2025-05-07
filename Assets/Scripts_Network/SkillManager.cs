@@ -11,6 +11,7 @@ public class SkillManager : Singleton<SkillManager>
 
     private string skillDataPath = "Skills/SkillData";
 
+    private PlayerSkillController playerSkillController;
     [SerializeField] private int _skillPoints;
     public int SkillPoints => _skillPoints;
 
@@ -24,6 +25,14 @@ public class SkillManager : Singleton<SkillManager>
         if (skillsTSV == null)
             skillsTSV = Resources.Load<TextAsset>(skillDataPath);
         LoadSkillsFromTSV();
+    }
+
+    private void FindingRefences()
+    {
+        if (playerSkillController != null) return;
+            playerSkillController = FindObjectOfType<PlayerSkillController>();
+        if (playerSkillController == null)
+            LeanTween.delayedCall(0.5f, FindingRefences);
     }
 
     private void LoadSkillsFromTSV()
@@ -102,7 +111,7 @@ public class SkillManager : Singleton<SkillManager>
         return null;
     }
 
-    public SkillData GetRandomSpecialSkill()
+    public SkillData GetRandomID5Skill()
     {
         if (ID5Skills.Count == 0) return null;
         return ID5Skills[UnityEngine.Random.Range(0, ID5Skills.Count)];
@@ -119,22 +128,7 @@ public class SkillManager : Singleton<SkillManager>
         return null;
     }
 
-    public bool AddSpecialSkill(SkillData specialSkill)
-    {
-        if (specialSkill == null || specialSkill.ID != 5) return false;
-
-        // 檢查是否已擁有該特殊技能
-        if (unlockedSkills.Exists(s => s.ID == 5 && s.Name == specialSkill.Name))
-        {
-            Debug.Log("已經擁有這個特殊技能");
-            return false;
-        }
-
-        unlockedSkills.Add(specialSkill);
-        SkillPanel.instance?.RefreshAllButtons();
-        return true;
-    }
-    public List<SkillData> GetUnlockedSpecialSkills()
+    public List<SkillData> GetUnlockedID5Skills()
     {
         return unlockedSkills.FindAll(s => s.ID == 5);
     }
@@ -242,9 +236,9 @@ public class SkillManager : Singleton<SkillManager>
     }
     public SkillData GetEquippedSkill(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= PlayerSkillController.instance.equippedSkills.Length)
+        if (slotIndex < 0 || slotIndex >= playerSkillController.equippedSkills.Length)
             return null;
 
-        return PlayerSkillController.instance.equippedSkills[slotIndex].skillData;
+        return playerSkillController.equippedSkills[slotIndex].skillData;
     }
 }

@@ -14569,7 +14569,7 @@ GameObject:
   - component: {fileID: 7169068730230664674}
   - component: {fileID: 3701348660133271651}
   m_Layer: 0
-  m_Name: Arrow Barrage
+  m_Name: VFX_Arrow Barrage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,7 +8,7 @@ public class AttackSkill : MonoBehaviour
     [SerializeField] public LayerMask groundMask;
 
     private bool haveDebuff = false;
-    private DebuffSkill debuff;
+    private DebuffSkill[] debuffs;
 
     public void Initialize(float power)
     {
@@ -18,7 +18,7 @@ public class AttackSkill : MonoBehaviour
     public void HaveDebuff()
     {
         haveDebuff = true;
-        debuff = GetComponent<DebuffSkill>();
+        debuffs = GetComponents<DebuffSkill>();
     }
 
     public AttackSkill SetAttackType(Transform weaponPosi)
@@ -78,7 +78,9 @@ public class AttackSkill : MonoBehaviour
                 IDebuffable debuffable = other.GetComponent<IDebuffable>();
                 if (debuffable != null)
                 {
-                    debuff.DebuffTarget(debuffable);
+                    foreach(var debuff in debuffs){
+                        debuff.DebuffTarget(debuffable);
+                    }
                 }
             }
             gameObject.GetComponent<Animator>().SetTrigger(0);
@@ -96,7 +98,10 @@ public class AttackSkill : MonoBehaviour
                 IDebuffable debuffable = other.gameObject.GetComponent<IDebuffable>();
                 if (debuffable != null)
                 {
-                    debuff.DebuffTarget(debuffable);
+                    foreach (var debuff in debuffs)
+                    {
+                        debuff.DebuffTarget(debuffable);
+                    }
                 }
             }
             gameObject.GetComponent<Animator>().SetTrigger(0);

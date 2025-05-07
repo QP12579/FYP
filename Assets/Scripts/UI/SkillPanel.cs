@@ -15,7 +15,7 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] private Image[] equippedSkillIcons = new Image[2];
 
     [Header("Special Skill Settings")]
-    [SerializeField] private List<SkillButton> specialSkillButtons = new List<SkillButton>();
+    [SerializeField] private List<SkillButton> ID5SkillButtons = new List<SkillButton>();
 
     [Header("Tooltip Settings")]
     [SerializeField] private GameObject tooltipPanelPrefab;
@@ -134,6 +134,7 @@ public class SkillPanel : MonoBehaviour
         }
 
         SkillData skillData = skillManager.GetSkillByID(button.id, button.level);
+        if(skillData ==  null ) skillData = skillManager.GetID5SkillData(button.button.name);
         if (skillData == null)
         {
             Debug.LogWarning($"Skill data not found for ID: {button.id}, Level: {button.level}");
@@ -179,47 +180,17 @@ public class SkillPanel : MonoBehaviour
 
         // 初始化已裝備技能顯示
         UpdateEquippedSkillDisplay();
-        InitializeSpecialSkills();
-    }
-    private void InitializeSpecialSkills()
-    {
-        // 清除現有特殊技能按鈕
-        foreach (var button in specialSkillButtons)
-        {
-            button.button.interactable = false;
-        }
     }
 
-    public void OnSpecialSkillButtonClick(SkillButton button)
-    {
-        // 選擇特殊技能
-        if (currentlySelectedSkill != null)
-        {
-            currentlySelectedSkill.isSelected = false;
-            UpdateButtonVisual(currentlySelectedSkill);
-        }
-
-        currentlySelectedSkill = button;
-        currentlySelectedSkill.isSelected = true;
-        UpdateButtonVisual(currentlySelectedSkill);
-    }
     private void UpdateButtonState(SkillButton button)
     {
         SkillData skillData = null;
         if (button.id == 5)
         {
-            var specialSkills = skillManager.GetUnlockedSpecialSkills();
-            foreach (var btn in specialSkillButtons)
-            {
-                if (btn == button)
-                {
-                    skillData = specialSkills.Find(s => s.Name == btn.name); // find button name is == to skill name
-                    break;
-                }
-            }
+            skillData = skillManager.GetID5SkillData(button.button.name);
         }
         else skillData = skillManager.GetSkillByID(button.id, button.level);
-        if (skillData == null) { button.button.interactable = false; return; }
+        if (skillData == null) { Debug.Log("Button's Data cannot found in Database."); return; }
 
         button.isUnlocked = skillManager.IsSkillUnlocked(skillData);
         button.isSelected = false;
@@ -240,7 +211,6 @@ public class SkillPanel : MonoBehaviour
         }
         else
         {
-            // 檢查是否可以解鎖
             bool canUnlock = skillManager.CanUnlockSkill(skillData);
             button.button.interactable = canUnlock && _skillPoints > 0;
 
@@ -253,6 +223,7 @@ public class SkillPanel : MonoBehaviour
     public void OnSkillButtonClick(SkillButton button)
     {
         SkillData skillData = skillManager.GetSkillByID(button.id, button.level);
+        if (skillData == null) skillData = skillManager.GetID5SkillData(button.button.name);
         if (skillData == null) return;
 
         if (!button.isUnlocked)
@@ -295,16 +266,7 @@ public class SkillPanel : MonoBehaviour
         // 特殊技能 (ID 5)
         else
         {
-            // 從特殊技能按鈕列表中獲取對應的 SkillData
-            var specialSkills = skillManager.GetUnlockedSpecialSkills();
-            foreach (var btn in specialSkillButtons)
-            {
-                if (btn == currentlySelectedSkill)
-                {
-                    skillData = specialSkills.Find(s => s.Name == btn.name); // find button name is == to skill name
-                    break;
-                }
-            }
+            skillData = skillManager.GetID5SkillData(currentlySelectedSkill.button.name);
         }
 
         if (skillData == null)
@@ -312,8 +274,31 @@ public class SkillPanel : MonoBehaviour
             Debug.Log("DataNull so Returned??? OAO"); return; }
         // check equipped rule
         bool canEquip = skillManager.CanEquipToSlot(skillData, slotIndex);
+
+
         if (canEquip)
         {
+            int otherSlot = slotIndex == 0 ? 1 : 0;
+            bool isOtherSameSkill = playerSkillController.equippedSkills[otherSlot].skillData.ID == currentlySelectedSkill.id &&
+                playerSkillController.equippedSkills[otherSlot].skillData.level == currentlySelectedSkill.level;
+            bool isSameSkill = playerSkillController.equippedSkills[slotIndex].skillData.ID == currentlySelectedSkill.id &&
+                playerSkillController.equippedSkills[slotIndex].skillData.level == currentlySelectedSkill.level;
+            if (isOtherSameSkill || isSameSkill)
+            {
+                SkillData emptyData = new SkillData
+                {
+                    ID = 0,
+                    level = 0,
+                    Icon = null,
+                    Name = "",
+                    Description = "",
+                    power = 0,
+                    MP = 0,
+                    cooldown = 0,
+                };
+                playerSkillController.EquipSkill(isOtherSameSkill? otherSlot: slotIndex, emptyData);
+            }
+            if(!isSameSkill)
             playerSkillController.EquipSkill(slotIndex, skillData);
             UpdateEquippedSkillDisplay();
         }

@@ -2079,13 +2079,7 @@ MonoBehaviour:
   equippedSkillIcons:
   - {fileID: 3837276686849018884}
   - {fileID: 7249795862702496646}
-  specialSkillButtons:
-  - {fileID: 7605306724075640529}
-  - {fileID: 4897725152875182257}
-  - {fileID: 2397867094453420647}
-  - {fileID: 3665568144656586662}
-  - {fileID: 5590908333228011388}
-  - {fileID: 8682015792916108179}
+  ID5SkillButtons: []
   tooltipPanelPrefab: {fileID: 1138639064305233217, guid: bba7e9bbac793b141b1b4cca1ccbbf4e,
     type: 3}
   tooltipOffsetX: -25
@@ -3547,9 +3541,9 @@ RectTransform:
   - {fileID: 5738002230223601629}
   m_Father: {fileID: 4321810831706583751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 952.65, y: -1000}
   m_SizeDelta: {x: 1905.3, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8860887640104735023
