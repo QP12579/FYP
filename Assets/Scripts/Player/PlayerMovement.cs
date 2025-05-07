@@ -95,11 +95,20 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (!isLocalPlayer)
         {
             Debug.Log("not local ");
             return;
         }
+
+        bool isActive = this.gameObject.activeSelf;
+        if (!isActive)
+        {
+            this.gameObject.SetActive(true);
+        }
+
+
 
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");

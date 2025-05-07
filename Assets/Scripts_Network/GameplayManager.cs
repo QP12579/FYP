@@ -61,7 +61,6 @@ public class GameplayManager : NetworkBehaviour
             Transform spawnPoint = GetSpawnPoint(playerId);
 
             // Create the player's character
-           
             GameObject character = Instantiate(
                 characterPrefabs[characterIndex],
                 spawnPoint.position,
@@ -75,9 +74,24 @@ public class GameplayManager : NetworkBehaviour
             NetworkServer.ReplacePlayerForConnection(conn, character, true);
 
             Debug.Log($"Spawned character {characterIndex} for player {playerId}");
+
+            Player playerComponent = character.GetComponent<Player>();
+            bool isMagicCharacter = characterIndex == 0; // Adjust based on your character indices
+
+            // Find the StageManager
+            StageManager stageManager = FindObjectOfType<StageManager>();
+            if (stageManager != null)
+            {
+                Debug.Log($"Registering player {playerComponent.netId} with StageManager");
+                stageManager.RegisterPlayer(playerComponent, isMagicCharacter);
+            }
+            else
+            {
+                Debug.LogError("StageManager not found in scene!");
+            }
         }
     }
-
+    
     private Transform GetSpawnPoint(int playerId)
     {
         if (NetworkManager.startPositions.Count == 0)
