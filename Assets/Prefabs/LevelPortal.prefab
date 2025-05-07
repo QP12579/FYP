@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7969985996074227591}
   - component: {fileID: 3508193246778921189}
   - component: {fileID: 262300616503866713}
+  - component: {fileID: -4323754303774551217}
+  - component: {fileID: 1440791091541295212}
   m_Layer: 10
   m_Name: LevelPortal
   m_TagString: Untagged
@@ -107,6 +109,35 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &-4323754303774551217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2803390916967158785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3607a2df029af0e409b6e38005b45443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1440791091541295212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2803390916967158785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3698842187
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &4088854564366673496
 GameObject:
   m_ObjectHideFlags: 0

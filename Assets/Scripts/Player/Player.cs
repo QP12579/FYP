@@ -227,44 +227,9 @@ public class Player : NetworkBehaviour
         move.ResetSpeed();
     }
 
-    void PrepareForSceneChange()
-    {
-        PlayerData.SavePlayerState(this);
-    }
+   
+    
 
-    void OnEnable()
-    {
-        if (isLocalPlayer)
-        {
-            PlayerData.LoadPlayerState(this);
-        }
-    }
-
-    // tracking win condition
-    [Command]
-    public void CmdReportLevelComplete(int levelId, float completionTime)
-    {
-        
-        BattleManager.Instance.RecordLevelCompletion(connectionToClient.connectionId, levelId, completionTime);
-    }
-
-    [Command]
-    public void CmdRequestSceneChange(string sceneName)
-    {
-        // Server-side logic before changing scene
-        Debug.Log($"Player {gameObject.name} requested scene change to {sceneName}");
-
-        // Tell this specific client to change scene
-        TargetChangeScene(connectionToClient, sceneName);
-    }
-
-    [TargetRpc]
-    private void TargetChangeScene(NetworkConnection target, string sceneName)
-    {
-        // Client loads the new scene additively
-        Debug.Log($"Loading scene: {sceneName}");
-        SceneManager.LoadSceneAsync(sceneName);
-    }
 
 
     /* // LevelUP

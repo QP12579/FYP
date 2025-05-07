@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using NaughtyAttributes;
- 
+
 public class WaveManager : MonoBehaviour
 {
+    // Event for when all waves are completed
+    public delegate void WaveCompletionEvent();
+    public event WaveCompletionEvent OnAllWavesCompleted;
+
     [Header(" Settings ")]
     [SerializeField] private float waveDuration;
     private float timer;
@@ -18,29 +21,30 @@ public class WaveManager : MonoBehaviour
     private List<float> localCounters = new List<float>();
 
     [Header(" Elements ")]
-    [SerializeField] private Player player;
+    private Player player; // Will be set at runtime
 
-    // Start is called before the first frame update
-    void Start()
+    // Track active enemies
+    private List<GameObject> activeEnemies = new List<GameObject>();
+
+    // Set the player reference
+    public void SetPlayer(Player newPlayer)
     {
-        
+        player = newPlayer;
 
-        StartWave(currentWaveIndex);
+        // Start the first wave once player is set
+        StartWave(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isTimerOn)
+        if (player == null || !isTimerOn)
             return;
 
         if (timer < waveDuration)
             ManageCurrentWave();
         else
             StartWaveTransition();
-
-
-        Debug.Log("Timer : " + timer);
     }
 
     private void StartWave(int waveIndex)
@@ -54,12 +58,8 @@ public class WaveManager : MonoBehaviour
             localCounters.Add(1);
         }
 
-            
-
-
         timer = 0;
         isTimerOn = true;
-            
     }
 
     private void ManageCurrentWave()
@@ -70,99 +70,122 @@ public class WaveManager : MonoBehaviour
         {
             WaveSegment segment = currentWave.segments[i];
 
-            float   tStart      = segment.tStartEnd.x / 100 * waveDuration;
-            float   tEnd        = segment.tStartEnd.y / 100 * waveDuration;
+            float tStart = segment.tStartEnd.x / 100 * waveDuration;
+            float tEnd = segment.tStartEnd.y / 100 * waveDuration;
 
             if (timer < tStart || timer > tEnd)
                 continue;
 
             float timeSinceSegmentStart = timer - tStart;
 
-            float spawnDelay = 1f / segment.spawnmFrequency;    // Delay =   1/ frequency
+            float spawnDelay = 1f / segment.spawnmFrequency;    // Delay = 1/frequency
 
-            if (timeSinceSegmentStart / spawnDelay > localCounters[i] )
+            if (timeSinceSegmentStart / spawnDelay > localCounters[i])
             {
-                Instantiate(segment.prefab, GetsSpawnPosition(), Quaternion.identity, transform );
+                GameObject enemy = Instantiate(segment.prefab, GetsSpawnPosition(), Quaternion.identity, transform);
+                activeEnemies.Add(enemy);
                 localCounters[i]++;
-            }    
+            }
         }
 
         timer += Time.deltaTime;
+
+        // Remove destroyed enemies from the list
+        activeEnemies.RemoveAll(enemy => enemy == null);
+
+        // If wave time is over and all enemies are defeated, finish earlier
+        if (timer >= waveDuration * 0.9f && activeEnemies.Count == 0)
+        {
+            StartWaveTransition();
+        }
     }
 
     private void StartWaveTransition()
     {
         isTimerOn = false;
 
-       // DefeatAllEnemies();
+        // Wait for all remaining enemies to be destroyed
+        if (activeEnemies.Count > 0)
+        {
+            StartCoroutine(WaitForAllEnemiesToBeDefeated());
+            return;
+        }
 
+        AdvanceWave();
+    }
+
+    private IEnumerator WaitForAllEnemiesToBeDefeated()
+    {
+        // Check every 0.5 seconds if all enemies are defeated
+        while (activeEnemies.Count > 0)
+        {
+            // Clean up destroyed enemies
+            activeEnemies.RemoveAll(enemy => enemy == null);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        AdvanceWave();
+    }
+
+    private void AdvanceWave()
+    {
         currentWaveIndex++;
         if (currentWaveIndex >= waves.Length)
         {
             Debug.Log(" Waves completed ");
-            
-            return; 
+
+            // Trigger the completion event
+            OnAllWavesCompleted?.Invoke();
+
+            return;
         }
+
         StartWave(currentWaveIndex);
-
-    }
-
-    private void DefeatAllEnemies()
-    {
-        transform.Clear();
     }
 
     private Vector3 GetsSpawnPosition()
     {
-        // Get random direction on XZ plane (horizontal only)
+       
         Vector2 randomCircle = Random.insideUnitCircle.normalized;
         Vector3 direction = new Vector3(randomCircle.x, 0, randomCircle.y);
 
-        // Create offset from player in that direction (horizontal only)
         float distance = Random.Range(6f, 10f);
         Vector3 offset = direction * distance;
 
-        // Calculate target position (on same XZ plane as player initially)
         Vector3 targetPosition = player.transform.position + offset;
-
-        // Set default height
         targetPosition.y = defaultSpawnHeight;
 
-        // Raycast to find the actual ground height
         RaycastHit hit;
         if (Physics.Raycast(targetPosition + Vector3.up * 50f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground")))
         {
-            // Place at the configured height above the ground
             targetPosition.y = hit.point.y + defaultSpawnHeight;
         }
         else
         {
-            // If no ground found, use player's Y position plus default height
             targetPosition.y = player.transform.position.y + defaultSpawnHeight;
         }
 
-        // Clamp position within game boundaries (only X and Z)
         targetPosition.x = Mathf.Clamp(targetPosition.x, -18f, 18f);
         targetPosition.z = Mathf.Clamp(targetPosition.z, -18f, 18f);
 
         return targetPosition;
     }
 }
+[System.Serializable]
+public struct Wave
+{
+    public string name;
 
-    [System.Serializable]
-    public struct Wave
-    {
-        public string name;
-        public List<WaveSegment> segments;
+    public List<WaveSegment> segments;
 
-    }
+}
 
-    [System.Serializable]
-    public struct WaveSegment
-    {
-        [MinMaxSlider(0, 100)] public Vector2 tStartEnd;
-        
-       public float spawnmFrequency;
-       public GameObject prefab;
-    }
+[System.Serializable]
+public struct WaveSegment
+{
+    [MinMaxSlider(0, 100)] public Vector2 tStartEnd;
 
+    public float spawnmFrequency;
+
+    public GameObject prefab;
+}

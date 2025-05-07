@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 1024726803}
   - component: {fileID: 1024726799}
   - component: {fileID: 1024726802}
-  - component: {fileID: 1024726804}
   m_Layer: 0
   m_Name: Extended
   m_TagString: Untagged
@@ -370,6 +369,12 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 4606641454445231472, guid: d9c18e4cdbf9f7e4f9bb2108fc5dddcb, type: 3}
   - {fileID: 4606641454445231472, guid: f8343ca733111f84bb9ae8caf129c59e, type: 3}
+  - {fileID: 4870233573290318476, guid: 7997dfd7024b8fd42b7c05d87080fa5c, type: 3}
+  - {fileID: 289882553085794124, guid: 8436971e4039c914d91e3c4b919ecc46, type: 3}
+  - {fileID: 2460702197589135519, guid: d2562bc4e9fe390479ec5b90cafea52f, type: 3}
+  - {fileID: 8918982300782772781, guid: 84fd080b83cd19c4099f461049b82bd5, type: 3}
+  - {fileID: 2803390916967158785, guid: 0efe4cd4ece96b74183f2bcd6e45d674, type: 3}
+  - {fileID: 3590452312971052177, guid: 8d30af6b9e3a81240955bd88a2cf7400, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -385,19 +390,6 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  firstSceneToLoad: ConnectionTestPlay
---- !u!114 &1024726804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024726797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b979f26c95d34324ba005bfacfa9c4fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1059730115
 GameObject:
   m_ObjectHideFlags: 0
