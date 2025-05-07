@@ -75,30 +75,19 @@ public class GameplayManager : NetworkBehaviour
 
             Debug.Log($"Spawned character {characterIndex} for player {playerId}");
 
-            // Register the player with the stage manager
             Player playerComponent = character.GetComponent<Player>();
-            if (playerComponent != null)
+            bool isMagicCharacter = characterIndex == 0; // Adjust based on your character indices
+
+            // Find the StageManager
+            StageManager stageManager = FindObjectOfType<StageManager>();
+            if (stageManager != null)
             {
-                
-                StageManager stageManager = FindObjectOfType<StageManager>();
-                if (stageManager != null)
-                {
-                    // Determine if this is a magic character 
-                    bool isMagicCharacter = characterIndex == 0; // Adjust this based on your character indices
-
-                    // Register the player
-                    stageManager.RegisterPlayer(playerComponent, isMagicCharacter);
-
-                    Debug.Log($"Registered player {playerId} with stage manager. Magic character: {isMagicCharacter}");
-                }
-                else
-                {
-                    Debug.LogError("StageProgressionManager not found in scene!");
-                }
+                Debug.Log($"Registering player {playerComponent.netId} with StageManager");
+                stageManager.RegisterPlayer(playerComponent, isMagicCharacter);
             }
             else
             {
-                Debug.LogError("Player component not found on character object!");
+                Debug.LogError("StageManager not found in scene!");
             }
         }
     }

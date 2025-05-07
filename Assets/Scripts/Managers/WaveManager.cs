@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 using NaughtyAttributes;
 
 public class WaveManager : MonoBehaviour
@@ -16,29 +17,38 @@ public class WaveManager : MonoBehaviour
     private int currentWaveIndex;
     [SerializeField] private float defaultSpawnHeight = 0.59f;
 
+    [Header(" Path Type ")]
+    [SerializeField] private bool isMagicPath; // True for magic path, false for techno path
+
     [Header(" Wave ")]
     [SerializeField] private Wave[] waves;
     private List<float> localCounters = new List<float>();
 
     [Header(" Elements ")]
-    private Player player; // Will be set at runtime
+    private Player targetPlayer; // The specific player this wave manager targets
 
     // Track active enemies
     private List<GameObject> activeEnemies = new List<GameObject>();
 
     // Set the player reference
-    public void SetPlayer(Player newPlayer)
+    public void SetPlayer(Player newPlayer, bool isPlayerMagic)
     {
-        player = newPlayer;
+        // Only set this player as the target if it matches our path type
+        if (isPlayerMagic == isMagicPath)
+        {
+            targetPlayer = newPlayer;
+            Debug.Log($"Set target player for {(isMagicPath ? "Magic" : "Techno")} path: {newPlayer.name}");
 
-        // Start the first wave once player is set
-        StartWave(0);
+            // Start the first wave once we have our target player
+            StartWave(0);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player == null || !isTimerOn)
+        // Make sure we have our target player and waves are running
+        if (targetPlayer == null || !isTimerOn)
             return;
 
         if (timer < waveDuration)
@@ -49,7 +59,7 @@ public class WaveManager : MonoBehaviour
 
     private void StartWave(int waveIndex)
     {
-        Debug.Log(" Starting Wave " + waveIndex);
+        Debug.Log($"Starting Wave {waveIndex} on {(isMagicPath ? "Magic" : "Techno")} path");
 
         localCounters.Clear();
 
@@ -64,6 +74,10 @@ public class WaveManager : MonoBehaviour
 
     private void ManageCurrentWave()
     {
+        // Only server should spawn enemies
+        if (!NetworkServer.active)
+            return;
+
         Wave currentWave = waves[currentWaveIndex];
 
         for (int i = 0; i < currentWave.segments.Count; i++)
@@ -82,9 +96,19 @@ public class WaveManager : MonoBehaviour
 
             if (timeSinceSegmentStart / spawnDelay > localCounters[i])
             {
-                GameObject enemy = Instantiate(segment.prefab, GetsSpawnPosition(), Quaternion.identity, transform);
+                // Get spawn position relative to our target player
+                Vector3 spawnPosition = GetSpawnPosition();
+
+                // Instantiate the enemy
+                GameObject enemy = Instantiate(segment.prefab, spawnPosition, Quaternion.identity, transform);
+
+                // Spawn on the network to make visible to all clients
+                NetworkServer.Spawn(enemy);
+
                 activeEnemies.Add(enemy);
                 localCounters[i]++;
+
+                Debug.Log($"Spawned enemy for {(isMagicPath ? "Magic" : "Techno")} path, wave {currentWaveIndex}, segment {i}");
             }
         }
 
@@ -132,7 +156,7 @@ public class WaveManager : MonoBehaviour
         currentWaveIndex++;
         if (currentWaveIndex >= waves.Length)
         {
-            Debug.Log(" Waves completed ");
+            Debug.Log($"All waves completed for {(isMagicPath ? "Magic" : "Techno")} path");
 
             // Trigger the completion event
             OnAllWavesCompleted?.Invoke();
@@ -143,16 +167,21 @@ public class WaveManager : MonoBehaviour
         StartWave(currentWaveIndex);
     }
 
-    private Vector3 GetsSpawnPosition()
+    private Vector3 GetSpawnPosition()
     {
-       
+        if (targetPlayer == null)
+        {
+            Debug.LogError("Target player is null in GetSpawnPosition!");
+            return Vector3.zero;
+        }
+
         Vector2 randomCircle = Random.insideUnitCircle.normalized;
         Vector3 direction = new Vector3(randomCircle.x, 0, randomCircle.y);
 
         float distance = Random.Range(6f, 10f);
         Vector3 offset = direction * distance;
 
-        Vector3 targetPosition = player.transform.position + offset;
+        Vector3 targetPosition = targetPlayer.transform.position + offset;
         targetPosition.y = defaultSpawnHeight;
 
         RaycastHit hit;
@@ -162,7 +191,7 @@ public class WaveManager : MonoBehaviour
         }
         else
         {
-            targetPosition.y = player.transform.position.y + defaultSpawnHeight;
+            targetPosition.y = targetPlayer.transform.position.y + defaultSpawnHeight;
         }
 
         targetPosition.x = Mathf.Clamp(targetPosition.x, -18f, 18f);
@@ -171,21 +200,18 @@ public class WaveManager : MonoBehaviour
         return targetPosition;
     }
 }
+
 [System.Serializable]
 public struct Wave
 {
     public string name;
-
     public List<WaveSegment> segments;
-
 }
 
 [System.Serializable]
 public struct WaveSegment
 {
     [MinMaxSlider(0, 100)] public Vector2 tStartEnd;
-
     public float spawnmFrequency;
-
     public GameObject prefab;
 }
