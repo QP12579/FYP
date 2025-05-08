@@ -121,7 +121,7 @@ public class SkillManager : Singleton<SkillManager>
     {
         foreach (var skill in ID5Skills) 
         {
-            if(skill.Name == name)
+            if(skill.Name.Equals(name))
                 return skill;
         }
         Debug.Log("Cannot found SpecialSkillData");
@@ -143,6 +143,8 @@ public class SkillManager : Singleton<SkillManager>
 
         // For level 1 skills, always unlockable
         if (skill.level == 1) return true;
+
+        if(skill.ID == 5) return true;
 
         // For higher levels, check if previous level is unlocked
         int previousLevel = skill.level - 1;

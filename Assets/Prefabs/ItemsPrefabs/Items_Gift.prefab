@@ -127,7 +127,8 @@ MonoBehaviour:
   GetSound: {fileID: 0}
   buffPrefab: {fileID: 3182493278813538639, guid: 2dd76835d2923f943908677c4efc647b,
     type: 3}
-  debuffPrefab: {fileID: 0}
+  debuffPrefab: {fileID: 3182493278813538639, guid: 37a7d39917ccb51419494d8470f7a16a,
+    type: 3}
   EnemyPrefab: {fileID: 0}
   buffChance: 60
   debuffChance: 30

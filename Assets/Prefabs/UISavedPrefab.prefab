@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnEquipButtonClick
         m_Mode: 3
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -1930,11 +1930,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5766833381025096532}
   - component: {fileID: 6442068804603600443}
-  - component: {fileID: 425784891072057439}
   - component: {fileID: 5921755412720681790}
   - component: {fileID: 2514192429763252944}
   - component: {fileID: 1920813032518176890}
-  - component: {fileID: 2703166939732584386}
   m_Layer: 0
   m_Name: _AbilityAndSkills_ScrollView
   m_TagString: Untagged
@@ -1972,86 +1970,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911106477719564788}
   m_CullTransparentMesh: 1
---- !u!114 &425784891072057439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911106477719564788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6baf09164a86f0942af25d2a5f3aa099, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AbilityPointText: {fileID: 520051396282536341}
-  AbilityPoint: 0
-  BaseValueButtons:
-  - button: {fileID: 3461960813067444614}
-    id: 1
-    level: 0
-    maxLevel: 0
-    description: {fileID: 2251259792474526942}
-    levelText: {fileID: 7163028853174835364}
-    unlockRequirementsID: 
-    unlockTargetsID: 030000000400000008000000
-  - button: {fileID: 576275663951983576}
-    id: 2
-    level: 0
-    maxLevel: 0
-    description: {fileID: 5660579597310790299}
-    levelText: {fileID: 1384969186127122409}
-    unlockRequirementsID: 
-    unlockTargetsID: 030000000400000008000000
-  - button: {fileID: 356649863561383467}
-    id: 3
-    level: 0
-    maxLevel: 0
-    description: {fileID: 761146126341622115}
-    levelText: {fileID: 3364417413362371243}
-    unlockRequirementsID: 0100000002000000
-    unlockTargetsID: 0600000007000000
-  - button: {fileID: 6086649297809152946}
-    id: 4
-    level: 0
-    maxLevel: 0
-    description: {fileID: 3650990670197420391}
-    levelText: {fileID: 6805768679083521085}
-    unlockRequirementsID: 0100000002000000
-    unlockTargetsID: 05000000
-  - button: {fileID: 8050752786759960638}
-    id: 5
-    level: 0
-    maxLevel: 0
-    description: {fileID: 3237247060727755882}
-    levelText: {fileID: 2725606719409034050}
-    unlockRequirementsID: 04000000
-    unlockTargetsID: 
-  - button: {fileID: 8501329911413532635}
-    id: 6
-    level: 0
-    maxLevel: 0
-    description: {fileID: 5665974154886045330}
-    levelText: {fileID: 4851369499630799207}
-    unlockRequirementsID: 03000000
-    unlockTargetsID: 
-  - button: {fileID: 5194148876562840618}
-    id: 7
-    level: 0
-    maxLevel: 0
-    description: {fileID: 6814367459772618940}
-    levelText: {fileID: 6440936156531818881}
-    unlockRequirementsID: 03000000
-    unlockTargetsID: 
-  - button: {fileID: 8268483800616574225}
-    id: 8
-    level: 0
-    maxLevel: 0
-    description: {fileID: 5016119703801648372}
-    levelText: {fileID: 9202032164921152844}
-    unlockRequirementsID: 0100000002000000
-    unlockTargetsID: 
-  resetAllButton: {fileID: 7356727958380720264}
 --- !u!114 &5921755412720681790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2124,53 +2042,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2703166939732584386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911106477719564788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cffe5eee494b76a4e8feddc2bb9e77a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillPointText: {fileID: 2125099952738238092}
-  resetAllButton: {fileID: 1547639465762012027}
-  skillButtons:
-  - {fileID: 4444433433898643436}
-  - {fileID: 7938245433552869309}
-  - {fileID: 8578177520948539733}
-  - {fileID: 8544323009151828784}
-  - {fileID: 3166697055310106637}
-  - {fileID: 1258911948224510240}
-  - {fileID: 1254572935177339473}
-  - {fileID: 9141661661528293552}
-  - {fileID: 7377166235703435178}
-  - {fileID: 3466413122456789107}
-  - {fileID: 4504749853406337878}
-  - {fileID: 7908442297468222397}
-  equipButtons:
-  - {fileID: 2749454611031269297}
-  - {fileID: 1971509465209279762}
-  equippedSkillIcons:
-  - {fileID: 3837276686849018884}
-  - {fileID: 7249795862702496646}
-  ID5SkillButtons: []
-  tooltipPanelPrefab: {fileID: 1138639064305233217, guid: bba7e9bbac793b141b1b4cca1ccbbf4e,
-    type: 3}
-  tooltipOffsetX: -25
-  tooltipOffsetY: 0
-  NormalColor: {r: 1, g: 1, b: 1, a: 1}
-  CanUnlockColor: {r: 0.79622644, g: 0.79622644, b: 0.79622644, a: 1}
-  UnlockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  lockedColor: {r: 0.2679245, g: 0.2679245, b: 0.2679245, a: 0.9019608}
-  selectedColor: {r: 1, g: 1, b: 1, a: 1}
-  SFX_BuySkill: {fileID: 8300000, guid: 0437c0b3e31fc8649b3b65423c793d12, type: 3}
-  SFX_SelectSkill: {fileID: 8300000, guid: c8967e36ee221b04789664de5ea317d8, type: 3}
-  SFX_BuyFail: {fileID: 8300000, guid: 86ac0b1ee45b39e42bbb60c73cffea58, type: 3}
-  SFX_LockedSkill: {fileID: 8300000, guid: 176c72f216e5b944ab99ee3487b6cc03, type: 3}
 --- !u!1 &947537546881841336
 GameObject:
   m_ObjectHideFlags: 0
@@ -2582,8 +2453,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnResetAllClick
         m_Mode: 1
         m_Arguments:
@@ -2716,8 +2587,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -4927,8 +4798,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -5060,7 +4931,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -6035,7 +5906,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -6867,7 +6738,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -7319,7 +7190,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -8025,7 +7896,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -8385,7 +8256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -9199,8 +9070,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -9479,7 +9350,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -9645,6 +9516,118 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4111783582883728245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1505997614054307948}
+  - component: {fileID: 6109004836255952991}
+  m_Layer: 0
+  m_Name: AbilityPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1505997614054307948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4111783582883728245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 702960954636400333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6109004836255952991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4111783582883728245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6baf09164a86f0942af25d2a5f3aa099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilityPointText: {fileID: 520051396282536341}
+  AbilityPoint: 0
+  BaseValueButtons:
+  - button: {fileID: 3461960813067444614}
+    id: 1
+    level: 0
+    maxLevel: 0
+    description: {fileID: 2251259792474526942}
+    levelText: {fileID: 7163028853174835364}
+    unlockRequirementsID: 
+    unlockTargetsID: 030000000400000008000000
+  - button: {fileID: 576275663951983576}
+    id: 2
+    level: 0
+    maxLevel: 0
+    description: {fileID: 5660579597310790299}
+    levelText: {fileID: 1384969186127122409}
+    unlockRequirementsID: 
+    unlockTargetsID: 030000000400000008000000
+  - button: {fileID: 356649863561383467}
+    id: 3
+    level: 0
+    maxLevel: 0
+    description: {fileID: 761146126341622115}
+    levelText: {fileID: 3364417413362371243}
+    unlockRequirementsID: 0100000002000000
+    unlockTargetsID: 0600000007000000
+  - button: {fileID: 6086649297809152946}
+    id: 4
+    level: 0
+    maxLevel: 0
+    description: {fileID: 3650990670197420391}
+    levelText: {fileID: 6805768679083521085}
+    unlockRequirementsID: 0100000002000000
+    unlockTargetsID: 05000000
+  - button: {fileID: 8050752786759960638}
+    id: 5
+    level: 0
+    maxLevel: 0
+    description: {fileID: 3237247060727755882}
+    levelText: {fileID: 2725606719409034050}
+    unlockRequirementsID: 04000000
+    unlockTargetsID: 
+  - button: {fileID: 8501329911413532635}
+    id: 6
+    level: 0
+    maxLevel: 0
+    description: {fileID: 5665974154886045330}
+    levelText: {fileID: 4851369499630799207}
+    unlockRequirementsID: 03000000
+    unlockTargetsID: 
+  - button: {fileID: 5194148876562840618}
+    id: 7
+    level: 0
+    maxLevel: 0
+    description: {fileID: 6814367459772618940}
+    levelText: {fileID: 6440936156531818881}
+    unlockRequirementsID: 03000000
+    unlockTargetsID: 
+  - button: {fileID: 8268483800616574225}
+    id: 8
+    level: 0
+    maxLevel: 0
+    description: {fileID: 5016119703801648372}
+    levelText: {fileID: 9202032164921152844}
+    unlockRequirementsID: 0100000002000000
+    unlockTargetsID: 
+  resetAllButton: {fileID: 7356727958380720264}
 --- !u!1 &4123418681628220576
 GameObject:
   m_ObjectHideFlags: 0
@@ -9803,7 +9786,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnEquipButtonClick
         m_Mode: 3
@@ -9936,7 +9919,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -11047,7 +11030,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -12875,6 +12858,94 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5654169499565279761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1882759892385790985}
+  - component: {fileID: 7890565653164162139}
+  m_Layer: 0
+  m_Name: SkillPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1882759892385790985
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5654169499565279761}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 702960954636400333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7890565653164162139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5654169499565279761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cffe5eee494b76a4e8feddc2bb9e77a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillPointText: {fileID: 2125099952738238092}
+  resetAllButton: {fileID: 1547639465762012027}
+  skillButtons:
+  - {fileID: 4444433433898643436}
+  - {fileID: 7938245433552869309}
+  - {fileID: 8578177520948539733}
+  - {fileID: 8544323009151828784}
+  - {fileID: 3166697055310106637}
+  - {fileID: 1258911948224510240}
+  - {fileID: 1254572935177339473}
+  - {fileID: 9141661661528293552}
+  - {fileID: 7377166235703435178}
+  - {fileID: 3466413122456789107}
+  - {fileID: 4504749853406337878}
+  - {fileID: 7908442297468222397}
+  equipButtons:
+  - {fileID: 2749454611031269297}
+  - {fileID: 1971509465209279762}
+  equippedSkillIcons:
+  - {fileID: 3837276686849018884}
+  - {fileID: 7249795862702496646}
+  ID5SkillButtons:
+  - {fileID: 7605306724075640529}
+  - {fileID: 4897725152875182257}
+  - {fileID: 2397867094453420647}
+  - {fileID: 3665568144656586662}
+  - {fileID: 5590908333228011388}
+  - {fileID: 8682015792916108179}
+  tooltipPanelPrefab: {fileID: 1138639064305233217, guid: bba7e9bbac793b141b1b4cca1ccbbf4e,
+    type: 3}
+  tooltipOffsetX: -25
+  tooltipOffsetY: 0
+  NormalColor: {r: 1, g: 1, b: 1, a: 1}
+  CanUnlockColor: {r: 0.79622644, g: 0.79622644, b: 0.79622644, a: 1}
+  UnlockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  lockedColor: {r: 0.2679245, g: 0.2679245, b: 0.2679245, a: 0.9019608}
+  selectedColor: {r: 1, g: 1, b: 1, a: 1}
+  SFX_BuySkill: {fileID: 8300000, guid: 0437c0b3e31fc8649b3b65423c793d12, type: 3}
+  SFX_SelectSkill: {fileID: 8300000, guid: c8967e36ee221b04789664de5ea317d8, type: 3}
+  SFX_BuyFail: {fileID: 8300000, guid: 86ac0b1ee45b39e42bbb60c73cffea58, type: 3}
+  SFX_LockedSkill: {fileID: 8300000, guid: 176c72f216e5b944ab99ee3487b6cc03, type: 3}
+  SFX_EquipSkill: {fileID: 8300000, guid: c8967e36ee221b04789664de5ea317d8, type: 3}
+  SFX_EquipFail: {fileID: 8300000, guid: 86ac0b1ee45b39e42bbb60c73cffea58, type: 3}
+  SFX_EmptyEquipSkill: {fileID: 8300000, guid: 176c72f216e5b944ab99ee3487b6cc03, type: 3}
 --- !u!1 &5654989318690393381
 GameObject:
   m_ObjectHideFlags: 0
@@ -13348,8 +13419,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -13664,7 +13735,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -14141,8 +14212,8 @@ MonoBehaviour:
   - {fileID: 5609728517003599108}
   - {fileID: 2023234105343525556}
   - {fileID: 132974411712723381}
-  _skillPanel: {fileID: 2703166939732584386}
-  _abilityPanel: {fileID: 425784891072057439}
+  _skillPanel: {fileID: 0}
+  _abilityPanel: {fileID: 0}
   _playerBuffSystem: {fileID: 7731366007428266731}
 --- !u!1 &6097719865622257839
 GameObject:
@@ -14536,8 +14607,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -15603,7 +15674,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -16911,7 +16982,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -18125,8 +18196,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -18180,6 +18251,8 @@ RectTransform:
   - {fileID: 5654996759440926519}
   - {fileID: 4409591255882725674}
   - {fileID: 1059248165838568155}
+  - {fileID: 1505997614054307948}
+  - {fileID: 1882759892385790985}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -18888,8 +18961,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -19155,7 +19228,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -19307,8 +19380,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 425784891072057439}
-        m_TargetAssemblyTypeName: AbilityAndSkillsPanel, Assembly-CSharp
+      - m_Target: {fileID: 6109004836255952991}
+        m_TargetAssemblyTypeName: AbilityPanel, Assembly-CSharp
         m_MethodName: OnBaseButtonClick
         m_Mode: 3
         m_Arguments:
@@ -19764,7 +19837,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnResetAllClick
         m_Mode: 1
@@ -20031,7 +20104,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -20401,7 +20474,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -21118,7 +21191,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2
@@ -21782,7 +21855,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2703166939732584386}
+      - m_Target: {fileID: 7890565653164162139}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: OnSkillButtonClick
         m_Mode: 2

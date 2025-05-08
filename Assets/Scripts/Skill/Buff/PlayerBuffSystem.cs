@@ -157,6 +157,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
             {
                 RemoveBuff(activeBuffs[i].type);
                 activeBuffs.RemoveAt(i);
+                Debug.Log($"Removed {activeBuffs[i].type} .");
             }
         }
     }

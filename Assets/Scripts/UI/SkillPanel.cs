@@ -34,6 +34,9 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] private AudioClip SFX_SelectSkill;
     [SerializeField] private AudioClip SFX_BuyFail;
     [SerializeField] private AudioClip SFX_LockedSkill;
+    [SerializeField] private AudioClip SFX_EquipSkill;
+    [SerializeField] private AudioClip SFX_EquipFail;
+    [SerializeField] private AudioClip SFX_EmptyEquipSkill;
 
     private SkillManager skillManager;
     private PlayerSkillController playerSkillController;
@@ -184,6 +187,10 @@ public class SkillPanel : MonoBehaviour
             // 初始化按鈕狀態
             UpdateButtonState(button);
         }
+        foreach(var button in ID5SkillButtons)
+        {
+            UpdateButtonState(button);
+        }
 
         // 初始化已裝備技能顯示
         UpdateEquippedSkillDisplay();
@@ -233,7 +240,8 @@ public class SkillPanel : MonoBehaviour
     {
         SkillData skillData = skillManager.GetSkillByID(button.id, button.level);
         if (skillData == null) skillData = skillManager.GetID5SkillData(button.button.name);
-        if (skillData == null || _skillPoints <= 0) 
+        int needSkillPT = skillData.ID == 5? 2 : 1;
+        if (skillData == null || _skillPoints < needSkillPT ) 
         {
             if (SFX_BuyFail != null)
                 SoundManager.instance.PlaySFX(SFX_BuyFail);
@@ -244,7 +252,7 @@ public class SkillPanel : MonoBehaviour
             // 嘗試解鎖技能
             if (skillManager.UnlockSkill(skillData))
             {
-                _skillPoints--;
+                _skillPoints -= needSkillPT;
                 UpdateSkillPointDisplay();
                 button.isUnlocked = true;
                 UpdateButtonState(button);
@@ -298,8 +306,12 @@ public class SkillPanel : MonoBehaviour
             int otherSlot = slotIndex == 0 ? 1 : 0;
             bool isOtherSameSkill = playerSkillController.equippedSkills[otherSlot].skillData.ID == currentlySelectedSkill.id &&
                 playerSkillController.equippedSkills[otherSlot].skillData.level == currentlySelectedSkill.level;
-            bool isSameSkill = playerSkillController.equippedSkills[slotIndex].skillData.ID == currentlySelectedSkill.id &&
-                playerSkillController.equippedSkills[slotIndex].skillData.level == currentlySelectedSkill.level;
+            bool isSameSkill = currentlySelectedSkill.id != 5?
+                (playerSkillController.equippedSkills[slotIndex].skillData.ID == currentlySelectedSkill.id &&
+                playerSkillController.equippedSkills[slotIndex].skillData.level == currentlySelectedSkill.level) 
+                : playerSkillController.equippedSkills[slotIndex].skillData.Name.Equals(currentlySelectedSkill.name);
+
+
             if (isOtherSameSkill || isSameSkill)
             {
                 SkillData emptyData = new SkillData
@@ -313,14 +325,23 @@ public class SkillPanel : MonoBehaviour
                     MP = 0,
                     cooldown = 0,
                 };
-                playerSkillController.EquipSkill(isOtherSameSkill? otherSlot: slotIndex, emptyData);
+
+                playerSkillController.EquipSkill(isSameSkill? slotIndex : otherSlot, emptyData);
+                if(SFX_EmptyEquipSkill!=null)
+                    SoundManager.instance.PlaySFX(SFX_EmptyEquipSkill);
             }
             if(!isSameSkill)
-            playerSkillController.EquipSkill(slotIndex, skillData);
+            {
+                playerSkillController.EquipSkill(slotIndex, skillData);
+                if(SFX_EquipSkill!=null)
+                    SoundManager.instance.PlaySFX(SFX_EquipSkill);
+            }
             UpdateEquippedSkillDisplay();
         }
         else
         {
+            if(SFX_EquipFail!=null)
+                SoundManager.instance.PlaySFX(SFX_EquipFail);
             Debug.Log("This Skill Cannot equip in this slot.");
         }
     }
@@ -337,7 +358,7 @@ public class SkillPanel : MonoBehaviour
         else if (button.isUnlocked)
         {
             colors.normalColor = UnlockedColor;
-            colors.highlightedColor = selectedColor;
+            colors.highlightedColor = NormalColor;
         }
 
         button.button.colors = colors;

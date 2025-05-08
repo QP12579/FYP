@@ -139,6 +139,7 @@ public class PlayerSkillController : MonoBehaviour
         else if (equippedSkill.skillData.types[0] == SkillType.Buff)
         {
             AddRandomBuff(equippedSkill.skillPrefab, 3);
+            return;
         }
 
         // Instantiate the skill prefab

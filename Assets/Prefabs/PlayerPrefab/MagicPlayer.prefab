@@ -276,8 +276,8 @@ MonoBehaviour:
   equippedSkills:
   - activationKey: 113
     skillData:
-      ID: 1
-      level: 1
+      ID: 0
+      level: 0
       Icon: {fileID: 0}
       Name: 
       types: 00000000
@@ -290,8 +290,8 @@ MonoBehaviour:
     cooldownTimer: 0
   - activationKey: 101
     skillData:
-      ID: 2
-      level: 1
+      ID: 0
+      level: 0
       Icon: {fileID: 0}
       Name: 
       types: 03000000
