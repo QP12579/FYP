@@ -238,14 +238,22 @@ public class AbilitySystem : MonoBehaviour
 
     private BaseValueLevel GetLevelValue(AbilityCase value, int level)
     {
-        BaseValueLevel powerValues = new BaseValueLevel();
-        powerValues = value.levelValues.Find(a => a.level == level);
+        BaseValueLevel powerValues = value.levelValues.Find(a => a.level == level);
         if (value.currentLevel <= 1) return powerValues;
-        BaseValueLevel oldValues = value.levelValues.Find(a => a.level == level - 1);
-        powerValues.power1 -= oldValues.power1;
-        powerValues.power2 -= oldValues.power2;
 
-        return powerValues;
+        BaseValueLevel oldValues = new BaseValueLevel();
+           oldValues = value.levelValues.Find(a => a.level == (level - 1));
+        float power1 = powerValues.power1 - oldValues.power1;
+        float power2 = powerValues.power2 - oldValues.power2;
+
+        BaseValueLevel newValues = new BaseValueLevel()
+        {
+            level = level,
+            power1 = power1,
+            power2 = power2,
+        };
+
+        return newValues;
     }
 
     private void UpATKDamage(float p)
@@ -306,12 +314,21 @@ public class AbilitySystem : MonoBehaviour
         p -= 1;
         if (p <= 0) player.abilityAutoFillMP = 0;
         else player.abilityAutoFillMP += p;
+        Debug.Log($"AutoFillMP: {player.abilityAutoFillMP}");
     }
 
     private void IncreaseATKArea(float p)
     {
-        playerAttack.AbilityATKArea += p;
-        skillController.AbilitySkillSizePlus += p;
+        if (p <= 0)
+        {
+            playerAttack.AbilityATKArea = 0;
+            skillController.AbilitySkillSizePlus = 0;
+        }
+        else
+        {
+            playerAttack.AbilityATKArea += p;
+            skillController.AbilitySkillSizePlus += p;
+        }
         playerAttack.IncreaseATKArea();
     }
 
@@ -323,41 +340,20 @@ public class AbilitySystem : MonoBehaviour
         int pointsToRefund = currentLevel;
         value.currentLevel = 0;
 
-        switch (id)
-        {
-            case 1:
-                UpATKDamage(-GetTotalPower(value, currentLevel, 1));
-                UpMoveSpeed(-GetTotalPower(value, currentLevel, 2));
-                break;
-            case 2:
-                UpSkillDamage(-GetTotalPower(value, currentLevel, 1));
-                UpMoveSpeed(-GetTotalPower(value, currentLevel, 2));
-                break;
-            case 3:
-                UpATKDamage(-GetTotalPower(value, currentLevel, 1));
-                UpSkillDamage(-GetTotalPower(value, currentLevel, 1));
-                autoDefense(-GetTotalPower(value, currentLevel, 2));
-                break;
-            case 4:
-                UpATKSpeed(-GetTotalPower(value, currentLevel, 1));
-                decreaseSkillCooldown(-GetTotalPower(value, currentLevel, 2));
-                break;
-            case 5:
-                UpRollSpeed(-GetTotalPower(value, currentLevel, 1));
-                break;
-            case 6:
-                UpDefense(-GetTotalPower(value, currentLevel, 1), -GetTotalPower(value, currentLevel, 2));
-                break;
-            case 7:
-                DecreaseMP(-GetTotalPower(value, currentLevel, 1));
-                AutoFillMP(0);
-                break;
-            case 8:
-                IncreaseATKArea(-GetTotalPower(value, currentLevel, 1));
-                break;
+        //
+        playerAttack.AbilityATKPlus = 0;
+        skillController.AbilitySkillDamagePlus = 0;
+        movement.ResetAbilitySpeed();
+        player.abilityDamageReduction = 0;
+        playerAttack.AbilityATKSpeedPlus = 0;
+        skillController.AbilitySkillSpeedPlus = 0;
+        player.abilityPerfectDefenceluck = 0;
+        player.abilityNormalDefencePlus = 0;
+        player.abilityDecreaseMP = 0;
+        AutoFillMP(0);
 
-        }
 
+        //
         return pointsToRefund;
     }
 

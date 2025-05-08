@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class Coins : BaseItem
+public class Broom : BaseItem
 {
-    public Coins()
+    public Broom()
     {
         item = new Item
         {
-            Type = ItemType.Coin,
-            name = "Coin",
-            description = "Can buy items"
+            Type = ItemType.Broom,
+            name = "Broom",
+            description = "Clear All your Debuff state."
         };
     }
 
@@ -19,7 +19,7 @@ public class Coins : BaseItem
 
     protected override void GetItem()
     {
+        Bag.instance.AddItem(item);
         base.GetItem();
-        Bag.instance.AddCoins();
     }
 }

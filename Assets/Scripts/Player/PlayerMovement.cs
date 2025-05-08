@@ -236,6 +236,12 @@ public class PlayerMovement : NetworkBehaviour
         abilitySpeed += upP;
     }
 
+    public void ResetAbilitySpeed()
+    {
+        abilityRollingSpeed = 0;
+        abilitySpeed = 0;
+    }
+
     public void ResetSpeed()
     {
         speed = baseSpeed * (1 + abilitySpeed);

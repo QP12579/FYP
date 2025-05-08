@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class Coins : BaseItem
+public class TrapAmplifier : BaseItem
 {
-    public Coins()
+    public TrapAmplifier()
     {
         item = new Item
         {
-            Type = ItemType.Coin,
-            name = "Coin",
-            description = "Can buy items"
+            Type = ItemType.TrapAmplifier,
+            name = "TrapAmplifier",
+            description = "Amplify your Competitor's Trap"
         };
     }
 
@@ -19,7 +19,7 @@ public class Coins : BaseItem
 
     protected override void GetItem()
     {
+        Bag.instance.AddItem(item);
         base.GetItem();
-        Bag.instance.AddCoins();
     }
 }

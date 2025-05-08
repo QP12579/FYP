@@ -50,8 +50,8 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
     private PlayerSkillController skillController;
     private PlayerAttack playerAttack;
 
-    private bool hasActiveBuffs = false;
-    private bool hasRegenBuffs = false;
+    [HideInInspector] public bool hasActiveBuffs = false;
+    [HideInInspector] public bool hasActiveDebuffs = false;
 
     public static event Action OnBuffsUpdated;
 
@@ -78,7 +78,8 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 
     private void Update()
     {
-        UpdateActiveBuffs();
+        if (hasActiveBuffs) UpdateActiveBuffs();
+        if(hasActiveDebuffs) UpdateActiveDeBuffs();
     }
     // Main method to add buff (auto-levels)
     public void AddBuff(BuffType type)
@@ -114,7 +115,8 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         }
 
         buffLevels[type] = newLevel;
-        ApplyBuffEffect(type, effectValue);
+        ApplyBuffEffect(type, effectValue); 
+        hasActiveBuffs = activeBuffs.Count > 0;
     }
 
     private void ApplyBuffEffect(BuffType type, float value)
@@ -180,6 +182,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
                 break;
         }
         buffLevels.Remove(type);
+        hasActiveBuffs = activeBuffs.Count > 0;
     }
 
     public float GetBuffValue(BuffType type)
@@ -239,6 +242,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 
         debuffLevels[type] = newLevel;
         ApplyDeBuffEffect(type, effectValue);
+        hasActiveDebuffs = activedebuffs.Count > 0;
     }
 
     private void ApplyDeBuffEffect(DeBuffType type, float value)    // apply debuff
@@ -278,7 +282,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         }
     }
 
-    private void RemoveDeBuff(DeBuffType type)
+    private void RemoveDeBuff(DeBuffType type)  // remove debuff
     {
         switch (type)
         {
@@ -295,7 +299,8 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
                 break;
         }
         debuffLevels.Remove(type);
-    }   // remove debuff
+        hasActiveDebuffs = activedebuffs.Count > 0;
+    }
 
     public float GetDeBuffValue(DeBuffType type)
     {
@@ -321,7 +326,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
     }
 
     // HP / MP Regen
-    public void ApplyHOT(BuffType type, float totalHeal, float duration)
+    private void ApplyHOT(BuffType type, float totalHeal, float duration)
     {
         if (_activeBuffRoutines.ContainsKey(type))
         {
@@ -332,7 +337,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         _activeBuffRoutines[type] = routine;
     }
 
-    public void ApplyDOT(DeBuffType type, float totalDamage, float duration)
+    private void ApplyDOT(DeBuffType type, float totalDamage, float duration)
     {
         if (_activeDebuffRoutines.ContainsKey(type))
         {
@@ -369,7 +374,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 
         _activeDebuffRoutines.Remove(DeBuffType.Blooding);
     }
-    public void RemoveBuffEffect(BuffType type)
+    private void RemoveBuffEffect(BuffType type)
     {
         if (_activeBuffRoutines.TryGetValue(type, out Coroutine routine))
         {
@@ -378,7 +383,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
             Debug.Log($"Clear {type} Buff");
         }
     }
-    public void RemoveDebuffEffect(DeBuffType type)
+    private void RemoveDebuffEffect(DeBuffType type)
     {
         if (_activeDebuffRoutines.TryGetValue(type, out Coroutine routine))
         {

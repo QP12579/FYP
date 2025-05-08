@@ -156,4 +156,10 @@ public class AbilityPanel : MonoBehaviour
             UpdateButtonInteractable(button);
         }
     }
+
+    public void AddBasePoint(int p)
+    {
+        AbilityPoint += p;
+        UpdateAbilityPointDisplay();
+    }
 }

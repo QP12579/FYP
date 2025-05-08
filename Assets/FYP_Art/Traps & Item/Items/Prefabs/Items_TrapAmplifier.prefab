@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3715941695418144960}
   - component: {fileID: 5353627371849768815}
   - component: {fileID: 6930144926761313994}
+  - component: {fileID: 4440300055496914397}
   m_Layer: 0
   m_Name: Items_TrapAmplifier
   m_TagString: Untagged
@@ -106,3 +107,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64, y: 0.64, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4440300055496914397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249488138068479755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636b0aab7c09b7d4fb91141d14c2894d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    icon: {fileID: 693920810, guid: 997b86514c10bf14e856ab10ad583a2e, type: 3}
+    Type: 8
+    name: TrapAmplifier
+    description: Amplify your Competitor's Trap

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7298049762752335892}
   - component: {fileID: 3851244745180350224}
   - component: {fileID: 4107715708107244584}
+  - component: {fileID: 7286429205060043502}
   m_Layer: 0
   m_Name: Items_Gift
   m_TagString: Untagged
@@ -106,3 +107,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64, y: 0.64, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7286429205060043502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7696172170622260085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e552d2c9c7afb41b6a1f0c28a83461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    icon: {fileID: 1136793344, guid: 997b86514c10bf14e856ab10ad583a2e, type: 3}
+    Type: 5
+    name: Gift
+    description: "Dear Competitor, \nHere is A Gift to you!"
+  GetSound: {fileID: 0}
+  buffPrefab: {fileID: 3182493278813538639, guid: 2dd76835d2923f943908677c4efc647b,
+    type: 3}
+  debuffPrefab: {fileID: 0}
+  EnemyPrefab: {fileID: 0}
+  buffChance: 60
+  debuffChance: 30
+  enemyChance: 10

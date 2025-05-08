@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5603117471640229516}
   - component: {fileID: 7309143425486671206}
   - component: {fileID: 1095313333083893808}
+  - component: {fileID: -6622672426692030728}
   m_Layer: 0
   m_Name: BasicPT
   m_TagString: Untagged
@@ -128,3 +129,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64, y: 0.64, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6622672426692030728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3845493708888262723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3a9bf0e090ea448a3daa281a50a436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    icon: {fileID: -242712825, guid: 9c9376ff89748ab4ab100547c389e087, type: 3}
+    Type: 4
+    name: BasicPoint
+    description: Can Upgrade your Ability.
+  getPoint: 1

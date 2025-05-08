@@ -141,3 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a584199d9b662c42951707cc5cd80ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item:
+    icon: {fileID: 253449294, guid: e3607973d899bb44db5344c7570f1cdd, type: 3}
+    Type: 0
+    name: Coin
+    description: Can buy items

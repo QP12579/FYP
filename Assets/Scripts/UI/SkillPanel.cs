@@ -25,8 +25,15 @@ public class SkillPanel : MonoBehaviour
     [Header("Button Color Settings")]
     [SerializeField] private Color NormalColor = Color.white;
     [SerializeField] private Color CanUnlockColor = Color.gray;
+    [SerializeField] private Color UnlockedColor = Color.gray;
     [SerializeField] private Color lockedColor = Color.gray;
     [SerializeField] private Color selectedColor = Color.white;
+
+    [Header("Audio Clip")]
+    [SerializeField] private AudioClip SFX_BuySkill;
+    [SerializeField] private AudioClip SFX_SelectSkill;
+    [SerializeField] private AudioClip SFX_BuyFail;
+    [SerializeField] private AudioClip SFX_LockedSkill;
 
     private SkillManager skillManager;
     private PlayerSkillController playerSkillController;
@@ -206,7 +213,8 @@ public class SkillPanel : MonoBehaviour
         {
             button.button.interactable = true;
             var colors = button.button.colors;
-            colors.normalColor = NormalColor;
+            colors.normalColor = UnlockedColor;
+            colors.highlightedColor = selectedColor;
             button.button.colors = colors;
         }
         else
@@ -216,6 +224,7 @@ public class SkillPanel : MonoBehaviour
 
             var colors = button.button.colors;
             colors.normalColor = canUnlock ? CanUnlockColor : lockedColor;
+            colors.highlightedColor = NormalColor;
             button.button.colors = colors;
         }
     }
@@ -224,7 +233,11 @@ public class SkillPanel : MonoBehaviour
     {
         SkillData skillData = skillManager.GetSkillByID(button.id, button.level);
         if (skillData == null) skillData = skillManager.GetID5SkillData(button.button.name);
-        if (skillData == null) return;
+        if (skillData == null || _skillPoints <= 0) 
+        {
+            if (SFX_BuyFail != null)
+                SoundManager.instance.PlaySFX(SFX_BuyFail);
+            return; }
 
         if (!button.isUnlocked)
         {
@@ -236,9 +249,11 @@ public class SkillPanel : MonoBehaviour
                 button.isUnlocked = true;
                 UpdateButtonState(button);
                 RefreshAllButtons();
+                if (SFX_BuySkill != null)
+                    SoundManager.instance.PlaySFX(SFX_BuySkill);
             }
         }
-        else
+        if(button.isUnlocked)
         {
             // 選擇已解鎖的技能
             if (currentlySelectedSkill != null)
@@ -250,6 +265,8 @@ public class SkillPanel : MonoBehaviour
             currentlySelectedSkill = button;
             currentlySelectedSkill.isSelected = true;
             UpdateButtonVisual(currentlySelectedSkill);
+            if (SFX_SelectSkill != null)
+                SoundManager.instance.PlaySFX(SFX_SelectSkill);
         }
     }
 
@@ -315,12 +332,12 @@ public class SkillPanel : MonoBehaviour
         if (button.isSelected)
         {
             colors.normalColor = selectedColor;
-            colors.highlightedColor = selectedColor;
+            colors.highlightedColor = NormalColor;
         }
         else if (button.isUnlocked)
         {
-            colors.normalColor = NormalColor;
-            colors.highlightedColor = NormalColor;
+            colors.normalColor = UnlockedColor;
+            colors.highlightedColor = selectedColor;
         }
 
         button.button.colors = colors;
@@ -351,7 +368,17 @@ public class SkillPanel : MonoBehaviour
         // 清除已裝備技能
         for (int i = 0; i < playerSkillController.equippedSkills.Length; i++)
         {
-            playerSkillController.EquipSkill(i, null);
+            SkillData emptyData = new SkillData(){
+                ID = 0,
+                level = 0,
+                Icon = null,
+                Name = "",
+                Description = "",
+                power = 0,
+                MP = 0,
+                cooldown = 0
+            };
+            playerSkillController.EquipSkill(i, emptyData);
         }
 
         UpdateSkillPointDisplay();
@@ -381,5 +408,11 @@ public class SkillPanel : MonoBehaviour
         {
             skillPointText.text = _skillPoints.ToString();
         }
+    }
+
+    public void AddSkillPoints(int p)
+    {
+        _skillPoints += p;
+        UpdateSkillPointDisplay();
     }
 }

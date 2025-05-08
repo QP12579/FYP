@@ -526,53 +526,6 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
---- !u!1 &405911872
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 405911873}
-  - component: {fileID: 405911874}
-  m_Layer: 0
-  m_Name: SkillManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &405911873
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405911872}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1416405724}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &405911874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405911872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1cd0df3ead6e484a80c9eca4a638b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillsTSV: {fileID: 4900000, guid: 3b5f042421265904f8668ae08ee512ec, type: 3}
-  unlockedSkills: []
-  specialSkills: []
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2657,7 +2610,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 405911873}
   - {fileID: 596755292}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4262,35 +4214,39 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1578962191371148764, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 798477016647035186, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 2827143672510525193, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 2433636599676836979, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 4967258489571327173, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 3239636816075598414, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 6422970674599412425, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 4169890676353659406, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 1557059677299290630, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 2491482689707972802, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 483201798440403084, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 1595869913326330552, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 488799991084311049, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 7213316548668802912, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 4358722649158217278, guid: 066693ef9490aff49b672317e9ea6b01,
+    - targetCorrespondingSourceObject: {fileID: 5196512066178810429, guid: 066693ef9490aff49b672317e9ea6b01,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 6964909811100128087, guid: 066693ef9490aff49b672317e9ea6b01,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}

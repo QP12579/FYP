@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5655516260186301074}
   - component: {fileID: 498476872801073478}
   - component: {fileID: 661966622464031143}
+  - component: {fileID: 3859350323037336156}
   m_Layer: 0
   m_Name: Items_EnemyAmplifier
   m_TagString: Untagged
@@ -106,3 +107,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64, y: 0.64, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3859350323037336156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067980519645783429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab363fe78d08e2843b8c8bfa91e61379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    icon: {fileID: -41085268, guid: 997b86514c10bf14e856ab10ad583a2e, type: 3}
+    Type: 9
+    name: EnemyAmplifier
+    description: Amplify your Competitor's Enemy

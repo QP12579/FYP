@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class Coins : BaseItem
+public class CoinBag : BaseItem
 {
-    public Coins()
+    public CoinBag()
     {
         item = new Item
         {
-            Type = ItemType.Coin,
-            name = "Coin",
-            description = "Can buy items"
+            Type = ItemType.CoinBag,
+            name = "CoinBag",
+            description = "You are rich!"
         };
+        getCoins = 15;
     }
+
+    public int getCoins = 15;
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -19,7 +22,7 @@ public class Coins : BaseItem
 
     protected override void GetItem()
     {
+        Bag.instance.AddCoins(getCoins);
         base.GetItem();
-        Bag.instance.AddCoins();
     }
 }

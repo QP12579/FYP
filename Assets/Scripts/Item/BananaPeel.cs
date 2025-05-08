@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class Coins : BaseItem
+public class BananaPeel : BaseItem
 {
-    public Coins()
+    public BananaPeel()
     {
         item = new Item
         {
-            Type = ItemType.Coin,
-            name = "Coin",
-            description = "Can buy items"
+            Type = ItemType.Banana,
+            name = "BananaPeel",
+            description = "Somethings will happen to your Competitor."
         };
     }
 
@@ -19,7 +19,7 @@ public class Coins : BaseItem
 
     protected override void GetItem()
     {
+        Bag.instance.AddItem(item);
         base.GetItem();
-        Bag.instance.AddCoins();
     }
 }

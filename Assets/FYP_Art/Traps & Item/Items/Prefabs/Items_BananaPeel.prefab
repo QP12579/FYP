@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6749751182338296473}
   - component: {fileID: 7403212380835944634}
   - component: {fileID: 4494238061498970148}
+  - component: {fileID: -4766349069291225094}
   m_Layer: 0
   m_Name: Items_BananaPeel
   m_TagString: Untagged
@@ -106,3 +107,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64, y: 0.64, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4766349069291225094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263192780512945439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e038a2ea91a2a4aaf38180709ea8e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    icon: {fileID: 416306557, guid: 997b86514c10bf14e856ab10ad583a2e, type: 3}
+    Type: 6
+    name: BananaPeel
+    description: Somethings will happen to your Competitor.

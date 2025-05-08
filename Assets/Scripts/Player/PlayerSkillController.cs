@@ -2,10 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using static PlayerSkillController;
 
 public class PlayerSkillController : MonoBehaviour
 {
-    public static PlayerSkillController instance;
+    public static PlayerSkillController instance { get; private set; }
     [System.Serializable]
     public class EquippedSkill
     {
@@ -101,7 +102,7 @@ public class PlayerSkillController : MonoBehaviour
         StartCoroutine(CoolDownTimer(slotIndex, equippedSkill.cooldownTimer));
 
         // Defense
-        if(equippedSkill.skillData.types[0] == SkillType.DFN)
+        if (equippedSkill.skillData.types[0] == SkillType.DFN)
         {
             switch (equippedSkill.skillData.level)
             {
@@ -121,35 +122,23 @@ public class PlayerSkillController : MonoBehaviour
             }
             return;
         }
-        else if (equippedSkill.skillData.types[0] == SkillType.Heal || equippedSkill.skillData.types[0] == SkillType.Buff)
+        else if (equippedSkill.skillData.types[0] == SkillType.Heal )
         {
-            GameObject BuffSkill = Instantiate(
+            GameObject HealSkill = Instantiate(
                 equippedSkill.skillPrefab,
                 BuffSpawnPoint.position,
                 BuffSpawnPoint.rotation
             );
 
-            BuffSkill.transform.SetParent( transform, false ); 
-            BuffSkill.transform.localPosition = Vector3.zero;
-            switch (equippedSkill.skillData.types[0])
-            {
-                case SkillType.Heal:
-                    BuffSkill.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
-                    break;
-                case SkillType.Buff:
-                    BuffType[] allBuffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
-                    List<BuffType> randomBuffs = GetRandomElements(allBuffTypes, 3);
-                    BaseBuff baseBuff = BuffSkill.GetComponent<BaseBuff>();
-                    if(baseBuff == null) baseBuff = BuffSkill.AddComponent<BaseBuff>();
-                    for (int i = 0; i < randomBuffs.Count; i++)
-                    {
-                        baseBuff.AssignBuffType(randomBuffs[i]);
-                    }
-                    Destroy(BuffSkill, equippedSkill.cooldownTimer);
+            HealSkill.transform.SetParent(BuffSpawnPoint, false);
+            HealSkill.transform.localPosition = Vector3.zero;
 
-                    break;
-            }
+            HealSkill.GetComponent<HealSkill>().Initialize(equippedSkill.skillData.power);
             return;
+        }
+        else if (equippedSkill.skillData.types[0] == SkillType.Buff)
+        {
+            AddRandomBuff(equippedSkill.skillPrefab, 3);
         }
 
         // Instantiate the skill prefab
@@ -221,5 +210,48 @@ public class PlayerSkillController : MonoBehaviour
 
     public void ResetBuffSkillCooldown() { buffSkillCooldownMinus = 0; }
 
+    public void AddRandomBuff(GameObject buffPrefab, int count)
+    {
+        if(!PlayerBuffSystem.instance.hasActiveBuffs)
+        { 
+        GameObject BuffSkill = Instantiate(
+            buffPrefab,
+            BuffSpawnPoint.position,
+            BuffSpawnPoint.rotation
+            );
 
+        BuffSkill.transform.SetParent(BuffSpawnPoint, false);
+        BuffSkill.transform.localPosition = Vector3.zero;
+
+        }
+        BuffType[] allBuffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
+        List<BuffType> randomBuffs = GetRandomElements(allBuffTypes, 3);
+
+        for (int i = 0; i < randomBuffs.Count; i++)
+        {
+            PlayerBuffSystem.instance.AddBuff(randomBuffs[i]);
+        }        
+    }
+    
+    public void AddRandomDebuff(GameObject debuffPrefab, int count)
+    {
+        if (!PlayerBuffSystem.instance.hasActiveBuffs)
+        {
+            GameObject BuffSkill = Instantiate(
+            debuffPrefab,
+            BuffSpawnPoint.position,
+            BuffSpawnPoint.rotation
+            );
+
+            BuffSkill.transform.SetParent(BuffSpawnPoint, false);
+            BuffSkill.transform.localPosition = Vector3.zero;
+        }
+        DeBuffType[] allBuffTypes = (DeBuffType[])System.Enum.GetValues(typeof(DeBuffType));
+        List<DeBuffType> randomBuffs = GetRandomElements(allBuffTypes, 3);
+
+        for (int i = 0; i < randomBuffs.Count; i++)
+        {
+            PlayerBuffSystem.instance.AddDeBuff(randomBuffs[i]);
+        }
+    }
 }

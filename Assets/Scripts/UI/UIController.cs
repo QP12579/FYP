@@ -52,6 +52,12 @@ public class UIController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab)) { GamingUI.SetActive(true); }
 
+        if(Input.GetKeyDown(KeyCode.T)) { 
+            ShowSkillPart();
+            ShowSkillAbilityPanel();
+            GamingUI.SetActive(true);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape)) { GamingUI.SetActive(false); }
 
         // get mouse scroll value
