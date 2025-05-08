@@ -71,8 +71,8 @@ public class Player : NetworkBehaviour
     public Player()
     {
         level = 1;
-        HP = CurrentMaxHP;
-        MP = CurrentMaxMP;
+        HP = MaxHP;
+        MP = MaxMP;
     }
 
     public void UpdatePlayerUIInfo()
@@ -144,21 +144,6 @@ public class Player : NetworkBehaviour
         return MP;
     }
 
-    public void BuffHPRegen(float hpRegen)
-    {
-        if (hpRegen < 0) return;
-        StartCoroutine(RegenHPRoutine(hpRegen));
-    }
-    private IEnumerator RegenHPRoutine(float hpRegen)
-    {
-        float minus = hpRegen/10;
-        
-        for(float timer = hpRegen; timer > 0; timer -= minus)
-        {
-            Heal(minus);
-        yield return new WaitForSeconds(1f);
-        }
-    }
     public void BuffMPRegen(float mpRegen)
     {
         if (mpRegen < 0) return;
@@ -185,7 +170,7 @@ public class Player : NetworkBehaviour
         LeanTween.delayedCall(1f, AutoFillMP);
     }
 
-     //  affects another player
+    //  affects another player
     [Command]
     public void CmdApplySpeedModifier(uint targetPlayerId, float modifier, float duration)
     {
@@ -217,7 +202,7 @@ public class Player : NetworkBehaviour
     {
         if (move != null)
         {
-            move.SpeedUp(speedModifier);
+            move.SpeedChange();
         }
     }
     private IEnumerator RemoveSpeedEffectAfterDuration(float duration)

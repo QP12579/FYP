@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using Mirror;
 
-public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
+public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 {
     [Header(" Components ")]
     protected EnemyMovement1 movement;
@@ -66,6 +67,18 @@ public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
         player = FindFirstObjectByType<Player>();
 
         FindingPlayer();
+    }
+
+    [ClientRpc]
+    public virtual void RpcSetParent(uint parentNetId)
+    {
+        if (!isServer)
+        {
+            if (NetworkClient.spawned.TryGetValue(parentNetId, out NetworkIdentity parentIdentity))
+            {
+                transform.SetParent(parentIdentity.GetComponentInChildren<WaveManager>().transform, true); // true = worldPositionStays
+            }
+        }
     }
 
     protected virtual void FindingPlayer()
