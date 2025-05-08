@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 
-public class WaveManager : MonoBehaviour
+public class WaveManager : NetworkBehaviour
 {
     // Event for when all waves are completed
     public delegate void WaveCompletionEvent();
@@ -17,29 +17,44 @@ public class WaveManager : MonoBehaviour
     private int currentWaveIndex;
     [SerializeField] private float defaultSpawnHeight = 0.59f;
 
+    [Header(" Spawn Settings ")]
+    [SerializeField] private Transform stageCenter; 
+    [SerializeField] private float minSpawnRadius = 5f; 
+    [SerializeField] private float maxSpawnRadius = 15f; 
+
     [Header(" Path Type ")]
-    [SerializeField] private bool isMagicPath; // True for magic path, false for techno path
+    [SerializeField] private bool isMagicPath; 
 
     [Header(" Wave ")]
     [SerializeField] private Wave[] waves;
     private List<float> localCounters = new List<float>();
 
     [Header(" Elements ")]
-    private Player targetPlayer; // The specific player this wave manager targets
+    private Player targetPlayer; 
 
-    // Track active enemies
+    
     private List<GameObject> activeEnemies = new List<GameObject>();
 
-    // Set the player reference
+    private void Awake()
+    {
+        // If stageCenter is not assigned, use  GameObject's transform
+        if (stageCenter == null)
+        {
+            Debug.Log("Stage center not assigned, using this GameObject as center");
+            stageCenter = transform;
+        }
+    }
+
+    // Set player reference
     public void SetPlayer(Player newPlayer, bool isPlayerMagic)
     {
-        // Only set this player as the target if it matches our path type
+        // Only set player as the target when match with path type
         if (isPlayerMagic == isMagicPath)
         {
             targetPlayer = newPlayer;
             Debug.Log($"Set target player for {(isMagicPath ? "Magic" : "Techno")} path: {newPlayer.name}");
 
-            // Start the first wave once we have our target player
+            
             StartWave(0);
         }
     }
@@ -47,7 +62,7 @@ public class WaveManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Make sure we have our target player and waves are running
+       
         if (targetPlayer == null || !isTimerOn)
             return;
 
@@ -71,7 +86,7 @@ public class WaveManager : MonoBehaviour
         timer = 0;
         isTimerOn = true;
     }
-
+   
     private void ManageCurrentWave()
     {
         // Only server should spawn enemies
@@ -96,7 +111,7 @@ public class WaveManager : MonoBehaviour
 
             if (timeSinceSegmentStart / spawnDelay > localCounters[i])
             {
-                // Get spawn position relative to our target player
+                // Get spawn position based on stage center
                 Vector3 spawnPosition = GetSpawnPosition();
 
                 // Instantiate the enemy
@@ -158,7 +173,7 @@ public class WaveManager : MonoBehaviour
         {
             Debug.Log($"All waves completed for {(isMagicPath ? "Magic" : "Techno")} path");
 
-            // Trigger the completion event
+            //  completion event
             OnAllWavesCompleted?.Invoke();
 
             return;
@@ -167,35 +182,41 @@ public class WaveManager : MonoBehaviour
         StartWave(currentWaveIndex);
     }
 
+    
     private Vector3 GetSpawnPosition()
     {
-        if (targetPlayer == null)
+        if (stageCenter == null)
         {
-            Debug.LogError("Target player is null in GetSpawnPosition!");
+            Debug.LogError("Stage center is null in GetSpawnPosition!");
             return Vector3.zero;
         }
 
+        // Get random direction on XZ plane (horizontal only)
         Vector2 randomCircle = Random.insideUnitCircle.normalized;
+
+        // Randomize the distance from center between min and max radius
+        float distance = Random.Range(minSpawnRadius, maxSpawnRadius);
+
+        // Create vector from random circle
         Vector3 direction = new Vector3(randomCircle.x, 0, randomCircle.y);
 
-        float distance = Random.Range(6f, 10f);
-        Vector3 offset = direction * distance;
+        // Calculate position relative to stage center
+        Vector3 targetPosition = stageCenter.position + direction * distance;
 
-        Vector3 targetPosition = targetPlayer.transform.position + offset;
+        // Set default height
         targetPosition.y = defaultSpawnHeight;
 
+        // Raycast to find the actual ground height
         RaycastHit hit;
         if (Physics.Raycast(targetPosition + Vector3.up * 50f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground")))
         {
+            // Place at the configured height above the ground
             targetPosition.y = hit.point.y + defaultSpawnHeight;
         }
-        else
-        {
-            targetPosition.y = targetPlayer.transform.position.y + defaultSpawnHeight;
-        }
 
-        targetPosition.x = Mathf.Clamp(targetPosition.x, -18f, 18f);
-        targetPosition.z = Mathf.Clamp(targetPosition.z, -18f, 18f);
+        // Clamp position within game boundaries (only X and Z)
+        targetPosition.x = Mathf.Clamp(targetPosition.x, stageCenter.position.x - maxSpawnRadius, stageCenter.position.x + maxSpawnRadius);
+        targetPosition.z = Mathf.Clamp(targetPosition.z, stageCenter.position.z - maxSpawnRadius, stageCenter.position.z + maxSpawnRadius);
 
         return targetPosition;
     }

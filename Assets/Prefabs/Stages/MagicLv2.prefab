@@ -131,6 +131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveDuration: 30
   defaultSpawnHeight: 0.59
+  stageCenter: {fileID: 5248557268874442331}
+  minSpawnRadius: 5
+  maxSpawnRadius: 15
   isMagicPath: 1
   waves:
   - name: Wave0
@@ -149,7 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1039197559256836771}
   m_Layer: 6
-  m_Name: portalPoint
+  m_Name: PortalSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,6 +168,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 9.44, y: 0.2, z: 9.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7479163517105453425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2776357347172667639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5248557268874442331}
+  m_Layer: 0
+  m_Name: StageCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5248557268874442331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2776357347172667639}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 12.7, y: 0, z: 12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -211,6 +245,7 @@ Transform:
   - {fileID: 2382958518854120419}
   - {fileID: 5424130451789437002}
   - {fileID: 1039197559256836771}
+  - {fileID: 5248557268874442331}
   m_Father: {fileID: 3909473605884904778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!218 &2150651197283269724
@@ -422,7 +457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5424130451789437002}
   m_Layer: 6
-  m_Name: Chestpoint
+  m_Name: ChestSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

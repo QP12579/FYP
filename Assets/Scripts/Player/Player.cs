@@ -48,8 +48,8 @@ public class Player : NetworkBehaviour
         if (move == null)
             move = GetComponentInChildren<PlayerMovement>();
         if (animator == null)
-            animator = move.gameObject.GetComponent<Animator>();
-        if(persistentUI == null)
+            animator = GetComponent<Animator>();
+        if (persistentUI == null)
         persistentUI = FindAnyObjectByType<PersistentUI>();
 
 

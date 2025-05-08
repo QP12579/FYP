@@ -61,11 +61,11 @@ public class PlayerMovement : NetworkBehaviour
         sr = gameObject.GetComponentInParent<SpriteRenderer>();
         oneTime = true;
         canMove = true;
-        if (spawn == null)
+        /*if (spawn == null)
         {
             spawn = GameObject.FindGameObjectWithTag("SpawnPoint");
         }
-            SpawnPoint = spawn.transform.position;
+            SpawnPoint = spawn.transform.position;*/
     }
     public override void OnStartAuthority()
     {
@@ -267,7 +267,7 @@ public class PlayerMovement : NetworkBehaviour
 
     void GoBackToSpawnPoint()
     {
-        transform.position = SpawnPoint;
+        //transform.position = SpawnPoint;
     }
 
     public void Dizziness(float time)

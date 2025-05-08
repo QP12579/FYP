@@ -31,7 +31,7 @@ public class StageManager : NetworkBehaviour
         public int currentStageIndex = 0;
         public GameObject currentStage;
     }
-
+    [ServerCallback]
     private void Start()
     {
         gameStartTime = Time.time;
@@ -59,7 +59,7 @@ public class StageManager : NetworkBehaviour
         SpawnStageForPlayer(player);
     }
 
-    // Spawn a stage for a specific player
+   
     [Server]
     private void SpawnStageForPlayer(Player player)
     {
@@ -71,7 +71,7 @@ public class StageManager : NetworkBehaviour
 
         PlayerStageInfo info = playerStages[player.netId];
 
-        // Get the appropriate stage array
+        // Get the stage array
         GameObject[] stageArray = info.isMagicCharacter ? magicStages : technoStages;
 
         Debug.Log($"SpawnStageForPlayer: Player {player.netId}, Magic: {info.isMagicCharacter}, Stage Index: {info.currentStageIndex}");
@@ -91,7 +91,7 @@ public class StageManager : NetworkBehaviour
             return;
         }
 
-        // Make sure the stage prefab is valid
+        // check stage prefab valid
         GameObject stagePrefab = stageArray[info.currentStageIndex];
         if (stagePrefab == null)
         {
@@ -101,13 +101,12 @@ public class StageManager : NetworkBehaviour
 
         Debug.Log($"Instantiating stage {info.currentStageIndex} for player {player.netId}");
 
-        // Instantiate the stage
         GameObject stageInstance = Instantiate(stagePrefab);
 
-        // Set as the current stage
+     
         info.currentStage = stageInstance;
 
-        // Find the WaveManager in the stage
+        // Find WaveManager 
         WaveManager waveManager = stageInstance.GetComponentInChildren<WaveManager>();
         if (waveManager != null)
         {
@@ -144,18 +143,86 @@ public class StageManager : NetworkBehaviour
     [Server]
     private void HandleStageCompleted(Player player)
     {
-        // Find appropriate spawn points in the stage
+        Debug.Log($"HandleStageCompleted called for player {player.netId}");
+
+        // Find appropriate spawn points 
         PlayerStageInfo info = playerStages[player.netId];
 
-        // Look for spawn points in the stage
-        Transform chestSpawnPoint = info.currentStage.transform.Find("ChestSpawnPoint");
-        Transform portalSpawnPoint = info.currentStage.transform.Find("PortalSpawnPoint");
+        // Look for spawn points
+        Transform chestSpawnPoint = null;
+        Transform portalSpawnPoint = null;
+
+        //  Direct transform.Find at root level
+        chestSpawnPoint = info.currentStage.transform.Find("ChestSpawnPoint");
+        portalSpawnPoint = info.currentStage.transform.Find("PortalSpawnPoint");
+
+        //  If not found, try case-insensitive search
+        if (chestSpawnPoint == null || portalSpawnPoint == null)
+        {
+            Debug.Log("Trying case-insensitive search for spawn points");
+
+            Transform[] allTransforms = info.currentStage.GetComponentsInChildren<Transform>(true); // true = include inactive
+
+            foreach (Transform t in allTransforms)
+            {
+                if (chestSpawnPoint == null && t.name.ToLower() == "chestspawnpoint")
+                    chestSpawnPoint = t;
+
+                if (portalSpawnPoint == null && t.name.ToLower() == "portalspawnpoint")
+                    portalSpawnPoint = t;
+
+                // Break early if we found both
+                if (chestSpawnPoint != null && portalSpawnPoint != null)
+                    break;
+            }
+        }
 
         if (chestSpawnPoint == null || portalSpawnPoint == null)
         {
-            Debug.LogError("Spawn points not found in stage!");
-            return;
+            Debug.Log("Trying deep search for spawn points");
+
+            Transform[] allChildren = info.currentStage.GetComponentsInChildren<Transform>(true);
+
+            foreach (Transform child in allChildren)
+            {
+                if (chestSpawnPoint == null && child.name == "ChestSpawnPoint")
+                    chestSpawnPoint = child;
+
+                if (portalSpawnPoint == null && child.name == "PortalSpawnPoint")
+                    portalSpawnPoint = child;
+            }
         }
+
+        //  create spawn points if still not found
+        if (chestSpawnPoint == null || portalSpawnPoint == null)
+        {
+            Debug.LogError($"Spawn points still not found after multiple search attempts! Creating emergency spawn points.");
+
+            // Get player position 
+            Vector3 playerPos = player.transform.position;
+            Vector3 forward = player.transform.forward;
+
+            // Create  spawn points
+            if (chestSpawnPoint == null)
+            {
+                GameObject tempObj = new GameObject("ChestSpawnPoint");
+                tempObj.transform.SetParent(info.currentStage.transform);
+                tempObj.transform.position = playerPos + forward * 3f;
+                chestSpawnPoint = tempObj.transform;
+                Debug.Log($"Created emergency chest spawn point at {chestSpawnPoint.position}");
+            }
+
+            if (portalSpawnPoint == null)
+            {
+                GameObject tempObj = new GameObject("PortalSpawnPoint");
+                tempObj.transform.SetParent(info.currentStage.transform);
+                tempObj.transform.position = playerPos + forward * 5f;
+                portalSpawnPoint = tempObj.transform;
+                Debug.Log($"Created emergency portal spawn point at {portalSpawnPoint.position}");
+            }
+        }
+
+        Debug.Log($"Spawning chest at {chestSpawnPoint.position} and portal at {portalSpawnPoint.position}");
 
         // Spawn chest
         GameObject chest = Instantiate(chestPrefab, chestSpawnPoint.position, Quaternion.identity);
@@ -168,6 +235,7 @@ public class StageManager : NetworkBehaviour
         Portal portalTrigger = portal.GetComponent<Portal>();
         if (portalTrigger == null)
         {
+            Debug.LogWarning("Portal prefab doesn't have a Portal component - adding one");
             portalTrigger = portal.AddComponent<Portal>();
         }
 
@@ -177,8 +245,9 @@ public class StageManager : NetworkBehaviour
 
         // Spawn portal on network
         NetworkServer.Spawn(portal);
-    }
 
+        Debug.Log($"Chest and portal spawned for player {player.netId}");
+    }
     // Advance a player to their next stage
     [Server]
     private void AdvancePlayerStage(Player player)

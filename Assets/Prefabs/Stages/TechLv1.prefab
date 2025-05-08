@@ -35,6 +35,37 @@ Transform:
   - {fileID: 1143579539212460011}
   m_Father: {fileID: 3303175686058307147}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &722848671257016882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5722355497273217740}
+  m_Layer: 6
+  m_Name: StageCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5722355497273217740
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722848671257016882}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 12.690002, y: 0, z: 12.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3303175686058307147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1233569291050121256
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,6 +105,7 @@ Transform:
   - {fileID: 7174928490164816265}
   - {fileID: 5473558258605283973}
   - {fileID: 8426890904527748875}
+  - {fileID: 5722355497273217740}
   - {fileID: 1108489592805073418}
   - {fileID: 3813028857828520046}
   m_Father: {fileID: 7447141090625791413}
@@ -218,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1108489592805073418}
   m_Layer: 6
-  m_Name: Chestpoint
+  m_Name: ChestSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,7 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3813028857828520046}
   m_Layer: 6
-  m_Name: portalPoint
+  m_Name: PortalSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -400,6 +432,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveDuration: 10
   defaultSpawnHeight: 0.59
+  stageCenter: {fileID: 5722355497273217740}
+  minSpawnRadius: 5
+  maxSpawnRadius: 15
+  isMagicPath: 0
   waves:
   - name: Wave0
     segments:
