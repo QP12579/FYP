@@ -68,6 +68,18 @@ public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
         FindingPlayer();
     }
 
+    [ClientRpc]
+    public virtual void RpcSetParent(uint parentNetId)
+    {
+        if (!isServer)
+        {
+            if (NetworkClient.spawned.TryGetValue(parentNetId, out NetworkIdentity parentIdentity))
+            {
+                transform.SetParent(parentIdentity.GetComponentInChildren<WaveManager>().transform, true); // true = worldPositionStays
+            }
+        }
+    }
+
     protected virtual void FindingPlayer()
     {
         if (player == null)

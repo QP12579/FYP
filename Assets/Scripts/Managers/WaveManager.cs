@@ -105,6 +105,13 @@ public class WaveManager : MonoBehaviour
                 // Spawn on the network to make visible to all clients
                 NetworkServer.Spawn(enemy);
 
+                var parentSetter = enemy.GetComponent<Enemy>();
+                if (parentSetter != null)
+                {
+                    uint parentNetId = transform.parent.GetComponentInParent<NetworkIdentity>().netId; // or the netId of your desired parent
+                    parentSetter.RpcSetParent(parentNetId);
+                }
+
                 activeEnemies.Add(enemy);
                 localCounters[i]++;
 
