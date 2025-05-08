@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using static PlayerSkillController;
 
 public class PlayerSkillController : MonoBehaviour
 {
@@ -93,7 +91,6 @@ public class PlayerSkillController : MonoBehaviour
     private void ActivateSkill(int slotIndex)
     {
         var equippedSkill = equippedSkills[slotIndex];
-        if (equippedSkill.skillPrefab == null) return;
 
         if (!player.canUseSkill(equippedSkill.skillData.MP)) return ;
 
@@ -122,6 +119,7 @@ public class PlayerSkillController : MonoBehaviour
             }
             return;
         }
+        if (equippedSkill.skillPrefab == null) return;
         else if (equippedSkill.skillData.types[0] == SkillType.Heal )
         {
             GameObject HealSkill = Instantiate(
