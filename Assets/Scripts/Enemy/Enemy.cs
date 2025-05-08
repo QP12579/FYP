@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using Mirror;
 
-public abstract class Enemy : MonoBehaviour, IAttackable, IDebuffable
+public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 {
     [Header(" Components ")]
     protected EnemyMovement1 movement;
