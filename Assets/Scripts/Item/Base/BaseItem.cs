@@ -17,7 +17,7 @@ public class BaseItem : MonoBehaviour
 
     [SerializeField] protected AudioClip GetSound;
     protected virtual void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !Bag.instance.isItemBagFull)
         {
             if (GetSound != null)
                 SoundManager.instance.PlaySFX(GetSound);

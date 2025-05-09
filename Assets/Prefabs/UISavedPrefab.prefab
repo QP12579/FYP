@@ -6530,7 +6530,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 4268302792033715699}
   m_HandleRect: {fileID: 0}
@@ -8847,6 +8847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a141eadea4f29244a3e56ef74fe1ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconPrefab: {fileID: 0}
   hasActiveBuffs: 0
   hasActiveDebuffs: 0
 --- !u!114 &2606260243944043121
@@ -12946,6 +12947,7 @@ MonoBehaviour:
   SFX_EquipSkill: {fileID: 8300000, guid: c8967e36ee221b04789664de5ea317d8, type: 3}
   SFX_EquipFail: {fileID: 8300000, guid: 86ac0b1ee45b39e42bbb60c73cffea58, type: 3}
   SFX_EmptyEquipSkill: {fileID: 8300000, guid: 176c72f216e5b944ab99ee3487b6cc03, type: 3}
+  uiController: {fileID: 8457554546382897113}
 --- !u!1 &5654989318690393381
 GameObject:
   m_ObjectHideFlags: 0
@@ -14212,8 +14214,13 @@ MonoBehaviour:
   - {fileID: 5609728517003599108}
   - {fileID: 2023234105343525556}
   - {fileID: 132974411712723381}
-  _skillPanel: {fileID: 0}
-  _abilityPanel: {fileID: 0}
+  isItemBagFull: 0
+  item_1: 49
+  item_2: 50
+  item_3: 51
+  item_4: 52
+  _skillPanel: {fileID: 7890565653164162139}
+  _abilityPanel: {fileID: 6109004836255952991}
   _playerBuffSystem: {fileID: 7731366007428266731}
 --- !u!1 &6097719865622257839
 GameObject:
@@ -15106,7 +15113,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 6748504537048322097}
   m_HandleRect: {fileID: 0}
@@ -15819,7 +15826,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 8024791758469421150}
   m_HandleRect: {fileID: 0}
@@ -16248,6 +16255,7 @@ MonoBehaviour:
   SkillClickArea: {fileID: 8222166630426661119}
   AbilityClickArea: {fileID: 8470731179926663463}
   scrollSpeed: 0.1
+  state: 0
 --- !u!114 &3274440525074146102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21944,9 +21952,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

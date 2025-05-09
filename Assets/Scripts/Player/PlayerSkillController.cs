@@ -105,12 +105,12 @@ public class PlayerSkillController : MonoBehaviour
             {
                 case 1:  //Slide
                     move.Rolling();
-                    move.BlockAttack(true);
+                    move.BlockAttack(false);
                     break;
                 //Dash
                 case 2:
                     move.Rolling(true, equippedSkill.skillData.power * (1 + AbilitySkillDamagePlus));
-                    move.BlockAttack(true);
+                    move.BlockAttack(false);
                     break;
                 //Reflect
                 case 3:

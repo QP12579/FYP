@@ -9,6 +9,7 @@ public class Bomb : MonoBehaviour
     public BombType type;
     private Animator anim;
     private Rigidbody rb;
+    private Player player;
     public LayerMask groundMask;
 
     [HideInInspector] public float damage = 10;
@@ -17,6 +18,7 @@ public class Bomb : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        player = FindObjectOfType<Player>();
 
         transform.localScale = Vector3.one * 1.2f;
     }
@@ -52,13 +54,14 @@ public class Bomb : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
 
-        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<Enemy>() != null)
+        if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<IAttackable>() != null)
         {
-            c.GetComponent<Enemy>().TakeDamage(gameObject.transform.position, damage);
+            TriggerEnemyTakeDamage(c);
             if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");
                 Destroy(gameObject, 2f);
+                return;
             }
             if (type == BombType.area)
                 StartCoroutine(AreaHurt(c.gameObject, damage, 2f));
@@ -79,10 +82,19 @@ public class Bomb : MonoBehaviour
     {
         if (type == BombType.area)
         {
-            if (c.GetComponent<Enemy>())
-                c.GetComponent<Enemy>().TakeDamage(gameObject.transform.position, damage);
-        }
-                
+            TriggerEnemyTakeDamage(c);
+        }                
+    }
+
+    private void TriggerEnemyTakeDamage(Collider c)
+    {
+        c.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage);
+        player.GetSP(false);
+    }
+    private void CollisionEnemyTakeDamage(Collision c)
+    {
+        c.gameObject.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage);
+        player.GetSP(false);
     }
 
     private void OnCollisionEnter(Collision c)
@@ -93,7 +105,8 @@ public class Bomb : MonoBehaviour
         }
         if (c.gameObject.CompareTag("Enemy") && c.gameObject.GetComponent<Enemy>() != null)
         {
-            c.gameObject.GetComponent<Enemy>().TakeDamage(gameObject.transform.position, damage);
+            CollisionEnemyTakeDamage(c);
+
             if (type == BombType.trap)
             {
                 anim.SetTrigger("Explosion");

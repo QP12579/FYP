@@ -27,6 +27,9 @@ public class UIController : MonoBehaviour
     public GameObject AbilityClickArea;
 
     public float scrollSpeed = 0.1f;
+    [HideInInspector]
+    public UIPanelState state = UIPanelState.None;
+    private UIPanelState oldState = UIPanelState.None;
 
     private void Start()
     {
@@ -50,15 +53,19 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) { GamingUI.SetActive(true); }
+        if (Input.GetKeyDown(KeyCode.Tab)) { GamingUI.SetActive(true); state = oldState; }
 
         if(Input.GetKeyDown(KeyCode.T)) { 
             ShowSkillPart();
             ShowSkillAbilityPanel();
             GamingUI.SetActive(true);
+            state = UIPanelState.SkillAbilityPanel;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) { GamingUI.SetActive(false); }
+        if (Input.GetKeyDown(KeyCode.Escape)) { 
+            GamingUI.SetActive(false); 
+            oldState = state;
+            state = UIPanelState.None; }
 
         // get mouse scroll value
         float scrollDelta = Input.mouseScrollDelta.y;
@@ -122,6 +129,8 @@ public class UIController : MonoBehaviour
         SkillOrAbilityPanel.SetActive(true);
         SpecialAttackPanel.SetActive(false);
         SettingPanel.SetActive(false);
+
+        state = UIPanelState.SkillAbilityPanel;
     }
 
     public void ShowSkillPart() { SkillAbilityscrollbar.value = 0f; }
@@ -138,6 +147,8 @@ public class UIController : MonoBehaviour
         SettingPanel.SetActive(false);
         SpecialAttackPanel.SetActive(true);
 
+        state = UIPanelState.SpeacialATKPanel;
+
         //reset special attack scrollbar
         SpecialAttackscrollbar.value = 1f;
 
@@ -151,6 +162,8 @@ public class UIController : MonoBehaviour
         SkillOrAbilityPanel.SetActive(false);
         SpecialAttackPanel.SetActive(false);
         SkillAbilityscrollbar.value = 1f;
+
+        state = UIPanelState.SettingPanel;
         // set scale to 0.5, and back to 1 in 0.2 sec
         settingButton.transform.localScale = Vector3.one * 0.5f;
         settingButton.transform.DOScale(Vector3.one, 0.2f);
@@ -207,4 +220,12 @@ public class UIController : MonoBehaviour
             cyanSelectedBlock.sizeDelta = new Vector2(145, cyanSelectedBlock.sizeDelta.y);
         }
     }
+}
+
+public enum UIPanelState
+{
+    None,
+    SkillAbilityPanel,
+    SpeacialATKPanel,
+    SettingPanel
 }

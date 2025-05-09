@@ -9,10 +9,12 @@ public class AttackSkill : MonoBehaviour
 
     private bool haveDebuff = false;
     private DebuffSkill[] debuffs;
+    private Player player;
 
     public void Initialize(float power)
     {
         damage = power;
+        player = FindObjectOfType<Player>();
     }
 
     public void HaveDebuff()
@@ -73,6 +75,7 @@ public class AttackSkill : MonoBehaviour
         if (attackable != null)
         {
             attackable.TakeDamage(gameObject.transform.position, damage);
+            
             if (haveDebuff)
             {
                 IDebuffable debuffable = other.GetComponent<IDebuffable>();
@@ -83,7 +86,7 @@ public class AttackSkill : MonoBehaviour
                     }
                 }
             }
-            gameObject.GetComponent<Animator>().SetTrigger(0);
+            player.GetSP();
         }
     }
 
@@ -104,7 +107,7 @@ public class AttackSkill : MonoBehaviour
                     }
                 }
             }
-            gameObject.GetComponent<Animator>().SetTrigger(0);
+            player.GetSP();
         }
     }
 
