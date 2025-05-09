@@ -12,12 +12,19 @@ public class MeleeEnemy : Enemy
 
     private float attackDelay;
     private float attackTimer;
+    private Animator anim;
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        anim = GetComponentInChildren<Animator>();
         attackDelay = 1f / attackFrequency;
+    }
+
+    protected override void FindingPlayer()
+    {
+        base.FindingPlayer();
     }
 
     // Update is called once per frame
@@ -34,14 +41,18 @@ public class MeleeEnemy : Enemy
     {
         if (player == null) // Check if the player has been destroyed
         {
-            Debug.Log("Player has been destroyed. Stopping attack.");
+            Debug.Log("Did not found Player. Stopping attack.");
+            FindingPlayer();
             return;
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
+        if (distanceToPlayer < 0) distanceToPlayer *= -1;
         if (distanceToPlayer < playerDetectionRadius)
+        {
             Attack();
+            anim.SetTrigger("isAttack");
+        }
     }
 
     private void Attack()

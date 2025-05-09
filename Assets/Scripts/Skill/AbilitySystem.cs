@@ -60,7 +60,7 @@ public class AbilitySystem : MonoBehaviour
 
     public bool IsAbilityTSVLoadedCompletely()
     {
-        if(AbilityCases == null || AbilityCases.Count < 8)
+        if (AbilityCases == null || AbilityCases.Count < 8)
             return false;
         return true;
     }
@@ -84,16 +84,15 @@ public class AbilitySystem : MonoBehaviour
                 levelValues = new List<BaseValueLevel>()
             };
 
-            for (int j = 3; j < fields.Length; j+=3)
+            for (int j = 3; j < fields.Length; j += 3)
             {
                 if (j + 2 >= fields.Length) break;
                 BaseValueLevel valueLevel = new BaseValueLevel()
                 {
                     level = int.Parse(fields[j]),
-                    power1 = float.Parse(fields[j+1]),
-                    power2 = float.Parse(fields[j+2]),
+                    power1 = float.Parse(fields[j + 1]),
+                    power2 = float.Parse(fields[j + 2]),
                 };
-                Debug.Log($"{valueLevel} , {valueLevel.level}, {valueLevel.power1}");
                 abilityData.levelValues.Add(valueLevel);
             }
             AbilityCases.Add(abilityData);
@@ -102,10 +101,21 @@ public class AbilitySystem : MonoBehaviour
 
     void Start()
     {
-        player = FindObjectOfType<Player>();
-        movement = FindObjectOfType<PlayerMovement>();
-        skillController = PlayerSkillController.instance;
-        playerAttack = FindObjectOfType<PlayerAttack>();
+        CheckAbilityReference();
+    }
+
+    private void CheckAbilityReference()
+    {
+        if (player == null)
+            player = FindObjectOfType<Player>();
+        if (movement == null)
+            movement = FindObjectOfType<PlayerMovement>();
+        if (skillController == null)
+            skillController = FindObjectOfType<PlayerSkillController>();
+        if (playerAttack == null)
+            playerAttack = FindObjectOfType<PlayerAttack>();
+        if (player == null || movement == null || skillController == null || playerAttack == null)
+            LeanTween.delayedCall(0.5f, CheckAbilityReference);
     }
 
     // Ability UI Button information
@@ -141,22 +151,22 @@ public class AbilitySystem : MonoBehaviour
             return CreateDefaultUIValue(id);
         }
         UIValue UI = new UIValue();
-            UI.level = displayLevel;
-            UI.maxLevel = value.levelValues.Count;
+        UI.level = displayLevel;
+        UI.maxLevel = value.levelValues.Count;
 
         // description
         switch (id)
-        { 
+        {
             // d +% d +%
             case 1:
             case 2:
-            UI.description = $"{value.description1} +{levelvalue.power1}%, {value.description2} +{levelvalue.power2}%";
+                UI.description = $"{value.description1} +{levelvalue.power1}%, \n{value.description2} +{levelvalue.power2}%";
                 break;
             // d+% d-%
             case 3:
             case 4:
             case 6:
-            UI.description = $"{value.description1} +{levelvalue.power1}%, {value.description2} -{levelvalue.power2}%";
+                UI.description = $"{value.description1} +{levelvalue.power1}%, \n{value.description2} -{levelvalue.power2}%";
                 break;
             // d +% d
             case 5:
@@ -165,14 +175,14 @@ public class AbilitySystem : MonoBehaviour
                 break;
             // d +% d n per second
             case 7:
-                UI.description = $"{value.description1} -{levelvalue.power1}%, {value.description2} {levelvalue.power2} per second";
+                UI.description = $"{value.description1} -{levelvalue.power1}%, \n{value.description2} {levelvalue.power2} per second";
                 break;
             default:
                 UI.description = "Unknown ability type";
                 break;
         }
         return UI;
-    } 
+    }
 
     public void UpgradeBaseValue(int id, int level)
     {
@@ -188,30 +198,30 @@ public class AbilitySystem : MonoBehaviour
                 UpATKDamage(p1);
                 UpMoveSpeed(p2);
                 break;
-                case 2:
+            case 2:
                 UpSkillDamage(p1);
                 UpMoveSpeed(p2);
                 break;
-                case 3:
+            case 3:
                 UpATKDamage(p1);
                 UpSkillDamage(p1);
                 autoDefense(p2);
                 break;
-                case 4:
+            case 4:
                 UpATKSpeed(p1);
                 decreaseSkillCooldown(p2);
                 break;
-                case 5:
+            case 5:
                 UpRollSpeed(p1);
                 break;
-                case 6:
+            case 6:
                 UpDefense(p1, p2);
                 break;
-                case 7:
+            case 7:
                 DecreaseMP(p1);
                 AutoFillMP(powers.power2);
                 break;
-                case 8:
+            case 8:
                 IncreaseATKArea(p1);
                 break;
         }
@@ -228,71 +238,133 @@ public class AbilitySystem : MonoBehaviour
 
     private BaseValueLevel GetLevelValue(AbilityCase value, int level)
     {
-        BaseValueLevel powerValues = new BaseValueLevel();
-            powerValues = value.levelValues.Find(a => a.level == level);
-        if(value.currentLevel <= 1)   return powerValues;
-        BaseValueLevel oldValues = value.levelValues.Find(a => a.level == level - 1);
-        powerValues.power1 -= oldValues.power1;
-        powerValues.power2 -= oldValues.power2;
+        BaseValueLevel powerValues = value.levelValues.Find(a => a.level == level);
+        if (value.currentLevel <= 1) return powerValues;
 
-        return powerValues;
+        BaseValueLevel oldValues = new BaseValueLevel();
+           oldValues = value.levelValues.Find(a => a.level == (level - 1));
+        float power1 = powerValues.power1 - oldValues.power1;
+        float power2 = powerValues.power2 - oldValues.power2;
+
+        BaseValueLevel newValues = new BaseValueLevel()
+        {
+            level = level,
+            power1 = power1,
+            power2 = power2,
+        };
+
+        return newValues;
     }
 
     private void UpATKDamage(float p)
     {
         playerAttack.AbilityATKPlus += p;
+        Debug.Log($"AbilityATKPlus:{playerAttack.AbilityATKPlus}");
     }
-    private void UpSkillDamage(float p) 
+    private void UpSkillDamage(float p)
     {
         skillController.AbilitySkillDamagePlus += p;
+        Debug.Log($"AbilitySkillDamagePlus:{skillController.AbilitySkillDamagePlus}");
     }
 
-    private void UpMoveSpeed(float p) 
+    private void UpMoveSpeed(float p)
     {
-        movement.SpeedUp(p);
+        movement.AbilitySpeedUp(p);
+        Debug.Log($"MoveSpeed:{p}");
     }
 
     private void autoDefense(float p)
     {
-        player.abilityAutoDefence += p;
+        player.abilityDamageReduction += p;
+        Debug.Log($"Defense:{player.abilityDamageReduction}");
     }
 
-    private void UpATKSpeed(float p) 
-    { 
+    private void UpATKSpeed(float p)
+    {
         playerAttack.AbilityATKSpeedPlus += p;
+        Debug.Log($"UpATKSpeed:{playerAttack.AbilityATKSpeedPlus}");
     }
-    private void UpSkillSpeed(float p) {
-        skillController.AbilitySkillSpeedPlus += p;
-    }
+
     private void decreaseSkillCooldown(float p)
     {
         skillController.AbilitySkillSpeedPlus += p;
+        Debug.Log($"AbilitySkillSpeedPlus:{skillController.AbilitySkillSpeedPlus}");
     }
     private void UpRollSpeed(float p)
     {
         movement.abilityRollingSpeed += p;
+        Debug.Log($"abilityRollingSpeed:{movement.abilityRollingSpeed}");
     }
 
     private void UpDefense(float perfectp, float normalp)
     {
         player.abilityPerfectDefenceluck += perfectp;
         player.abilityNormalDefencePlus += normalp;
+        Debug.Log($"abilityPerfectDefenceluck:{player.abilityPerfectDefenceluck}\nabilityNormalDefencePlus:{player.abilityNormalDefencePlus}");
     }
 
     private void DecreaseMP(float p)
     {
         player.abilityDecreaseMP += p;
+        Debug.Log($"abilityDecreaseMP:{player.abilityDecreaseMP}");
     }
 
     private void AutoFillMP(float p)
     {
-        player.abilityAutoFillMP+= p;
+        p -= 1;
+        if (p <= 0) player.abilityAutoFillMP = 0;
+        else player.abilityAutoFillMP += p;
+        Debug.Log($"AutoFillMP: {player.abilityAutoFillMP}");
     }
 
     private void IncreaseATKArea(float p)
     {
-        playerAttack.AbilityATKArea += p;
-        skillController.AbilitySkillSizePlus += p;
+        if (p <= 0)
+        {
+            playerAttack.AbilityATKArea = 0;
+            skillController.AbilitySkillSizePlus = 0;
+        }
+        else
+        {
+            playerAttack.AbilityATKArea += p;
+            skillController.AbilitySkillSizePlus += p;
+        }
         playerAttack.IncreaseATKArea();
+    }
+
+    public int RevertUpgrade(int id, int currentLevel)
+    {
+        AbilityCase value = AbilityCases.Find(a => a.id == id);
+        if (value == null || currentLevel <= 0) return 0;
+
+        int pointsToRefund = currentLevel;
+        value.currentLevel = 0;
+
+        //
+        playerAttack.AbilityATKPlus = 0;
+        skillController.AbilitySkillDamagePlus = 0;
+        movement.ResetAbilitySpeed();
+        player.abilityDamageReduction = 0;
+        playerAttack.AbilityATKSpeedPlus = 0;
+        skillController.AbilitySkillSpeedPlus = 0;
+        player.abilityPerfectDefenceluck = 0;
+        player.abilityNormalDefencePlus = 0;
+        player.abilityDecreaseMP = 0;
+        AutoFillMP(0);
+
+
+        //
+        return pointsToRefund;
+    }
+
+    private float GetTotalPower(AbilityCase ability, int upToLevel, int powerIndex)
+    {
+        float total = 0f;
+        for (int i = 0; i < upToLevel && i < ability.levelValues.Count; i++)
+        {
+            var levelData = ability.levelValues[i];
+            total += (powerIndex == 1) ? levelData.power1 : levelData.power2;
+        }
+        return total;
     }
 }

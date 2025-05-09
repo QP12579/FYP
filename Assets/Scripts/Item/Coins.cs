@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Coins : MonoBehaviour
+public class Coins : BaseItem
 {
-    // Start is called before the first frame update
-    void Start()
+    public Coins()
     {
-        
+        item = new Item
+        {
+            Type = ItemType.Coin,
+            name = "Coin",
+            description = "Can buy items"
+        };
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnTriggerEnter(Collider other)
     {
-        
+        base.OnTriggerEnter(other);
+    }
+
+    protected override void GetItem()
+    {
+        base.GetItem();
+        Bag.instance.AddCoins();
     }
 }

@@ -7,13 +7,14 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Movement")]
     public float speed;
     private float baseSpeed => speed;
+    private float abilitySpeed = 0;
     public float groundDist;
     public float jumpForce = 500;
 
     public LayerMask terrainLayer;
 
     [SerializeField] private GameObject spawn;
-    private Vector3 SpawnPoint => spawn.transform.position;
+    private Vector3 SpawnPoint;
     private float LowerYPosi = -1;
 
     [Header("KeyCode")]
@@ -55,12 +56,16 @@ public class PlayerMovement : NetworkBehaviour
 
     void Awake()
     {
-        anim = gameObject.GetComponent<Animator>();
-        rb = gameObject.GetComponent<Rigidbody>();
-        sr = gameObject.GetComponent<SpriteRenderer>();
+        anim = gameObject.GetComponentInParent<Animator>();
+        rb = gameObject.GetComponentInParent<Rigidbody>();
+        sr = gameObject.GetComponentInParent<SpriteRenderer>();
         oneTime = true;
         canMove = true;
-
+        if (spawn == null)
+        {
+            spawn = GameObject.FindGameObjectWithTag("SpawnPoint");
+        }
+            SpawnPoint = spawn.transform.position;
     }
     public override void OnStartAuthority()
     {
@@ -90,7 +95,20 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer) return;
+        
+        if (!isLocalPlayer)
+        {
+            Debug.Log("not local ");
+            return;
+        }
+
+        bool isActive = this.gameObject.activeSelf;
+        if (!isActive)
+        {
+            this.gameObject.SetActive(true);
+        }
+
+
 
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
@@ -204,17 +222,29 @@ public class PlayerMovement : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (RollingATK && !canMove)
-            collision.gameObject.GetComponent<IAttackable>().TakeDamage(damage);
+            collision.gameObject.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage);
     }
 
-    public void SpeedUp(float upPower)
+    public void SpeedChange()
     {
-        speed = baseSpeed * (1 + upPower);
+        speed = baseSpeed * (1 + abilitySpeed + PlayerBuffSystem.instance.GetBuffValue(BuffType.MoveSpeedUp)
+            - PlayerBuffSystem.instance.GetDeBuffValue(DeBuffType.Slow));
+    }
+
+    public void AbilitySpeedUp(float upP)
+    {
+        abilitySpeed += upP;
+    }
+
+    public void ResetAbilitySpeed()
+    {
+        abilityRollingSpeed = 0;
+        abilitySpeed = 0;
     }
 
     public void ResetSpeed()
     {
-        speed = baseSpeed;
+        speed = baseSpeed * (1 + abilitySpeed);
     }
 
     [Header("Ground Check")]
@@ -246,5 +276,10 @@ public class PlayerMovement : NetworkBehaviour
         transform.position = SpawnPoint;
     }
 
-   
+    public void Dizziness(float time)
+    {
+        canMove = false;
+        anim.SetTrigger("Hurt");
+        LeanTween.delayedCall(time, CanMove);
+    }
 }

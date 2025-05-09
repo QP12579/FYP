@@ -5,7 +5,7 @@ using UnityEngine;
 public class DebuffSkill : MonoBehaviour
 {
     public DeBuffType DebuffType;
-    public float debuffP;
+    public float debuffP = 5f;
     public float time = 5f;
 
     public void DebuffTarget(IDebuffable target)

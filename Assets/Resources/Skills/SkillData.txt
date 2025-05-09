@@ -1,9 +1,9 @@
 ID	level	Icon	Name	type	MP	power	coolDown	Description
 1	1		Arrow Barrage	ATK, DeBuff	5	10	3	A rapid-fire attack that unleashes a flurry of arrows at multiple targets.
 1	2		Spirit Arrows	ATK, DeBuff	10	20	5	Ethereal arrows imbued with spiritual energy, dealing damage and potentially debuffing enemies.
-2	1		Slide	DEF	3	0	3	A movement technique that allows the user to glide across the ground, avoiding obstacles or attacks.
-2	2		Dash	DEF	5	5	3	A quick movement ability that allows the user to evade attacks or close the distance to an enemy.
-2	3		Reflect	DEF	10	10	5	A defensive skill that deflects incoming attacks back at the attacker.
+2	1		Slide	DFN	3	0	3	A movement technique that allows the user to glide across the ground, avoiding obstacles or attacks.
+2	2		Dash	DFN	5	5	3	A quick movement ability that allows the user to evade attacks or close the distance to an enemy.
+2	3		Reflect	DFN	10	10	5	A defensive skill that deflects incoming attacks back at the attacker.
 3	1		Claw	ATK	10	15	3	A fierce attack using sharp claws to slash at enemies, causing bleeding damage.
 3	2		Psychic Attack	ATK, DeBuff	15	20	5	An attack that targets the mind, dealing damage and potentially disorienting the enemy.
 3	3		Blackhole	ATK, DeBuff	20	25	10	A powerful ability that creates a gravitational pull, drawing in and damaging nearby foes.

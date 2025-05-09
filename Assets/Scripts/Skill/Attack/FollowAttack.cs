@@ -9,7 +9,6 @@ public class FollowAttack : AttackSkill
     {
         //Let vfx move front to mouse position
         Vector3 direction = (targetPosi - transform.position).normalized;
-        Debug.Log(targetPosi);
         direction.y = 0;
         if (direction.x < 0 && GetComponent<SpriteRenderer>() != null) gameObject.GetComponent<SpriteRenderer>().flipX = true;
         rb = GetComponent<Rigidbody>();
@@ -29,5 +28,11 @@ public class FollowAttack : AttackSkill
     {
         base.OnCollisionEnter(other);
         Destroy(gameObject, 1f);
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        Destroy(gameObject, speed);
     }
 }

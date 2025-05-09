@@ -20,6 +20,13 @@ public class PlayerAttack : MonoBehaviour
     public float FarAtk = 5;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("Critical Strike Settings")]
+    [Range(0, 1)] public float criticalRate = 0.2f;       // 默認 20% 暴擊率
+    public float criticalMultiplier = 1.5f;              // 默認暴擊傷害 150%
+    public GameObject criticalEffectPrefab;              // 暴擊特效（可選）
+    public AudioClip criticalSound;                      // 暴擊音效（可選）
+
+    // Ability
     [HideInInspector]
     public float AbilityATKPlus = 0;
     [HideInInspector]
@@ -66,28 +73,79 @@ public class PlayerAttack : MonoBehaviour
         canAtk = true;
     }
 
+    private float CalculateDamage(bool isFarAttack = false)
+    {
+        float baseDamage = isFarAttack ? FarAtk : attack;
+
+        float attackBuff = PlayerBuffSystem.instance.GetBuffValue(BuffType.AttackPowerUp);
+        float buffedDamage = baseDamage * (1 + attackBuff + AbilityATKPlus);
+
+        bool isCritical = CheckCriticalHit();
+        float finalDamage = buffedDamage * (isCritical ? criticalMultiplier : 1f);
+
+        finalDamage *= Random.Range(0.9f, 1.1f);
+
+        if (isCritical) TriggerCriticalEffects();
+
+        return finalDamage;
+    }
+
+    private bool CheckCriticalHit()
+    {
+        // 基礎暴擊率 + Buff 加成（例如 Buff 增加 10% → 0.2 + 0.1 = 30%）
+        float totalCriticalRate = criticalRate +
+            PlayerBuffSystem.instance.GetBuffValue(BuffType.CriticalRateUp);
+        return Random.Range(0f, 1f) <= totalCriticalRate;
+    }
+
+    private void TriggerCriticalEffects()
+    {
+        // 播放特效
+        if (criticalEffectPrefab != null)
+            Instantiate(criticalEffectPrefab, transform.position, Quaternion.identity);
+
+        // 播放音效
+        if (criticalSound != null)
+            SoundManager.instance.PlaySFX(criticalSound);
+
+        Debug.Log("<color=yellow>暴擊！</color>");
+    }
+
     void NrmATK(Collider c)
     {
-            canAtk = false;
-            LeanTween.delayedCall(waitTime * (1 - AbilityATKSpeedPlus) , DetectOnce);
-            player.animator.SetTrigger("NrmAtk");
-            animator.SetTrigger("normalATK");
-            if (c.gameObject.GetComponent<IAttackable>()!=null)
-                c.gameObject.GetComponent<IAttackable>().TakeDamage(attack * (1 + AbilityATKPlus));
+        canAtk = false;
+        float finalDamage = CalculateDamage();
+
+        float cooldown = waitTime * (1 - AbilityATKSpeedPlus - PlayerBuffSystem.instance.GetBuffValue(BuffType.CooldownLower));
+
+        LeanTween.delayedCall(cooldown, DetectOnce);  
+
+        player.animator.SetTrigger("NrmAtk");
+        animator.SetTrigger("normalATK");
+
+        if (c.gameObject.GetComponent<IAttackable>() != null)
+            c.gameObject.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, finalDamage);
     }
 
     void FarAttack()
     {
         canAtk = false;
-        LeanTween.delayedCall(waitTime * (1 - AbilityATKSpeedPlus), DetectOnce);
+
+        float finalDamage = CalculateDamage(true);
+
+        float cooldownTime = waitTime * (1 - AbilityATKSpeedPlus - PlayerBuffSystem.instance.GetBuffValue(BuffType.CooldownLower));
+
+        LeanTween.delayedCall(cooldownTime, DetectOnce);
+
         if (ATKPrefab == null) { Debug.Log("No Far Attack Prefab."); return; }
+
         if (player.canUseSkill(FarAtk))
         {
             GameObject vfx = Instantiate(ATKPrefab, transform.position, Quaternion.identity);
             if (vfx.GetComponent<Bomb>() != null)
             {
                 Bomb newBomb = vfx.GetComponent<Bomb>();
-                newBomb.damage = FarAtk * (1 + AbilityATKPlus);
+                newBomb.damage = finalDamage;
                 newBomb.groundMask = groundMask;
                 newBomb.gameObject.transform.localScale *= (1+AbilityATKArea);
                 newBomb.SetTrapTypeBomb(transform);

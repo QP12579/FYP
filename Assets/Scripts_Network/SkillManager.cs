@@ -7,14 +7,32 @@ public class SkillManager : Singleton<SkillManager>
     public TextAsset skillsTSV;
     public Dictionary<int, List<SkillData>> skillsByID = new Dictionary<int, List<SkillData>>();
     public List<SkillData> unlockedSkills = new List<SkillData>();
-    public List<SkillData> specialSkills = new List<SkillData>(); // ID 5 skills
+    public List<SkillData> ID5Skills = new List<SkillData>(); // ID 5 skills
 
     private string skillDataPath = "Skills/SkillData";
+
+    private PlayerSkillController playerSkillController;
+    [SerializeField] private int _skillPoints;
+    public int SkillPoints => _skillPoints;
+
+    public void AddSkillPoints(int amount)
+    {
+        _skillPoints += amount;
+        SkillPanel.instance.RefreshAllButtons();
+    }
     void Awake()
     {
         if (skillsTSV == null)
             skillsTSV = Resources.Load<TextAsset>(skillDataPath);
         LoadSkillsFromTSV();
+    }
+
+    private void FindingRefences()
+    {
+        if (playerSkillController != null) return;
+            playerSkillController = FindObjectOfType<PlayerSkillController>();
+        if (playerSkillController == null)
+            LeanTween.delayedCall(0.5f, FindingRefences);
     }
 
     private void LoadSkillsFromTSV()
@@ -58,7 +76,7 @@ public class SkillManager : Singleton<SkillManager>
             // Organize by ID
             if (skill.ID == 5)
             {
-                specialSkills.Add(skill);
+                ID5Skills.Add(skill);
             }
             else
             {
@@ -86,10 +104,37 @@ public class SkillManager : Singleton<SkillManager>
         return new List<SkillData>();
     }
 
-    public SkillData GetRandomSpecialSkill()
+    public SkillData GetSkillByID(int id, int level)
     {
-        if (specialSkills.Count == 0) return null;
-        return specialSkills[UnityEngine.Random.Range(0, specialSkills.Count)];
+        if (skillsByID.ContainsKey(id))
+            return skillsByID[id].Find(l =>l.level == level);
+        return null;
+    }
+
+    public SkillData GetRandomID5Skill()
+    {
+        if (ID5Skills.Count == 0) return null;
+        return ID5Skills[UnityEngine.Random.Range(0, ID5Skills.Count)];
+    }
+
+    public SkillData GetID5SkillData(string name)
+    {
+        foreach (var skill in ID5Skills) 
+        {
+            if(skill.Name.Equals(name))
+                return skill;
+        }
+        Debug.Log("Cannot found SpecialSkillData");
+        return null;
+    }
+
+    public List<SkillData> GetUnlockedID5Skills()
+    {
+        return unlockedSkills.FindAll(s => s.ID == 5);
+    }
+    public bool HasSpecialSkill(string skillName)
+    {
+        return unlockedSkills.Exists(s => s.ID == 5 && s.Name == skillName);
     }
     public bool CanUnlockSkill(SkillData skill)
     {
@@ -99,16 +144,29 @@ public class SkillManager : Singleton<SkillManager>
         // For level 1 skills, always unlockable
         if (skill.level == 1) return true;
 
+        if(skill.ID == 5) return true;
+
         // For higher levels, check if previous level is unlocked
         int previousLevel = skill.level - 1;
         return unlockedSkills.Exists(s => s.ID == skill.ID && s.level == previousLevel);
     }
 
-    public void UnlockSkill(SkillData skill)
+    public bool UnlockSkill(SkillData skill)
     {
-        if (!CanUnlockSkill(skill)) return; 
-        unlockedSkills.Add(skill);
-        Debug.Log($"Unlocked: {skill.Name} (ID:{skill.ID}, Lvl:{skill.level})");
+        if (unlockedSkills.Contains(skill)) return false;
+
+        bool canUnlock = skill.level == 1 ||
+                       (unlockedSkills.Exists(s => s.ID == skill.ID && s.level == skill.level - 1)) ||
+                       skill.ID == 5;
+
+        if (canUnlock && _skillPoints > 0)
+        {
+            unlockedSkills.Add(skill);
+            _skillPoints--;
+            SkillPanel.instance.RefreshAllButtons();
+            return true;
+        }
+        return false;
     }
 
     public bool HasNextLevelSkill(int id, int currentLevel)
@@ -121,5 +179,70 @@ public class SkillManager : Singleton<SkillManager>
     {
         if (!skillsByID.ContainsKey(id)) return null;
         return skillsByID[id].Find(s => s.level == currentLevel + 1);
+    }
+    public bool HasAnyUnlockableSkills()
+    {
+        foreach (var skillList in skillsByID.Values)
+        {
+            foreach (var skill in skillList)
+            {
+                if (CanUnlockSkill(skill)) return true;
+            }
+        }
+        return false;
+    }
+    public List<SkillData> GetAllUnlockableSkills()
+    {
+        List<SkillData> unlockableSkills = new List<SkillData>();
+        foreach (var skillList in skillsByID.Values)
+        {
+            foreach (var skill in skillList)
+            {
+                if (CanUnlockSkill(skill)) unlockableSkills.Add(skill);
+            }
+        }
+        return unlockableSkills;
+    }
+    public bool ResetSkill(int id, int level)
+    {
+        SkillData skillToRemove = unlockedSkills.Find(s => s.ID == id && s.level == level);
+        if (skillToRemove != null)
+        {
+            unlockedSkills.Remove(skillToRemove);
+            _skillPoints++;
+            return true;
+        }
+        return false;
+    }
+    public int ResetAllSkills()
+    {
+        int refundedPoints = unlockedSkills.Count;
+        List<SkillData> id5 = unlockedSkills.FindAll(id => id.ID == 5);
+        refundedPoints += id5.Count;
+        unlockedSkills.Clear();
+        _skillPoints += refundedPoints;
+        return refundedPoints;
+    }
+    public bool CanEquipToSlot(SkillData skill, int slotIndex)
+    {
+        if (skill == null) return false;
+
+        if (slotIndex == 0 && (skill.ID == 1 || skill.ID == 3 || skill.ID == 4))
+        {
+            return true;
+        }
+        else if (slotIndex == 1 && (skill.ID == 2 || skill.ID == 4 || skill.ID == 5))
+        {
+            return true;
+        }
+
+        return false;
+    }
+    public SkillData GetEquippedSkill(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= playerSkillController.equippedSkills.Length)
+            return null;
+
+        return playerSkillController.equippedSkills[slotIndex].skillData;
     }
 }

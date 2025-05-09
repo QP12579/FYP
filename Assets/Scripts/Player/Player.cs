@@ -1,12 +1,8 @@
 using Mirror;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Mirror;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
+using Unity.VisualScripting;
 
 public class Player : NetworkBehaviour
 {
@@ -14,37 +10,29 @@ public class Player : NetworkBehaviour
     public int MaxHP = 100;
     [HideInInspector]
     public float HP = 100;
-    //[HideInInspector]
-    public float SP = 0;
-    private bool isSPFullEffectAnimating = false;
-
-    [HideInInspector]    public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxHPUp));
-    [HideInInspector]    public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(PlayerBuffSystem.BuffType.MaxMPUp));
 
     public float MaxMP = 50;
+
+    public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(BuffType.MaxHPUp));
+    public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(BuffType.MaxMPUp));
     [HideInInspector]
     public float MP = 50;
+    //[HideInInspector]
+    public float SP = 0;
 
     public int level = 1;
 
     [SyncVar]
     private float speedModifier = 1.0f;
 
-    [Header("UI")]
-    public Slider HPSlider;
-    public Slider MPSlider;
-    public Slider SpecialAttackSlider;
-    public GameObject SPFullEffect;
-    public GameObject SPHintKeywords;
-    public TextMeshProUGUI levelText;
-
     private PlayerMovement move;
+    private PersistentUI persistentUI;
     [HideInInspector] public Animator animator;
 
     // Defense
     [HideInInspector] public float abilityPerfectDefenceluck = 0;
     [HideInInspector] public float abilityNormalDefencePlus = 0;
-    [HideInInspector] public float abilityAutoDefence = 0;
+    [HideInInspector] public float abilityDamageReduction = 0;
 
     //MP
     [HideInInspector] public float abilityDecreaseMP = 0;
@@ -52,36 +40,32 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
-        move = GetComponent<PlayerMovement>();
-        animator = GetComponent<Animator>();
-        
-        SetAlpha(SPFullEffect, 0f);
-        SPHintKeywords.SetActive(false);
+        InitializeUI();
+    }
+
+    private void InitializeUI()
+    {
+        if (move == null)
+            move = GetComponentInChildren<PlayerMovement>();
+        if (animator == null)
+            animator = move.gameObject.GetComponent<Animator>();
+        if(persistentUI == null)
+        persistentUI = FindAnyObjectByType<PersistentUI>();
+
+
+        if (move == null || animator == null)
+            LeanTween.delayedCall(0.1f, InitializeUI);
+        else
+        {
+            LeanTween.delayedCall(1f, AutoFillMP);
+        }
     }
 
     private void Update()
     {
         SP = Mathf.Clamp(SP, 0, 1f);
-        SpecialAttackSlider.value = SP;
-
-        if (SpecialAttackSlider.value == 1) 
-        {
-            if (!isSPFullEffectAnimating)
-            {
-                AnimateAlpha();
-                SPHintKeywords.SetActive(true);
-            }
-        }
-        else
-        {
-            if (isSPFullEffectAnimating)
-            {
-                DOTween.Kill(SPFullEffect);
-                isSPFullEffectAnimating = false; 
-            }
-            SetAlpha(SPFullEffect, 0f);
-            SPHintKeywords.SetActive(false);
-        }
+        if (SP == 1)
+            UpdatePlayerUIInfo();
     }
 
     public Player()
@@ -93,13 +77,10 @@ public class Player : NetworkBehaviour
 
     public void UpdatePlayerUIInfo()
     {
-       /* HPSlider.value = HP;
-        MPSlider.value = MP;
-        HPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = HP.ToString() + "/" + MaxHP.ToString();
-        MPSlider.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = MP.ToString() + "/" + MaxMP.ToString();
-        levelText.text = level.ToString();*/
-
-        PersistentUI.Instance.UpdatePlayerUI(HP, MaxHP, MP, MaxMP, level);
+        if(persistentUI == null)
+            persistentUI = gameObject.GetOrAddComponent<PersistentUI>();        
+        if(persistentUI != null) 
+        persistentUI.UpdatePlayerUI(HP, CurrentMaxHP, MP, CurrentMaxMP, SP, level);
     }
 
     public void TakeDamage(float damage, GameObject attacker = null)
@@ -112,7 +93,7 @@ public class Player : NetworkBehaviour
                 Debug.Log("Perfect Block");
                 if (move.isReflect && attacker != null)
                 { //Reflect
-                    attacker.GetComponent<IAttackable>().TakeDamage(damage * move.reflectDamageMultiplier);
+                    attacker.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage * move.reflectDamageMultiplier);
                 }
                 damage = 0;
                 return;
@@ -120,7 +101,7 @@ public class Player : NetworkBehaviour
             damage *= move.blockPercentage * (1 - abilityNormalDefencePlus);
             Debug.Log("Normal Block");
         }
-        float realDamage = Mathf.Min(damage*( 1 - abilityAutoDefence), HP) ;
+        float realDamage = Mathf.Min(damage*( 1 - abilityDamageReduction - PlayerBuffSystem.instance.GetBuffValue(BuffType.DamageReduction)), HP) ;
         HP -= realDamage;
 
         UpdatePlayerUIInfo();
@@ -137,7 +118,8 @@ public class Player : NetworkBehaviour
 
     public void Heal(float h)
     {
-        HP += h;
+        float realHill = Mathf.Min(HP + h, MaxHP);
+        HP += realHill;
         UpdatePlayerUIInfo();
     }
 
@@ -150,38 +132,45 @@ public class Player : NetworkBehaviour
         return true;
     }
 
-    public void FillMP(float mp)
+    public void GetMP(float mp)
     {
+        float realFill = Mathf.Min(MP + mp, MaxMP);
+        MP = realFill;
+        UpdatePlayerUIInfo();
+    }
+
+    public float GetMP()
+    {
+        return MP;
+    }
+
+    public void BuffMPRegen(float mpRegen)
+    {
+        if (mpRegen < 0) return;
+        StartCoroutine(RegenMPRoutine(mpRegen));
+    }
+    private IEnumerator RegenMPRoutine(float mpRegen)
+    {
+        float minus = mpRegen/10;
+        
+        for(float timer = mpRegen; timer > 0; timer -= minus)
+        {
+            GetMP(minus);
+        yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public void AutoFillMP()
+    {
+        float mp = 1;
         mp += abilityAutoFillMP;
         float realFill = Mathf.Min(MP+mp, MaxMP);
         MP = realFill;
-    }
-    private void AnimateAlpha()
-    {
-        isSPFullEffectAnimating = true;
-
-        SPFullEffect.GetComponent<CanvasGroup>().DOFade(1f, 1f).OnComplete(() =>
-        {
-            DOVirtual.DelayedCall(0.5f, () =>
-            {
-                SPFullEffect.GetComponent<CanvasGroup>().DOFade(0f, 1f).OnComplete(() =>
-                {
-                    isSPFullEffectAnimating = false;
-                });
-            });
-        });
-    }
-    private void SetAlpha(GameObject obj, float alpha)
-    {
-        var canvasGroup = obj.GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = obj.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = alpha;
+        UpdatePlayerUIInfo();
+        LeanTween.delayedCall(1f, AutoFillMP);
     }
 
-     //  affects another player
+    //  affects another player
     [Command]
     public void CmdApplySpeedModifier(uint targetPlayerId, float modifier, float duration)
     {
@@ -213,7 +202,7 @@ public class Player : NetworkBehaviour
     {
         if (move != null)
         {
-            move.SpeedUp(speedModifier);
+            move.SpeedChange();
         }
     }
     private IEnumerator RemoveSpeedEffectAfterDuration(float duration)
@@ -223,44 +212,9 @@ public class Player : NetworkBehaviour
         move.ResetSpeed();
     }
 
-    void PrepareForSceneChange()
-    {
-        PlayerData.SavePlayerState(this);
-    }
+   
+    
 
-    void OnEnable()
-    {
-        if (isLocalPlayer)
-        {
-            PlayerData.LoadPlayerState(this);
-        }
-    }
-
-    // tracking win condition
-    [Command]
-    public void CmdReportLevelComplete(int levelId, float completionTime)
-    {
-        
-        BattleManager.Instance.RecordLevelCompletion(connectionToClient.connectionId, levelId, completionTime);
-    }
-
-    [Command]
-    public void CmdRequestSceneChange(string sceneName)
-    {
-        // Server-side logic before changing scene
-        Debug.Log($"Player {gameObject.name} requested scene change to {sceneName}");
-
-        // Tell this specific client to change scene
-        TargetChangeScene(connectionToClient, sceneName);
-    }
-
-    [TargetRpc]
-    private void TargetChangeScene(NetworkConnection target, string sceneName)
-    {
-        // Client loads the new scene additively
-        Debug.Log($"Loading scene: {sceneName}");
-        SceneManager.LoadSceneAsync(sceneName);
-    }
 
 
     /* // LevelUP

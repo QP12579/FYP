@@ -23,7 +23,7 @@ public class AOEAttack : AttackSkill
         float i = 0;
         while (i < time)
         {
-            c.GetComponent<IAttackable>().TakeDamage(damage);
+            c.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, damage);
             yield return new WaitForSeconds(0.2f);
             i += 0.2f;
         }

@@ -85,7 +85,7 @@ public class GameManager : NetworkBehaviour
             Debug.Log("Countdown finished - Transitioning to gameplay scene: " + gameplaySceneName);
 
             // Use Mirror's built-in scene management to change scene
-            NetworkManager.singleton.ServerChangeScene(gameplaySceneName);
+           NetworkManager.singleton.ServerChangeScene(gameplaySceneName);
         }
     }
 
