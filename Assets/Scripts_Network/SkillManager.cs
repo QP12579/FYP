@@ -217,6 +217,8 @@ public class SkillManager : Singleton<SkillManager>
     public int ResetAllSkills()
     {
         int refundedPoints = unlockedSkills.Count;
+        List<SkillData> id5 = unlockedSkills.FindAll(id => id.ID == 5);
+        refundedPoints += id5.Count;
         unlockedSkills.Clear();
         _skillPoints += refundedPoints;
         return refundedPoints;
