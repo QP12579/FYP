@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using Mirror;
-//using HuggingFace.API;
+using HuggingFace.API;
 
-/*
- * public class SpeechRecognitionTest : MonoBehaviour
+ public class SpeechRecognitionTest : MonoBehaviour
 {
     [SerializeField] private Button startButton;
     [SerializeField] private Button stopButton;
@@ -106,4 +105,3 @@ using Mirror;
         }
     }
 }
-*/
