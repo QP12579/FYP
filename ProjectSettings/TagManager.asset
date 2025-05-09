@@ -10,6 +10,7 @@ TagManager:
   - PlayerSpawn
   - Character1Spawn
   - Character2Spawn
+  - Wall
   layers:
   - Default
   - TransparentFX

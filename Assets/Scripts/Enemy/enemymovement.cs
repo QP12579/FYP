@@ -44,6 +44,16 @@ public class enemymovement : MonoBehaviour
         moveDirection = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad), 0, Mathf.Sin(randomAngle * Mathf.Deg2Rad)).normalized;
     }
 
+    // 碰撞檢測：當碰撞到牆壁時改變方向
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            Debug.Log("Collided with wall, changing direction.");
+            ChangeDirection(); // 碰撞到牆壁時改變方向
+        }
+    }
+
     public void StartAttack()
     {
         isAttacking = true;

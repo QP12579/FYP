@@ -29,16 +29,6 @@ public class elitemovement : MonoBehaviour
         {
             RandomMove();
         }
-
-        // 測試瞬間傳送功能（可根據需求觸發）
-        if (Input.GetKeyDown(KeyCode.T)) // 按下 T 鍵瞬間傳送到玩家附近
-        {
-            TeleportNearPlayer();
-        }
-        if (Input.GetKeyDown(KeyCode.Y)) // 按下 Y 鍵瞬間傳送遠離玩家
-        {
-            TeleportAwayFromPlayer();
-        }
     }
 
     // 隨機移動
@@ -101,5 +91,15 @@ public class elitemovement : MonoBehaviour
     {
         isStopped = false;
         Debug.Log("Movement resumed.");
+    }
+
+    // 碰撞檢測：當碰撞到牆壁時改變方向
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            Debug.Log("Collided with wall, changing direction.");
+            SetRandomTargetPosition(); // 碰撞到牆壁時重新設置目標位置
+        }
     }
 }
