@@ -29,7 +29,7 @@ public class EnemyMovement : NetworkBehaviour
     [ServerCallback]
     protected virtual void Start()
     {
-        // ªì©l¤ÆÀH¾÷¤è¦V
+        // ï¿½ï¿½lï¿½ï¿½ï¿½Hï¿½ï¿½ï¿½ï¿½V
         syncedMoveSpeed = moveSpeed;
         if(anim == null)
             anim = GetComponent<Animator>();
@@ -57,7 +57,7 @@ public class EnemyMovement : NetworkBehaviour
     }
 
     [Server]
-    // §ïÅÜ¤è¦V
+    // ï¿½ï¿½ï¿½Ü¤ï¿½V
     protected void ChangeDirection()
     {
         float randomAngle = Random.Range(0f, 360f);
@@ -70,7 +70,7 @@ public class EnemyMovement : NetworkBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             Debug.Log("Collided with wall, changing direction.");
-            ChangeDirection(); // ¸I¼²¨ìÀð¾À®É§ïÅÜ¤è¦V
+            ChangeDirection(); // ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É§ï¿½ï¿½Ü¤ï¿½V
         }
     }
 

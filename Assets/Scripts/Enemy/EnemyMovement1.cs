@@ -10,6 +10,7 @@ public class EnemyMovement1 : EnemyMovement
         if (player != null) 
         {
             FollowPlayer();
+            anim.SetFloat("moveSpeed", 1);
         }
         else
         {

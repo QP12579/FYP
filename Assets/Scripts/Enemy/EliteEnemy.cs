@@ -10,16 +10,15 @@ public class EliteEnemy : MonoBehaviour
     [Header("Elite Enemy Settings")]
     public float patrolSpeed = 3f; // 巡邏速度
     public float attackRange = 2f; // 攻擊範圍
-    public float laserRange = 15f; // 激光範圍
     public float restDuration = 2f; // 休息時間
+
+    [Header("Hand Prefab")]
+    public Mechhand mechhandPrefab; // 指定手臂預製件
 
     private elitemovement movement;
     public Player player;
     private bool lastAttackWasFast = false;
     public bool LastAttackWasFast => lastAttackWasFast;
-
-    private Renderer enemyRenderer; // 用於控制顏色的 Renderer
-    private Color originalColor; // 儲存原始顏色
 
     private void Start()
     {
@@ -72,11 +71,10 @@ public class EliteEnemy : MonoBehaviour
         {
             player.TakeDamage(10); // Fast melee attack deals低傷害
         }
-
-        ChangeColor(Color.red); // 改變顏色為紅色
-        Invoke(nameof(ResetColor), 0.5f); // 0.5秒後恢復顏色
-
         lastAttackWasFast = true;
+
+        // 建議：在這裡觸發動畫
+        // GetComponent<Animator>().SetTrigger("FastAttack");
     }
 
     public void SlowMeleeAttack()
@@ -86,54 +84,32 @@ public class EliteEnemy : MonoBehaviour
         {
             player.TakeDamage(30); // Slow melee attack deals高傷害
         }
-
-        ChangeColor(Color.green); // 改變顏色為綠色
-        Invoke(nameof(ResetColor), 1.5f); // 1.5秒後恢復顏色
-
         lastAttackWasFast = false;
+
+        // 建議：在這裡觸發動畫
+        // GetComponent<Animator>().SetTrigger("SlowAttack");
     }
 
-    public void LaserAttack()
+    public void ShootHandAttack()
     {
-        Debug.Log("Preparing laser attack!");
-        StopMovement(); // 停止移動
+        Debug.Log("Performing shoot hand attack!");
+        StopMovement();
 
-        // 開始激光準備過程
-        StartCoroutine(LaserReadyCoroutine());
-    }
-
-    private IEnumerator LaserReadyCoroutine()
-    {
-        float readyTime = 1.5f; // 激光準備時間
-        ChangeColor(Color.yellow); // 在準備期間將顏色改為黃色
-        yield return new WaitForSeconds(readyTime); // 等待準備時間
-
-        Debug.Log("Performing laser attack!");
-        if (player != null && IsPlayerInRange(laserRange))
+        if (mechhandPrefab != null && player != null)
         {
-            player.TakeDamage(20); // 激光攻擊造成中等傷害
+            // 生成手臂於本體位置與旋轉
+            Mechhand hand = Instantiate(mechhandPrefab, transform.position, transform.rotation);
+            // 射出手臂，回收後恢復移動
+            hand.ShootAt(player.transform.position, ResumeMovement);
+        }
+        else
+        {
+            // 若未設置 prefab 或找不到玩家，直接恢復移動避免卡死
+            ResumeMovement();
         }
 
-        ChangeColor(Color.blue); // 激光攻擊時改為藍色
-        Invoke(nameof(ResetColor), 0.5f); // 0.5秒後恢復顏色
-
-        ResumeMovement(); // 恢復移動
-    }
-
-    private void ChangeColor(Color color)
-    {
-        if (enemyRenderer != null)
-        {
-            enemyRenderer.material.color = color;
-        }
-    }
-
-    private void ResetColor()
-    {
-        if (enemyRenderer != null)
-        {
-            enemyRenderer.material.color = originalColor; // 恢復原始顏色
-        }
+        // 建議：在這裡觸發動畫
+        // GetComponent<Animator>().SetTrigger("ShootHand");
     }
 
     public bool IsPlayerInRange(float range)
@@ -162,12 +138,11 @@ public class PatrolState : IEnemyState
     public void EnterState()
     {
         Debug.Log("Entering Patrol State");
-        enemy.ResumeMovement(); // 開始隨機移動
+        enemy.ResumeMovement();
     }
 
     public void UpdateState()
     {
-        // 如果玩家進入攻擊範圍，切換到攻擊狀態
         if (enemy.IsPlayerInRange(enemy.attackRange))
         {
             enemy.ChangeState(new AttackState(enemy));
@@ -240,7 +215,6 @@ public class AttackState : IEnemyState
             attackTimer = 0f;
         }
 
-        // 如果玩家離開攻擊範圍，切換回巡邏狀態
         if (!enemy.IsPlayerInRange(enemy.attackRange))
         {
             enemy.ChangeState(new PatrolState(enemy));
@@ -262,7 +236,7 @@ public class AttackState : IEnemyState
             }
             else
             {
-                enemy.LaserAttack();
+                enemy.ShootHandAttack();
             }
         }
     }

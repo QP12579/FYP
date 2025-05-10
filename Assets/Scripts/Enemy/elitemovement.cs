@@ -5,41 +5,57 @@ using UnityEngine;
 public class elitemovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 3f; // 隨機移動的速度
-    public float moveDistance = 5f; // 隨機移動的距離
-    public float teleportDistance = 10f; // 瞬間傳送的距離
+    public float moveSpeed = 3f;           // 巡邏移動速度
+    public float moveDistance = 5f;        // 單次巡邏距離
+    public float chaseSpeed = 5f;          // 追蹤玩家時速度
+    public float teleportDistance = 10f;   // 瞬間傳送距離
+    public float chaseRange = 10f;         // 追蹤玩家的觸發距離
+
+    [Header("Player Reference")]
+    public Transform player;
 
     private Vector3 targetPosition;
     private bool isMoving = false;
-    private bool isStopped = false; // 用於控制是否停止移動
+    private bool isStopped = false;
+    private bool isChasing = false;
 
-    [Header("Player Reference")]
-    public Transform player; // 玩家對象的引用
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         SetRandomTargetPosition();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (!isStopped) // 如果未停止，則執行隨機移動
+        if (isStopped) return;
+
+        if (player != null && Vector3.Distance(transform.position, player.position) < chaseRange)
         {
-            RandomMove();
+            isChasing = true;
+        }
+        else
+        {
+            isChasing = false;
+        }
+
+        if (isChasing)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            Patrol();
         }
     }
 
-    // 隨機移動
-    private void RandomMove()
+    // 巡邏行為
+    private void Patrol()
     {
         if (!isMoving)
         {
             SetRandomTargetPosition();
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        MoveTowards(targetPosition, moveSpeed);
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
@@ -47,11 +63,26 @@ public class elitemovement : MonoBehaviour
         }
     }
 
-    // 設置隨機目標位置
+    // 追蹤玩家
+    private void ChasePlayer()
+    {
+        if (player == null) return;
+        MoveTowards(player.position, chaseSpeed);
+    }
+
+    // 移動到目標點
+    private void MoveTowards(Vector3 destination, float speed)
+    {
+        Vector3 direction = (destination - transform.position).normalized;
+        direction.y = 0;
+        transform.position += direction * speed * Time.deltaTime;
+    }
+
+    // 設置新的隨機巡邏目標
     private void SetRandomTargetPosition()
     {
-        Vector3 randomDirection = Random.insideUnitSphere; // 隨機方向
-        randomDirection.y = 0; // 保持在平面上
+        Vector3 randomDirection = Random.insideUnitSphere;
+        randomDirection.y = 0;
         targetPosition = transform.position + randomDirection.normalized * moveDistance;
         isMoving = true;
     }
@@ -61,8 +92,8 @@ public class elitemovement : MonoBehaviour
     {
         if (player != null)
         {
-            Vector3 randomOffset = Random.insideUnitSphere * 2f; // 在玩家附近隨機偏移
-            randomOffset.y = 0; // 保持在平面上
+            Vector3 randomOffset = Random.insideUnitSphere * 2f;
+            randomOffset.y = 0;
             transform.position = player.position + randomOffset;
             Debug.Log("Teleported near the player!");
         }
@@ -73,8 +104,8 @@ public class elitemovement : MonoBehaviour
     {
         if (player != null)
         {
-            Vector3 directionAwayFromPlayer = (transform.position - player.position).normalized;
-            transform.position = transform.position + directionAwayFromPlayer * teleportDistance;
+            Vector3 directionAway = (transform.position - player.position).normalized;
+            transform.position += directionAway * teleportDistance;
             Debug.Log("Teleported away from the player!");
         }
     }
@@ -93,13 +124,13 @@ public class elitemovement : MonoBehaviour
         Debug.Log("Movement resumed.");
     }
 
-    // 碰撞檢測：當碰撞到牆壁時改變方向
+    // 碰撞時自動換方向
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
             Debug.Log("Collided with wall, changing direction.");
-            SetRandomTargetPosition(); // 碰撞到牆壁時重新設置目標位置
+            SetRandomTargetPosition();
         }
     }
 }

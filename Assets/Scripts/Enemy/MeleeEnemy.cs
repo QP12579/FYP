@@ -9,6 +9,8 @@ public class MeleeEnemy : Enemy
     [Header("Attack")]
     [SerializeField] private int damage;
     [SerializeField] private float attackFrequency;
+    [Header("Animation")]
+    [SerializeField] private float attackAnimDuration = 0.5f; // 攻擊動畫長度（秒）
 
     private float attackDelay;
     private float attackTimer;
@@ -39,7 +41,7 @@ public class MeleeEnemy : Enemy
 
     private void TryAttack()
     {
-        if (player == null) // Check if the player has been destroyed
+        if (player == null)
         {
             Debug.Log("Did not found Player. Stopping attack.");
             FindingPlayer();
@@ -51,7 +53,6 @@ public class MeleeEnemy : Enemy
         if (distanceToPlayer < playerDetectionRadius)
         {
             Attack();
-            anim.SetTrigger("isAttack");
         }
     }
 
@@ -60,6 +61,19 @@ public class MeleeEnemy : Enemy
         Debug.Log("Dealing " + damage + " damage to player ");
         attackTimer = 0;
         player.TakeDamage(damage);
+
+        if (anim != null)
+        {
+            anim.SetBool("isAttack", true);
+            StartCoroutine(ResetIsAttackBool());
+        }
+    }
+
+    private IEnumerator ResetIsAttackBool()
+    {
+        yield return new WaitForSeconds(attackAnimDuration);
+        if (anim != null)
+            anim.SetBool("isAttack", false);
     }
 
     public void EnemyGetHit(Vector3 hitDirection, float damage)

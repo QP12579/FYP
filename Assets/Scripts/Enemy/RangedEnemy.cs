@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyMovement2))]
+[RequireComponent(typeof(EnemyMovement))]
 public class RangedEnemy : Enemy
 {
     [Header("Attack")]
@@ -10,27 +10,29 @@ public class RangedEnemy : Enemy
     [SerializeField] private float attackFrequency;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
+    [Header("Animation")]
+    [SerializeField] private float attackAnimDuration = 0.5f; // 攻擊動畫長度（秒）
 
     private float attackDelay;
     private float nextAttackTime;
+    private EnemyMovement movement;
 
-    // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        attackFrequency = Mathf.Clamp(attackFrequency, 0.01f, 2f); // 將最大攻擊頻率降低到 2
-        attackDelay = 30f / attackFrequency; // 增加攻擊延遲，將分母調整為 3
+        movement = GetComponent<EnemyMovement>();
+        attackFrequency = Mathf.Clamp(attackFrequency, 0.01f, 2f);
+        attackDelay = 30f / attackFrequency;
         nextAttackTime = Time.time + attackDelay;
     }
 
-    // Update is called once per frame
     protected override void Update()
     {
         base.Update();
         if (Time.time >= nextAttackTime)
         {
             TryAttack();
-            nextAttackTime = Time.time + attackDelay; // Add a delay between attacks
+            nextAttackTime = Time.time + attackDelay;
         }
     }
 
@@ -40,7 +42,19 @@ public class RangedEnemy : Enemy
         {
             Debug.Log("Player is in range. Attempting to attack.");
             Attack();
+            if (movement.anim != null)
+            {
+                movement.anim.SetBool("isAttack", true);
+                StartCoroutine(ResetIsAttackBool());
+            }
         }
+    }
+
+    private IEnumerator ResetIsAttackBool()
+    {
+        yield return new WaitForSeconds(attackAnimDuration);
+        if (movement.anim != null)
+            movement.anim.SetBool("isAttack", false);
     }
 
     private bool IsPlayerInRange()
@@ -59,26 +73,22 @@ public class RangedEnemy : Enemy
 
         Debug.Log("Shooting at player with " + damage + " damage");
 
-        // 停止移動
-        GetComponent<EnemyMovement2>().StartAttack();
-
         // Instantiate and shoot the projectile
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        bullet bulletScript = projectile.GetComponent<bullet>();
-        if (bulletScript != null)
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        if (projectileScript != null)
         {
-            bulletScript.SetTarget(player.transform.position);
-            bulletScript.damage = damage;
+            projectileScript.SetTarget(player.transform);
+            projectileScript.SetDamage(damage);
         }
 
         // 恢復移動
-        GetComponent<EnemyMovement2>().StopAttack();
+        StartCoroutine(ResumeMovementAfterAttack());
     }
 
-    public void EnemyGetHit(Vector3 hitDirection, float damage)
+    private IEnumerator ResumeMovementAfterAttack()
     {
-        Debug.Log("Enemy got hit");
-        GetHit(hitDirection, damage);
+        yield return new WaitForSeconds(0.5f); // 攻擊後的延遲時間
     }
 }
 
@@ -104,10 +114,6 @@ public class Projectile : MonoBehaviour
         {
             Vector3 direction = (target.position - transform.position).normalized;
             transform.Translate(direction * speed * Time.deltaTime, Space.World);
-        }
-        else
-        {
-            
         }
     }
 

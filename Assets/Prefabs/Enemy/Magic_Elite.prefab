@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 36199046723832287}
   - component: {fileID: 4148714371974654348}
-  - component: {fileID: 3173685270317405344}
-  - component: {fileID: 1818007403055452603}
   - component: {fileID: 1065213851143234874}
+  - component: {fileID: 5762639352845152027}
+  - component: {fileID: 750007621120449902}
   m_Layer: 0
   m_Name: Magic_Elite
   m_TagString: Untagged
@@ -87,39 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3173685270317405344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2695587624404813549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0781d77d9c621994fba3dbd86bb3c918, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  moveDistance: 5
-  teleportDistance: 10
-  player: {fileID: 0}
---- !u!114 &1818007403055452603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2695587624404813549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0509413e3422f044abf635da5052dd2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patrolSpeed: 3
-  attackRange: 2
-  laserRange: 15
-  restDuration: 2
-  player: {fileID: 0}
 --- !u!95 &1065213851143234874
 Animator:
   serializedVersion: 5
@@ -141,3 +108,44 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5762639352845152027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2695587624404813549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf69247d7e23d1d489ca445cd2385515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2.5
+  minMoveDistance: 3
+  maxMoveDistance: 7
+  minTeleportInterval: 8
+  maxTeleportInterval: 12
+  teleportRange: 10
+  teleportTestKey: 116
+--- !u!114 &750007621120449902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2695587624404813549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8ee14d1d40be942b601f1553d5dbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 8
+  meleeRange: 2
+  attackFrequency: 1.5
+  magicProjectilePrefab: {fileID: 0}
+  projectileSpeed: 12
+  magicDamage: 20
+  magicLaserPrefab: {fileID: 0}
+  laserDuration: 1.5
+  laserDamage: 30
+  meleeDamage: 15
