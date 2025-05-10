@@ -38,14 +38,23 @@ public class StageManager : NetworkBehaviour
 
     void Start()
     {
-        gameStartTime = Time.time;
+        void Start()
+        {
+            gameStartTime = Time.time;
 
-        // Initialize all stages
-        InitializeStages(magicStages);
-        InitializeStages(technoStages);
+            if (isServer)
+            {
+                // Spawn all stages on network before initializing them
+                SpawnAllStages();
+            }
 
-        if (winnerPanel != null)
-            winnerPanel.SetActive(false);
+            // Initialize stages
+            InitializeStages(magicStages);
+            InitializeStages(technoStages);
+
+            if (winnerPanel != null)
+                winnerPanel.SetActive(false);
+        }
     }
 
     private void InitializeStages(GameObject[] stages)
@@ -54,6 +63,69 @@ public class StageManager : NetworkBehaviour
         {
             // Only first stage is active
             stages[i].SetActive(i == 0);
+        }
+    }
+
+    [Server]
+    private void SpawnAllStages()
+    {
+        Debug.Log("Spawning all stages on network");
+
+        // Spawn all Magic stages
+        foreach (GameObject stage in magicStages)
+        {
+            if (!stage.activeSelf)
+            {
+                // Temporarily activate to spawn
+                bool wasActive = stage.activeSelf;
+                stage.SetActive(true);
+
+                // Ensure it has NetworkIdentity
+                NetworkIdentity netId = stage.GetComponent<NetworkIdentity>();
+                if (netId == null)
+                {
+                    Debug.LogError($"Stage {stage.name} missing NetworkIdentity!");
+                    netId = stage.AddComponent<NetworkIdentity>();
+                }
+
+                // Spawn on network
+                NetworkServer.Spawn(stage);
+
+                // Restore original state
+                if (!wasActive)
+                    stage.SetActive(false);
+            }
+            else
+            {
+                // Spawn if active
+                NetworkServer.Spawn(stage);
+            }
+        }
+
+        // Same for Techno stages
+        foreach (GameObject stage in technoStages)
+        {
+            if (!stage.activeSelf)
+            {
+                bool wasActive = stage.activeSelf;
+                stage.SetActive(true);
+
+                NetworkIdentity netId = stage.GetComponent<NetworkIdentity>();
+                if (netId == null)
+                {
+                    Debug.LogError($"Stage {stage.name} missing NetworkIdentity!");
+                    netId = stage.AddComponent<NetworkIdentity>();
+                }
+
+                NetworkServer.Spawn(stage);
+
+                if (!wasActive)
+                    stage.SetActive(false);
+            }
+            else
+            {
+                NetworkServer.Spawn(stage);
+            }
         }
     }
 
@@ -147,20 +219,28 @@ public class StageManager : NetworkBehaviour
         }
     }
 
-    [TargetRpc]
+    [ClientRpc]
     private void RpcActivateStage(uint netId)
     {
         Debug.Log($"RpcActivateStage called for netId {netId}");
 
-        // Find and activate stage on clients
-        foreach (NetworkIdentity identity in FindObjectsOfType<NetworkIdentity>())
+        bool found = false;
+
+        // First try to find the NetworkIdentity directly (it might already be spawned)
+        foreach (NetworkIdentity identity in FindObjectsOfType<NetworkIdentity>(true)) // true = include inactive
         {
             if (identity.netId == netId)
             {
                 identity.gameObject.SetActive(true);
                 Debug.Log($"Activated stage: {identity.name} on client");
+                found = true;
                 break;
             }
+        }
+
+        if (!found)
+        {
+            Debug.LogWarning($"Could not find stage with netId {netId} - it may not be spawned on client");
         }
     }
 

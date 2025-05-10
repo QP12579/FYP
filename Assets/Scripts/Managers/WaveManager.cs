@@ -22,6 +22,9 @@ public class WaveManager : NetworkBehaviour
     [SerializeField] private float minSpawnRadius = 5f; // Minimum distance from center
     [SerializeField] private float maxSpawnRadius = 15f; // Maximum distance from center
 
+    [Header("Identity")]
+    [SyncVar]
+    public string stageId;
 
     [Header(" Path Type ")]
     [SerializeField] private bool isMagicPath; // True for magic path, false for techno path

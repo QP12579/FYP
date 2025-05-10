@@ -60,10 +60,15 @@ public class StageController : NetworkBehaviour
     {
         targetPlayer = player;
 
-        // Pass to wave manager
+        // Find the WaveManager in this stage
         if (waveManager != null)
         {
+            Debug.Log($"Setting player {player.name} on WaveManager with stageId {waveManager.stageId}");
             waveManager.SetPlayer(player, isMagicPlayer);
+        }
+        else
+        {
+            Debug.LogError("No WaveManager found in this stage!");
         }
     }
 
