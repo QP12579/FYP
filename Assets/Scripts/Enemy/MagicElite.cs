@@ -75,7 +75,6 @@ public class MagicElite : MonoBehaviour
         else if (distance <= attackRange)
         {
             movement.Stop();
-            // 隨機選擇魔法彈或雷射，且各自有冷卻
             int attackType = Random.Range(0, 2); // 0: magic ball, 1: laser
             if (attackType == 0 && magicTimer <= 0f)
             {
@@ -102,7 +101,7 @@ public class MagicElite : MonoBehaviour
 
     private void MagicAttack()
     {
-        Debug.Log("MagicElite performs magic attack!");
+        Debug.Log($"[MagicElite] Magic Attack! Cooldown: {magicCooldown}s");
         if (anim != null)
         {
             anim.SetBool("ATK2", true);
@@ -119,13 +118,12 @@ public class MagicElite : MonoBehaviour
                 Vector3 dir = (player.transform.position - spawnPos).normalized;
                 rb.velocity = dir * projectileSpeed;
             }
-            // 建議：在魔法彈腳本中處理碰撞與 player.TakeDamage(magicDamage)
         }
     }
 
     private IEnumerator LaserAttack()
     {
-        Debug.Log("MagicElite performs laser attack!");
+        Debug.Log($"[MagicElite] Laser Attack! Cooldown: {laserCooldown}s");
         if (anim != null)
         {
             anim.SetBool("ATK3", true);
@@ -164,7 +162,7 @@ public class MagicElite : MonoBehaviour
 
     private void MeleeAttack()
     {
-        Debug.Log("MagicElite performs melee attack!");
+        Debug.Log($"[MagicElite] Melee Attack! Cooldown: {meleeCooldown}s");
         if (anim != null)
         {
             anim.SetBool("ATK1", true);

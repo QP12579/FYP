@@ -5,20 +5,26 @@ using UnityEngine;
 public class Magicmovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 2.5f;           // 行走速度
-    public float minMoveDistance = 3f;       // 最小隨機移動距離
-    public float maxMoveDistance = 7f;       // 最大隨機移動距離
+    public float moveSpeed = 2.5f;
+    public float minMoveDistance = 3f;
+    public float maxMoveDistance = 7f;
 
     [Header("Teleport Settings")]
-    public float minTeleportInterval = 8f;   // 最短傳送間隔
-    public float maxTeleportInterval = 12f;  // 最長傳送間隔
-    public float teleportRange = 10f;        // 傳送最大半徑
+    public float minTeleportInterval = 8f;
+    public float maxTeleportInterval = 12f;
+    public float teleportRange = 10f;
 
     [Header("Debug/Test")]
-    public KeyCode teleportTestKey = KeyCode.T; // 測試用按鍵
+    public KeyCode teleportTestKey = KeyCode.T;
 
     [Header("Animation")]
-    public float appearAnimDuration = 0.5f; // isAppear動畫持續時間（依動畫長度調整）
+    public float appearAnimDuration = 0.5f;
+
+    [Header("Floor Reference")]
+    public GameObject floor; // 拖曳你的 floor prefab 進來
+
+    private Vector3 areaMin;
+    private Vector3 areaMax;
 
     private Vector3 targetPosition;
     private bool isMoving = false;
@@ -30,6 +36,39 @@ public class Magicmovement : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         SetRandomTargetPosition();
         StartCoroutine(TeleportRoutine());
+
+        // 自動取得 floor 範圍
+        if (floor != null)
+        {
+            BoxCollider box = floor.GetComponent<BoxCollider>();
+            if (box != null)
+            {
+                Vector3 center = box.transform.position + box.center;
+                Vector3 size = Vector3.Scale(box.size, box.transform.lossyScale) * 0.5f;
+                areaMin = center - size;
+                areaMax = center + size;
+            }
+            else
+            {
+                MeshRenderer mesh = floor.GetComponent<MeshRenderer>();
+                if (mesh != null)
+                {
+                    areaMin = mesh.bounds.min;
+                    areaMax = mesh.bounds.max;
+                }
+                else
+                {
+                    Debug.LogWarning("Floor prefab 沒有 BoxCollider 或 MeshRenderer，請檢查！");
+                    areaMin = new Vector3(-20, 0, -20);
+                    areaMax = new Vector3(20, 0, 20);
+                }
+            }
+        }
+        else
+        {
+            areaMin = new Vector3(-20, 0, -20);
+            areaMax = new Vector3(20, 0, 20);
+        }
     }
 
     private void Update()
@@ -43,14 +82,12 @@ public class Magicmovement : MonoBehaviour
 
         RandomMove();
 
-        // 測試用：按下 T 鍵立即傳送
         if (Input.GetKeyDown(teleportTestKey))
         {
             TeleportRandomly();
         }
     }
 
-    // 隨機行走
     private void RandomMove()
     {
         if (!isMoving)
@@ -75,17 +112,18 @@ public class Magicmovement : MonoBehaviour
         }
     }
 
-    // 設定新的隨機目標位置
     private void SetRandomTargetPosition()
     {
         float randomDistance = Random.Range(minMoveDistance, maxMoveDistance);
         Vector3 randomDirection = Random.insideUnitSphere;
         randomDirection.y = 0;
-        targetPosition = transform.position + randomDirection.normalized * randomDistance;
+        Vector3 candidate = transform.position + randomDirection.normalized * randomDistance;
+        candidate.x = Mathf.Clamp(candidate.x, areaMin.x, areaMax.x);
+        candidate.z = Mathf.Clamp(candidate.z, areaMin.z, areaMax.z);
+        targetPosition = candidate;
         isMoving = true;
     }
 
-    // 傳送協程
     private IEnumerator TeleportRoutine()
     {
         while (true)
@@ -96,13 +134,15 @@ public class Magicmovement : MonoBehaviour
         }
     }
 
-    // 隨機傳送到附近
     private void TeleportRandomly()
     {
         Vector3 randomOffset = Random.insideUnitSphere * teleportRange;
         randomOffset.y = 0;
-        transform.position += randomOffset;
-        isMoving = false; // 傳送後重新選擇目標
+        Vector3 candidate = transform.position + randomOffset;
+        candidate.x = Mathf.Clamp(candidate.x, areaMin.x, areaMax.x);
+        candidate.z = Mathf.Clamp(candidate.z, areaMin.z, areaMax.z);
+        transform.position = candidate;
+        isMoving = false;
         Debug.Log("MagicElite teleported!");
 
         if (anim != null)
@@ -119,7 +159,6 @@ public class Magicmovement : MonoBehaviour
             anim.SetBool("isAppear", false);
     }
 
-    // 停止移動
     public void Stop()
     {
         isStopped = true;
@@ -127,7 +166,6 @@ public class Magicmovement : MonoBehaviour
             anim.SetFloat("movespeed", 0f);
     }
 
-    // 恢復移動
     public void Move()
     {
         isStopped = false;

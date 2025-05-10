@@ -1991,6 +1991,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magic_Elite
       objectReference: {fileID: 0}
+    - target: {fileID: 5762639352845152027, guid: f287edc05ee192049870a9a7148dde21,
+        type: 3}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 2117817169}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
