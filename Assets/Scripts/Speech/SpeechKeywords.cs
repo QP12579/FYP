@@ -10,14 +10,14 @@ public class SpeechKeywords : MonoBehaviour
     public List<string> keywords; 
     public List<GameObject> vfxPrefabs; 
     private HashSet<string> generatedKeywords = new HashSet<string>();
+    private Player player;
 
-    private void Update()
+    private void Start()
     {
-        CheckForKeyword();
-        Debug.Log("Checked for keyword");
+        player = FindObjectOfType<Player>();
     }
 
-    private void CheckForKeyword()
+    public void CheckForKeyword()
     {
         string speechword = RemovePunctuation(outputText.text.Trim());
         Debug.Log($"Current output: {speechword}");
@@ -32,11 +32,12 @@ public class SpeechKeywords : MonoBehaviour
                 break;
             }
         }
+        Debug.Log("Checked for keyword");
     }
 
     private string RemovePunctuation(string input)
     {
-        return Regex.Replace(input, @"[^\w\s]", "");
+        return Regex.Replace(input, @"[^\w\s]", "").TrimEnd();
     }
 
     private void GenerateVFX(int index)
@@ -44,5 +45,9 @@ public class SpeechKeywords : MonoBehaviour
         GameObject clonedVFX = Instantiate(vfxPrefabs[index], Vector3.zero, Quaternion.identity);
         Destroy(clonedVFX, 5f);
         Debug.Log("VFX cloned");
+        if(player == null)
+        player = FindObjectOfType<Player>();
+        if (player!=null)
+        player.UseSP();
     }
 }

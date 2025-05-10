@@ -14,6 +14,7 @@ namespace Whisper.Samples
     {
         public WhisperManager whisper;
         public MicrophoneRecord microphoneRecord;
+        public SpeechKeywords _SpeechKeywords;
         public bool streamSegments = true;
         
         [Header("UI")] 
@@ -79,6 +80,7 @@ namespace Whisper.Samples
             var text = res.Result.ToLower();
 
             outputText.text = text;
+            _SpeechKeywords.CheckForKeyword();
         }
 
         public string GetOutputText() 

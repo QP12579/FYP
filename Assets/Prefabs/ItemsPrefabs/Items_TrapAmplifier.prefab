@@ -124,3 +124,4 @@ MonoBehaviour:
     Type: 8
     name: TrapAmplifier
     description: Amplify your Competitor's Trap
+  GetSound: {fileID: 0}

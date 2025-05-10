@@ -37,6 +37,14 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         public int level;
     }
 
+    [Header("UI Elements")]
+    [SerializeField]
+    private Dictionary<BuffType, Sprite> buffIcons = new Dictionary<BuffType, Sprite>();
+    [SerializeField]
+    private Dictionary<DeBuffType, Sprite> debuffIcons = new Dictionary<DeBuffType, Sprite>();
+    [SerializeField]
+    private GameObject iconPrefab;
+
     private List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
     private Dictionary<BuffType, int> buffLevels = new Dictionary<BuffType, int>();
 

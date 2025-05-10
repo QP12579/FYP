@@ -148,6 +148,12 @@ public class Player : NetworkBehaviour
     {
         SP += isSkillAttack ? 0.1f : 0.05f;
     }
+
+    public void UseSP()
+    {
+        SP = 0;
+        UpdatePlayerUIInfo();
+    }
     public void BuffMPRegen(float mpRegen)
     {
         if (mpRegen < 0) return;

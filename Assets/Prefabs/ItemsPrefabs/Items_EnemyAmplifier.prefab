@@ -124,3 +124,4 @@ MonoBehaviour:
     Type: 9
     name: EnemyAmplifier
     description: Amplify your Competitor's Enemy
+  GetSound: {fileID: 0}

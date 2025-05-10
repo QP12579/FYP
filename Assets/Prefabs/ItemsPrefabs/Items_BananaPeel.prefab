@@ -124,3 +124,4 @@ MonoBehaviour:
     Type: 6
     name: BananaPeel
     description: Somethings will happen to your Competitor.
+  GetSound: {fileID: 0}

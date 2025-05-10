@@ -146,4 +146,5 @@ MonoBehaviour:
     Type: 4
     name: BasicPoint
     description: Can Upgrade your Ability.
+  GetSound: {fileID: 0}
   getPoint: 1

@@ -129,7 +129,8 @@ MonoBehaviour:
     type: 3}
   debuffPrefab: {fileID: 3182493278813538639, guid: 37a7d39917ccb51419494d8470f7a16a,
     type: 3}
-  EnemyPrefab: {fileID: 0}
+  EnemyPrefab: {fileID: 7686363277280844216, guid: e32567f31dcdf0f4d93250e7bbe29304,
+    type: 3}
   buffChance: 60
   debuffChance: 30
   enemyChance: 10

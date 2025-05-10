@@ -146,3 +146,4 @@ MonoBehaviour:
     Type: 0
     name: Coin
     description: Can buy items
+  GetSound: {fileID: 0}
