@@ -270,7 +270,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $ 60
+  m_text: $
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -351,6 +351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5961312364114371238}
+  - component: {fileID: 2428638417219592296}
   m_Layer: 0
   m_Name: ShopItem (1)
   m_TagString: Untagged
@@ -376,6 +377,23 @@ Transform:
   - {fileID: 4252683572059033526}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2428638417219592296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5066325084293651002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1104f65dfff034585772df359d33ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 7989549320607022016}
+  cost: 60
+  costText: {fileID: 7245131474434349544}
+  purchaseKey: 114
+  purchasePrompt: {fileID: 2697465765056792897}
 --- !u!1001 &5401819551115638072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -470,3 +488,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5401819551115638072}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7989549320607022016 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -6622672426692030728, guid: c28e0a8568f611243b651206b41b5e08,
+    type: 3}
+  m_PrefabInstance: {fileID: 5401819551115638072}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3a9bf0e090ea448a3daa281a50a436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

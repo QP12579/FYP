@@ -84,12 +84,12 @@ public class Bag : Singleton<Bag>
         UpdateBagUI();
     }
 
-    public void AddSkillPoint(int p)
+    public void AddSkillPoint(int p = 1)
     {
         _skillPanel.AddSkillPoints(p);
     }
 
-    public void AddBasePoint(int p)
+    public void AddBasePoint(int p = 1)
     {
         _abilityPanel.AddBasePoint(p);
     }
@@ -104,6 +104,11 @@ public class Bag : Singleton<Bag>
     {
         switch (item.Type)
         {    
+            case ItemType.SkillPT:
+                AddSkillPoint();
+                break;
+            case ItemType.BasicPT:
+                AddBasePoint(); break;
             case ItemType.Broom:
                 UseBroom();
                 break;
