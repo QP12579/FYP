@@ -9,8 +9,6 @@ public class MeleeEnemy : Enemy
     [Header("Attack")]
     [SerializeField] private int damage;
     [SerializeField] private float attackFrequency;
-    [Header("Animation")]
-    [SerializeField] private float attackAnimDuration = 0.5f; // 攻擊動畫長度（秒）
 
     private float attackDelay;
     private float attackTimer;
@@ -63,17 +61,7 @@ public class MeleeEnemy : Enemy
         player.TakeDamage(damage);
 
         if (anim != null)
-        {
-            anim.SetBool("isAttack", true);
-            StartCoroutine(ResetIsAttackBool());
-        }
-    }
-
-    private IEnumerator ResetIsAttackBool()
-    {
-        yield return new WaitForSeconds(attackAnimDuration);
-        if (anim != null)
-            anim.SetBool("isAttack", false);
+            anim.SetTrigger("isAttack");
     }
 
     public void EnemyGetHit(Vector3 hitDirection, float damage)

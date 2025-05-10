@@ -8,7 +8,11 @@ public class MagicElite : MonoBehaviour
     [Header("Magic Elite Settings")]
     public float attackRange = 8f;
     public float meleeRange = 2f;
-    public float attackFrequency = 1.5f;
+
+    [Header("Cooldowns (秒)")]
+    public float meleeCooldown = 5f;
+    public float magicCooldown = 4f;
+    public float laserCooldown = 10f;
 
     [Header("Magic Attack Settings")]
     public GameObject magicProjectilePrefab;
@@ -31,16 +35,17 @@ public class MagicElite : MonoBehaviour
     private Magicmovement movement;
     private Player player;
     private Animator anim;
-    private float attackDelay;
-    private float attackTimer;
+
+    // 各攻擊冷卻計時器
+    private float meleeTimer = 0f;
+    private float magicTimer = 0f;
+    private float laserTimer = 0f;
 
     private void Start()
     {
         movement = GetComponent<Magicmovement>();
         anim = GetComponentInChildren<Animator>();
         player = FindObjectOfType<Player>();
-        attackDelay = 1f / attackFrequency;
-        attackTimer = 0f;
     }
 
     private void Update()
@@ -51,36 +56,36 @@ public class MagicElite : MonoBehaviour
             return;
         }
 
+        // 冷卻計時
+        meleeTimer -= Time.deltaTime;
+        magicTimer -= Time.deltaTime;
+        laserTimer -= Time.deltaTime;
+
         float distance = Vector3.Distance(transform.position, player.transform.position);
 
         if (distance <= meleeRange)
         {
             movement.Stop();
-            if (attackTimer >= attackDelay)
+            if (meleeTimer <= 0f)
             {
                 MeleeAttack();
-                attackTimer = 0f;
-            }
-            else
-            {
-                attackTimer += Time.deltaTime;
+                meleeTimer = meleeCooldown;
             }
         }
         else if (distance <= attackRange)
         {
             movement.Stop();
-            if (attackTimer >= attackDelay)
+            // 隨機選擇魔法彈或雷射，且各自有冷卻
+            int attackType = Random.Range(0, 2); // 0: magic ball, 1: laser
+            if (attackType == 0 && magicTimer <= 0f)
             {
-                int attackType = Random.Range(0, 2); // 0: magic ball, 1: laser
-                if (attackType == 0)
-                    MagicAttack();
-                else
-                    StartCoroutine(LaserAttack());
-                attackTimer = 0f;
+                MagicAttack();
+                magicTimer = magicCooldown;
             }
-            else
+            else if (attackType == 1 && laserTimer <= 0f)
             {
-                attackTimer += Time.deltaTime;
+                StartCoroutine(LaserAttack());
+                laserTimer = laserCooldown;
             }
         }
         else
