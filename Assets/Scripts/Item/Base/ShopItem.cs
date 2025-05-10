@@ -25,7 +25,7 @@ public class ShopItem : MonoBehaviour
             if (itemCollider != null) itemCollider.isTrigger = false;
         }
 
-        costText.text = cost.ToString("C");
+        costText.text = "$ " + cost.ToString();
 
         // 隱藏購買提示
         if (purchasePrompt != null) purchasePrompt.SetActive(false);

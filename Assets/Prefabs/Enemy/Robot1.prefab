@@ -453,6 +453,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243a97be43a04484c96b81b73a1c0c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   spriterenderer: {fileID: 0}
   spawnIndicator: {fileID: 6052340272583123884}
   passAwayParticles: {fileID: 0}

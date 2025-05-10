@@ -30,7 +30,7 @@ public class Gift : BaseItem
 
     protected override void GetItem()
     {
-        Bag.instance.AddItem(item);
+        OpenGift();
         base.GetItem();
     }
 
@@ -54,8 +54,8 @@ public class Gift : BaseItem
         {
             //Enemy
             if (EnemyPrefab != null){
-                GameObject HealSkill = Instantiate(
-                    EnemyPrefab,
+                GameObject EnemyPrefab = Instantiate(
+                    this.EnemyPrefab,
                     transform.position,
                     transform.rotation
                 );

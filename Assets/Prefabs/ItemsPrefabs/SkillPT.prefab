@@ -146,4 +146,5 @@ MonoBehaviour:
     Type: 3
     name: SkillPoint
     description: Can Buy your Skill.
+  GetSound: {fileID: 0}
   getPoint: 1
