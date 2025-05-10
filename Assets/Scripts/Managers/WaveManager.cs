@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 
-public class WaveManager : MonoBehaviour
+public class WaveManager : NetworkBehaviour
 {
     // Event for when all waves are completed
     public delegate void WaveCompletionEvent();
@@ -16,6 +16,12 @@ public class WaveManager : MonoBehaviour
     private bool isTimerOn;
     private int currentWaveIndex;
     [SerializeField] private float defaultSpawnHeight = 0.59f;
+
+    [Header(" Spawn Settings ")]
+    [SerializeField] private Transform stageCenter; // Reference to the center of the stage
+    [SerializeField] private float minSpawnRadius = 5f; // Minimum distance from center
+    [SerializeField] private float maxSpawnRadius = 15f; // Maximum distance from center
+
 
     [Header(" Path Type ")]
     [SerializeField] private bool isMagicPath; // True for magic path, false for techno path
@@ -176,33 +182,38 @@ public class WaveManager : MonoBehaviour
 
     private Vector3 GetSpawnPosition()
     {
-        if (targetPlayer == null)
+        if (stageCenter == null)
         {
-            Debug.LogError("Target player is null in GetSpawnPosition!");
+            Debug.LogError("Stage center is null in GetSpawnPosition!");
             return Vector3.zero;
         }
 
+        // Get random direction on XZ plane (horizontal only)
         Vector2 randomCircle = Random.insideUnitCircle.normalized;
+
+        // Randomize the distance from center between min and max radius
+        float distance = Random.Range(minSpawnRadius, maxSpawnRadius);
+
+        // Create vector from random circle
         Vector3 direction = new Vector3(randomCircle.x, 0, randomCircle.y);
 
-        float distance = Random.Range(6f, 10f);
-        Vector3 offset = direction * distance;
+        // Calculate position relative to stage center
+        Vector3 targetPosition = stageCenter.position + direction * distance;
 
-        Vector3 targetPosition = targetPlayer.transform.position + offset;
+        // Set default height
         targetPosition.y = defaultSpawnHeight;
 
+        // Raycast to find the actual ground height
         RaycastHit hit;
         if (Physics.Raycast(targetPosition + Vector3.up * 50f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground")))
         {
+            // Place at the configured height above the ground
             targetPosition.y = hit.point.y + defaultSpawnHeight;
         }
-        else
-        {
-            targetPosition.y = targetPlayer.transform.position.y + defaultSpawnHeight;
-        }
 
-        targetPosition.x = Mathf.Clamp(targetPosition.x, -18f, 18f);
-        targetPosition.z = Mathf.Clamp(targetPosition.z, -18f, 18f);
+        // Clamp position within game boundaries (only X and Z)
+        targetPosition.x = Mathf.Clamp(targetPosition.x, stageCenter.position.x - maxSpawnRadius, stageCenter.position.x + maxSpawnRadius);
+        targetPosition.z = Mathf.Clamp(targetPosition.z, stageCenter.position.z - maxSpawnRadius, stageCenter.position.z + maxSpawnRadius);
 
         return targetPosition;
     }

@@ -1,14 +1,15 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class EnemyMovement1 : MonoBehaviour
+public class EnemyMovement1 : NetworkBehaviour
 {
     [Header(" Elements ")]
     private Player player;
-
+    private Player targetPlayer;
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
 
@@ -16,10 +17,14 @@ public class EnemyMovement1 : MonoBehaviour
     private bool isDizziness = false;
 
     private Vector3 moveDirection; // 用於改變方向
+    [SyncVar]
+    private float syncedMoveSpeed;
 
+    [ServerCallback]
     void Start()
     {
         // 初始化隨機方向
+        syncedMoveSpeed = moveSpeed;
         ChangeDirection();
     }
 
@@ -31,19 +36,25 @@ public class EnemyMovement1 : MonoBehaviour
         }
     }
 
+    [Server]
     public void StorePlayer(Player player)
     {
         this.player = player;
     }
 
+
+    [Server] 
     private void FollowPlayer()
     {
+        if (player == null) return;
+
         Vector3 direction = (player.transform.position - transform.position).normalized;
-        Vector3 targetPosition = transform.position + direction * moveSpeed * Time.deltaTime;
+        Vector3 targetPosition = transform.position + direction * syncedMoveSpeed * Time.deltaTime;
         transform.position = targetPosition;
     }
 
     // 碰撞檢測：當碰撞到牆壁時改變方向
+    [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
@@ -54,6 +65,7 @@ public class EnemyMovement1 : MonoBehaviour
     }
 
     // 改變方向
+    [Server]
     private void ChangeDirection()
     {
         float randomAngle = Random.Range(0f, 360f);
@@ -61,6 +73,7 @@ public class EnemyMovement1 : MonoBehaviour
     }
 
     // Debuff
+    [Server]
     public void LowerSpeedStart(float time, float lowSpeedPersentage)
     {
         float baseMoveS = moveSpeed;
@@ -72,15 +85,43 @@ public class EnemyMovement1 : MonoBehaviour
     {
         moveSpeed = baseSpeed;
     }
-
+   
+    [Server]
     public void DizzinessStart(float time)
     {
         isDizziness = true;
-        Invoke("DizzinessEnd", time);
+
+        // Visual effect for clients
+        RpcShowDizzinessEffect(true);
+
+        // Reset after time
+        StartCoroutine(EndDizzinessAfterDelay(time));
     }
 
-    public void DizzinessEnd()
+    [Server]
+    private IEnumerator EndDizzinessAfterDelay(float time)
     {
+        yield return new WaitForSeconds(time);
         isDizziness = false;
+
+        // Turn off visual effect
+        RpcShowDizzinessEffect(false);
+    }
+
+    // Client-side visual effects
+    [ClientRpc]
+    private void RpcShowDizzinessEffect(bool active)
+    {
+        // Add visual effects for dizziness here
+        // For example, you could play a particle effect or animation
+        Debug.Log("Showing dizziness effect: " + active);
+    }
+
+    [ClientRpc]
+    private void RpcShowSlowEffect(bool active)
+    {
+        // Add visual effects for slow here
+        // For example, you could tint the sprite or play a particle effect
+        Debug.Log("Showing slow effect: " + active);
     }
 }

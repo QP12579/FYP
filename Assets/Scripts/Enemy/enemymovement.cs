@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemymovement : MonoBehaviour
+public class enemymovement : NetworkBehaviour
 {
     public float moveSpeed = 5f;
     public float changeDirectionInterval = 2f;
@@ -37,7 +38,7 @@ public class enemymovement : MonoBehaviour
             sr.flipX = moveDirection.x > 0;
         }
     }
-
+    [Server]
     void ChangeDirection()
     {
         float randomAngle = Random.Range(0f, 360f);
@@ -45,6 +46,7 @@ public class enemymovement : MonoBehaviour
     }
 
     // 碰撞檢測：當碰撞到牆壁時改變方向
+    [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))

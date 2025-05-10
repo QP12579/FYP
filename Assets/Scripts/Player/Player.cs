@@ -48,7 +48,7 @@ public class Player : NetworkBehaviour
         if (move == null)
             move = GetComponentInChildren<PlayerMovement>();
         if (animator == null)
-            animator = move.gameObject.GetComponent<Animator>();
+            animator = GetComponent<Animator>();
         if(persistentUI == null)
         persistentUI = FindAnyObjectByType<PersistentUI>();
 
@@ -60,7 +60,22 @@ public class Player : NetworkBehaviour
             LeanTween.delayedCall(1f, AutoFillMP);
         }
     }
+    [Command]
+    public void CmdDamageEnemy(uint enemyNetId, Vector3 hitPosition, float damageAmount)
+    {
+        // Find the enemy with this netId
+        foreach (Enemy enemy in FindObjectsOfType<Enemy>())
+        {
+            if (enemy.NetId == enemyNetId)
+            {
+                // Apply damage on the server
+                enemy.TakeDamage(hitPosition, damageAmount);
+                return;
+            }
+        }
 
+        Debug.LogWarning($"Could not find enemy with netId {enemyNetId} to damage");
+    }
     private void Update()
     {
         SP = Mathf.Clamp(SP, 0, 1f);

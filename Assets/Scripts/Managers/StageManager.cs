@@ -2,260 +2,229 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using NaughtyAttributes;
 
 public class StageManager : NetworkBehaviour
 {
-    [Header("Stage References")]
+    
+    public static StageManager Instance { get; private set; }
+
+    [Header("Magic Path Stages")]
     [SerializeField] private GameObject[] magicStages;
+
+    [Header("Techno Path Stages")]
     [SerializeField] private GameObject[] technoStages;
 
-    [Header("Prefabs")]
-    [SerializeField] private GameObject chestPrefab;
-    [SerializeField] private GameObject portalPrefab;
+    
+    private Dictionary<uint, PlayerProgress> playerProgress = new Dictionary<uint, PlayerProgress>();
 
-    // Player stage trackers - key is the player's netId
-    private Dictionary<uint, PlayerStageInfo> playerStages = new Dictionary<uint, PlayerStageInfo>();
-
-    // Track game start time
+    
     private float gameStartTime;
 
-    // UI References
+   
     [SerializeField] private GameObject winnerPanel;
     [SerializeField] private TMPro.TextMeshProUGUI winnerText;
 
-    // Data class to track player progress
-    private class PlayerStageInfo
+
+    private class PlayerProgress
     {
-        public bool isMagicCharacter;
+        public bool isMagicPlayer;
         public int currentStageIndex = 0;
-        public GameObject currentStage;
     }
 
-    private void Start()
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start()
     {
         gameStartTime = Time.time;
+
+        // Initialize all stages
+        InitializeStages(magicStages);
+        InitializeStages(technoStages);
 
         if (winnerPanel != null)
             winnerPanel.SetActive(false);
     }
 
-    // Called when a player spawns and is ready to start a stage
-    [Server]
-    public void RegisterPlayer(Player player, bool isMagicCharacter)
+    private void InitializeStages(GameObject[] stages)
     {
-        Debug.Log($"Registering player {player.netId} as {(isMagicCharacter ? "Magic" : "Techno")} character");
-        // Create player info
-        PlayerStageInfo info = new PlayerStageInfo
+        for (int i = 0; i < stages.Length; i++)
         {
-            isMagicCharacter = isMagicCharacter,
+            // Only first stage is active
+            stages[i].SetActive(i == 0);
+        }
+    }
+
+    // Called when a player is ready to start
+    [Server]
+    public void RegisterPlayer(Player player, bool isMagicPlayer)
+    {
+        Debug.Log($"Registering player {player.name} as {(isMagicPlayer ? "Magic" : "Techno")} player");
+
+        // Create progress tracker
+        PlayerProgress progress = new PlayerProgress
+        {
+            isMagicPlayer = isMagicPlayer,
             currentStageIndex = 0
         };
 
-        // Register player
-        playerStages[player.netId] = info;
+        // Store in dictionary
+        playerProgress[player.netId] = progress;
 
-        // Spawn first stage
-        SpawnStageForPlayer(player);
+        // Get the appropriate stage
+        GameObject[] stages = isMagicPlayer ? magicStages : technoStages;
+        if (stages.Length > 0)
+        {
+            GameObject currentStage = stages[0];
+
+            // Get stage controller and set player
+            StageController controller = currentStage.GetComponent<StageController>();
+            if (controller != null)
+            {
+                controller.SetPlayer(player, isMagicPlayer);
+            }
+        }
     }
 
-    // Spawn a stage for a specific player
+   
     [Server]
-    private void SpawnStageForPlayer(Player player)
+    public void OnStageCompleted(StageController controller, Player player)
     {
-        if (!playerStages.ContainsKey(player.netId))
+        Debug.Log($"Stage completion registered for player {player.name}");
+
+        if (!playerProgress.TryGetValue(player.netId, out PlayerProgress progress))
         {
-            Debug.LogError($"No stage info found for player {player.netId}! Did RegisterPlayer run?");
+            Debug.LogError($"No progress found for player {player.name}");
             return;
         }
 
-        PlayerStageInfo info = playerStages[player.netId];
+        // Get stage arrays
+        GameObject[] stages = progress.isMagicPlayer ? magicStages : technoStages;
 
-        // Get the appropriate stage array
-        GameObject[] stageArray = info.isMagicCharacter ? magicStages : technoStages;
-
-        Debug.Log($"SpawnStageForPlayer: Player {player.netId}, Magic: {info.isMagicCharacter}, Stage Index: {info.currentStageIndex}");
-
-        // Check if the stage arrays are properly set up
-        if (stageArray == null || stageArray.Length == 0)
+        // Check if there's a next stage
+        int nextStageIndex = progress.currentStageIndex + 1;
+        if (nextStageIndex < stages.Length)
         {
-            Debug.LogError($"Stage array is null or empty for {(info.isMagicCharacter ? "Magic" : "Techno")} player!");
-            return;
-        }
+            Debug.Log($"Enabling next stage {nextStageIndex} for player {player.name}");
 
-        // Check if player has completed all stages
-        if (info.currentStageIndex >= stageArray.Length)
-        {
-            Debug.Log($"Player {player.netId} has completed all stages");
-            PlayerCompletedAllStages(player);
-            return;
-        }
+            // Get next stage
+            GameObject nextStage = stages[nextStageIndex];
 
-        // Make sure the stage prefab is valid
-        GameObject stagePrefab = stageArray[info.currentStageIndex];
-        if (stagePrefab == null)
-        {
-            Debug.LogError($"Stage prefab at index {info.currentStageIndex} is null for {(info.isMagicCharacter ? "Magic" : "Techno")} player!");
-            return;
-        }
+            // Set up portal destination from current stage to next stage
+            Portal portalComponent = controller.GetComponentInChildren<Portal>(true);
+            if (portalComponent != null)
+            {
+                // Find spawn point in next stage
+                StageController nextController = nextStage.GetComponent<StageController>();
+                if (nextController != null)
+                {
+                    Transform spawnPoint = nextController.GetPlayerSpawnPoint();
+                    if (spawnPoint != null)
+                    {
+                        portalComponent.destinationPoint = spawnPoint;
+                    }
+                }
+            }
 
-        Debug.Log($"Instantiating stage {info.currentStageIndex} for player {player.netId}");
+            // Enable next stage right away
+            nextStage.SetActive(true);
 
-        // Instantiate the stage
-        GameObject stageInstance = Instantiate(stagePrefab);
+            // Sync to clients
+            RpcActivateStage(nextStage.GetComponent<NetworkIdentity>().netId);
 
-        // Set as the current stage
-        info.currentStage = stageInstance;
-
-        // Find the WaveManager in the stage
-        WaveManager waveManager = stageInstance.GetComponentInChildren<WaveManager>();
-        if (waveManager != null)
-        {
-            Debug.Log($"Found WaveManager in stage {info.currentStageIndex} for player {player.netId}");
-
-            // Set player reference
-            waveManager.SetPlayer(player, info.isMagicCharacter);
-
-            // Subscribe to wave completion event
-            waveManager.OnAllWavesCompleted += () => HandleStageCompleted(player);
+            // Initialize next stage with player
+            StageController nextStageController = nextStage.GetComponent<StageController>();
+            if (nextStageController != null)
+            {
+                nextStageController.SetPlayer(player, progress.isMagicPlayer);
+            }
         }
         else
         {
-            Debug.LogError($"No WaveManager found in stage {info.currentStageIndex} for player {player.netId}!");
+            Debug.Log($"Player {player.name} has completed all stages!");
         }
-
-        // Check if NetworkIdentity is present
-        NetworkIdentity netId = stageInstance.GetComponent<NetworkIdentity>();
-        if (netId == null)
-        {
-            Debug.LogError($"No NetworkIdentity on stage prefab {stagePrefab.name}!");
-            netId = stageInstance.AddComponent<NetworkIdentity>();
-        }
-
-        // Spawn on network
-        Debug.Log($"Spawning stage {info.currentStageIndex} on network for player {player.netId}");
-        NetworkServer.Spawn(stageInstance);
-
-        // Notify clients
-        RpcSetupStage(player.netId, info.currentStageIndex, stageInstance.GetComponent<NetworkIdentity>().netId);
     }
 
-    // Called when a player completes a stage
-    [Server]
-    private void HandleStageCompleted(Player player)
+    [TargetRpc]
+    private void RpcActivateStage(uint netId)
     {
-        // Find appropriate spawn points in the stage
-        PlayerStageInfo info = playerStages[player.netId];
+        Debug.Log($"RpcActivateStage called for netId {netId}");
 
-        // Look for spawn points in the stage
-        Transform chestSpawnPoint = info.currentStage.transform.Find("ChestSpawnPoint");
-        Transform portalSpawnPoint = info.currentStage.transform.Find("PortalSpawnPoint");
-
-        if (chestSpawnPoint == null || portalSpawnPoint == null)
+        // Find and activate stage on clients
+        foreach (NetworkIdentity identity in FindObjectsOfType<NetworkIdentity>())
         {
-            Debug.LogError("Spawn points not found in stage!");
+            if (identity.netId == netId)
+            {
+                identity.gameObject.SetActive(true);
+                Debug.Log($"Activated stage: {identity.name} on client");
+                break;
+            }
+        }
+    }
+
+    // Called when player enters a portal
+    [Server]
+    public void OnPortalEntered(Player player)
+    {
+        if (!playerProgress.TryGetValue(player.netId, out PlayerProgress progress))
             return;
-        }
 
-        // Spawn chest
-        GameObject chest = Instantiate(chestPrefab, chestSpawnPoint.position, Quaternion.identity);
-        NetworkServer.Spawn(chest);
+        // Get stage arrays
+        GameObject[] stages = progress.isMagicPlayer ? magicStages : technoStages;
 
-        // Spawn portal
-        GameObject portal = Instantiate(portalPrefab, portalSpawnPoint.position, Quaternion.identity);
+        // Deactivate current stage
+        GameObject currentStage = stages[progress.currentStageIndex];
+        currentStage.SetActive(false);
 
-        // Configure portal
-        Portal portalTrigger = portal.GetComponent<Portal>();
-        if (portalTrigger == null)
-        {
-            portalTrigger = portal.AddComponent<Portal>();
-        }
-
-        // Set the player this portal is for
-        portalTrigger.SetTargetPlayer(player);
-        portalTrigger.OnPlayerEntered += () => AdvancePlayerStage(player);
-
-        // Spawn portal on network
-        NetworkServer.Spawn(portal);
-    }
-
-    // Advance a player to their next stage
-    [Server]
-    private void AdvancePlayerStage(Player player)
-    {
-        PlayerStageInfo info = playerStages[player.netId];
-
-        // Unsubscribe from events
-        WaveManager waveManager = info.currentStage.GetComponentInChildren<WaveManager>();
-        if (waveManager != null)
-        {
-            waveManager.OnAllWavesCompleted -= () => HandleStageCompleted(player);
-        }
-
-        // Destroy the current stage
-        NetworkServer.Destroy(info.currentStage);
+        // Sync to clients
+        RpcDeactivateStage(currentStage.GetComponent<NetworkIdentity>().netId);
 
         // Advance to next stage
-        info.currentStageIndex++;
+        progress.currentStageIndex++;
 
-        // Spawn the next stage
-        SpawnStageForPlayer(player);
+        // Check if we've reached the end
+        if (progress.currentStageIndex >= stages.Length)
+        {
+            // Player completed all stages
+            PlayerCompletedAllStages(player);
+        }
     }
 
-    // Called when a player completes all stages
+    [ClientRpc]
+    private void RpcDeactivateStage(uint netId)
+    {
+        Debug.Log($"RpcDeactivateStage called for netId {netId}");
+
+        // Find and deactivate stage on clients
+        foreach (NetworkIdentity identity in FindObjectsOfType<NetworkIdentity>())
+        {
+            if (identity.netId == netId)
+            {
+                identity.gameObject.SetActive(false);
+                Debug.Log($"Deactivated stage: {identity.name} on client");
+                break;
+            }
+        }
+    }
+
+    // Called when player completes all stages
     [Server]
     private void PlayerCompletedAllStages(Player player)
     {
-        // Get player info
-        PlayerStageInfo info = playerStages[player.netId];
+        if (!playerProgress.TryGetValue(player.netId, out PlayerProgress progress))
+            return;
 
         // Calculate completion time
         float completionTime = Time.time - gameStartTime;
 
         // Announce winner to all clients
-        RpcAnnounceWinner(info.isMagicCharacter ? "Magic Player" : "Techno Player", completionTime);
+        RpcShowWinner(progress.isMagicPlayer ? "Magic Player" : "Techno Player", completionTime);
     }
 
     [ClientRpc]
-    private void RpcSetupStage(uint playerNetId, int stageIndex, uint stageNetId)
-    {
-        // Find the player
-        Player player = null;
-        foreach (Player p in FindObjectsOfType<Player>())
-        {
-            if (p.netId == playerNetId)
-            {
-                player = p;
-                break;
-            }
-        }
-
-        if (player == null) return;
-
-        // Find the stage
-        GameObject stage = null;
-        foreach (NetworkIdentity netId in FindObjectsOfType<NetworkIdentity>())
-        {
-            if (netId.netId == stageNetId)
-            {
-                stage = netId.gameObject;
-                break;
-            }
-        }
-
-        if (stage == null) return;
-
-        // If we're the local player, set camera target to this stage
-        if (player.isLocalPlayer)
-        {
-            // You might want to handle camera setup here
-            // For example:
-            // CameraController.Instance.SetTarget(stage.transform);
-        }
-    }
-
-    [ClientRpc]
-    private void RpcAnnounceWinner(string winnerName, float completionTime)
+    private void RpcShowWinner(string playerType, float completionTime)
     {
         // Show winner UI
         if (winnerPanel != null)
@@ -264,10 +233,8 @@ public class StageManager : NetworkBehaviour
 
             if (winnerText != null)
             {
-                winnerText.text = $"{winnerName} wins!\nTime: {completionTime:F2} seconds";
+                winnerText.text = $"{playerType} wins!\nTime: {completionTime:F2} seconds";
             }
         }
     }
 }
-
-
