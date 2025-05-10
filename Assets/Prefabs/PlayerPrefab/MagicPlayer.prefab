@@ -380,7 +380,7 @@ MonoBehaviour:
   BuffSpawnPoint: {fileID: 2288683890498226254}
   skillManager: {fileID: 0}
   player: {fileID: 7286353846663120720}
-  move: {fileID: 0}
+  move: {fileID: 4309970799316680556}
   AbilitySkillDamagePlus: 0
   AbilitySkillSpeedPlus: 0
   AbilitySkillSizePlus: 0

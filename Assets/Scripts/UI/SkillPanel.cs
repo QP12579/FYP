@@ -64,8 +64,8 @@ public class SkillPanel : MonoBehaviour
 
     private void Start()
     {
-        InitializePanel();
         FindRefences();
+        InitializePanel();
     }
 
     private void OnEnable()

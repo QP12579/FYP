@@ -7,10 +7,18 @@ using UnityEngine.EventSystems;
 public class EnemyMovement : NetworkBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] protected float moveSpeed = 5f;
-    [SerializeField] protected Animator anim;
+    public float moveSpeed = 5f;
+    public Animator anim;
+    protected Rigidbody rb;
 
-    protected Vector3 moveDirection; 
+    [Header(" Elements ")]
+    protected Player player;
+
+    protected Vector3 moveDirection;
+
+    [Header("Hit Effect")]
+    [SerializeField] protected float hitBackForce = 5f;
+
     [SyncVar]
     protected float syncedMoveSpeed;
     // Debuff Part
@@ -25,6 +33,8 @@ public class EnemyMovement : NetworkBehaviour
         syncedMoveSpeed = moveSpeed;
         if(anim == null)
             anim = GetComponent<Animator>();
+
+        rb = GetComponent<Rigidbody>();
         ChangeDirection();
     }
 
@@ -38,6 +48,12 @@ public class EnemyMovement : NetworkBehaviour
     protected virtual void DifferentMovement()
     {
         anim.SetFloat("moveSpeed", 1);
+    }
+
+    [Server]
+    public void StorePlayer(Player player)
+    {
+        this.player = player;
     }
 
     [Server]
@@ -56,6 +72,17 @@ public class EnemyMovement : NetworkBehaviour
             Debug.Log("Collided with wall, changing direction.");
             ChangeDirection(); // 碰撞到牆壁時改變方向
         }
+    }
+
+    public void ApplyHitBack(Vector2 hitDirection)
+    {
+        float baseSpeed = moveSpeed;
+        moveSpeed = 0f;
+        if (rb != null)
+        {
+            rb.AddForce(hitDirection * hitBackForce, ForceMode.Impulse);
+        }
+        LeanTween.delayedCall(hitBackForce, () =>GoToBaseSpeed(baseSpeed));
     }
 
     // Network

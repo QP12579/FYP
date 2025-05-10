@@ -8,8 +8,7 @@ using Mirror;
 public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 {
     [Header(" Components ")]
-    protected EnemyMovement1 movement;
-    private Rigidbody2D rb;
+    protected EnemyMovement movement;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
@@ -35,7 +34,6 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 
     [Header("Hit Effect")]
     [SerializeField] protected float hitEffectDuration = 0.2f;
-    [SerializeField] protected float hitBackForce = 5f;
 
     [SyncVar(hook = nameof(OnHPChanged))]
     public float currentHP;
@@ -82,7 +80,6 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         UpdateHPBar();
 
         movement = GetComponent<EnemyMovement1>();
-        rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
 
@@ -115,6 +112,21 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 
     protected virtual void FindingPlayer()
     {
+        //////Test For Other
+        player = FindObjectOfType<Player>();
+        if (player == null){
+            Debug.LogWarning("No target player set for this enemy!");
+            return;
+        }
+        else
+        {
+            SetTargetPlayer(player);
+            // Start spawn sequence after finding player
+            StartSpawnSequence();
+            return;
+        }
+
+        /////Network Version
         if (targetPlayerNetId == 0)
         {
             // If no specific target was set, we can't proceed
@@ -129,7 +141,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
             {
                 player = p;
                 Debug.Log($"Found target player with ID {targetPlayerNetId}");
-
+                SetTargetPlayer(p);
                 // Start spawn sequence after finding player
                 StartSpawnSequence();
                 return;
@@ -190,7 +202,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     
     public void TakeDamage(Vector3 attackerPosi, float damage)
     {
-        gameObject.GetComponent<Animator>().SetTrigger("hurt");
+        movement.anim.SetTrigger("hurt");
         float realdamage = Mathf.Min(damage, currentHP);
         currentHP -= realdamage;
         targetFillAmount = currentHP / maxHP;
@@ -271,7 +283,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     public void GetHit(Vector2 hitDirection, float damage)
     {
         StartCoroutine(ShowHitEffect());
-        ApplyHitBack(hitDirection);
+        movement.ApplyHitBack(hitDirection);
     }
 
     private IEnumerator ShowHitEffect()
@@ -279,14 +291,6 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         spriteRenderer.color = Color.white;
         yield return new WaitForSeconds(hitEffectDuration);
         spriteRenderer.color = originalColor;
-    }
-
-    private void ApplyHitBack(Vector2 hitDirection)
-    {
-        if (rb != null)
-        {
-            rb.AddForce(hitDirection * hitBackForce, ForceMode2D.Impulse);
-        }
     }
 
     [Server]

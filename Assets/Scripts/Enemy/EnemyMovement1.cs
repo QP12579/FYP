@@ -3,13 +3,6 @@ using UnityEngine;
 
 public class EnemyMovement1 : EnemyMovement
 {
-    [Header(" Elements ")]
-    private Player player;
-
-    protected override void Update()
-    {
-        base.Update();
-    }
 
     protected override void DifferentMovement()
     {
@@ -18,14 +11,11 @@ public class EnemyMovement1 : EnemyMovement
         {
             FollowPlayer();
         }
+        else
+        {
+            Debug.Log("NoFound Player, Cannot Follow.");
+        }
     }
-
-    [Server]
-    public void StorePlayer(Player player)
-    {
-        this.player = player;
-    }
-
 
     [Server] 
     private void FollowPlayer()
