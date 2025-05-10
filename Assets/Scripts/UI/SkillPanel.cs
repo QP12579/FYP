@@ -38,12 +38,15 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] private AudioClip SFX_EquipFail;
     [SerializeField] private AudioClip SFX_EmptyEquipSkill;
 
+    [Header("References")]
+    [SerializeField] private UIController uiController;
     private SkillManager skillManager;
     private PlayerSkillController playerSkillController;
     private int _skillPoints;
     private SkillButton currentlySelectedSkill;
     private GameObject currentTooltip;
     private RectTransform tooltipRectTransform;
+    private bool isUIPanelEnable;
     private TextMeshProUGUI tooltipNameText;
     private TextMeshProUGUI tooltipDescriptionText;
 
@@ -130,6 +133,8 @@ public class SkillPanel : MonoBehaviour
             {
                 tooltipRectTransform.position -= new Vector3(0, topEdge - screenHeight, 0);
             }
+            if (uiController.state != UIPanelState.SkillAbilityPanel)
+                HideTooltip();
         }
     }
 

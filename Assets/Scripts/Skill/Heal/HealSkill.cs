@@ -7,6 +7,11 @@ public class HealSkill : MonoBehaviour
     private float healAmount;
     private Player player;
 
+    public void Start()
+    {
+        player = GetComponentInParent<Player>();
+    }
+
     public void Initialize(float power)
     {
         healAmount = power;

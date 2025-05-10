@@ -123,8 +123,10 @@ public class PlayerAttack : MonoBehaviour
         player.animator.SetTrigger("NrmAtk");
         animator.SetTrigger("normalATK");
 
-        if (c.gameObject.GetComponent<IAttackable>() != null)
+        if (c.gameObject.GetComponent<IAttackable>() != null){
             c.gameObject.GetComponent<IAttackable>().TakeDamage(gameObject.transform.position, finalDamage);
+            player.GetSP(false);
+        }
     }
 
     void FarAttack()

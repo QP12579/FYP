@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static BuffDataManager;
 using static DebuffDataManager;
 
@@ -16,7 +17,7 @@ using static DebuffDataManager;
 
 public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 {
-    [System.Serializable]
+    [Serializable]
     public class ActiveBuff
     {
         public BuffType type;
@@ -155,9 +156,11 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
             activeBuffs[i].timer -= Time.deltaTime;
             if (activeBuffs[i].timer <= 0)
             {
+                Debug.Log($"Remove {activeBuffs[i].type} .");
                 RemoveBuff(activeBuffs[i].type);
                 activeBuffs.RemoveAt(i);
-                Debug.Log($"Removed {activeBuffs[i].type} .");
+                hasActiveBuffs = activeBuffs.Count > 0;
+                Debug.Log($"hasActiveBuffs?: {hasActiveBuffs} .");
             }
         }
     }
@@ -183,7 +186,6 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
                 break;
         }
         buffLevels.Remove(type);
-        hasActiveBuffs = activeBuffs.Count > 0;
     }
 
     public float GetBuffValue(BuffType type)
@@ -277,8 +279,12 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
             activedebuffs[i].timer -= Time.deltaTime;
             if (activedebuffs[i].timer <= 0)
             {
+                Debug.Log($"Remove {activedebuffs[i].type} .");
                 RemoveDeBuff(activedebuffs[i].type);
                 activedebuffs.RemoveAt(i);
+                hasActiveDebuffs = activedebuffs.Count > 0;
+
+                Debug.Log($"hasActiveDebuffs?: {hasActiveDebuffs} .");
             }
         }
     }
@@ -300,7 +306,6 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
                 break;
         }
         debuffLevels.Remove(type);
-        hasActiveDebuffs = activedebuffs.Count > 0;
     }
 
     public float GetDeBuffValue(DeBuffType type)

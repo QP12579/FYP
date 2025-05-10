@@ -19,7 +19,7 @@ public class Coins : BaseItem
 
     protected override void GetItem()
     {
-        base.GetItem();
         Bag.instance.AddCoins();
+        base.GetItem();
     }
 }

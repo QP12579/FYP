@@ -14,6 +14,15 @@ public class Bag : Singleton<Bag>
     [SerializeField]
     private List<Image> bagBlocks = new List<Image>();
     List<Item> _items = new List<Item>();
+    [HideInInspector] public bool isItemBagFull = false;
+
+    [Header("KeyCode")]
+    [SerializeField] private KeyCode item_1 = KeyCode.Alpha1;
+    [SerializeField] private KeyCode item_2 = KeyCode.Alpha2;
+    [SerializeField] private KeyCode item_3 = KeyCode.Alpha3;
+    [SerializeField] private KeyCode item_4 = KeyCode.Alpha4;
+
+    private List<KeyCode> item_KeyCodes = new List<KeyCode>();
 
     [Header("Reference")]
     [SerializeField]
@@ -31,6 +40,22 @@ public class Bag : Singleton<Bag>
         _abilityPanel = FindObjectOfType<AbilityPanel>();
         if(_playerBuffSystem == null)
             _playerBuffSystem = FindObjectOfType<PlayerBuffSystem>();
+        item_KeyCodes.Add(item_1);
+        item_KeyCodes.Add(item_2);
+        item_KeyCodes.Add(item_3);
+        item_KeyCodes.Add(item_4);
+    }
+
+    public void Update()
+    {
+        isItemBagFull = _items.Count >= bagBlocks.Count;
+        for (int i = 0; i < _items.Count; i++)
+        {
+            if (Input.GetKeyDown(item_KeyCodes[i]))
+            {
+                UseItem(_items[i]);
+            }
+        }
     }
 
     public void UpdateBagUI()
@@ -53,12 +78,18 @@ public class Bag : Singleton<Bag>
         UpdateBagUI();
     }
 
-    public void AddSkillPoint(int p)
+    public void ClearYourCoins()
+    {
+        coins = 0;
+        UpdateBagUI();
+    }
+
+    public void AddSkillPoint(int p = 1)
     {
         _skillPanel.AddSkillPoints(p);
     }
 
-    public void AddBasePoint(int p)
+    public void AddBasePoint(int p = 1)
     {
         _abilityPanel.AddBasePoint(p);
     }
@@ -71,7 +102,27 @@ public class Bag : Singleton<Bag>
 
     public void UseItem(Item item)
     {
-
+        switch (item.Type)
+        {    
+            case ItemType.SkillPT:
+                AddSkillPoint();
+                break;
+            case ItemType.BasicPT:
+                AddBasePoint(); break;
+            case ItemType.Broom:
+                UseBroom();
+                break;
+            case ItemType.Banana:
+                UseBanana();
+                break;
+            case ItemType.TrapAmplifier:
+                UseTrapAmlifier();
+                break;
+            case ItemType.EnemyAmplifier:
+                UseEnemyAmlifier();
+                break;
+        }
+        _items.Remove(item);
         UpdateBagUI();
     }
 
@@ -79,4 +130,9 @@ public class Bag : Singleton<Bag>
     {
         _playerBuffSystem.ClearAllDebuffEffect();
     }
+
+    public void UseBanana() { }
+
+    public void UseTrapAmlifier() { }
+    public void UseEnemyAmlifier() { }
 }

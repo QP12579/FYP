@@ -351,6 +351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3183617412880885557}
+  - component: {fileID: 301353078824448057}
   m_Layer: 0
   m_Name: ShopItem (2)
   m_TagString: Untagged
@@ -376,6 +377,23 @@ Transform:
   - {fileID: 8525812525835069844}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &301353078824448057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7406514195076035014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1104f65dfff034585772df359d33ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 2610552163165459824}
+  cost: 50
+  costText: {fileID: 1604724232023088762}
+  purchaseKey: 114
+  purchasePrompt: {fileID: 1390205934463499005}
 --- !u!1001 &1312480354836223432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -464,6 +482,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1fefe8db9f1ac544a1b04e9e79d1227, type: 3}
+--- !u!114 &2610552163165459824 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -5328788937694789448, guid: d1fefe8db9f1ac544a1b04e9e79d1227,
+    type: 3}
+  m_PrefabInstance: {fileID: 1312480354836223432}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5469ec41bc931014db267dcd37f2bebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7338509126863901850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8638258981583602002, guid: d1fefe8db9f1ac544a1b04e9e79d1227,

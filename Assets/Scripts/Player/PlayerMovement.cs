@@ -214,7 +214,7 @@ public class PlayerMovement : NetworkBehaviour
         if(x == 0 && y == 0) 
             rb.velocity = new Vector3(rx, 0, ry) * speed * Time.deltaTime;
         else
-            rb.velocity = new Vector3(x, 0, y) * speed * rollingSpeed * (1+ abilityRollingSpeed) * Time.deltaTime;
+            rb.velocity = new Vector3(x, 0, y) * speed * (1 + rollingSpeed + abilityRollingSpeed) * Time.deltaTime;
 
         LeanTween.delayedCall(rollingTime, CanMove);
     }

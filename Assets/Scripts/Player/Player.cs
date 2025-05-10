@@ -144,6 +144,10 @@ public class Player : NetworkBehaviour
         return MP;
     }
 
+    public void GetSP(bool isSkillAttack = true)
+    {
+        SP += isSkillAttack ? 0.1f : 0.05f;
+    }
     public void BuffMPRegen(float mpRegen)
     {
         if (mpRegen < 0) return;
