@@ -305,9 +305,8 @@ GameObject:
   - component: {fileID: 937333539423217826}
   - component: {fileID: 4502292986517328008}
   - component: {fileID: 2612305851596040287}
-  - component: {fileID: 3471931814997396868}
+  - component: {fileID: 1880452132503302967}
   - component: {fileID: 417874250152519305}
-  - component: {fileID: -2410281935126162777}
   - component: {fileID: -3456402901831507531}
   - component: {fileID: -2452020079771694220}
   m_Layer: 9
@@ -431,7 +430,7 @@ CapsuleCollider:
   m_Height: 1.28
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3471931814997396868
+--- !u!114 &1880452132503302967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -440,13 +439,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7686363277280844216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9078261fb60dd54498a8ac54dadd5d7f, type: 3}
+  m_Script: {fileID: 11500000, guid: a8323a435f591044bb20d6104d010e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  moveSpeed: 0
+  moveSpeed: 3
+  anim: {fileID: 4502292986517328008}
+  changeDirectionInterval: 2
 --- !u!114 &417874250152519305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,23 +487,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8962575845184196004, guid: 385cac3fda1481e47a41de852d6f71bb,
     type: 3}
   firePoint: {fileID: 6299123293716790581}
---- !u!114 &-2410281935126162777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686363277280844216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59b9c6c6f402aea4a9d88e73c54b8dcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  moveSpeed: 5
-  changeDirectionInterval: 2
 --- !u!114 &-3456402901831507531
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -58,7 +58,7 @@ public class SkillPanel : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
