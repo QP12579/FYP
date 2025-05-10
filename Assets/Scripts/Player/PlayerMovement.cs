@@ -63,9 +63,9 @@ public class PlayerMovement : NetworkBehaviour
         canMove = true;
         if (spawn == null)
         {
-            spawn = GameObject.FindGameObjectWithTag("SpawnPoint");
+            //spawn = GameObject.FindGameObjectWithTag("SpawnPoint");
         }
-            SpawnPoint = spawn.transform.position;
+           // SpawnPoint = spawn.transform.position;
     }
     public override void OnStartAuthority()
     {
@@ -98,7 +98,7 @@ public class PlayerMovement : NetworkBehaviour
         
         if (!isLocalPlayer)
         {
-            Debug.Log("not local ");
+           
             return;
         }
 

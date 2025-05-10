@@ -58,14 +58,14 @@ public class SkillPanel : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
     private void Start()
     {
-        InitializePanel();
         FindRefences();
+        InitializePanel();
     }
 
     private void OnEnable()

@@ -92,11 +92,8 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    public void PlaySFX(AudioClip audioClip, Transform sfxPosi = null)
+    public void PlaySFX(AudioClip audioClip)
     {
-        if (sfxPosi == null && this.sfxPosi != null) sfxPosi = this.sfxPosi;
-        else if (sfxPosi == null) sfxPosi = transform;
-
         AudioSource audioSource = Instantiate(SFXObject, sfxPosi.position, Quaternion.identity);
         audioSource.transform.parent = sfxPosi.transform;
         audioSource.clip = audioClip;

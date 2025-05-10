@@ -1,66 +1,149 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class enemymovement : MonoBehaviour
+public class EnemyMovement : NetworkBehaviour
 {
+    [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    public float changeDirectionInterval = 2f;
+    public Animator anim;
+    protected Rigidbody rb;
 
-    private Vector3 moveDirection;
-    private float timeSinceLastChange = 0f;
-    private SpriteRenderer sr;
-    private bool isAttacking = false;
+    [Header(" Elements ")]
+    protected Player player;
+
+    protected Vector3 moveDirection;
+
+    [Header("Hit Effect")]
+    [SerializeField] protected float hitBackForce = 5f;
+
+    [SyncVar]
+    protected float syncedMoveSpeed;
+    // Debuff Part
+    protected bool isDizziness = false;
+    protected bool isSlow = false;
 
     // Start is called before the first frame update
-    void Start()
+    [ServerCallback]
+    protected virtual void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        // ªì©l¤ÆÀH¾÷¤è¦V
+        syncedMoveSpeed = moveSpeed;
+        if(anim == null)
+            anim = GetComponent<Animator>();
+
+        rb = GetComponent<Rigidbody>();
         ChangeDirection();
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        if (!isAttacking)
-        {
-            timeSinceLastChange += Time.deltaTime;
-            if (timeSinceLastChange >= changeDirectionInterval)
-            {
-                ChangeDirection();
-                timeSinceLastChange = 0f;
-            }
-
-            transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-
-            // Flip the enemy to face the movement direction
-            sr.flipX = moveDirection.x > 0;
-        }
+        if(!isDizziness)
+            DifferentMovement();
+    }    
+    
+    protected virtual void DifferentMovement()
+    {
+        anim.SetFloat("moveSpeed", 1);
     }
 
-    void ChangeDirection()
+    [Server]
+    public void StorePlayer(Player player)
+    {
+        this.player = player;
+    }
+
+    [Server]
+    // §ïÅÜ¤è¦V
+    protected void ChangeDirection()
     {
         float randomAngle = Random.Range(0f, 360f);
         moveDirection = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad), 0, Mathf.Sin(randomAngle * Mathf.Deg2Rad)).normalized;
     }
 
-    // ç¢°æ’žæª¢æ¸¬ï¼šç•¶ç¢°æ’žåˆ°ç‰†å£æ™‚æ”¹è®Šæ–¹å‘
-    private void OnCollisionEnter(Collision collision)
+    [ServerCallback]
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
             Debug.Log("Collided with wall, changing direction.");
-            ChangeDirection(); // ç¢°æ’žåˆ°ç‰†å£æ™‚æ”¹è®Šæ–¹å‘
+            ChangeDirection(); // ¸I¼²¨ìÀð¾À®É§ïÅÜ¤è¦V
         }
     }
 
-    public void StartAttack()
+    public void ApplyHitBack(Vector2 hitDirection)
     {
-        isAttacking = true;
+        float baseSpeed = moveSpeed;
+        moveSpeed = 0f;
+        if (rb != null)
+        {
+            rb.AddForce(hitDirection * hitBackForce, ForceMode.Impulse);
+        }
+        LeanTween.delayedCall(hitBackForce, () =>GoToBaseSpeed(baseSpeed));
     }
 
-    public void StopAttack()
+    // Network
+    [Server]
+    public void LowerSpeedStart(float time, float lowSpeedPersentage)
     {
-        isAttacking = false;
+        float baseMoveS = moveSpeed;
+        moveSpeed *= lowSpeedPersentage;
+        LeanTween.delayedCall(time, () => GoToBaseSpeed(baseMoveS));
+    }
+
+    public void GoToBaseSpeed(float baseSpeed)
+    {
+        moveSpeed = baseSpeed;
+    }
+
+    // Debuff
+    [Server]
+    public void DizzinessStart(float time)
+    {
+        float baseMoveS = moveSpeed;
+        moveSpeed = 0;
+        isDizziness = true;
+        // animation for dizziness maybe
+        anim.SetTrigger("hurt");
+        anim.SetFloat("moveSpeed", 0);
+
+        // Visual effect for clients
+        RpcShowDizzinessEffect(true);
+
+        // Reset after time
+        StartCoroutine(EndDizzinessAfterDelay(time, baseMoveS));
+    }
+
+    [Server]
+    protected IEnumerator EndDizzinessAfterDelay(float time, float baseSpeed)
+    {
+        yield return new WaitForSeconds(time);
+        moveSpeed = baseSpeed;
+        isDizziness = false;
+
+        anim.SetFloat("moveSpeed", 1);
+
+        // Turn off visual effect
+        RpcShowDizzinessEffect(false);
+    }
+
+    // Client-side visual effects
+    [ClientRpc]
+    protected void RpcShowDizzinessEffect(bool active)
+    {
+        // Add visual effects for dizziness here
+        // For example, you could play a particle effect or animation
+        Debug.Log("Showing dizziness effect: " + active);
+    }
+
+    [ClientRpc]
+    protected void RpcShowSlowEffect(bool active)
+    {
+        // Add visual effects for slow here
+        // For example, you could tint the sprite or play a particle effect
+        Debug.Log("Showing slow effect: " + active);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyMovement1))]
+[RequireComponent(typeof(EnemyMovement2))]
 public class RangedEnemy : Enemy
 {
     [Header("Attack")]
@@ -60,7 +60,7 @@ public class RangedEnemy : Enemy
         Debug.Log("Shooting at player with " + damage + " damage");
 
         // 停止移動
-        GetComponent<enemymovement>().StartAttack();
+        GetComponent<EnemyMovement2>().StartAttack();
 
         // Instantiate and shoot the projectile
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
@@ -72,7 +72,7 @@ public class RangedEnemy : Enemy
         }
 
         // 恢復移動
-        GetComponent<enemymovement>().StopAttack();
+        GetComponent<EnemyMovement2>().StopAttack();
     }
 
     public void EnemyGetHit(Vector3 hitDirection, float damage)

@@ -1,86 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting.Antlr3.Runtime;
+using Mirror;
 using UnityEngine;
 
-public class EnemyMovement1 : MonoBehaviour
+public class EnemyMovement1 : EnemyMovement
 {
-    [Header(" Elements ")]
-    private Player player;
 
-    [Header("Settings")]
-    [SerializeField] private float moveSpeed = 5f;
-
-    // Debuff Part
-    private bool isDizziness = false;
-
-    private Vector3 moveDirection; // 用於改變方向
-
-    void Start()
+    protected override void DifferentMovement()
     {
-        // 初始化隨機方向
-        ChangeDirection();
-    }
-
-    void Update()
-    {
-        if (player != null && !isDizziness)
+        base.DifferentMovement();
+        if (player != null) 
         {
             FollowPlayer();
         }
-    }
-
-    public void StorePlayer(Player player)
-    {
-        this.player = player;
-    }
-
-    private void FollowPlayer()
-    {
-        Vector3 direction = (player.transform.position - transform.position).normalized;
-        Vector3 targetPosition = transform.position + direction * moveSpeed * Time.deltaTime;
-        transform.position = targetPosition;
-    }
-
-    // 碰撞檢測：當碰撞到牆壁時改變方向
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
+        else
         {
-            Debug.Log("Collided with wall, changing direction.");
-            ChangeDirection(); // 碰撞到牆壁時改變方向
+            Debug.Log("NoFound Player, Cannot Follow.");
         }
     }
 
-    // 改變方向
-    private void ChangeDirection()
+    [Server] 
+    private void FollowPlayer()
     {
-        float randomAngle = Random.Range(0f, 360f);
-        moveDirection = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad), 0, Mathf.Sin(randomAngle * Mathf.Deg2Rad)).normalized;
-    }
+        if (player == null) return;
 
-    // Debuff
-    public void LowerSpeedStart(float time, float lowSpeedPersentage)
-    {
-        float baseMoveS = moveSpeed;
-        moveSpeed *= lowSpeedPersentage;
-        LeanTween.delayedCall(time, () => GoToBaseSpeed(baseMoveS));
-    }
-
-    public void GoToBaseSpeed(float baseSpeed)
-    {
-        moveSpeed = baseSpeed;
-    }
-
-    public void DizzinessStart(float time)
-    {
-        isDizziness = true;
-        Invoke("DizzinessEnd", time);
-    }
-
-    public void DizzinessEnd()
-    {
-        isDizziness = false;
+        Vector3 direction = (player.transform.position - transform.position).normalized;
+        Vector3 targetPosition = transform.position + direction * syncedMoveSpeed * Time.deltaTime;
+        transform.position = targetPosition;
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -19,7 +21,7 @@ public class BasePanel : MonoBehaviour
     {
         if (!isOpened)
         {
-            LeanTween.alphaCanvas(canvasGroup, 1f, 0.5f).setEaseInCubic();
+            LeanTween.alphaCanvas(canvasGroup, 1f, 1f).setEaseInCubic();
             isOpened = true;
             canvasGroup.blocksRaycasts = true;
             canvasGroup.interactable = true;
@@ -30,7 +32,7 @@ public class BasePanel : MonoBehaviour
     {
         if (isOpened)
         {
-            LeanTween.alphaCanvas(canvasGroup, 0f, 0.5f).setEaseOutCubic().setOnComplete(
+            LeanTween.alphaCanvas(canvasGroup, 0f, 1f).setEaseOutCubic().setOnComplete(
                 () =>
                 {
                     isOpened = false;
