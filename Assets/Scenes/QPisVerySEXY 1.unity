@@ -2534,7 +2534,7 @@ MonoBehaviour:
   warningPrefab: {fileID: 4596221448264207151, guid: 0ef9f8b6ab8d5c045802cc43af01d661,
     type: 3}
   damageAmount: 10
-  colorChangeInterval: 2
+  randomDuration: 10
   warningDuration: 2
   spawnPositions:
   - {x: -7.5, y: 0, z: -6.5}
@@ -4702,7 +4702,7 @@ PrefabInstance:
     - target: {fileID: 6076415324238734452, guid: 3bd5090681c5f03499e49c72112a7ad8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.58
+      value: -13.1
       objectReference: {fileID: 0}
     - target: {fileID: 6076415324238734452, guid: 3bd5090681c5f03499e49c72112a7ad8,
         type: 3}
@@ -4856,6 +4856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxTag: Box
   requiredTime: 8
+  spawnPosition: {x: -3.5, y: 0.2, z: -21.5}
 --- !u!1001 &4235212662805491200
 PrefabInstance:
   m_ObjectHideFlags: 0

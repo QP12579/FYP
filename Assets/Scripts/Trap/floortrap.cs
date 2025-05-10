@@ -5,16 +5,16 @@ using UnityEngine;
 public class floortrap : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private GameObject safePrefab; // 安全區域的預製件
-    [SerializeField] private GameObject dangerPrefab; // 危險區域的預製件
-    [SerializeField] private GameObject warningPrefab; // 黃色警告區域的預製件
+    [SerializeField] private GameObject safePrefab; // 安全區域的預製件（綠色）
+    [SerializeField] private GameObject dangerPrefab; // 危險區域的預製件（紅色）
+    [SerializeField] private GameObject warningPrefab; // 警告區域的預製件（黃色）
     [SerializeField] private float damageAmount = 10f; // 危險區域對玩家造成的傷害
     [SerializeField] private float randomDuration = 10f; // 隨機階段持續時間
     [SerializeField] private float warningDuration = 2f; // 警告階段持續時間
     [SerializeField] private Vector3[] spawnPositions; // 預製件的四個固定位置
 
     private GameObject[] areas; // 用於存儲四個區域的實例
-    private int safeAreaIndex = -1; // 當前安全區域的索引
+    private int nextSafeAreaIndex = -1; // 下一個安全區域的索引
     private float timer = 0f;
     private bool isWarningState = false; // 是否處於警告階段
 
@@ -42,7 +42,7 @@ public class floortrap : MonoBehaviour
         if (isWarningState && timer >= warningDuration)
         {
             // 警告階段結束，進入隨機階段
-            RandomizeAreas();
+            ApplyNextPhase();
             isWarningState = false;
             timer = 0f;
         }
@@ -55,41 +55,42 @@ public class floortrap : MonoBehaviour
         }
     }
 
-    private void RandomizeAreas()
+    private void ApplyNextPhase()
     {
-        // 隨機選擇一個安全區域
-        safeAreaIndex = Random.Range(0, areas.Length);
-
+        // 將警告階段的狀態應用為下一個階段
         for (int i = 0; i < areas.Length; i++)
         {
-            // 切換區域的預製件
             if (areas[i] != null)
             {
                 Destroy(areas[i]);
             }
 
-            areas[i] = Instantiate(i == safeAreaIndex ? safePrefab : dangerPrefab, transform);
+            // 將下一階段的安全區域設置為綠色，其餘設置為紅色
+            areas[i] = Instantiate(i == nextSafeAreaIndex ? safePrefab : dangerPrefab, transform);
             areas[i].transform.localPosition = spawnPositions[i]; // 使用固定位置
         }
 
-        Debug.Log("Areas randomized. Safe area index: " + safeAreaIndex);
+        Debug.Log("Next phase applied. Safe area index: " + nextSafeAreaIndex);
     }
 
     private void SetWarningState()
     {
+        // 隨機選擇下一個安全區域
+        nextSafeAreaIndex = Random.Range(0, areas.Length);
+
         for (int i = 0; i < areas.Length; i++)
         {
-            // 切換所有區域為警告狀態
             if (areas[i] != null)
             {
                 Destroy(areas[i]);
             }
 
-            areas[i] = Instantiate(warningPrefab, transform);
+            // 在警告階段，安全區域顯示綠色，其他區域顯示黃色
+            areas[i] = Instantiate(i == nextSafeAreaIndex ? safePrefab : warningPrefab, transform);
             areas[i].transform.localPosition = spawnPositions[i]; // 使用固定位置
         }
 
-        Debug.Log("Warning state activated.");
+        Debug.Log("Warning state activated. Next safe area index: " + nextSafeAreaIndex);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -115,7 +116,7 @@ public class floortrap : MonoBehaviour
             // 檢查玩家是否在當前區域內
             if (IsPlayerInArea(playerTransform, areas[i].transform))
             {
-                if (i != safeAreaIndex)
+                if (i != nextSafeAreaIndex)
                 {
                     Debug.Log("Player is standing on a dangerous area! Taking damage.");
                     // 在這裡對玩家造成傷害
