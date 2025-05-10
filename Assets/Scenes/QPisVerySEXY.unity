@@ -4846,6 +4846,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 1460522179418830545, guid: af37c1208336ced4cbe534d106bafc5a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7206826296391977804, guid: af37c1208336ced4cbe534d106bafc5a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5052,7 +5057,7 @@ PrefabInstance:
     - target: {fileID: 6076415324238734452, guid: 3bd5090681c5f03499e49c72112a7ad8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.69
+      value: -15.2
       objectReference: {fileID: 0}
     - target: {fileID: 6076415324238734452, guid: 3bd5090681c5f03499e49c72112a7ad8,
         type: 3}
@@ -5103,6 +5108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Trap_SawTooth
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425430474562677601, guid: 3bd5090681c5f03499e49c72112a7ad8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

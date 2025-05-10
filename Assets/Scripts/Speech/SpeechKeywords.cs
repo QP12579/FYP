@@ -14,7 +14,6 @@ public class SpeechKeywords : MonoBehaviour
     private void Update()
     {
         CheckForKeyword();
-        Debug.Log("Checked for keyword");
     }
 
     private void CheckForKeyword()
@@ -36,7 +35,7 @@ public class SpeechKeywords : MonoBehaviour
 
     private string RemovePunctuation(string input)
     {
-        return Regex.Replace(input, @"[^\w\s]", "");
+        return Regex.Replace(input, @"[^\w\s]", "").TrimEnd();
     }
 
     private void GenerateVFX(int index)
