@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/QPisVerySEXY.unity
     guid: 958f47e92cd7594409c9459fbd291ccb
+  - enabled: 1
+    path: Assets/Scenes/QPisVerySEXY 1.unity
+    guid: cf7a1613eadb41b49b82052ae90dbdc4
   m_configObjects: {}

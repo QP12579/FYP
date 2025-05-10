@@ -11,6 +11,8 @@ TagManager:
   - Character1Spawn
   - Character2Spawn
   - Wall
+  - SpawnPoint
+  - Box
   layers:
   - Default
   - TransparentFX

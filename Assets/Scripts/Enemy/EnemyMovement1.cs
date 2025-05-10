@@ -10,7 +10,7 @@ public class EnemyMovement1 : MonoBehaviour
     private Player player;
 
     [Header("Settings")]
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float moveSpeed = 5f;
 
     // Debuff Part
     private bool isDizziness = false;
