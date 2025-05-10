@@ -1,43 +1,42 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SpeechKeywords : MonoBehaviour
 {
-    private SpeechRecognitionTest getspeech;
+    public TMP_Text outputText;
+    public List<string> keywords; 
+    public List<GameObject> vfxPrefabs; 
+    private HashSet<string> generatedKeywords = new HashSet<string>();
 
-    public string speechwords;
-    public string[] keywords;
-    public GameObject vfxPrefab;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        getspeech = GetComponent<SpeechRecognitionTest>();
+        CheckForKeyword();
+        Debug.Log("Checked for keyword");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckForKeyword()
     {
-        
-        if (Input.GetKeyDown(KeyCode.K))
+        string speechword = outputText.text.Trim();
+        Debug.Log($"Current output: {speechword}");
+
+        for (int i = 0; i < keywords.Count; i++)
         {
-            CheckKeywords();
-        }
-    }
-
-    void CheckKeywords()
-    {
-        speechwords = getspeech.text.text;
-        foreach (string keyword in keywords) {
-
-            if (speechwords.Contains(keyword))
+            if (speechword.Equals(keywords[i], System.StringComparison.OrdinalIgnoreCase) && !generatedKeywords.Contains(keywords[i]))
             {
-                //Instantiate(vfxPrefab, Vector3.zero, Quaternion.identity);
-                GameObject clonedvfx = Instantiate(vfxPrefab, Vector3.zero, Quaternion.identity);
-                Destroy(clonedvfx, 5f);
+                Debug.Log($"Keyword matched: {keywords[i]}! Generating VFX.");
+                GenerateVFX(i);
+                generatedKeywords.Add(keywords[i]);
                 break;
             }
         }
+    }
+
+    private void GenerateVFX(int index)
+    {
+        GameObject clonedVFX = Instantiate(vfxPrefabs[index], Vector3.zero, Quaternion.identity);
+        Destroy(clonedVFX, 5f);
+        Debug.Log("VFX cloned");
     }
 }

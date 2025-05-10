@@ -131,8 +131,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 116444597}
-  - component: {fileID: 116444596}
   - component: {fileID: 116444598}
+  - component: {fileID: 116444599}
   m_Layer: 0
   m_Name: SpeechRecognitionTest
   m_TagString: Untagged
@@ -140,21 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &116444596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116444595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8d6bc782b0b5e1448ecc6938a1dcf94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startButton: {fileID: 1504310793}
-  stopButton: {fileID: 332214690}
-  text: {fileID: 1666530515}
 --- !u!4 &116444597
 Transform:
   m_ObjectHideFlags: 0
@@ -188,6 +173,21 @@ MonoBehaviour:
   - fire tornado
   vfxPrefab: {fileID: 6186436023787902516, guid: b91e4c447a15d1647adb9020203c40ba,
     type: 3}
+--- !u!114 &116444599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116444595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 843219d338263894ab0ea119b0547edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startButton: {fileID: 1504310793}
+  stopButton: {fileID: 332214690}
+  text: {fileID: 1666530515}
 --- !u!1 &275941212
 GameObject:
   m_ObjectHideFlags: 0
