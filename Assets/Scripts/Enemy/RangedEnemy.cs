@@ -15,7 +15,6 @@ public class RangedEnemy : Enemy
 
     private float attackDelay;
     private float nextAttackTime;
-    private EnemyMovement movement;
 
     protected override void Start()
     {

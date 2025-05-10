@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ShopItem : MonoBehaviour
 {
     [Header("Item Settings")]
-    [SerializeField] private BaseItem itemPrefab; // 物品預製件
+    [SerializeField] public BaseItem itemPrefab; // 物品預製件
     [SerializeField] private int cost = 10;
     [SerializeField] private TextMeshPro costText;
     [SerializeField] private KeyCode purchaseKey = KeyCode.R;

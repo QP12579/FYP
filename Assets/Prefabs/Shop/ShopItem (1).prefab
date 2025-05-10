@@ -376,6 +376,7 @@ Transform:
   - {fileID: 1372736783695324824}
   - {fileID: 7919315273375069714}
   - {fileID: 4252683572059033526}
+  - {fileID: 1704720465947667404}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2428638417219592296
@@ -394,7 +395,7 @@ MonoBehaviour:
   cost: 60
   costText: {fileID: 7245131474434349544}
   purchaseKey: 114
-  purchasePrompt: {fileID: 2697465765056792897}
+  purchasePrompt: {fileID: 3572371026173268788}
 --- !u!65 &1346294638185912957
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -414,7 +415,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.75, y: 1, z: 2}
+  m_Size: {x: 0.5, y: 1, z: 2}
   m_Center: {x: 0, y: 0.5, z: -0.25}
 --- !u!1 &9199427308921372027
 GameObject:
@@ -542,3 +543,83 @@ MonoBehaviour:
     description: Can Upgrade your Ability.
   GetSound: {fileID: 0}
   getPoint: 1
+--- !u!1001 &4757905602008972597
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5961312364114371238}
+    m_Modifications:
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8328533857135586817, guid: d2918173af0071943aa525f4bf12300d,
+        type: 3}
+      propertyPath: m_Name
+      value: Arrow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d2918173af0071943aa525f4bf12300d, type: 3}
+--- !u!4 &1704720465947667404 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6174184213990070009, guid: d2918173af0071943aa525f4bf12300d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4757905602008972597}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3572371026173268788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8328533857135586817, guid: d2918173af0071943aa525f4bf12300d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4757905602008972597}
+  m_PrefabAsset: {fileID: 0}
