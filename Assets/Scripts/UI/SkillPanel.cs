@@ -65,7 +65,6 @@ public class SkillPanel : MonoBehaviour
     private void Start()
     {
         FindRefences();
-        InitializePanel();
     }
 
     private void OnEnable()
@@ -75,7 +74,9 @@ public class SkillPanel : MonoBehaviour
 
     private void FindRefences()
     {
-        if (skillManager != null && playerSkillController != null) return;
+        if (skillManager != null && playerSkillController != null) { 
+            InitializePanel();
+            return; }
         skillManager = SkillManager.instance;
         playerSkillController = FindObjectOfType<PlayerSkillController>();
         if (playerSkillController == null || skillManager == null)
