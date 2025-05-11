@@ -6,9 +6,9 @@ using Mirror;
 public class StageController : NetworkBehaviour
 {
     [Header("Stage Objects")]
-    [SerializeField] private GameObject chest; 
-    [SerializeField] private GameObject portal; 
-    [SerializeField] private Transform playerSpawnPoint; 
+    [SerializeField] private GameObject chest;
+    [SerializeField] private GameObject portal;
+    [SerializeField] private Transform playerSpawnPoint;
 
     [Header("References")]
     [SerializeField] private WaveManager waveManager;
@@ -56,6 +56,7 @@ public class StageController : NetworkBehaviour
     }
 
     // Set player reference
+    [Server]
     public void SetPlayer(Player player, bool isMagicPlayer)
     {
         targetPlayer = player;
@@ -63,7 +64,7 @@ public class StageController : NetworkBehaviour
         // Find the WaveManager in this stage
         if (waveManager != null)
         {
-            Debug.Log($"Setting player {player.name} on WaveManager with stageId {waveManager.stageId}");
+            Debug.Log($"Setting player {player.name} (NetID: {player.netId}) on WaveManager with stageId {waveManager.stageId}");
             waveManager.SetPlayer(player, isMagicPlayer);
         }
         else

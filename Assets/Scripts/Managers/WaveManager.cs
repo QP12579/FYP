@@ -49,7 +49,10 @@ public class WaveManager : NetworkBehaviour
             Debug.Log($"Set target player for {(isMagicPath ? "Magic" : "Techno")} path: {newPlayer.name}");
 
             // Start the first wave once we have our target player
-            StartWave(0);
+            if (isServer)
+            {
+                StartWave(0);
+            }
         }
     }
 
@@ -111,6 +114,18 @@ public class WaveManager : NetworkBehaviour
                 // Instantiate the enemy
                 GameObject enemy = Instantiate(segment.prefab, spawnPosition, Quaternion.identity, transform);
 
+                // IMPORTANT: Set the target player BEFORE spawning on the network
+                Enemy enemyComponent = enemy.GetComponent<Enemy>();
+                if (enemyComponent != null && targetPlayer != null)
+                {
+                    enemyComponent.SetTargetPlayer(targetPlayer);
+                    Debug.Log($"Assigned enemy to target player: {targetPlayer.name} (NetID: {targetPlayer.netId})");
+                }
+                else
+                {
+                    Debug.LogError("Failed to set target player for enemy - component or player missing");
+                }
+
                 // Spawn on the network to make visible to all clients
                 NetworkServer.Spawn(enemy);
 
@@ -131,13 +146,18 @@ public class WaveManager : NetworkBehaviour
         timer += Time.deltaTime;
 
         // Remove destroyed enemies from the list
-        activeEnemies.RemoveAll(enemy => enemy == null);
+        CleanupDestroyedEnemies();
 
         // If wave time is over and all enemies are defeated, finish earlier
         if (timer >= waveDuration * 0.9f && activeEnemies.Count == 0)
         {
             StartWaveTransition();
         }
+    }
+
+    private void CleanupDestroyedEnemies()
+    {
+        activeEnemies.RemoveAll(enemy => enemy == null);
     }
 
     private void StartWaveTransition()
@@ -160,7 +180,7 @@ public class WaveManager : NetworkBehaviour
         while (activeEnemies.Count > 0)
         {
             // Clean up destroyed enemies
-            activeEnemies.RemoveAll(enemy => enemy == null);
+            CleanupDestroyedEnemies();
             yield return new WaitForSeconds(0.5f);
         }
 

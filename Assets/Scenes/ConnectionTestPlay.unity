@@ -5409,6 +5409,7 @@ MonoBehaviour:
   stageCenter: {fileID: 1011333470}
   minSpawnRadius: 5
   maxSpawnRadius: 15
+  stageId: 
   isMagicPath: 1
   waves:
   - name: Wave0
@@ -31825,7 +31826,7 @@ MonoBehaviour:
   syncInterval: 0
   characterPrefabs:
   - {fileID: 4606641454445231472, guid: d9c18e4cdbf9f7e4f9bb2108fc5dddcb, type: 3}
-  - {fileID: 4606641454445231472, guid: f8343ca733111f84bb9ae8caf129c59e, type: 3}
+  - {fileID: 5438972266827892434, guid: 7a5af3d6c87c8f54d8e494f810ed48b7, type: 3}
   playerSpawnPoints:
   - {fileID: 2081983526}
   - {fileID: 627586777}
@@ -49459,6 +49460,7 @@ MonoBehaviour:
   stageCenter: {fileID: 88358326}
   minSpawnRadius: 5
   maxSpawnRadius: 15
+  stageId: 
   isMagicPath: 0
   waves:
   - name: Wave0
@@ -90595,6 +90597,7 @@ MonoBehaviour:
   stageCenter: {fileID: 0}
   minSpawnRadius: 5
   maxSpawnRadius: 15
+  stageId: 
   isMagicPath: 0
   waves:
   - name: Wave0
@@ -98638,6 +98641,7 @@ MonoBehaviour:
   stageCenter: {fileID: 802373724}
   minSpawnRadius: 5
   maxSpawnRadius: 15
+  stageId: 
   isMagicPath: 1
   waves:
   - name: Wave0
