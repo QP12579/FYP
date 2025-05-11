@@ -202,7 +202,8 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     private void SetRendererVisibility(bool visibility = true)
     {
         //spriterenderer.enabled = visibility;
-        spawnIndicator.enabled = !visibility;
+        if (spawnIndicator != null)spawnIndicator.enabled = !visibility;
+        
     }
 
     // Method for server to apply damage

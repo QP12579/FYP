@@ -1100,10 +1100,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc097e964b18ac4289a8d01282a8fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   HPSlider: {fileID: 3817471854900904246}
   MPSlider: {fileID: 2304073494206833743}
   SpecialAttackSlider: {fileID: 4169907021931967983}
   levelText: {fileID: 2518266974238501136}
+  HpText: {fileID: 5655396558405076752}
   SPFullEffect: {fileID: 4917517751337408821}
   SPHintKeywords: {fileID: 6817094279429555917}
 --- !u!1 &542518368761260096
@@ -17512,6 +17516,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e05bf411693c1840bca573857b2b8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   GamingUI: {fileID: 2325972330863480683}
   SkillOrAbilityPanel: {fileID: 911106477719564788}
   SpecialAttackPanel: {fileID: 5124820137287394273}

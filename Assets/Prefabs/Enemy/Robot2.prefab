@@ -467,7 +467,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   spriterenderer: {fileID: 937333539423217826}
-  spawnIndicator: {fileID: 0}
+  spawnIndicator: {fileID: 6052340272583123884}
   passAwayParticles: {fileID: 0}
   playerDetectionRadius: 0
   gizmos: 0
