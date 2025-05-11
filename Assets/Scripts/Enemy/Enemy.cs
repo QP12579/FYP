@@ -40,7 +40,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 
     [Header("EnemyController")]
     public float maxHP = 100;
-   
+
     public Image hpBar; // Reference to the Image component
     public float animationSpeed = 0.1f; // Speed of the animation
     public float detectionRange = 10f; // Range to detect the player
@@ -79,19 +79,20 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         targetFillAmount = 1f;
         UpdateHPBar();
 
-        movement = GetComponent<EnemyMovement1>();
+        movement = GetComponent<EnemyMovement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = spriteRenderer.color;
 
-        player = FindFirstObjectByType<Player>();
+        if (spriteRenderer != null)
+            originalColor = spriteRenderer.color;
 
         if (isServer)
         {
             FindingPlayer();
-
         }
+
         UpdateHPBar();
     }
+
     void OnHPChanged(float oldValue, float newValue)
     {
         targetFillAmount = newValue / maxHP;
@@ -112,44 +113,51 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 
     protected virtual void FindingPlayer()
     {
-        //////Test For Other
-        player = FindObjectOfType<Player>();
-        if (player == null){
-            Debug.LogWarning("No target player set for this enemy!");
-            return;
-        }
-        else
+        // If we already have a target player assigned via SetTargetPlayer, use that
+        if (player != null)
         {
-            SetTargetPlayer(player);
-            // Start spawn sequence after finding player
+            // Start spawn sequence with existing player
             StartSpawnSequence();
             return;
         }
 
-        /////Network Version
-        if (targetPlayerNetId == 0)
+        // Otherwise, try to find by network ID
+        if (targetPlayerNetId != 0)
         {
-            // If no specific target was set, we can't proceed
-            Debug.LogWarning("No target player set for this enemy!");
-            return;
-        }
-
-        // Find the player with matching netId
-        foreach (Player p in FindObjectsOfType<Player>())
-        {
-            if (p.netId == targetPlayerNetId)
+            // Find the player with matching netId
+            foreach (Player p in FindObjectsOfType<Player>())
             {
-                player = p;
-                Debug.Log($"Found target player with ID {targetPlayerNetId}");
-                SetTargetPlayer(p);
-                // Start spawn sequence after finding player
+                if (p.netId == targetPlayerNetId)
+                {
+                    player = p;
+                    Debug.Log($"Found target player with ID {targetPlayerNetId}");
+                    // Start spawn sequence after finding player
+                    StartSpawnSequence();
+                    return;
+                }
+            }
+
+            // If we didn't find the player, try again shortly
+            LeanTween.delayedCall(0.1f, FindingPlayer);
+        }
+        else
+        {
+            // Fallback to finding any player if no specific player is targeted
+            // This should be less common if we're properly setting targets
+            player = FindObjectOfType<Player>();
+            if (player != null)
+            {
+                Debug.Log("Found a player as fallback");
+                SetTargetPlayer(player);
                 StartSpawnSequence();
                 return;
             }
+            else
+            {
+                Debug.LogWarning("No target player set for this enemy, and no fallback found!");
+                LeanTween.delayedCall(0.1f, FindingPlayer);
+            }
         }
-
-        // If we didn't find the player, try again shortly
-        LeanTween.delayedCall(0.1f, FindingPlayer);
     }
 
     // Update is called once per frame
@@ -165,17 +173,11 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         {
             //DetectAndAttackPlayer();
         }
-
-       // if (!spriteRenderer.enabled)
-           // return;
     }
 
     private void StartSpawnSequence()
     {
         SetRendererVisibility(false);
-        // Hide renderer
-        //spriterenderer.enabled = false;
-
         // Show spawn indicator
         spawnIndicator.enabled = true;
 
@@ -191,7 +193,10 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         SetRendererVisibility(true);
         hasSpawned = true;
 
-        movement.StorePlayer(player);
+        if (movement != null && player != null)
+        {
+            movement.StorePlayer(player);
+        }
     }
 
     private void SetRendererVisibility(bool visibility = true)
@@ -199,27 +204,43 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         //spriterenderer.enabled = visibility;
         spawnIndicator.enabled = !visibility;
     }
-    
+
+    // Method for server to apply damage
+    [Server]
     public void TakeDamage(Vector3 attackerPosi, float damage)
     {
-        movement.anim.SetTrigger("hurt");
+        if (movement != null && movement.anim != null)
+            movement.anim.SetTrigger("hurt");
+
         float realdamage = Mathf.Min(damage, currentHP);
         currentHP -= realdamage;
         targetFillAmount = currentHP / maxHP;
         GetHit(attackerPosi, realdamage);
         UpdateHPBar();
         UpdateHPBarColor();
+
         if (currentHP <= 0)
         {
             PassAway();
         }
     }
 
+    // Method for clients to request damage be applied
+    [Command(requiresAuthority = false)]
+    public void CmdTakeDamage(Vector3 attackerPosi, float damage, NetworkConnectionToClient sender = null)
+    {
+        // Optional: Add validation here if needed
+        // For example, check if the sender is allowed to damage this enemy
+
+        // Apply the damage on the server
+        TakeDamage(attackerPosi, damage);
+    }
+
     [ClientRpc]
     private void RpcPlayHurtAnimation()
     {
-        if (gameObject.GetComponent<Animator>() != null)
-            gameObject.GetComponent<Animator>().SetTrigger("hurt");
+        if (movement != null && movement.anim != null)
+            movement.anim.SetTrigger("hurt");
     }
 
     void UpdateHPBar()
@@ -283,14 +304,22 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     public void GetHit(Vector2 hitDirection, float damage)
     {
         StartCoroutine(ShowHitEffect());
-        movement.ApplyHitBack(hitDirection);
+        if (movement != null)
+            movement.ApplyHitBack(hitDirection);
     }
 
     private IEnumerator ShowHitEffect()
     {
-        spriteRenderer.color = Color.white;
-        yield return new WaitForSeconds(hitEffectDuration);
-        spriteRenderer.color = originalColor;
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(hitEffectDuration);
+            spriteRenderer.color = originalColor;
+        }
+        else
+        {
+            yield return null;
+        }
     }
 
     [Server]
@@ -302,16 +331,17 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
                 StartCoroutine(BloodingTimer(deBuffType, time, debuffStats));
                 break;
             case DeBuffType.Dizziness:
-                movement.DizzinessStart(time);
+                if (movement != null)
+                    movement.DizzinessStart(time);
                 break;
             case DeBuffType.Slow:
-                movement.LowerSpeedStart(time, debuffStats);
+                if (movement != null)
+                    movement.LowerSpeedStart(time, debuffStats);
                 break;
-
         }
     }
 
-    IEnumerator BloodingTimer(DeBuffType deBuffType, float time, float debuffP) 
+    IEnumerator BloodingTimer(DeBuffType deBuffType, float time, float debuffP)
     {
         while (time > 0)
         {
