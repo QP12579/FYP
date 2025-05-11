@@ -76,7 +76,7 @@ public class Magicmovement : MonoBehaviour
         if (isStopped)
         {
             if (anim != null)
-                anim.SetFloat("movespeed", 0f);
+                anim.SetFloat("moveSpeed", 0f);
             return;
         }
 
@@ -90,6 +90,13 @@ public class Magicmovement : MonoBehaviour
 
     private void RandomMove()
     {
+        // 如果目標點已經超出地圖範圍，立即重選
+        if (targetPosition.x < areaMin.x || targetPosition.x > areaMax.x ||
+            targetPosition.z < areaMin.z || targetPosition.z > areaMax.z)
+        {
+            SetRandomTargetPosition();
+        }
+
         if (!isMoving)
         {
             SetRandomTargetPosition();
@@ -101,23 +108,25 @@ public class Magicmovement : MonoBehaviour
         if (anim != null)
         {
             float currentSpeed = isMoving ? speed : 0f;
-            anim.SetFloat("movespeed", currentSpeed);
+            anim.SetFloat("moveSpeed", currentSpeed);
         }
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
             isMoving = false;
             if (anim != null)
-                anim.SetFloat("movespeed", 0f);
+                anim.SetFloat("moveSpeed", 0f);
         }
     }
 
     private void SetRandomTargetPosition()
     {
+        // 隨機距離
         float randomDistance = Random.Range(minMoveDistance, maxMoveDistance);
-        Vector3 randomDirection = Random.insideUnitSphere;
-        randomDirection.y = 0;
-        Vector3 candidate = transform.position + randomDirection.normalized * randomDistance;
+        // 隨機方向（單位圓上的隨機點，y=0，確保在XZ平面）
+        float angle = Random.Range(0f, 360f);
+        Vector3 randomDirection = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
+        Vector3 candidate = transform.position + randomDirection * randomDistance;
         candidate.x = Mathf.Clamp(candidate.x, areaMin.x, areaMax.x);
         candidate.z = Mathf.Clamp(candidate.z, areaMin.z, areaMax.z);
         targetPosition = candidate;
@@ -147,7 +156,7 @@ public class Magicmovement : MonoBehaviour
 
         if (anim != null)
         {
-            anim.SetBool("isAppear", true);
+            anim.SetBool("isAppear", false);
             StartCoroutine(ResetIsAppearAfterDelay());
         }
     }
@@ -156,18 +165,35 @@ public class Magicmovement : MonoBehaviour
     {
         yield return new WaitForSeconds(appearAnimDuration);
         if (anim != null)
-            anim.SetBool("isAppear", false);
+            anim.SetBool("isAppear", true);
     }
 
     public void Stop()
     {
         isStopped = true;
         if (anim != null)
-            anim.SetFloat("movespeed", 0f);
+            anim.SetFloat("moveSpeed", 0f);
     }
 
     public void Move()
     {
         isStopped = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            // 將位置限制在地板範圍內
+            Vector3 clamped = transform.position;
+            clamped.x = Mathf.Clamp(clamped.x, areaMin.x, areaMax.x);
+            clamped.z = Mathf.Clamp(clamped.z, areaMin.z, areaMax.z);
+            transform.position = clamped;
+
+            // 重新選擇一個新的隨機目標點
+            SetRandomTargetPosition();
+
+            Debug.Log("Collided with wall, position clamped and direction changed.");
+        }
     }
 }

@@ -1995,7 +1995,17 @@ PrefabInstance:
         type: 3}
       propertyPath: floor
       value: 
-      objectReference: {fileID: 2117817169}
+      objectReference: {fileID: 1041605066}
+    - target: {fileID: 5762639352845152027, guid: f287edc05ee192049870a9a7148dde21,
+        type: 3}
+      propertyPath: maxMoveDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762639352845152027, guid: f287edc05ee192049870a9a7148dde21,
+        type: 3}
+      propertyPath: minMoveDistance
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2776,6 +2786,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: barrier (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6341265778550435846, guid: 943c1945566536045a25cd7625a4e6ce,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2899,6 +2914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: barrier (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341265778550435846, guid: 943c1945566536045a25cd7625a4e6ce,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3131,6 +3151,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: barrier (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341265778550435846, guid: 943c1945566536045a25cd7625a4e6ce,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4602,6 +4627,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: barrier (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341265778550435846, guid: 943c1945566536045a25cd7625a4e6ce,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
