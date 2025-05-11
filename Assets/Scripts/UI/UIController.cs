@@ -38,6 +38,7 @@ public class UIController : NetworkBehaviour
     private void Start()
     {
         // Only proceed for the local player
+        if(netIdentity != null)
         if (!isLocalPlayer) return;
 
         Debug.Log($"Starting UIController for player {gameObject.name}");
