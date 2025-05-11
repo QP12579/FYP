@@ -17,6 +17,7 @@ public class floortrap : MonoBehaviour
     private int nextSafeAreaIndex = -1; // 下一個安全區域的索引
     private float timer = 0f;
     private bool isWarningState = false; // 是否處於警告階段
+    private Dictionary<Transform, Coroutine> activeDamageCoroutines = new Dictionary<Transform, Coroutine>(); // 用於追蹤玩家的傷害協程
 
     void Start()
     {
@@ -97,42 +98,55 @@ public class floortrap : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            CheckPlayerPosition(other.transform);
+            if (!activeDamageCoroutines.ContainsKey(other.transform))
+            {
+                Coroutine damageCoroutine = StartCoroutine(HandlePlayerInDangerArea(other.transform));
+                activeDamageCoroutines.Add(other.transform, damageCoroutine);
+            }
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            CheckPlayerPosition(other.transform);
+            if (activeDamageCoroutines.ContainsKey(other.transform))
+            {
+                StopCoroutine(activeDamageCoroutines[other.transform]);
+                activeDamageCoroutines.Remove(other.transform);
+            }
         }
     }
 
-    private void CheckPlayerPosition(Transform playerTransform)
+    private IEnumerator HandlePlayerInDangerArea(Transform playerTransform)
+    {
+        // 等待 2 秒
+        yield return new WaitForSeconds(2f);
+
+        while (IsPlayerInDangerArea(playerTransform))
+        {
+            Debug.Log("Player is standing on a dangerous area! Taking damage.");
+            Player player = playerTransform.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(damageAmount);
+            }
+
+            // 每 0.5 秒造成一次傷害
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private bool IsPlayerInDangerArea(Transform playerTransform)
     {
         for (int i = 0; i < areas.Length; i++)
         {
-            // 檢查玩家是否在當前區域內
-            if (IsPlayerInArea(playerTransform, areas[i].transform))
+            if (i != nextSafeAreaIndex && IsPlayerInArea(playerTransform, areas[i].transform))
             {
-                if (i != nextSafeAreaIndex)
-                {
-                    Debug.Log("Player is standing on a dangerous area! Taking damage.");
-                    // 在這裡對玩家造成傷害
-                    Player player = playerTransform.GetComponent<Player>();
-                    if (player != null)
-                    {
-                        player.TakeDamage(damageAmount);
-                    }
-                }
-                else
-                {
-                    Debug.Log("Player is standing on a safe area.");
-                }
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     private bool IsPlayerInArea(Transform playerTransform, Transform areaTransform)
