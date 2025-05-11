@@ -6,30 +6,49 @@ public class laser : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float damageAmount = 10f; // 激光對玩家造成的傷害
+    [SerializeField] private float damageInterval = 2f; // 每次傷害的間隔時間
+
+    private Dictionary<Transform, Coroutine> activeDamageCoroutines = new Dictionary<Transform, Coroutine>();
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            DealDamageToPlayer(other);
+            if (!activeDamageCoroutines.ContainsKey(other.transform))
+            {
+                // 開始對玩家造成傷害的協程
+                Coroutine damageCoroutine = StartCoroutine(DealDamageOverTime(other.transform));
+                activeDamageCoroutines.Add(other.transform, damageCoroutine);
+            }
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            DealDamageToPlayer(other);
+            if (activeDamageCoroutines.ContainsKey(other.transform))
+            {
+                // 停止對玩家造成傷害的協程
+                StopCoroutine(activeDamageCoroutines[other.transform]);
+                activeDamageCoroutines.Remove(other.transform);
+            }
         }
     }
 
-    private void DealDamageToPlayer(Collider playerCollider)
+    private IEnumerator DealDamageOverTime(Transform playerTransform)
     {
-        Player player = playerCollider.GetComponent<Player>();
-        if (player != null)
+        while (true)
         {
-            player.TakeDamage(damageAmount);
-            Debug.Log("Player took " + damageAmount + " damage from the laser.");
+            Player player = playerTransform.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(damageAmount);
+                Debug.Log("Player took " + damageAmount + " damage from the laser.");
+            }
+
+            // 等待指定的間隔時間
+            yield return new WaitForSeconds(damageInterval);
         }
     }
 }
