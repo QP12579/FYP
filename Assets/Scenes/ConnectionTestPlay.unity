@@ -5183,7 +5183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 88358326}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StageCentre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5300,7 +5300,7 @@ GameObject:
   - component: {fileID: 107628625}
   - component: {fileID: 107628627}
   - component: {fileID: 107628626}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -5703,7 +5703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 167423030}
   - component: {fileID: 167423031}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5758,7 +5758,7 @@ GameObject:
   - component: {fileID: 171973100}
   - component: {fileID: 171973102}
   - component: {fileID: 171973101}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -10671,7 +10671,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201218920}
   - component: {fileID: 201218921}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MM_BackgroundArena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10756,7 +10756,7 @@ GameObject:
   - component: {fileID: 203540347}
   - component: {fileID: 203540349}
   - component: {fileID: 203540348}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15639,6 +15639,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: chest
       objectReference: {fileID: 0}
+    - target: {fileID: 3590452312971052177, guid: 8d30af6b9e3a81240955bd88a2cf7400,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4237927229332445967, guid: 8d30af6b9e3a81240955bd88a2cf7400,
         type: 3}
       propertyPath: sceneId
@@ -15758,7 +15763,7 @@ GameObject:
   m_Component:
   - component: {fileID: 258728079}
   - component: {fileID: 258728080}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21141,7 +21146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 396401688}
   - component: {fileID: 396401689}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21316,7 +21321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 420221141}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar_Grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21387,7 +21392,7 @@ GameObject:
   - component: {fileID: 442189928}
   - component: {fileID: 442189930}
   - component: {fileID: 442189929}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31227,7 +31232,7 @@ GameObject:
   - component: {fileID: 480644344}
   - component: {fileID: 480644346}
   - component: {fileID: 480644345}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31462,7 +31467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 521270661}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31584,7 +31589,7 @@ GameObject:
   - component: {fileID: 570304619}
   - component: {fileID: 570304621}
   - component: {fileID: 570304620}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -31667,7 +31672,7 @@ GameObject:
   - component: {fileID: 572275830}
   - component: {fileID: 572275832}
   - component: {fileID: 572275831}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31826,7 +31831,7 @@ MonoBehaviour:
   syncInterval: 0
   characterPrefabs:
   - {fileID: 4606641454445231472, guid: d9c18e4cdbf9f7e4f9bb2108fc5dddcb, type: 3}
-  - {fileID: 5438972266827892434, guid: 7a5af3d6c87c8f54d8e494f810ed48b7, type: 3}
+  - {fileID: 4606641454445231472, guid: d9c18e4cdbf9f7e4f9bb2108fc5dddcb, type: 3}
   playerSpawnPoints:
   - {fileID: 2081983526}
   - {fileID: 627586777}
@@ -31976,6 +31981,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 567209580270096977, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: m_Name
+      value: MpText
       objectReference: {fileID: 0}
     - target: {fileID: 620840691140305798, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
@@ -32402,6 +32412,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3817471854900904246, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3986735070465208106, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_IsActive
@@ -32430,12 +32445,12 @@ PrefabInstance:
     - target: {fileID: 4268302792033715699, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4268302792033715699, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4285359103544336031, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
@@ -32607,6 +32622,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5980101758699629133, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: m_Name
+      value: HpText
+      objectReference: {fileID: 0}
     - target: {fileID: 6067722253895857918, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -32730,12 +32750,12 @@ PrefabInstance:
     - target: {fileID: 6748504537048322097, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6748504537048322097, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6817094279429555917, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
@@ -32795,7 +32815,7 @@ PrefabInstance:
     - target: {fileID: 7413086329779185720, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7475818840666809190, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
@@ -32835,12 +32855,12 @@ PrefabInstance:
     - target: {fileID: 8024791758469421150, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8024791758469421150, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8437580991477687340, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
@@ -32930,8 +32950,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7413086329779185720, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 611384136}
   m_SourcePrefab: {fileID: 100100000, guid: 23ff8e82570b16e468883a7be209780a, type: 3}
+--- !u!1 &611384135 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7413086329779185720, guid: 23ff8e82570b16e468883a7be209780a,
+    type: 3}
+  m_PrefabInstance: {fileID: 611384134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &611384136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611384135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3410865866
+  _assetId: 1146705923
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1001 &619546112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32954,6 +33001,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LevelPortal
+      objectReference: {fileID: 0}
+    - target: {fileID: 2803390916967158785, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3957776349783791954, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
         type: 3}
@@ -33004,6 +33056,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088854564366673496, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482610671180264905, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063181032087534728, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1440791091541295212, guid: 0efe4cd4ece96b74183f2bcd6e45d674, type: 3}
@@ -38126,7 +38193,7 @@ GameObject:
   - component: {fileID: 722410730}
   - component: {fileID: 722410732}
   - component: {fileID: 722410731}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43208,7 +43275,7 @@ GameObject:
   - component: {fileID: 768537399}
   - component: {fileID: 768537401}
   - component: {fileID: 768537400}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43324,7 +43391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 802373724}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: StageCentre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43473,7 +43540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 824840083}
   - component: {fileID: 824840084}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43800,7 +43867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 897163157}
   - component: {fileID: 897163158}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48683,7 +48750,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 909523939}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48718,7 +48785,7 @@ GameObject:
   m_Component:
   - component: {fileID: 921070115}
   - component: {fileID: 921070116}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48978,7 +49045,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1000501722}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49161,7 +49228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1021555285}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrier_Grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49316,7 +49383,7 @@ GameObject:
   - component: {fileID: 1073716788}
   - component: {fileID: 1073716790}
   - component: {fileID: 1073716789}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49433,7 +49500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1079546362}
   - component: {fileID: 1079546361}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: WaveManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49495,7 +49562,7 @@ GameObject:
   - component: {fileID: 1084494910}
   - component: {fileID: 1084494912}
   - component: {fileID: 1084494911}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54356,7 +54423,7 @@ GameObject:
   - component: {fileID: 1167913492}
   - component: {fileID: 1167913494}
   - component: {fileID: 1167913493}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54471,7 +54538,7 @@ GameObject:
   - component: {fileID: 1189761493}
   - component: {fileID: 1189761495}
   - component: {fileID: 1189761494}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59511,6 +59578,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 3590452312971052177, guid: 8d30af6b9e3a81240955bd88a2cf7400,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4237927229332445967, guid: 8d30af6b9e3a81240955bd88a2cf7400,
         type: 3}
@@ -70002,7 +70074,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1400334363}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platfrom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70122,7 +70194,7 @@ GameObject:
   - component: {fileID: 1438887407}
   - component: {fileID: 1438887409}
   - component: {fileID: 1438887408}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74954,7 +75026,7 @@ GameObject:
   - component: {fileID: 1446152545}
   - component: {fileID: 1446152544}
   - component: {fileID: 1446152543}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Tech
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75077,7 +75149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1451726739}
   - component: {fileID: 1451726740}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80016,7 +80088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1485637170}
   - component: {fileID: 1485637171}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80112,7 +80184,7 @@ GameObject:
   - component: {fileID: 1514212289}
   - component: {fileID: 1514212291}
   - component: {fileID: 1514212290}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -80649,7 +80721,7 @@ GameObject:
   - component: {fileID: 1553871864}
   - component: {fileID: 1553871866}
   - component: {fileID: 1553871865}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91496,7 +91568,7 @@ GameObject:
   - component: {fileID: 1794656518}
   - component: {fileID: 1794656520}
   - component: {fileID: 1794656519}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96443,7 +96515,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1838581396}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96479,7 +96551,7 @@ GameObject:
   - component: {fileID: 1843035251}
   - component: {fileID: 1843035250}
   - component: {fileID: 1843035249}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TechLv1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96616,7 +96688,7 @@ GameObject:
   - component: {fileID: 1861389679}
   - component: {fileID: 1861389681}
   - component: {fileID: 1861389680}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96732,7 +96804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1879505809}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97181,7 +97253,7 @@ GameObject:
   - component: {fileID: 1954123970}
   - component: {fileID: 1954123972}
   - component: {fileID: 1954123971}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97417,7 +97489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1989626825}
   - component: {fileID: 1989626826}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97470,7 +97542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1991747677}
   - component: {fileID: 1991747678}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97675,6 +97747,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelPortal
       objectReference: {fileID: 0}
+    - target: {fileID: 2803390916967158785, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3957776349783791954, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -97724,6 +97801,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088854564366673496, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482610671180264905, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063181032087534728, guid: 0efe4cd4ece96b74183f2bcd6e45d674,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1440791091541295212, guid: 0efe4cd4ece96b74183f2bcd6e45d674, type: 3}
@@ -98017,7 +98109,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2084829887}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlatfromFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98326,7 +98418,7 @@ GameObject:
   - component: {fileID: 2128341001}
   - component: {fileID: 2128341003}
   - component: {fileID: 2128341002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98407,7 +98499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2138691575}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98665,7 +98757,7 @@ GameObject:
   - component: {fileID: 7903494570635996971}
   - component: {fileID: 5085942630369047130}
   - component: {fileID: 2234550139826237720}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98682,7 +98774,7 @@ GameObject:
   m_Component:
   - component: {fileID: 811435232211355626}
   - component: {fileID: 613309104952565987}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: WaveManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98714,7 +98806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8816917339038841183}
   - component: {fileID: 7247684748672893086}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98745,7 +98837,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8039934723776417364}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98885,7 +98977,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8575688773823476305}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98902,7 +98994,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5221904674205872692}
   - component: {fileID: 39843070544679241}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99028,7 +99120,7 @@ GameObject:
   - component: {fileID: 2352494206396444632}
   - component: {fileID: 8628562288054523706}
   - component: {fileID: 7773021539197556355}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99062,7 +99154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5366588537733849627}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrier_Grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99184,7 +99276,7 @@ GameObject:
   - component: {fileID: 2898151612679366392}
   - component: {fileID: 5876633275535610638}
   - component: {fileID: 1385974914693711011}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99320,7 +99412,7 @@ GameObject:
   - component: {fileID: 2087340171722144744}
   - component: {fileID: 6294817595862663616}
   - component: {fileID: 5826034486965991162}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99353,7 +99445,7 @@ GameObject:
   - component: {fileID: 2117949958564586600}
   - component: {fileID: 6253371052482158144}
   - component: {fileID: 5857489764967868794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99401,7 +99493,7 @@ GameObject:
   - component: {fileID: 3002648739821631864}
   - component: {fileID: 5773120232757873806}
   - component: {fileID: 1344386339944454947}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99574,7 +99666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5171371019280757584}
   - component: {fileID: 5049278925603269398}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99623,7 +99715,7 @@ GameObject:
   - component: {fileID: 791774981445613507}
   - component: {fileID: 236169309432179954}
   - component: {fileID: 8083049143811523137}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99719,7 +99811,7 @@ GameObject:
   - component: {fileID: 2108786134189618130}
   - component: {fileID: 3506755353733817106}
   - component: {fileID: 1459834688235529140}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109489,7 +109581,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8036951009360497345}
   - component: {fileID: 2842510172801984956}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114268,7 +114360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1509762832040238877}
   - component: {fileID: 2236181709367496357}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114285,7 +114377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3355575587743216971}
   - component: {fileID: 6373128976731682877}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MM_BackgroundArena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114303,7 +114395,7 @@ GameObject:
   - component: {fileID: 1285643149589092437}
   - component: {fileID: 8848611506852931823}
   - component: {fileID: 5638417468815604863}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114341,7 +114433,7 @@ GameObject:
   - component: {fileID: 1172137899769006037}
   - component: {fileID: 8889918606621161327}
   - component: {fileID: 5741084879780668415}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114357,7 +114449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3928700942036184425}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlatfromFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114376,7 +114468,7 @@ GameObject:
   - component: {fileID: 5319641588037607178}
   - component: {fileID: 2005306911952206302}
   - component: {fileID: 7491259611675172466}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -114408,7 +114500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2525384660180048379}
   - component: {fileID: 493322061625288149}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114427,7 +114519,7 @@ GameObject:
   - component: {fileID: 5497084426483471218}
   - component: {fileID: 2183947837783061926}
   - component: {fileID: 7092311875200766474}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -114444,7 +114536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4803295208301404241}
   - component: {fileID: 7069822927098320519}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114477,7 +114569,7 @@ GameObject:
   - component: {fileID: 7682036202072278737}
   - component: {fileID: 110060920977143403}
   - component: {fileID: 3851765480159568635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114587,7 +114679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4302722265466662080}
   - component: {fileID: 7630068099173018198}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AirBlock (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124549,7 +124641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3057227440957162512}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar_Grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124567,7 +124659,7 @@ GameObject:
   - component: {fileID: 8218351003049507540}
   - component: {fileID: 1807740444532443758}
   - component: {fileID: 3307148198162587390}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124586,7 +124678,7 @@ GameObject:
   - component: {fileID: 2985396318049080013}
   - component: {fileID: 8892678485952738329}
   - component: {fileID: 8892678485952738330}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -124764,7 +124856,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7610841657169248033}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platfrom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124782,7 +124874,7 @@ GameObject:
   - component: {fileID: 6013390801682511996}
   - component: {fileID: 3082265685784776074}
   - component: {fileID: 7525636254309964327}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124800,7 +124892,7 @@ GameObject:
   - component: {fileID: 7474900369173063020}
   - component: {fileID: 3175101350062874436}
   - component: {fileID: 3139481610216401022}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125129,7 +125221,7 @@ GameObject:
   - component: {fileID: 3460455067954757385}
   - component: {fileID: 4138274429545373101}
   - component: {fileID: 2226103215952417106}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Magic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125221,7 +125313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1501951107811512528}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125280,7 +125372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1534531223805824848}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pillar (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125312,7 +125404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2939308314926612467}
   - component: {fileID: 6931293794295929998}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125329,7 +125421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3265177526221943691}
   - component: {fileID: 7325771118187483382}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: barrier (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130296,7 +130388,7 @@ GameObject:
   - component: {fileID: 1049709096825743928}
   - component: {fileID: 6671573814098316524}
   - component: {fileID: 8957311214179711771}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -130335,9 +130427,9 @@ GameObject:
   - component: {fileID: 2441523434915980898}
   - component: {fileID: 5911575773276532556}
   - component: {fileID: 9023831725576058424}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MagicLv1
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130372,7 +130464,7 @@ GameObject:
   - component: {fileID: 9164068504498280809}
   - component: {fileID: 3783402276821164865}
   - component: {fileID: 3675162061703861371}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130405,7 +130497,7 @@ GameObject:
   - component: {fileID: 5468138071221011577}
   - component: {fileID: 3627378778807464335}
   - component: {fileID: 8133799739431478818}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -206,6 +206,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     }
 
     // Method for server to apply damage
+
     [Server]
     public void TakeDamage(Vector3 attackerPosi, float damage)
     {
