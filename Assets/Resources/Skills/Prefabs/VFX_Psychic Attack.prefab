@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3712264657143852132}
   - component: {fileID: 5806829000567067392}
+  - component: {fileID: 4654194922315159247}
+  - component: {fileID: 5539598367444565076}
   m_Layer: 0
   m_Name: VFX_Psychic Attack
   m_TagString: Untagged
@@ -54,6 +56,42 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   duration: 0.2
+--- !u!135 &4654194922315159247
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6348893434471102450}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5539598367444565076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6348893434471102450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9ae0a1ae3160a409db598f0e829bc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebuffType: 1
+  debuffP: 5
+  time: 5
 --- !u!1 &7720966993231033171
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 7720966993231033171}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
