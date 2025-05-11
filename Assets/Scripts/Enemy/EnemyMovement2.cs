@@ -9,7 +9,7 @@ public class EnemyMovement2 : EnemyMovement
     private float timeSinceLastChange = 0f; // 距離上次改變方向的時間
 
     [Header("Collision Settings")]
-    [SerializeField] private string Wall = "Wall"; // 牆壁的標籤
+    [SerializeField] private string wallTag = "Wall"; // 牆壁的標籤
 
     // Update is called once per frame
     protected override void Update()
@@ -69,8 +69,16 @@ public class EnemyMovement2 : EnemyMovement
     /// </summary>
     private void MoveInDirection()
     {
-        transform.Translate(moveDirection * syncedMoveSpeed * Time.deltaTime);
+        if (rb != null)
+        {
+            // 計算新的位置
+            Vector3 newPosition = rb.position + (moveDirection * syncedMoveSpeed * Time.deltaTime);
 
+            // 使用剛體移動，確保考慮物理碰撞
+            rb.MovePosition(newPosition);
+        }
+
+        // 如果動畫控制器存在，播放移動動畫
         if (anim != null)
         {
             anim.SetFloat("moveSpeed", 1); // 播放移動動畫
@@ -95,15 +103,13 @@ public class EnemyMovement2 : EnemyMovement
         Debug.Log("EnemyMovement2: Movement resumed after attack.");
     }
 
-    /// <summary>
-    /// 碰撞檢測：當敵人碰到牆壁時改變方向
-    /// </summary>
-    private void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag(Wall))
+        if (collision.gameObject.CompareTag(wallTag))
         {
             Debug.Log("EnemyMovement2: Collided with a wall. Changing direction.");
-            ChangeDirection(); // 碰撞牆壁時改變方向
+            ChangeDirection(); // 碰撞牆壁時改變方向  
         }
+        base.OnCollisionEnter(collision); // 呼叫基底類別的 OnCollisionEnter  
     }
 }

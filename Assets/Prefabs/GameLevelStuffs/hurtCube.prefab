@@ -119,5 +119,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 10
-  damageInterval: 0.5
-  initialDelay: 2
+  damageInterval: 3
+  initialDelay: 3
