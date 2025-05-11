@@ -9,16 +9,16 @@ public class hurtcube : MonoBehaviour
     [SerializeField] private float damageInterval = 0.5f; // 每次傷害的間隔時間
     [SerializeField] private float initialDelay = 2f; // 初始延遲時間
 
-    private Dictionary<Transform, Coroutine> activeDamageCoroutines = new Dictionary<Transform, Coroutine>();
+    private Dictionary<Collider, Coroutine> activeDamageCoroutines = new Dictionary<Collider, Coroutine>();
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (!activeDamageCoroutines.ContainsKey(other.transform))
+            if (!activeDamageCoroutines.ContainsKey(other))
             {
-                Coroutine damageCoroutine = StartCoroutine(HandlePlayerDamage(other.transform));
-                activeDamageCoroutines.Add(other.transform, damageCoroutine);
+                Coroutine damageCoroutine = StartCoroutine(HandlePlayerDamage(other));
+                activeDamageCoroutines.Add(other, damageCoroutine);
             }
         }
     }
@@ -27,15 +27,15 @@ public class hurtcube : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (activeDamageCoroutines.ContainsKey(other.transform))
+            if (activeDamageCoroutines.ContainsKey(other))
             {
-                StopCoroutine(activeDamageCoroutines[other.transform]);
-                activeDamageCoroutines.Remove(other.transform);
+                StopCoroutine(activeDamageCoroutines[other]);
+                activeDamageCoroutines.Remove(other);
             }
         }
     }
 
-    private IEnumerator HandlePlayerDamage(Transform playerTransform)
+    private IEnumerator HandlePlayerDamage(Collider playerTransform)
     {
         // 初始延遲
         yield return new WaitForSeconds(initialDelay);
