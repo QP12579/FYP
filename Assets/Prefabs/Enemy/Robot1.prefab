@@ -447,6 +447,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 1
   anim: {fileID: 4502292986517328008}
+  hitBackForce: 5
 --- !u!114 &3087977625734767486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,8 +469,7 @@ MonoBehaviour:
   playerDetectionRadius: 1
   gizmos: 1
   hitEffectDuration: 0.2
-  hitBackForce: 5
-  currentHP: 100
+  currentHP: 10
   maxHP: 10
   hpBar: {fileID: 4426702829857933552}
   animationSpeed: 0.1

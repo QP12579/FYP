@@ -26,7 +26,6 @@ public class EnemyMovement : NetworkBehaviour
     protected bool isSlow = false;
 
     // Start is called before the first frame update
-    [ServerCallback]
     protected virtual void Start()
     {
         // ��l���H����V

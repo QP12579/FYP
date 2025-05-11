@@ -69,7 +69,7 @@ public class EnemyMovement2 : EnemyMovement
     /// </summary>
     private void MoveInDirection()
     {
-        if (rb != null)
+      if (rb != null)
         {
             // 計算新的位置
             Vector3 newPosition = rb.position + (moveDirection * syncedMoveSpeed * Time.deltaTime);
@@ -77,6 +77,7 @@ public class EnemyMovement2 : EnemyMovement
             // 使用剛體移動，確保考慮物理碰撞
             rb.MovePosition(newPosition);
         }
+
 
         // 如果動畫控制器存在，播放移動動畫
         if (anim != null)

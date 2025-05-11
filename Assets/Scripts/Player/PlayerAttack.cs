@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : NetworkBehaviour
 {
     [Header(" Components ")]
     public Player player;
@@ -38,6 +39,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
+        if (!isLocalPlayer) return;
         animator = GetComponent<Animator>();
         canAtk = true;
         if(player == null)
@@ -47,6 +49,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
+        if(!isLocalPlayer) return;
+
         if (Input.GetKeyDown(FATKKey) && canAtk)
         {
             player.animator.SetTrigger("Attack");
@@ -56,6 +60,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnTriggerStay(Collider c)
     {
+        if (!isLocalPlayer) return;
         if (Input.GetKeyDown(NATKKey) && canAtk)
         {
             NrmATK(c);
