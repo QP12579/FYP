@@ -190,10 +190,11 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    public void BlockAttack(bool Reflect = false)
+    public void BlockAttack(bool Reflect = false, bool isSkill = false)
     {
         isReflect = Reflect;
         anim.SetTrigger("Defence");
+        if(!isSkill)
         canMove = false;
         blockTimes = Time.time + defenceTime;
         Debug.Log("blockTimes:" + blockTimes + "\nTime: " + Time.time);

@@ -10,6 +10,9 @@ public class Shop : MonoBehaviour
     [SerializeField]
     private ItemType[] canSpawntype;
 
+    public float tariffs = 2;
+    private List<ShopItem> spawnedItems;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +32,9 @@ public class Shop : MonoBehaviour
     {
         foreach (var item in spawnItems) 
         {
-            if(item.GetComponent<ShopItem>().itemPrefab.item.Type == type)
+            ShopItem shopItem = item.GetComponent<ShopItem>();
+            spawnedItems.Add(shopItem);
+            if(shopItem.itemPrefab.item.Type == type)
             {
                 return item;
             }
@@ -59,5 +64,13 @@ public class Shop : MonoBehaviour
             list.RemoveAt(index);
         }
         return result;
+    }
+
+    public void IncreaseTariffs()
+    {
+        foreach (var item in spawnedItems) 
+        {
+            item.cost = (int)(item.cost * tariffs);
+        }
     }
 }
