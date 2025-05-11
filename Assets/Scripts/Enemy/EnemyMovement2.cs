@@ -9,7 +9,7 @@ public class EnemyMovement2 : EnemyMovement
     private float timeSinceLastChange = 0f; // 距離上次改變方向的時間
 
     [Header("Collision Settings")]
-    [SerializeField] private string wallTag = "Wall"; // 牆壁的標籤
+    [SerializeField] private string Wall = "Wall"; // 牆壁的標籤
 
     // Update is called once per frame
     protected override void Update()
@@ -100,7 +100,7 @@ public class EnemyMovement2 : EnemyMovement
     /// </summary>
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag(wallTag))
+        if (collision.gameObject.CompareTag(Wall))
         {
             Debug.Log("EnemyMovement2: Collided with a wall. Changing direction.");
             ChangeDirection(); // 碰撞牆壁時改變方向

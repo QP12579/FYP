@@ -98,8 +98,10 @@ public class floortrap : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Player entered the trap area.");
             if (!activeDamageCoroutines.ContainsKey(other.transform))
             {
+                //Debug.Log("Player entered the trap area.");
                 Coroutine damageCoroutine = StartCoroutine(HandlePlayerInDangerArea(other.transform));
                 activeDamageCoroutines.Add(other.transform, damageCoroutine);
             }

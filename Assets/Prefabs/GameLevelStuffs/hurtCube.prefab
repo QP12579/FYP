@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7256728235615355068}
   - component: {fileID: 3753743713190376378}
   - component: {fileID: 1654889323155900432}
+  - component: {fileID: 989356300852150748}
   m_Layer: 0
   m_Name: hurtCube
   m_TagString: Untagged
@@ -103,5 +104,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 4.421146, z: 1}
+  m_Center: {x: 0, y: 1.7105727, z: 0}
+--- !u!114 &989356300852150748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028150985538179992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f4fe1012169f340a0d58702621167b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 10
+  damageInterval: 0.5
+  initialDelay: 2
