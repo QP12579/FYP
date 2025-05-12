@@ -446,9 +446,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  moveSpeed: 1
+  moveSpeed: 2
   anim: {fileID: 4502292986517328008}
-  hitBackForce: 5
+  hitBackForce: 2
   hitBackDuration: 0.5
 --- !u!114 &3087977625734767486
 MonoBehaviour:
@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2744956437
+  _assetId: 248756940
   serverOnly: 0
   visibility: 0
   hasSpawned: 0

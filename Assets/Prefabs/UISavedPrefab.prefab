@@ -10297,8 +10297,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7049165666746670582}
   m_HandleRect: {fileID: 2739042949253486655}
   m_Direction: 2
-  m_Value: 1.0852448
-  m_Size: 0.4268315
+  m_Value: 1
+  m_Size: 0.4815
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11329,7 +11329,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1392847206554494465}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.8785047
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12597,7 +12597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -88.39882}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2806278775567763034
@@ -14366,7 +14366,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 726824437834612187}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.8190407
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15709,10 +15709,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e05bf411693c1840bca573857b2b8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GamingUI: {fileID: 0}
-  SkillOrAbilityPanel: {fileID: 0}
-  SpecialAttackPanel: {fileID: 0}
-  SettingPanel: {fileID: 0}
+  GamingUI: {fileID: 2325972330863480683}
+  SkillOrAbilityPanel: {fileID: 911106477719564788}
+  SpecialAttackPanel: {fileID: 5124820137287394273}
+  SettingPanel: {fileID: 5853193654563399624}
   SkillAbilityscrollbar: {fileID: 7349186070029458711}
   SpecialAttackscrollbar: {fileID: 2121541841143323151}
   cyanSelectedBlock: {fileID: 6559016653190558613}
@@ -15721,8 +15721,8 @@ MonoBehaviour:
   specialAttackButton: {fileID: 2945136189359971626}
   settingButton: {fileID: 4626311392426857041}
   EseButton: {fileID: 6876352007603876595}
-  SkillClickArea: {fileID: 0}
-  AbilityClickArea: {fileID: 0}
+  SkillClickArea: {fileID: 8222166630426661119}
+  AbilityClickArea: {fileID: 8470731179926663463}
   scrollSpeed: 0.1
   state: 0
 --- !u!114 &3274440525074146102

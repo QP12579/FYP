@@ -306,7 +306,6 @@ GameObject:
   - component: {fileID: 4502292986517328008}
   - component: {fileID: 2612305851596040287}
   - component: {fileID: 4855170073787406054}
-  - component: {fileID: 7924365865503091371}
   - component: {fileID: 4443585118103572561}
   - component: {fileID: 413059861980600192}
   - component: {fileID: -1799233839467373217}
@@ -447,28 +446,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  moveSpeed: 5
+  moveSpeed: 4
   anim: {fileID: 4502292986517328008}
-  hitBackForce: 5
-  hitBackDuration: 0.5
---- !u!114 &7924365865503091371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686363277280844216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84233b9891a78ba42ab98de961f6366d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  moveSpeed: 5
-  anim: {fileID: 4502292986517328008}
-  hitBackForce: 5
+  hitBackForce: 2
   hitBackDuration: 0.5
 --- !u!114 &4443585118103572561
 MonoBehaviour:
@@ -491,9 +471,9 @@ MonoBehaviour:
   playerDetectionRadius: 0
   gizmos: 0
   hitEffectDuration: 0.2
-  currentHP: 0
+  currentHP: 100
   maxHP: 100
-  hpBar: {fileID: 0}
+  hpBar: {fileID: 4426702829857933552}
   animationSpeed: 0.1
   detectionRange: 10
   obstacleLayer:

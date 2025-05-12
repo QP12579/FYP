@@ -448,7 +448,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 3
   anim: {fileID: 4502292986517328008}
-  hitBackForce: 5
+  hitBackForce: 2
   hitBackDuration: 0.5
   changeDirectionInterval: 2
   wallTag: Wall
@@ -564,7 +564,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0

@@ -124,7 +124,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf69247d7e23d1d489ca445cd2385515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   moveSpeed: 2.5
+  anim: {fileID: 1065213851143234874}
+  hitBackForce: 1
+  hitBackDuration: 0.5
   minMoveDistance: 3
   maxMoveDistance: 7
   minTeleportInterval: 8
