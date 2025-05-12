@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6996179210597947878}
   - component: {fileID: 1714282912583891725}
   - component: {fileID: 216748196716064559}
+  - component: {fileID: 3890580266809080470}
   m_Layer: 0
   m_Name: VFX_Meteor Shower
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  duration: 1
+  duration: 2
 --- !u!65 &216748196716064559
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76,6 +77,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &3890580266809080470
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6239746248869194199}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8652081714584513772
 GameObject:
   m_ObjectHideFlags: 0

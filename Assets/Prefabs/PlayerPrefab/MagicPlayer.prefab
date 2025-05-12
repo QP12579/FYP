@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 2009183528393804079}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.107, y: -0.051, z: 0.041}
-  m_LocalScale: {x: 0.48756623, y: 0.91859037, z: 0.38164234}
+  m_LocalPosition: {x: 0.1, y: -0.100000024, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.75, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4822267913083150260}
@@ -163,14 +163,14 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 510
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6, y: 1, z: 0.31625703}
-  m_Center: {x: -4.1739433e-16, y: -0.100000024, z: 0.0918715}
+  m_Size: {x: 0.6, y: 0.75, z: 0.5}
+  m_Center: {x: 0.1, y: -0.100000024, z: 0}
 --- !u!114 &8717358104338401509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bc9559d2b8c8b429887bc2d7a08be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   player: {fileID: 7286353846663120720}
   NATKKey: 323
   attack: 5
@@ -441,10 +444,10 @@ MonoBehaviour:
       Name: 
       types: 00000000
       Description: 
-      power: 15
-      MP: 5
-      cooldown: 5
-    skillPrefab: {fileID: 8522138926694928871, guid: 298469283f21d7742a15ec78af3d0ddf,
+      power: 0
+      MP: 0
+      cooldown: 0
+    skillPrefab: {fileID: 7213507522912682957, guid: 621f774798aa1b94cae7342617cef998,
       type: 3}
     cooldownTimer: 0
   - activationKey: 101
