@@ -55,8 +55,6 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-
-
         if (Input.GetKeyDown(KeyCode.Tab)) { GamingUI.SetActive(true); state = oldState; }
 
         if (Input.GetKeyDown(KeyCode.T))

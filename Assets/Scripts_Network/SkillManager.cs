@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SkillManager : Singleton<SkillManager>
 {
+    
     public TextAsset skillsTSV;
     public Dictionary<int, List<SkillData>> skillsByID = new Dictionary<int, List<SkillData>>();
     public List<SkillData> unlockedSkills = new List<SkillData>();
@@ -22,6 +23,8 @@ public class SkillManager : Singleton<SkillManager>
     }
     void Awake()
     {
+       
+
         if (skillsTSV == null)
             skillsTSV = Resources.Load<TextAsset>(skillDataPath);
         LoadSkillsFromTSV();

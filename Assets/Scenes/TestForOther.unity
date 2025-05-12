@@ -338,8 +338,8 @@ MonoBehaviour:
   headlessStartMode: 0
   editorAutoStart: 0
   sendRate: 60
-  offlineScene: 
-  onlineScene: Assets/Scenes/QPisVerySEXY 1.unity
+  offlineScene: Assets/Scenes/TestForOther.unity
+  onlineScene: Assets/Scenes/QPisVerySEXY.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 744673609}
   networkAddress: localhost

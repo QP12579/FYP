@@ -81,6 +81,13 @@ public class Player : NetworkBehaviour
         SP = Mathf.Clamp(SP, 0, 1f);
         if ( isLocalPlayer )
             UpdatePlayerUIInfo();
+
+       if (Input.GetKeyDown(KeyCode.G))
+        {
+           SkillManager.instance. AddSkillPoints(1);
+            SkillPanel.instance.AddSkillPoints(1);
+            Debug.Log("Added SKill points");
+        }
     }
 
     public Player()
@@ -96,10 +103,10 @@ public class Player : NetworkBehaviour
             persistentUI = gameObject.GetOrAddComponent<PersistentUI>();
         if (persistentUI != null)
             persistentUI.UpdatePlayerUI(HP, CurrentMaxHP, MP, CurrentMaxMP, SP, level);
+
+        
     }
 
-
-    
     public void TakeDamage(float damage, GameObject attacker = null)
     {
         if (!isLocalPlayer) return;

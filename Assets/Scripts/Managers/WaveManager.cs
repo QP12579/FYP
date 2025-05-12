@@ -20,7 +20,7 @@ public class WaveManager : NetworkBehaviour
     [Header(" Spawn Settings ")]
     [SerializeField] private Transform stageCenter; // Reference to the center of the stage
     [SerializeField] private float minSpawnRadius = 5f; // Minimum distance from center
-    [SerializeField] private float maxSpawnRadius = 15f; // Maximum distance from center
+    [SerializeField] private float maxSpawnRadius = 9f; // Maximum distance from center
 
     [Header("Identity")]
     [SyncVar]
@@ -140,7 +140,7 @@ public class WaveManager : NetworkBehaviour
                 localCounters[i]++;
 
                 Debug.Log($"Spawned enemy for {(isMagicPath ? "Magic" : "Techno")} path, wave {currentWaveIndex}, segment {i}");
-                Debug.LogError("StageCentre is : " + stageCenter);
+                
             }
         }
 
