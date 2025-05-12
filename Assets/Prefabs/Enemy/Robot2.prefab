@@ -449,6 +449,7 @@ MonoBehaviour:
   moveSpeed: 3
   anim: {fileID: 4502292986517328008}
   hitBackForce: 5
+  hitBackDuration: 0.5
   changeDirectionInterval: 2
   wallTag: Wall
 --- !u!114 &417874250152519305
@@ -469,7 +470,7 @@ MonoBehaviour:
   spriterenderer: {fileID: 937333539423217826}
   spawnIndicator: {fileID: 6052340272583123884}
   passAwayParticles: {fileID: 0}
-  playerDetectionRadius: 0
+  playerDetectionRadius: 5
   gizmos: 0
   hitEffectDuration: 0.2
   currentHP: 10
@@ -565,5 +566,5 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0

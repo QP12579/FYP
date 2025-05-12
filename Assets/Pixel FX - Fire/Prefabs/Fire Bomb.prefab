@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8522138926694928865}
   - component: {fileID: 8522138926694928870}
   - component: {fileID: 3122521862016440178}
+  - component: {fileID: 5857047387743519030}
+  - component: {fileID: 1585369271573344968}
   m_Layer: 0
   m_Name: Fire Bomb
   m_TagString: Untagged
@@ -129,3 +131,31 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5857047387743519030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522138926694928871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3311c48ddf399498038ee16e412773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  damage: 10
+  lifetime: 5
+--- !u!114 &1585369271573344968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522138926694928871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb8283ac72b2024f9a1c38e9b99c1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeXZAxis: 1

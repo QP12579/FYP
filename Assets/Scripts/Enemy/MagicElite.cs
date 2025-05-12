@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Magicmovement))]
-public class MagicElite : MonoBehaviour
+public class MagicElite : Enemy
 {
     [Header("Magic Elite Settings")]
     public float attackRange = 8f;

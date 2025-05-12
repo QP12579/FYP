@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 3087977625734767486}
   - component: {fileID: -8629394256709007119}
   - component: {fileID: -625306824699683450}
+  - component: {fileID: -3362774289739880251}
   m_Layer: 9
   m_Name: EnemyForTestPlayerSkill
   m_TagString: Enemy
@@ -448,6 +449,7 @@ MonoBehaviour:
   moveSpeed: 0
   anim: {fileID: 4502292986517328008}
   hitBackForce: 5
+  hitBackDuration: 0.5
 --- !u!114 &3087977625734767486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,3 +535,30 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!54 &-3362774289739880251
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686363277280844216}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0

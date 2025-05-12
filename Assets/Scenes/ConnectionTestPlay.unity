@@ -90666,7 +90666,7 @@ MonoBehaviour:
   syncInterval: 0
   waveDuration: 10
   defaultSpawnHeight: 0.59
-  stageCenter: {fileID: 0}
+  stageCenter: {fileID: 1168484043}
   minSpawnRadius: 5
   maxSpawnRadius: 15
   stageId: 

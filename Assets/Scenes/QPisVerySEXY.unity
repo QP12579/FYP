@@ -681,6 +681,11 @@ PrefabInstance:
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3784328183292628399, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: sceneId
+      value: 1025766433
+      objectReference: {fileID: 0}
     - target: {fileID: 4268302792033715699, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1234,6 +1239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 976677550101505084, guid: 23ff8e82570b16e468883a7be209780a, type: 3}
+    - {fileID: 2151970808548016005, guid: 23ff8e82570b16e468883a7be209780a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

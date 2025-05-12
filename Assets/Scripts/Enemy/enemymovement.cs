@@ -11,16 +11,18 @@ public class EnemyMovement : NetworkBehaviour
     public Animator anim;
     protected Rigidbody rb;
 
-    [Header(" Elements ")]
+    [Header("Elements")]
     protected Player player;
 
     protected Vector3 moveDirection;
 
     [Header("Hit Effect")]
     [SerializeField] protected float hitBackForce = 5f;
+    [SerializeField] protected float hitBackDuration = 0.5f; // 擊退持續時間
 
     [SyncVar]
     protected float syncedMoveSpeed;
+
     // Debuff Part
     protected bool isDizziness = false;
     protected bool isSlow = false;
@@ -28,9 +30,9 @@ public class EnemyMovement : NetworkBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        // ��l���H����V
         syncedMoveSpeed = moveSpeed;
-        if(anim == null)
+
+        if (anim == null)
             anim = GetComponent<Animator>();
 
         rb = GetComponent<Rigidbody>();
@@ -40,13 +42,14 @@ public class EnemyMovement : NetworkBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        if(!isDizziness)
+        if (!isDizziness)
             DifferentMovement();
-    }    
-    
+    }
+
     protected virtual void DifferentMovement()
     {
-        anim.SetFloat("moveSpeed", 1);
+        if (anim != null)
+            anim.SetFloat("moveSpeed", 1);
     }
 
     [Server]
@@ -56,11 +59,16 @@ public class EnemyMovement : NetworkBehaviour
     }
 
     [Server]
-    // ���ܤ�V
     protected void ChangeDirection()
     {
         float randomAngle = Random.Range(0f, 360f);
         moveDirection = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad), 0, Mathf.Sin(randomAngle * Mathf.Deg2Rad)).normalized;
+
+        // 確保方向不為零向量
+        if (moveDirection.magnitude < 0.1f)
+        {
+            ChangeDirection();
+        }
     }
 
     [ServerCallback]
@@ -69,28 +77,56 @@ public class EnemyMovement : NetworkBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             Debug.Log("Collided with wall, changing direction.");
-            ChangeDirection(); // �I��������ɧ��ܤ�V
+            ChangeDirection();
         }
     }
 
+    /// <summary>
+    /// Apply a hit-back effect to the enemy.
+    /// </summary>
+    /// <param name="hitDirection">The direction of the hit as a 2D vector.</param>
     public void ApplyHitBack(Vector2 hitDirection)
     {
-        float baseSpeed = moveSpeed;
+        // Temporarily store the current speed
+        float originalSpeed = moveSpeed;
+
+        // Stop movement
         moveSpeed = 0f;
+
+        // Ensure Rigidbody exists
         if (rb != null)
         {
-            rb.AddForce(hitDirection * hitBackForce, ForceMode.Impulse);
+            // Calculate the hit-back force in 3D
+            Vector3 force = new Vector3(hitDirection.x, 0, hitDirection.y) * hitBackForce;
+
+            // Apply the force to the Rigidbody
+            rb.AddForce(force, ForceMode.Impulse);
         }
-        LeanTween.delayedCall(hitBackForce, () =>GoToBaseSpeed(baseSpeed));
+
+        // Restore the original speed after the hit-back effect
+        StartCoroutine(RestoreSpeedAfterDelay(originalSpeed, hitBackDuration));
+    }
+
+    /// <summary>
+    /// Coroutine to restore the enemy's speed after a delay.
+    /// </summary>
+    /// <param name="originalSpeed">The original speed to restore.</param>
+    /// <param name="delay">The delay before restoring the speed.</param>
+    private IEnumerator RestoreSpeedAfterDelay(float originalSpeed, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        moveSpeed = originalSpeed;
     }
 
     // Network
     [Server]
-    public void LowerSpeedStart(float time, float lowSpeedPersentage)
+    public void LowerSpeedStart(float time, float lowSpeedPercentage)
     {
-        float baseMoveS = moveSpeed;
-        moveSpeed *= lowSpeedPersentage;
-        LeanTween.delayedCall(time, () => GoToBaseSpeed(baseMoveS));
+        float baseMoveSpeed = moveSpeed;
+        moveSpeed *= lowSpeedPercentage;
+
+        // Use a coroutine to restore speed
+        StartCoroutine(RestoreSpeedAfterDelay(baseMoveSpeed, time));
     }
 
     public void GoToBaseSpeed(float baseSpeed)
@@ -102,18 +138,22 @@ public class EnemyMovement : NetworkBehaviour
     [Server]
     public void DizzinessStart(float time)
     {
-        float baseMoveS = moveSpeed;
+        float baseMoveSpeed = moveSpeed;
         moveSpeed = 0;
         isDizziness = true;
-        // animation for dizziness maybe
-        anim.SetTrigger("hurt");
-        anim.SetFloat("moveSpeed", 0);
 
-        // Visual effect for clients
+        // Trigger hurt animation
+        if (anim != null)
+        {
+            anim.SetTrigger("hurt");
+            anim.SetFloat("moveSpeed", 0);
+        }
+
+        // Show visual effect for clients
         RpcShowDizzinessEffect(true);
 
-        // Reset after time
-        StartCoroutine(EndDizzinessAfterDelay(time, baseMoveS));
+        // Reset after the specified time
+        StartCoroutine(EndDizzinessAfterDelay(time, baseMoveSpeed));
     }
 
     [Server]
@@ -123,7 +163,8 @@ public class EnemyMovement : NetworkBehaviour
         moveSpeed = baseSpeed;
         isDizziness = false;
 
-        anim.SetFloat("moveSpeed", 1);
+        if (anim != null)
+            anim.SetFloat("moveSpeed", 1);
 
         // Turn off visual effect
         RpcShowDizzinessEffect(false);
@@ -134,7 +175,6 @@ public class EnemyMovement : NetworkBehaviour
     protected void RpcShowDizzinessEffect(bool active)
     {
         // Add visual effects for dizziness here
-        // For example, you could play a particle effect or animation
         Debug.Log("Showing dizziness effect: " + active);
     }
 
@@ -142,7 +182,6 @@ public class EnemyMovement : NetworkBehaviour
     protected void RpcShowSlowEffect(bool active)
     {
         // Add visual effects for slow here
-        // For example, you could tint the sprite or play a particle effect
         Debug.Log("Showing slow effect: " + active);
     }
 }
