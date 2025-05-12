@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Magicmovement : MonoBehaviour
+public class Magicmovement : EnemyMovement
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 2.5f;
     public float minMoveDistance = 3f;
     public float maxMoveDistance = 7f;
 
@@ -29,10 +28,11 @@ public class Magicmovement : MonoBehaviour
     private Vector3 targetPosition;
     private bool isMoving = false;
     private bool isStopped = false;
-    private Animator anim;
+    // 移除 private Animator anim;，直接使用繼承的 anim
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         anim = GetComponentInChildren<Animator>();
         SetRandomTargetPosition();
         StartCoroutine(TeleportRoutine());
@@ -71,7 +71,7 @@ public class Magicmovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected override void Update()
     {
         if (isStopped)
         {
@@ -169,6 +169,7 @@ public class Magicmovement : MonoBehaviour
             anim.SetBool("isAppear", true);
     }
 
+    // 移除 new 關鍵字
     public void Stop()
     {
         isStopped = true;
@@ -181,8 +182,9 @@ public class Magicmovement : MonoBehaviour
         isStopped = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
     {
+        base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Wall"))
         {
             // 將位置限制在地板範圍內
