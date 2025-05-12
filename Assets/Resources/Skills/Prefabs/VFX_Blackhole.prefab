@@ -9671,9 +9671,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5245187476361341276}
-  - component: {fileID: 3595898397889240422}
+  - component: {fileID: -5158960729837296071}
   - component: {fileID: 7193020553959572320}
   - component: {fileID: 4316695028429275872}
+  - component: {fileID: -5961783465115674512}
   m_Layer: 0
   m_Name: VFX_Blackhole
   m_TagString: Untagged
@@ -9697,7 +9698,7 @@ Transform:
   - {fileID: 6437845272764009557}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3595898397889240422
+--- !u!114 &-5158960729837296071
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9706,7 +9707,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7213507522912682957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfba7f527d2e29a4e9ec8e176231696f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e96eb6fcf6bf1542b138ae397497d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
@@ -9717,7 +9718,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  duration: 0.2
+  duration: 2
+  pullForce: 0.01
+  maxPullDistance: 5
 --- !u!114 &7193020553959572320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9754,6 +9757,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &-5961783465115674512
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213507522912682957}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8395490560092554371
 GameObject:
   m_ObjectHideFlags: 0

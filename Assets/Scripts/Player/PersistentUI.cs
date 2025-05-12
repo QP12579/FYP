@@ -167,8 +167,31 @@ public class PersistentUI : NetworkBehaviour
         }
 
         if (SpecialAttackSlider != null)
+        {
             SpecialAttackSlider.value = SP;
 
+            if (SpecialAttackSlider.value == 1)
+            {
+                if (!isSPFullEffectAnimating)
+                {
+                    AnimateAlpha();
+                    SPHintKeywords.SetActive(true);
+                }
+            }
+            else
+            {
+                if (isSPFullEffectAnimating)
+                {
+                    DOTween.Kill(SPFullEffect);
+                    isSPFullEffectAnimating = false;
+                }
+                if (SPFullEffect != null)
+                {
+                    SetAlpha(SPFullEffect, 0f);
+                    SPHintKeywords.SetActive(false);
+                }
+            }
+        }
         if (levelText != null)
             levelText.text = level.ToString();
 

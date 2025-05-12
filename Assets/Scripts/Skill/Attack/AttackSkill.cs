@@ -7,9 +7,9 @@ public class AttackSkill : MonoBehaviour
     [SerializeField] private LayerMask EnemyMask;
     [SerializeField] public LayerMask groundMask;
 
-    private bool haveDebuff = false;
-    private DebuffSkill[] debuffs;
-    private Player player;
+    protected bool haveDebuff = false;
+    protected DebuffSkill[] debuffs;
+    protected Player player;
 
     public void Initialize(float power)
     {

@@ -48,14 +48,14 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 510
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6, y: 1, z: 0.5}
-  m_Center: {x: 0, y: -0.1, z: 0}
+  m_Size: {x: 0.6, y: 0.75, z: 0.5}
+  m_Center: {x: 0.1, y: -0.100000024, z: 0}
 --- !u!114 &4531287546228673341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,12 +68,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bc9559d2b8c8b429887bc2d7a08be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   player: {fileID: 4060613948888035280}
   NATKKey: 323
   attack: 5
   waitTime: 0.5
   FATKKey: 324
-  ATKPrefab: {fileID: 762561748974927365, guid: 61a27dc5282995542a271e5d7365e967,
+  ATKPrefab: {fileID: 3012694611995259989, guid: 4270f321096639a4a95167693e338849,
     type: 3}
   FarAtk: 10
   groundMask:
@@ -308,7 +311,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b9c0a0869900ce34fabc789956e5a11d, type: 3}
-  m_Color: {r: 1, g: 0.7081257, b: 0.7075472, a: 1}
+  m_Color: {r: 0.5566037, g: 1, b: 0.9821557, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -562,7 +565,7 @@ MonoBehaviour:
       power: 15
       MP: 5
       cooldown: 5
-    skillPrefab: {fileID: 8522138926694928871, guid: 298469283f21d7742a15ec78af3d0ddf,
+    skillPrefab: {fileID: 7213507522912682957, guid: 621f774798aa1b94cae7342617cef998,
       type: 3}
     cooldownTimer: 0
   - activationKey: 101

@@ -14641,8 +14641,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33147935888265582}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.5, w: 0.8660254}
+  m_LocalPosition: {x: 5, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14650,7 +14650,7 @@ Transform:
   - {fileID: 33147935700724143}
   - {fileID: 33147935478772891}
   m_Father: {fileID: 1881578654300310612}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
 --- !u!198 &33147935888265569
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -34230,10 +34230,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1881578654300310612}
-  - component: {fileID: -7251166278149101658}
+  - component: {fileID: -6564391671318811349}
   - component: {fileID: 2504499174369824695}
   - component: {fileID: 5778545936244780212}
   - component: {fileID: 4495764643640565606}
+  - component: {fileID: -2063357469411310967}
   m_Layer: 0
   m_Name: VFX_Light Beam
   m_TagString: Untagged
@@ -34257,7 +34258,7 @@ Transform:
   - {fileID: 33147935888265583}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &-7251166278149101658
+--- !u!114 &-6564391671318811349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34266,7 +34267,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1357402246623815745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfba7f527d2e29a4e9ec8e176231696f, type: 3}
+  m_Script: {fileID: 11500000, guid: e66709e8bde250d46955b0a8cf920fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
@@ -34276,8 +34277,9 @@ MonoBehaviour:
     m_Bits: 512
   groundMask:
     serializedVersion: 2
-    m_Bits: 256
-  duration: 0.2
+    m_Bits: 320
+  rb: {fileID: -2063357469411310967}
+  speed: 5
 --- !u!114 &2504499174369824695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34335,3 +34337,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &-2063357469411310967
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357402246623815745}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
