@@ -96,10 +96,10 @@ public class Player : NetworkBehaviour
             persistentUI = gameObject.GetOrAddComponent<PersistentUI>();
         if (persistentUI != null)
             persistentUI.UpdatePlayerUI(HP, CurrentMaxHP, MP, CurrentMaxMP, SP, level);
+
+        
     }
 
-
-    
     public void TakeDamage(float damage, GameObject attacker = null)
     {
         if (!isLocalPlayer) return;

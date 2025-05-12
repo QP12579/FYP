@@ -1025,14 +1025,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc097e964b18ac4289a8d01282a8fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   HPSlider: {fileID: 3817471854900904246}
   MPSlider: {fileID: 2304073494206833743}
   SpecialAttackSlider: {fileID: 4169907021931967983}
   levelText: {fileID: 2518266974238501136}
-  HpText: {fileID: 5655396558405076752}
   SPFullEffect: {fileID: 4917517751337408821}
   SPHintKeywords: {fileID: 6817094279429555917}
 --- !u!1 &542518368761260096
@@ -15708,28 +15704,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e05bf411693c1840bca573857b2b8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  GamingUI: {fileID: 7387837421530360645}
-  SkillOrAbilityPanel: {fileID: 6465735687340126760}
-  SpecialAttackPanel: {fileID: 8189814665251169693}
-  SettingPanel: {fileID: 4241169646170037440}
-  skillPanel: {fileID: 7890565653164162139}
+  GamingUI: {fileID: 0}
+  SkillOrAbilityPanel: {fileID: 0}
+  SpecialAttackPanel: {fileID: 0}
+  SettingPanel: {fileID: 0}
   SkillAbilityscrollbar: {fileID: 7349186070029458711}
   SpecialAttackscrollbar: {fileID: 2121541841143323151}
-  scrollSpeed: 0.1
   cyanSelectedBlock: {fileID: 6559016653190558613}
   arrowButton: {fileID: 1557046769172312977}
   skillOrAbilityButton: {fileID: 6286822552995433155}
   specialAttackButton: {fileID: 2945136189359971626}
   settingButton: {fileID: 4626311392426857041}
   EseButton: {fileID: 6876352007603876595}
-  TabButton: {fileID: 8480425442553910269}
-  TButton: {fileID: 9096144274792149194}
-  SkillClickArea: {fileID: 4892694921308478038}
-  AbilityClickArea: {fileID: 6482812242935211354}
-  buttonClickSFX: {fileID: 8300000, guid: c8967e36ee221b04789664de5ea317d8, type: 3}
+  SkillClickArea: {fileID: 0}
+  AbilityClickArea: {fileID: 0}
+  scrollSpeed: 0.1
   state: 0
 --- !u!114 &3274440525074146102
 MonoBehaviour:
