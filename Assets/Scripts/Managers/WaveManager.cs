@@ -140,6 +140,7 @@ public class WaveManager : NetworkBehaviour
                 localCounters[i]++;
 
                 Debug.Log($"Spawned enemy for {(isMagicPath ? "Magic" : "Techno")} path, wave {currentWaveIndex}, segment {i}");
+                Debug.LogError("StageCentre is : " + stageCenter);
             }
         }
 
@@ -208,6 +209,7 @@ public class WaveManager : NetworkBehaviour
         if (stageCenter == null)
         {
             Debug.LogError("Stage center is null in GetSpawnPosition!");
+
             return Vector3.zero;
         }
 

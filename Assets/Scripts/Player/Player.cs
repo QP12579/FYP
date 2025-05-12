@@ -8,19 +8,18 @@ public class Player : NetworkBehaviour
 {
     [Header("HP MP SP")]
     public int MaxHP = 100;
-    [SyncVar(hook = nameof(OnHPChanged))]
+    [HideInInspector]
     public float HP = 100;
 
     public float MaxMP = 50;
 
     public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(BuffType.MaxHPUp));
     public float CurrentMaxMP => MaxMP * (1 + PlayerBuffSystem.instance.GetBuffValue(BuffType.MaxMPUp));
-    [SyncVar(hook = nameof(OnMPChanged))]
+    [HideInInspector]
     public float MP = 50;
-    [SyncVar(hook = nameof(OnSPChanged))]
+    //[HideInInspector]
     public float SP = 0;
 
-    [SyncVar(hook = nameof(OnLevelChanged))]
     public int level = 1;
 
     [SyncVar]
@@ -39,103 +38,28 @@ public class Player : NetworkBehaviour
     [HideInInspector] public float abilityDecreaseMP = 0;
     [HideInInspector] public float abilityAutoFillMP = 0;
 
-    // For tracking UI initialization
-    private bool uiInitialized = false;
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-
-        if (isLocalPlayer)
-        {
-            // Set up player-specific UI for the local player
-            SetupPlayerUI();
-        }
-    }
-
     private void Start()
     {
-        InitializeComponents();
-
-        if (isLocalPlayer && isClient)
-        {
-            // Only start MP regeneration for local player
-            LeanTween.delayedCall(1f, AutoFillMP);
-        }
+        InitializeUI();
     }
 
-    [Client]
-    private void SetupPlayerUI()
-    {
-        if (!isLocalPlayer) return;
-
-        Debug.Log($"Setting up UI for player {gameObject.name}");
-
-        // Simply find the existing UI in the scene
-        // Don't instantiate new UIs for NetworkIdentities
-        GameObject uiObject = GameObject.Find("UISavedPrefab");
-
-        if (uiObject == null)
-        {
-            Debug.LogError("UI prefab not found in scene!");
-            return;
-        }
-
-        // Just make sure the UI is active for this player
-        if (!uiObject.activeSelf)
-            uiObject.SetActive(true);
-
-        // Find our PersistentUI component or add one
-        persistentUI = GetComponent<PersistentUI>();
-        if (persistentUI == null)
-            persistentUI = gameObject.AddComponent<PersistentUI>();
-
-        // Initialize UI for this player
-        persistentUI.InitializeUI();
-
-        Debug.Log("UI setup complete for local player");
-    }
-
-    private void InitializeComponents()
+    private void InitializeUI()
     {
         if (move == null)
             move = GetComponentInChildren<PlayerMovement>();
         if (animator == null)
             animator = GetComponent<Animator>();
+        if (persistentUI == null)
+            persistentUI = FindAnyObjectByType<PersistentUI>();
+
 
         if (move == null || animator == null)
-            LeanTween.delayedCall(0.1f, InitializeComponents);
-    }
-
-    private void InitializeUI()
-    {
-        if (!isLocalPlayer) return;
-
-        // Try to find our PersistentUI component on this player object
-        persistentUI = GetComponent<PersistentUI>();
-
-        // If we don't have one yet, add it
-        if (persistentUI == null)
-        {
-            persistentUI = gameObject.AddComponent<PersistentUI>();
-            Debug.Log($"Added PersistentUI component to player {gameObject.name}");
-        }
-
-        // If we successfully have our UI component, initialize and update
-        if (persistentUI != null)
-        {
-            uiInitialized = true;
-            UpdatePlayerUIInfo();
-            Debug.Log($"UI initialized for player {gameObject.name}");
-        }
+            LeanTween.delayedCall(0.1f, InitializeUI);
         else
         {
-            // Try again later if something went wrong
-            Debug.LogWarning($"Failed to initialize UI for player {gameObject.name}, retrying...");
-            LeanTween.delayedCall(0.2f, InitializeUI);
+            LeanTween.delayedCall(1f, AutoFillMP);
         }
     }
-
     [Command]
     public void CmdDamageEnemy(uint enemyNetId, Vector3 hitPosition, float damageAmount)
     {
@@ -152,16 +76,11 @@ public class Player : NetworkBehaviour
 
         Debug.LogWarning($"Could not find enemy with netId {enemyNetId} to damage");
     }
-
     private void Update()
     {
         SP = Mathf.Clamp(SP, 0, 1f);
-
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.U))
-        {
-            Debug.Log("Forcing UI update");
+        if ( isLocalPlayer )
             UpdatePlayerUIInfo();
-        }
     }
 
     public Player()
@@ -171,68 +90,20 @@ public class Player : NetworkBehaviour
         MP = MaxMP;
     }
 
-    // Hook methods for SyncVars
-    void OnHPChanged(float oldValue, float newValue)
-    {
-        Debug.Log($"HP changed from {oldValue} to {newValue}");
-        if (isLocalPlayer)
-            UpdatePlayerUIInfo();
-    }
-
-    void OnMPChanged(float oldValue, float newValue)
-    {
-        if (isLocalPlayer && uiInitialized)
-        {
-            UpdatePlayerUIInfo();
-        }
-    }
-
-    void OnSPChanged(float oldValue, float newValue)
-    {
-        if (isLocalPlayer && uiInitialized && newValue == 1f)
-        {
-            UpdatePlayerUIInfo();
-        }
-    }
-
-    void OnLevelChanged(int oldValue, int newValue)
-    {
-        if (isLocalPlayer && uiInitialized)
-        {
-            UpdatePlayerUIInfo();
-        }
-    }
-
-    [Client]
     public void UpdatePlayerUIInfo()
     {
-        // Make sure we're only updating for local player
-        if (!isLocalPlayer) return;
-
-        Debug.Log($"Updating UI for player {gameObject.name}, HP: {HP}");
-
-        // Find UI directly from the scene each time until proper initialization completes
         if (persistentUI == null)
-        {
-            // Try to get the component from this player first
-            persistentUI = GetComponent<PersistentUI>();
-
-            // If that doesn't work, find any PersistentUI (temporary solution)
-            if (persistentUI == null)
-                persistentUI = FindObjectOfType<PersistentUI>();
-
-            Debug.Log($"Found UI: {(persistentUI != null ? "Yes" : "No")}");
-        }
-
+            persistentUI = gameObject.GetOrAddComponent<PersistentUI>();
         if (persistentUI != null)
-        {
             persistentUI.UpdatePlayerUI(HP, CurrentMaxHP, MP, CurrentMaxMP, SP, level);
-        }
     }
 
-    [Server]
+
+    
     public void TakeDamage(float damage, GameObject attacker = null)
     {
+        if (!isLocalPlayer) return;
+
         float time = Time.time;
         if (move.blockTimes > time && (move.blockTimes - move.defenceTime) < time)
         {
@@ -252,53 +123,39 @@ public class Player : NetworkBehaviour
         float realDamage = Mathf.Min(damage * (1 - abilityDamageReduction - PlayerBuffSystem.instance.GetBuffValue(BuffType.DamageReduction)), HP);
         HP -= realDamage;
 
-        // UI will be updated by the SyncVar hook
-
-        // Play hurt animation on all clients
-        RpcPlayHurtAnimation();
+        UpdatePlayerUIInfo();
+        animator.SetTrigger("Hurt");
 
         if (HP <= 0)
             Die();
     }
 
-    [ClientRpc]
-    private void RpcPlayHurtAnimation()
-    {
-        if (animator != null)
-            animator.SetTrigger("Hurt");
-    }
-
-    [Server]
     public void Die()
     {
-        // Implement proper network destruction
-        NetworkServer.Destroy(gameObject);
+        Destroy(gameObject, 1f);
     }
 
-    [Server]
     public void Heal(float h)
     {
-        float realHill = Mathf.Min(HP + h, CurrentMaxHP);
-        HP = realHill;
-        // UI will be updated by the SyncVar hook
+        float realHill = Mathf.Min(HP + h, MaxHP);
+        HP += realHill;
+        UpdatePlayerUIInfo();
     }
 
-   
     public bool canUseSkill(float mp)
     {
         mp *= 1 - abilityDecreaseMP;
         if (mp > MP) return false;
         MP -= mp;
-        // UI will be updated by the SyncVar hook
+        UpdatePlayerUIInfo();
         return true;
     }
 
-    [Server]
     public void GetMP(float mp)
     {
-        float realFill = Mathf.Min(MP + mp, CurrentMaxMP);
+        float realFill = Mathf.Min(MP + mp, MaxMP);
         MP = realFill;
-        // UI will be updated by the SyncVar hook
+        UpdatePlayerUIInfo();
     }
 
     public float GetMP()
@@ -306,27 +163,21 @@ public class Player : NetworkBehaviour
         return MP;
     }
 
-    [Server]
     public void GetSP(bool isSkillAttack = true)
     {
         SP += isSkillAttack ? 0.1f : 0.05f;
-        // UI will be updated by the SyncVar hook when SP reaches 1
     }
 
-    [Server]
     public void UseSP()
     {
         SP = 0;
-        // UI will be updated by the SyncVar hook
+        UpdatePlayerUIInfo();
     }
-
-    [Server]
     public void BuffMPRegen(float mpRegen)
     {
         if (mpRegen < 0) return;
         StartCoroutine(RegenMPRoutine(mpRegen));
     }
-
     private IEnumerator RegenMPRoutine(float mpRegen)
     {
         float minus = mpRegen / 10;
@@ -338,26 +189,14 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [Client]
     public void AutoFillMP()
-    {
-        if (!isLocalPlayer) return;
-
-        // Request MP regeneration from server
-        CmdAutoFillMP();
-
-        // Schedule next regeneration
-        LeanTween.delayedCall(1f, AutoFillMP);
-    }
-
-    [Command]
-    private void CmdAutoFillMP()
     {
         float mp = 1;
         mp += abilityAutoFillMP;
-        float realFill = Mathf.Min(MP + mp, CurrentMaxMP);
+        float realFill = Mathf.Min(MP + mp, MaxMP);
         MP = realFill;
-        // UI will be updated by the SyncVar hook
+        UpdatePlayerUIInfo();
+        LeanTween.delayedCall(1f, AutoFillMP);
     }
 
     //  affects another player
@@ -388,7 +227,6 @@ public class Player : NetworkBehaviour
         StartCoroutine(RemoveSpeedEffectAfterDuration(duration));
 
     }
-
     private void UpdatePlayerSpeed()
     {
         if (move != null)
@@ -396,13 +234,17 @@ public class Player : NetworkBehaviour
             move.SpeedChange();
         }
     }
-
     private IEnumerator RemoveSpeedEffectAfterDuration(float duration)
     {
         yield return new WaitForSeconds(duration);
         speedModifier = 1.0f;
         move.ResetSpeed();
     }
+
+
+
+
+
 
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)
