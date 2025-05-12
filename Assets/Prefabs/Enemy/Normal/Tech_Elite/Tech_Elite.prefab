@@ -15,9 +15,11 @@ GameObject:
   - component: {fileID: 1554876955182299121}
   - component: {fileID: 1492041755729743710}
   - component: {fileID: 2551354518130204947}
+  - component: {fileID: 612563542118709567}
+  - component: {fileID: 8443959381498201836}
   m_Layer: 0
   m_Name: Tech_Elite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,6 +123,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0509413e3422f044abf635da5052dd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  spriterenderer: {fileID: 0}
+  spawnIndicator: {fileID: 0}
+  passAwayParticles: {fileID: 0}
+  playerDetectionRadius: 0
+  gizmos: 0
+  hitEffectDuration: 0.2
+  currentHP: 0
+  maxHP: 100
+  hpBar: {fileID: 0}
+  animationSpeed: 0.1
+  detectionRange: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  dashRange: 5
+  dashSpeed: 20
+  dashDamage: 20
+  attackCooldown: 3
   patrolSpeed: 3
   attackRange: 2
   restDuration: 2
@@ -128,7 +151,6 @@ MonoBehaviour:
   earthquakeDamage: 20
   mechhandPrefab: {fileID: 5250270597504836957, guid: 46916f344a010dd40be3fdaea5b179e6,
     type: 3}
-  player: {fileID: 0}
 --- !u!95 &1554876955182299121
 Animator:
   serializedVersion: 5
@@ -198,3 +220,53 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.92, y: 1.92, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &612563542118709567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814647237967976728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 610007919
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &8443959381498201836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814647237967976728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 1597158178121418282}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
