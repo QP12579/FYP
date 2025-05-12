@@ -30,7 +30,7 @@ public class PersistentUI : NetworkBehaviour
         }
     }
 
-    private void InitializeUI()
+    public void InitializeUI()
     {
         Debug.Log($"Initializing UI for player {gameObject.name} (isLocalPlayer: {isLocalPlayer})");
 

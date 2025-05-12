@@ -64,55 +64,36 @@ public class Player : NetworkBehaviour
         }
     }
 
-    // New method to set up player-specific UI
     [Client]
     private void SetupPlayerUI()
     {
         if (!isLocalPlayer) return;
 
-        Debug.Log($"Setting up UI for player {gameObject.name} (NetID: {netId})");
+        Debug.Log($"Setting up UI for player {gameObject.name}");
 
-        // Create a unique UI canvas for this player
-        string canvasName = "PlayerUI_" + netId.ToString();
+        // Simply find the existing UI in the scene
+        // Don't instantiate new UIs for NetworkIdentities
+        GameObject uiObject = GameObject.Find("UISavedPrefab");
 
-        // Check if this player already has a UI canvas
-        GameObject existingCanvas = GameObject.Find(canvasName);
-        if (existingCanvas != null)
+        if (uiObject == null)
         {
-            Debug.Log($"UI canvas already exists for player {gameObject.name}");
+            Debug.LogError("UI prefab not found in scene!");
             return;
         }
 
-        // Find the base UI prefab
-        GameObject baseUICanvas = GameObject.Find("UISavedPrefab");
-        if (baseUICanvas == null)
-        {
-            Debug.LogError("Base UI canvas 'UISavedPrefab' not found!");
-            return;
-        }
+        // Just make sure the UI is active for this player
+        if (!uiObject.activeSelf)
+            uiObject.SetActive(true);
 
-        // Instantiate a new UI canvas for this player
-        GameObject playerUICanvas = Instantiate(baseUICanvas);
-        playerUICanvas.name = canvasName;
+        // Find our PersistentUI component or add one
+        persistentUI = GetComponent<PersistentUI>();
+        if (persistentUI == null)
+            persistentUI = gameObject.AddComponent<PersistentUI>();
 
-        // Configure the canvas for this player
-        Canvas canvas = playerUICanvas.GetComponent<Canvas>();
-        if (canvas != null)
-        {
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 10;
-        }
+        // Initialize UI for this player
+        persistentUI.InitializeUI();
 
-        // Make sure all child objects are on the UI layer
-        foreach (Transform child in playerUICanvas.GetComponentsInChildren<Transform>())
-        {
-            child.gameObject.layer = LayerMask.NameToLayer("UI");
-        }
-
-        Debug.Log($"Created UI canvas for player {gameObject.name} with netId {netId}");
-
-        // Now that we have our own UI canvas, we can find and initialize our PersistentUI component
-        InitializeUI();
+        Debug.Log("UI setup complete for local player");
     }
 
     private void InitializeComponents()
