@@ -10,8 +10,8 @@ public class SpeechKeywords : MonoBehaviour
     public List<string> keywords; 
     public List<GameObject> vfxPrefabs; 
     private HashSet<string> generatedKeywords = new HashSet<string>();
-
-    public void CheckForKeyword()
+   
+        public void CheckForKeyword()
     {
         string speechword = RemovePunctuation(outputText.text.Trim());
         Debug.Log($"Current output: {speechword}");

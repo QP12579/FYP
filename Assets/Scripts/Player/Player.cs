@@ -82,7 +82,7 @@ public class Player : NetworkBehaviour
         if ( isLocalPlayer )
             UpdatePlayerUIInfo();
 
-       if (Input.GetKeyDown(KeyCode.G))
+       if (Input.GetKeyDown(KeyCode.G) && isLocalPlayer)
         {
            SkillManager.instance. AddSkillPoints(1);
             SkillPanel.instance.AddSkillPoints(1);

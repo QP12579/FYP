@@ -14,7 +14,7 @@ namespace Whisper.Samples
     {
         public WhisperManager whisper;
         public MicrophoneRecord microphoneRecord;
-        public SpeechKeywords _SpeechKeywords;
+        public PlayerSpeechSkill _SpeechKeywords;
         public bool streamSegments = true;
         
         [Header("UI")] 

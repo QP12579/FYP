@@ -435,6 +435,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272e1fd71bad6e843a936e0dcaa1f572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   equippedSkills:
   - activationKey: 113
     skillData:

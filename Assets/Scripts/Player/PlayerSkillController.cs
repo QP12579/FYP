@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using Mirror;
 
-public class PlayerSkillController : MonoBehaviour
+public class PlayerSkillController : NetworkBehaviour
 {
     public static PlayerSkillController instance { get; private set; }
     [System.Serializable]
@@ -37,11 +38,25 @@ public class PlayerSkillController : MonoBehaviour
 
     private void Start()
     {
-        Initialize();
+
+        if (!isLocalPlayer)
+        {
+            Destroy(this);
+        }
+
+        if (isLocalPlayer)
+        {
+            Initialize();
+        }
+        
+        
     }
 
     private void Initialize()
     {
+
+        SkillPanel.instance.FindRefences();
+
         if (player == null)
             player = GetComponentInParent<Player>();
         if(move == null)
@@ -62,6 +77,7 @@ public class PlayerSkillController : MonoBehaviour
 
     private void Update()
     {
+        if (!isLocalPlayer) return;
         // Check key press
         if (Input.GetKeyDown(equippedSkills[0].activationKey) && equippedSkills[0].cooldownTimer <= 0)
         {
@@ -75,6 +91,8 @@ public class PlayerSkillController : MonoBehaviour
 
     public void EquipSkill(int slotIndex, SkillData skillData)
     {
+        if (!isLocalPlayer) return;  
+
         if (slotIndex < 0 || slotIndex >= equippedSkills.Length)
         {
             Debug.Log("Returned??? OAO");
@@ -89,7 +107,9 @@ public class PlayerSkillController : MonoBehaviour
     }
 
     private void ActivateSkill(int slotIndex)
+
     {
+        if (!isLocalPlayer) return;
         var equippedSkill = equippedSkills[slotIndex];
 
         if (!player.canUseSkill(equippedSkill.skillData.MP)) return ;
@@ -166,6 +186,7 @@ public class PlayerSkillController : MonoBehaviour
     }
     private List<T> GetRandomElements<T>(T[] array, int count)
     {
+
         List<T> list = new List<T>(array);
         List<T> result = new List<T>();
 
@@ -180,6 +201,7 @@ public class PlayerSkillController : MonoBehaviour
 
     private GameObject GetPrefabForSkill(SkillData skillData)
     {
+ 
         // Load from Resources or use a dictionary
         // Example: return Resources.Load<GameObject>($"Skills/{skillData.Name}");
         GameObject prefab = Resources.Load<GameObject>($"Skills/Prefabs/VFX_{skillData.Name}");
@@ -194,6 +216,7 @@ public class PlayerSkillController : MonoBehaviour
 
     IEnumerator CoolDownTimer(int i, float cooldown)
     {
+
         yield return new WaitForSeconds(cooldown);
         equippedSkills[i].cooldownTimer = 0;
     }

@@ -70,8 +70,6 @@ public class PersistentUI : MonoBehaviour
         MPSlider.value = currentMP;
         HPSlider.maxValue = maxHP;
         MPSlider.maxValue = maxMP;
-        Debug.Log(currentHP);
-        Debug.Log(maxHP);
 
         HPSlider.transform.GetComponentInChildren<TextMeshProUGUI>().text =
             currentHP.ToString("####") + "/" + maxHP.ToString();

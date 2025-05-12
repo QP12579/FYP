@@ -11,8 +11,8 @@ public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public int level;
     public Image iconImage;
 
-    [HideInInspector] public bool isUnlocked;
-    [HideInInspector] public bool isSelected;
+    [SerializeField] public bool isUnlocked;
+    [SerializeField] public bool isSelected;
 
     public void OnPointerEnter(PointerEventData eventData)
     {

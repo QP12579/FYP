@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using Mirror;
 
-public class SkillPanel : MonoBehaviour
+public class SkillPanel : NetworkBehaviour
 {
     public static SkillPanel instance { get; private set; }
 
@@ -16,7 +17,7 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] private Button[] equipButtons = new Button[2];
     [SerializeField] private Image[] equippedSkillIcons = new Image[2];
 
-    [Header("Special Skill Settings")]
+    [Header("PlayerSpeechSkill Skill Settings")]
     [SerializeField] private List<SkillButton> ID5SkillButtons = new List<SkillButton>();
 
     [Header("Tooltip Settings")]
@@ -43,8 +44,8 @@ public class SkillPanel : MonoBehaviour
     [Header("References")]
     [SerializeField] private UIController uiController;
     private SkillManager skillManager;
-    private PlayerSkillController playerSkillController;
-    private SkillButton currentlySelectedSkill;
+    [SerializeField] private PlayerSkillController playerSkillController;
+    [SerializeField] private SkillButton currentlySelectedSkill;
     private GameObject currentTooltip;
     private RectTransform tooltipRectTransform;
     private bool isUIPanelEnable;
@@ -59,21 +60,17 @@ public class SkillPanel : MonoBehaviour
         }
         else
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 
-    private void Start()
-    {
-        FindRefences();
-    }
 
     private void OnEnable()
     {
-        FindRefences();
+      //  FindRefences();
     }
 
-    private void FindRefences()
+    public void FindRefences()
     {
         if (skillManager != null && playerSkillController != null) { 
             InitializePanel();
@@ -265,9 +262,11 @@ public class SkillPanel : MonoBehaviour
 
         if (!button.isUnlocked)
         {
+            Debug.Log($"{button.name} button is locked");
             // 嘗試解鎖技能
             if (skillManager.UnlockSkill(skillData))
             {
+                Debug.Log(currentlySelectedSkill + " not assigned ");
                 _skillPoints -= needSkillPT;
                 UpdateSkillPointDisplay();
                 button.isUnlocked = true;
@@ -277,11 +276,13 @@ public class SkillPanel : MonoBehaviour
                     SoundManager.instance.PlaySFX(SFX_BuySkill);
             }
         }
-        if(button.isUnlocked)
+        if (button.isUnlocked)
         {
+            Debug.Log($"{button.name} button is unlocked");
             // 選擇已解鎖的技能
             if (currentlySelectedSkill != null)
             {
+                Debug.Log(currentlySelectedSkill + " assigned ");
                 currentlySelectedSkill.isSelected = false;
                 UpdateButtonVisual(currentlySelectedSkill);
             }
