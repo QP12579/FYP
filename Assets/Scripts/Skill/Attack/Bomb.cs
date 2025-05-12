@@ -1,9 +1,10 @@
+using Mirror;
 using Mirror.BouncyCastle.Asn1.Pkcs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bomb : MonoBehaviour
+public class Bomb : NetworkBehaviour
 {
     public float speed = 5f;
     public BombType type;

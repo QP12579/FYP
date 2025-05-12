@@ -106,7 +106,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         {
             if (NetworkClient.spawned.TryGetValue(parentNetId, out NetworkIdentity parentIdentity))
             {
-                transform.SetParent(parentIdentity.GetComponentInChildren<WaveManager>().transform, true); // true = worldPositionStays
+                transform.SetParent(parentIdentity.GetComponentInChildren<WaveManager>().transform, false); // true = worldPositionStays
             }
         }
     }
@@ -208,7 +208,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 
     // Method for server to apply damage
 
-    [Server]
+    [Command(requiresAuthority = false)]
     public void TakeDamage(Vector3 attackerPosi, float damage)
     {
         if (movement != null && movement.anim != null)
@@ -225,7 +225,17 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         {
             PassAway();
         }
+        RPCTakeDamage();
+
     }
+
+    [ClientRpc]
+    public void RPCTakeDamage()
+    {
+        if (!isServer)
+            targetFillAmount = currentHP / maxHP;
+    }
+    
 
     // Method for clients to request damage be applied
     [Command(requiresAuthority = false)]
@@ -273,6 +283,13 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         }
     }
 
+    [ClientRpc]
+    public void RPCPassAway(GameObject enemy)
+    {
+       DestroyImmediate(enemy);
+        Debug.Log(" Died ");
+    }
+
     [Server]
     public void PassAway()
     {
@@ -284,6 +301,8 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
 
         // Destroy on server, which will automatically destroy on clients
         NetworkServer.Destroy(gameObject);
+        RPCPassAway(gameObject);
+    
     }
 
     [ClientRpc]
