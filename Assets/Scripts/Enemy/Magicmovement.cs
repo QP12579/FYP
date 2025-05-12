@@ -150,6 +150,7 @@ public class Magicmovement : MonoBehaviour
         Vector3 candidate = transform.position + randomOffset;
         candidate.x = Mathf.Clamp(candidate.x, areaMin.x, areaMax.x);
         candidate.z = Mathf.Clamp(candidate.z, areaMin.z, areaMax.z);
+        candidate.y = transform.position.y; // 明確保持 Y 軸不變
         transform.position = candidate;
         isMoving = false;
         Debug.Log("MagicElite teleported!");
