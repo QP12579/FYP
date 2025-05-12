@@ -81,6 +81,13 @@ public class Player : NetworkBehaviour
         SP = Mathf.Clamp(SP, 0, 1f);
         if ( isLocalPlayer )
             UpdatePlayerUIInfo();
+
+       if (Input.GetKeyDown(KeyCode.G))
+        {
+           SkillManager.instance. AddSkillPoints(1);
+            SkillPanel.instance.AddSkillPoints(1);
+            Debug.Log("Added SKill points");
+        }
     }
 
     public Player()
