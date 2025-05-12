@@ -7,6 +7,8 @@ public class SkillPanel : MonoBehaviour
 {
     public static SkillPanel instance { get; private set; }
 
+    [SerializeField] private int _skillPoints;
+
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI skillPointText;
     [SerializeField] private Button resetAllButton;
@@ -42,7 +44,6 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] private UIController uiController;
     private SkillManager skillManager;
     private PlayerSkillController playerSkillController;
-    private int _skillPoints;
     private SkillButton currentlySelectedSkill;
     private GameObject currentTooltip;
     private RectTransform tooltipRectTransform;
@@ -134,8 +135,11 @@ public class SkillPanel : MonoBehaviour
             {
                 tooltipRectTransform.position -= new Vector3(0, topEdge - screenHeight, 0);
             }
-            if (uiController.state != UIPanelState.SkillAbilityPanel)
+            if (uiController.state != UIPanelState.SkillAbilityPanel){
                 HideTooltip();
+                equipButtons[0].image.raycastTarget = false;
+                equipButtons[1].image.raycastTarget = false;
+            }
         }
     }
 
@@ -181,6 +185,12 @@ public class SkillPanel : MonoBehaviour
         {
             currentTooltip.SetActive(false);
         }
+    }
+
+    public void OpenEquippedButton()
+    {
+        equipButtons[0].image.raycastTarget = true;
+        equipButtons[1].image.raycastTarget = true;
     }
 
     private void InitializePanel()

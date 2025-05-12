@@ -21,7 +21,7 @@ public class BasePanel : MonoBehaviour
     {
         if (!isOpened)
         {
-            LeanTween.alphaCanvas(canvasGroup, 1f, 1f).setEaseInCubic();
+            LeanTween.alphaCanvas(canvasGroup, 1f, 0f);
             isOpened = true;
             canvasGroup.blocksRaycasts = true;
             canvasGroup.interactable = true;
@@ -32,7 +32,7 @@ public class BasePanel : MonoBehaviour
     {
         if (isOpened)
         {
-            LeanTween.alphaCanvas(canvasGroup, 0f, 1f).setEaseOutCubic().setOnComplete(
+            LeanTween.alphaCanvas(canvasGroup, 0f, 0f).setOnComplete(
                 () =>
                 {
                     isOpened = false;
