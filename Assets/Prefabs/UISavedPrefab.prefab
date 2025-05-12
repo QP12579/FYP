@@ -18857,7 +18857,7 @@ MonoBehaviour:
   - give up treatment
   - enemies from the sky
   vfxPrefabs:
-  - {fileID: 6186436023787902516, guid: b91e4c447a15d1647adb9020203c40ba, type: 3}
+  - {fileID: 175733916365707409, guid: b91e4c447a15d1647adb9020203c40ba, type: 3}
   - {fileID: 5062076526089732250, guid: edf4aadce6f1d86428d55be04b73fe24, type: 3}
   - {fileID: 5625429529636597221, guid: 170dc4a7e6d49084bbfdfe0f4990dfa4, type: 3}
   - {fileID: 4675943462657734409, guid: aeed30324b521bd43945520fa630d08c, type: 3}
