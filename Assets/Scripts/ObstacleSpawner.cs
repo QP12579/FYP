@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleSpawner : MonoBehaviour
+public class ObstacleSpawner : NetworkBehaviour
 {
     public GameObject[] obstaclePrefabs; 
     public Transform[] spawnPoints;
@@ -19,7 +20,7 @@ public class ObstacleSpawner : MonoBehaviour
         SpawnObstacles();
         SpawnTraps();
     }
-
+    [Server]
     void SpawnObstacles()
     {
         List<Transform> availableSpawnPoints = new List<Transform>(spawnPoints);
@@ -38,7 +39,7 @@ public class ObstacleSpawner : MonoBehaviour
             availableSpawnPoints.RemoveAt(randomIndex);
         }
     }
-
+    [Server]
     void SpawnTraps()
     {
         List<Transform> availableTrapSpawnPoints = new List<Transform>(trapSpawnPoints);

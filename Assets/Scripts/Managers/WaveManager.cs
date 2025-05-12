@@ -19,8 +19,8 @@ public class WaveManager : NetworkBehaviour
 
     [Header(" Spawn Settings ")]
     [SerializeField] private Transform stageCenter; // Reference to the center of the stage
-    [SerializeField] private float minSpawnRadius = 5f; // Minimum distance from center
-    [SerializeField] private float maxSpawnRadius = 9f; // Maximum distance from center
+    [SerializeField] private float minSpawnRadius = 3f; // Minimum distance from center
+    [SerializeField] private float maxSpawnRadius = 7f; // Maximum distance from center
 
     [Header("Identity")]
     [SyncVar]

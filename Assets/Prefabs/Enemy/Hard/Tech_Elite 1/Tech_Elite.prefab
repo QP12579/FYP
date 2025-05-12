@@ -103,12 +103,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0781d77d9c621994fba3dbd86bb3c918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   moveSpeed: 3
+  anim: {fileID: 0}
+  hitBackForce: 5
+  hitBackDuration: 0.5
   moveDistance: 5
-  chaseSpeed: 5
-  dashSpeed: 10
   dashDistance: 8
   chaseRange: 10
+  dashSpeed: 10
+  chaseSpeed: 5
   player: {fileID: 0}
   dashAttackType: 0
 --- !u!114 &325519673153550984
@@ -132,7 +138,7 @@ MonoBehaviour:
   playerDetectionRadius: 0
   gizmos: 0
   hitEffectDuration: 0.2
-  currentHP: 0
+  currentHP: 100
   maxHP: 100
   hpBar: {fileID: 0}
   animationSpeed: 0.1

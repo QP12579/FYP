@@ -10297,8 +10297,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7049165666746670582}
   m_HandleRect: {fileID: 2739042949253486655}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.4815
+  m_Value: 1.0852448
+  m_Size: 0.4268315
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11329,7 +11329,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1392847206554494465}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.8785047
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12328,6 +12328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffe5eee494b76a4e8feddc2bb9e77a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _skillPoints: 100
   skillPointText: {fileID: 2125099952738238092}
   resetAllButton: {fileID: 1547639465762012027}
@@ -12374,6 +12377,8 @@ MonoBehaviour:
   SFX_EquipFail: {fileID: 8300000, guid: 86ac0b1ee45b39e42bbb60c73cffea58, type: 3}
   SFX_EmptyEquipSkill: {fileID: 8300000, guid: 176c72f216e5b944ab99ee3487b6cc03, type: 3}
   uiController: {fileID: 8457554546382897113}
+  playerSkillController: {fileID: 0}
+  currentlySelectedSkill: {fileID: 0}
 --- !u!1 &5654989318690393381
 GameObject:
   m_ObjectHideFlags: 0
@@ -12592,7 +12597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -88.39882}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2806278775567763034
@@ -14361,7 +14366,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 726824437834612187}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.8190407
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16963,7 +16968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whisper: {fileID: 2425719092471593873}
   microphoneRecord: {fileID: 239370912243842385}
-  _SpeechKeywords: {fileID: 4109561235077225006}
+  _SpeechKeywords: {fileID: 0}
   streamSegments: 1
   outputText: {fileID: 317698788120058851}
   timeText: {fileID: 883051809768411657}
@@ -18058,7 +18063,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012543546, y: 0.000009536743}
+  m_AnchoredPosition: {x: -0.00012543546, y: 0.00005722046}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5893928099308339434
@@ -21228,7 +21233,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.0000038146973}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4797976119263620462

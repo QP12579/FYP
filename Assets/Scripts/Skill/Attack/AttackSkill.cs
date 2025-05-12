@@ -14,7 +14,7 @@ public class AttackSkill : MonoBehaviour
     public void Initialize(float power)
     {
         damage = power;
-        player = FindObjectOfType<Player>();
+        player = PlayerSkillController.instance.player;
     }
 
     public void HaveDebuff()
