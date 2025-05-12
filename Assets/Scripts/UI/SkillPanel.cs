@@ -43,7 +43,6 @@ public class SkillPanel : NetworkBehaviour
 
     [Header("References")]
     [SerializeField] private UIController uiController;
-    private SkillManager skillManager;
     [SerializeField] private PlayerSkillController playerSkillController;
     [SerializeField] private SkillButton currentlySelectedSkill;
     private GameObject currentTooltip;
@@ -70,15 +69,15 @@ public class SkillPanel : NetworkBehaviour
       //  FindRefences();
     }
 
-    public void FindRefences()
+    public void FindRefences(PlayerSkillController _playerSkillController)
     {
-        if (skillManager != null && playerSkillController != null) { 
+        if (SkillManager.instance != null && playerSkillController != null) { 
             InitializePanel();
             return; }
-        skillManager = SkillManager.instance;
-        playerSkillController = FindObjectOfType<PlayerSkillController>();
-        if (playerSkillController == null || skillManager == null)
-            LeanTween.delayedCall(0.5f, FindRefences);
+
+        playerSkillController = _playerSkillController;
+        //if (playerSkillController == null || SkillManager.instance == null)
+        //LeanTween.delayedCall(0.5f, FindRefences);
     }
 
     private void InitializeTooltip()
@@ -150,8 +149,8 @@ public class SkillPanel : NetworkBehaviour
             return;
         }
 
-        SkillData skillData = skillManager.GetSkillByID(button.id, button.level);
-        if(skillData ==  null ) skillData = skillManager.GetID5SkillData(button.button.name);
+        SkillData skillData = SkillManager.instance.GetSkillByID(button.id, button.level);
+        if(skillData ==  null ) skillData = SkillManager.instance.GetID5SkillData(button.button.name);
         if (skillData == null)
         {
             Debug.LogWarning($"Skill data not found for ID: {button.id}, Level: {button.level}");
@@ -192,7 +191,7 @@ public class SkillPanel : NetworkBehaviour
 
     private void InitializePanel()
     {
-        _skillPoints = skillManager.SkillPoints;
+        _skillPoints = SkillManager.instance.SkillPoints;
         UpdateSkillPointDisplay();
 
         foreach (var button in skillButtons)
@@ -214,12 +213,12 @@ public class SkillPanel : NetworkBehaviour
         SkillData skillData = null;
         if (button.id == 5)
         {
-            skillData = skillManager.GetID5SkillData(button.button.name);
+            skillData = SkillManager.instance.GetID5SkillData(button.button.name);
         }
-        else skillData = skillManager.GetSkillByID(button.id, button.level);
+        else skillData = SkillManager.instance.GetSkillByID(button.id, button.level);
         if (skillData == null) { Debug.Log("Button's Data cannot found in Database."); return; }
 
-        button.isUnlocked = skillManager.IsSkillUnlocked(skillData);
+        button.isUnlocked = SkillManager.instance.IsSkillUnlocked(skillData);
         button.isSelected = false;
 
         // 更新圖標
@@ -239,7 +238,7 @@ public class SkillPanel : NetworkBehaviour
         }
         else
         {
-            bool canUnlock = skillManager.CanUnlockSkill(skillData);
+            bool canUnlock = SkillManager.instance.CanUnlockSkill(skillData);
             button.button.interactable = canUnlock && _skillPoints > 0;
 
             var colors = button.button.colors;
@@ -251,8 +250,8 @@ public class SkillPanel : NetworkBehaviour
 
     public void OnSkillButtonClick(SkillButton button)
     {
-        SkillData skillData = skillManager.GetSkillByID(button.id, button.level);
-        if (skillData == null) skillData = skillManager.GetID5SkillData(button.button.name);
+        SkillData skillData = SkillManager.instance.GetSkillByID(button.id, button.level);
+        if (skillData == null) skillData = SkillManager.instance.GetID5SkillData(button.button.name);
         int needSkillPT = skillData.ID == 5? 2 : 1;
         if (skillData == null || _skillPoints < needSkillPT ) 
         {
@@ -264,9 +263,10 @@ public class SkillPanel : NetworkBehaviour
         {
             Debug.Log($"{button.name} button is locked");
             // 嘗試解鎖技能
-            if (skillManager.UnlockSkill(skillData))
+            if (SkillManager.instance.UnlockSkill(skillData))
+                
             {
-                Debug.Log(currentlySelectedSkill + " not assigned ");
+                Debug.Log(" Hugo is gay");
                 _skillPoints -= needSkillPT;
                 UpdateSkillPointDisplay();
                 button.isUnlocked = true;
@@ -282,7 +282,6 @@ public class SkillPanel : NetworkBehaviour
             // 選擇已解鎖的技能
             if (currentlySelectedSkill != null)
             {
-                Debug.Log(currentlySelectedSkill + " assigned ");
                 currentlySelectedSkill.isSelected = false;
                 UpdateButtonVisual(currentlySelectedSkill);
             }
@@ -303,19 +302,19 @@ public class SkillPanel : NetworkBehaviour
         // 普通技能
         if (currentlySelectedSkill.id != 5)
         {
-            skillData = skillManager.GetSkillByID(currentlySelectedSkill.id, currentlySelectedSkill.level);
+            skillData = SkillManager.instance.GetSkillByID(currentlySelectedSkill.id, currentlySelectedSkill.level);
         }
         // 特殊技能 (ID 5)
         else
         {
-            skillData = skillManager.GetID5SkillData(currentlySelectedSkill.button.name);
+            skillData = SkillManager.instance.GetID5SkillData(currentlySelectedSkill.button.name);
         }
 
         if (skillData == null)
         {
             Debug.Log("DataNull so Returned??? OAO"); return; }
         // check equipped rule
-        bool canEquip = skillManager.CanEquipToSlot(skillData, slotIndex);
+        bool canEquip = SkillManager.instance.CanEquipToSlot(skillData, slotIndex);
 
 
         if (canEquip)
@@ -400,7 +399,7 @@ public class SkillPanel : NetworkBehaviour
 
     public void OnResetAllClick()
     {
-        int refundedPoints = skillManager.ResetAllSkills();
+        int refundedPoints = SkillManager.instance.ResetAllSkills();
         _skillPoints += refundedPoints;
 
         // 清除已裝備技能

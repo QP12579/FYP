@@ -14,7 +14,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
     [Header("VFX Settings")]
     public List<GameObject> vfxPrefabs;
 
-    public Vector3 vfxSpawnOffset = new Vector3(0, 0, 2);
+    public Vector3 vfxSpawnOffset = new Vector3(0, 0, 0);
 
     private HashSet<string> generatedKeywords = new HashSet<string>();
 
@@ -33,20 +33,21 @@ public class PlayerSpeechSkill : NetworkBehaviour
         }
     }
 
-    public override void OnStartLocalPlayer()
+    private void Start()
     {
-        // Start a coroutine to assign the other player after a short delay.
-        StartCoroutine(FindOtherPlayer());
+        Debug.Log(" aiosjudhnsaijndf "); 
+       
+        FindOtherPlayer();
     }
 
-    IEnumerator FindOtherPlayer()
+   public void FindOtherPlayer()
     {
-        yield return new WaitForSeconds(1f);
+        
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
-            NetworkIdentity identity = player.GetComponent<NetworkIdentity>();
-            if (identity != null && !isLocalPlayer) 
+            Player identity = player.GetComponent<Player>();
+            if (identity != null && !(identity.isLocalPlayer))
             {
                 otherPlayer = player;
                 Debug.Log($"Other player found: {otherPlayer.name}");
@@ -61,7 +62,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
     }
     public void CheckForKeyword()
     {
-
+        FindOtherPlayer();
         if (PersistentUI.Instance.SpecialAttackSlider.value != 1)
         {
             Debug.Log("Special skill cannot be used because the special bar is not full.");
@@ -88,6 +89,8 @@ public class PlayerSpeechSkill : NetworkBehaviour
                 {
                     Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
                     CmdSpawnSkillVFX(i, spawnPosition, otherPlayer.transform.rotation);
+                    Debug.Log(otherPlayer.transform.rotation);
+                    Debug.Log(otherPlayer.name);
                 }
                 else
                 {
@@ -107,6 +110,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void CmdSpawnSkillVFX(int index, Vector3 targetPosition, Quaternion targetRotation)
     {
+        
         // Instantiate the VFX prefab at the target player's position.
         GameObject effect = Instantiate(vfxPrefabs[index], targetPosition, targetRotation);
 

@@ -21,7 +21,6 @@ public class PlayerSkillController : NetworkBehaviour
     [Header("References")]
     public Transform skillSpawnPoint;
     public Transform BuffSpawnPoint;
-    public SkillManager skillManager;
     public Player player;
     public PlayerMovement move;
 
@@ -41,7 +40,7 @@ public class PlayerSkillController : NetworkBehaviour
 
         if (!isLocalPlayer)
         {
-            Destroy(this);
+           Destroy(this);
         }
 
         if (isLocalPlayer)
@@ -55,15 +54,14 @@ public class PlayerSkillController : NetworkBehaviour
     private void Initialize()
     {
 
-        SkillPanel.instance.FindRefences();
+        SkillPanel.instance.FindRefences(this);
+        SkillManager.instance.FindingRefences(this);
 
         if (player == null)
             player = GetComponentInParent<Player>();
         if(move == null)
             move = GetComponentInChildren<PlayerMovement>();
-        if(skillManager == null) 
-        skillManager = FindObjectOfType<SkillManager>();
-        if(skillManager == null)    skillManager = gameObject.AddComponent<SkillManager>();
+      
         // Initialize with default keys (Q and E)
         if(equippedSkills[0].activationKey == KeyCode.None)
         equippedSkills[0].activationKey = KeyCode.Q;
@@ -77,7 +75,6 @@ public class PlayerSkillController : NetworkBehaviour
 
     private void Update()
     {
-        if (!isLocalPlayer) return;
         // Check key press
         if (Input.GetKeyDown(equippedSkills[0].activationKey) && equippedSkills[0].cooldownTimer <= 0)
         {
@@ -91,7 +88,6 @@ public class PlayerSkillController : NetworkBehaviour
 
     public void EquipSkill(int slotIndex, SkillData skillData)
     {
-        if (!isLocalPlayer) return;  
 
         if (slotIndex < 0 || slotIndex >= equippedSkills.Length)
         {
@@ -109,7 +105,6 @@ public class PlayerSkillController : NetworkBehaviour
     private void ActivateSkill(int slotIndex)
 
     {
-        if (!isLocalPlayer) return;
         var equippedSkill = equippedSkills[slotIndex];
 
         if (!player.canUseSkill(equippedSkill.skillData.MP)) return ;

@@ -19,23 +19,21 @@ public class SkillManager : Singleton<SkillManager>
     public void AddSkillPoints(int amount)
     {
         _skillPoints += amount;
+        SkillPanel.instance.AddSkillPoints(amount);
         SkillPanel.instance.RefreshAllButtons();
     }
     void Awake()
     {
-       
-
         if (skillsTSV == null)
             skillsTSV = Resources.Load<TextAsset>(skillDataPath);
         LoadSkillsFromTSV();
     }
 
-    private void FindingRefences()
+    public void FindingRefences(PlayerSkillController _playerSkillController)
     {
         if (playerSkillController != null) return;
-            playerSkillController = FindObjectOfType<PlayerSkillController>();
-        if (playerSkillController == null)
-            LeanTween.delayedCall(0.5f, FindingRefences);
+            playerSkillController = _playerSkillController;
+
     }
 
     private void LoadSkillsFromTSV()
@@ -161,7 +159,8 @@ public class SkillManager : Singleton<SkillManager>
         bool canUnlock = skill.level == 1 ||
                        (unlockedSkills.Exists(s => s.ID == skill.ID && s.level == skill.level - 1)) ||
                        skill.ID == 5;
-
+        Debug.Log($"{skill.Name} is " + canUnlock);
+            
         if (canUnlock && _skillPoints > 0)
         {
             unlockedSkills.Add(skill);
