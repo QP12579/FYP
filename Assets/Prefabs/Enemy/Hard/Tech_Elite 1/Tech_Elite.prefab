@@ -107,7 +107,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   moveSpeed: 3
-  anim: {fileID: 0}
+  anim: {fileID: 1554876955182299121}
   hitBackForce: 5
   hitBackDuration: 0.5
   moveDistance: 5
@@ -115,7 +115,6 @@ MonoBehaviour:
   chaseRange: 10
   dashSpeed: 10
   chaseSpeed: 5
-  player: {fileID: 0}
   dashAttackType: 0
 --- !u!114 &325519673153550984
 MonoBehaviour:
@@ -135,7 +134,7 @@ MonoBehaviour:
   spriterenderer: {fileID: 0}
   spawnIndicator: {fileID: 0}
   passAwayParticles: {fileID: 0}
-  playerDetectionRadius: 0
+  playerDetectionRadius: 7
   gizmos: 0
   hitEffectDuration: 0.2
   currentHP: 100

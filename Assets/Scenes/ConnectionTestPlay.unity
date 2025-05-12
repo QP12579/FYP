@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 47084292}
   m_Layer: 0
   m_Name: MagicLv2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5456,7 +5456,13 @@ MonoBehaviour:
     segments:
     - tStartEnd: {x: 22.217709, y: 56.312748}
       spawnmFrequency: 1.47
-      prefab: {fileID: 986918978918335264, guid: 75a39dfcf66d2c24f85f17a305d5e8a8,
+      prefab: {fileID: 7686363277280844216, guid: a0a4d56a45d62124b8f411ec11d20dce,
+        type: 3}
+  - name: Wave1
+    segments:
+    - tStartEnd: {x: 15, y: 30}
+      spawnmFrequency: 5
+      prefab: {fileID: 2814647237967976728, guid: a8d1dd4e352df7747bed3ec836a45e7f,
         type: 3}
 --- !u!4 &134004228
 Transform:
