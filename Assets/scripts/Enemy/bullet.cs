@@ -44,7 +44,7 @@ public class bullet : MonoBehaviour
     // 讓子彈縮放在1~2之間循環
     private void AnimateScale()
     {
-        float scale = 1f + Mathf.PingPong(Time.time * scaleSpeed, 1f); // 1~2之間
+        float scale = 3f + Mathf.PingPong(Time.time * scaleSpeed, 5f); // 1~2之間
         transform.localScale = new Vector3(scale, scale, scale);
     }
 
