@@ -2,53 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class bullet : MonoBehaviour
 {
-    public float speed = 10f; // Speed of the bullet
-    public float damage = 10f; // Damage dealt by the bullet
-    public float lifetime = 5f; // Lifetime of the bullet before it gets destroyed
+    [Header("Bullet Settings")]
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private float lifetime = 5f;
+    [SerializeField] private float scaleSpeed = 2f; // 控制縮放變化速度
 
-    private float timeSinceSpawn;
-    private Vector3 targetDirection;
+    private float timer = 0f;
+    private Vector3 direction = Vector3.forward;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        timeSinceSpawn = 0f;
+        // 嘗試尋找場景中的玩家
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            direction = (player.transform.position - transform.position).normalized;
+        }
+        // 若找不到玩家，維持預設方向
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        // Move the bullet forward
-        transform.Translate(targetDirection * speed * Time.deltaTime, Space.World);
-
-        // Update the time since the bullet was spawned
-        timeSinceSpawn += Time.deltaTime;
-
-        // Destroy the bullet after its lifetime expires
-        if (timeSinceSpawn >= lifetime)
+        Move();
+        AnimateScale();
+        timer += Time.deltaTime;
+        if (timer >= lifetime)
         {
             Destroy(gameObject);
         }
     }
 
-    public void SetTarget(Vector3 targetPosition)
+    private void Move()
     {
-        targetDirection = (targetPosition - transform.position).normalized;
+        transform.Translate(direction * speed * Time.deltaTime, Space.World);
     }
 
-    void OnTriggerEnter(Collider other)
+    // 讓子彈縮放在1~2之間循環
+    private void AnimateScale()
+    {
+        float scale = 1f + Mathf.PingPong(Time.time * scaleSpeed, 1f); // 1~2之間
+        transform.localScale = new Vector3(scale, scale, scale);
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            // Assuming the player has a script with a TakeDamage method
-            // other.GetComponent<PlayerController>().TakeDamage(damage);
-            Destroy(gameObject); // Destroy the bullet after it hits the player
+            // 呼叫玩家的 TakeDamage 方法
+            var playerController = other.GetComponent<Player>();
+            if (playerController != null)
+            {
+                playerController.TakeDamage(damage);
+            }
+            Destroy(gameObject);
         }
         else if (other.CompareTag("Obstacle"))
         {
-            Destroy(gameObject); // Destroy the bullet if it hits an obstacle
+            Destroy(gameObject);
         }
     }
 }
