@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1065213851143234874}
   - component: {fileID: 5762639352845152027}
   - component: {fileID: 750007621120449902}
+  - component: {fileID: -4891419560426443480}
+  - component: {fileID: 308317635817327983}
   m_Layer: 0
   m_Name: Magic_Elite
   m_TagString: Untagged
@@ -127,6 +129,8 @@ MonoBehaviour:
   maxTeleportInterval: 12
   teleportRange: 10
   teleportTestKey: 116
+  appearAnimDuration: 0.5
+  floor: {fileID: 0}
 --- !u!114 &750007621120449902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,13 +143,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8ee14d1d40be942b601f1553d5dbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  spriterenderer: {fileID: 0}
+  spawnIndicator: {fileID: 0}
+  passAwayParticles: {fileID: 0}
+  playerDetectionRadius: 0
+  gizmos: 0
+  hitEffectDuration: 0.2
+  currentHP: 0
+  maxHP: 100
+  hpBar: {fileID: 0}
+  animationSpeed: 0.1
+  detectionRange: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  dashRange: 5
+  dashSpeed: 20
+  dashDamage: 20
+  attackCooldown: 3
   attackRange: 8
   meleeRange: 2
-  attackFrequency: 1.5
-  magicProjectilePrefab: {fileID: 0}
+  meleeCooldown: 5
+  magicCooldown: 4
+  laserCooldown: 10
+  magicProjectilePrefab: {fileID: 8522138926694928871, guid: 099831c921ff04f40be263e17bb36237,
+    type: 3}
   projectileSpeed: 12
   magicDamage: 20
   magicLaserPrefab: {fileID: 0}
   laserDuration: 1.5
   laserDamage: 30
   meleeDamage: 15
+  atk1AnimDuration: 0.5
+  atk2AnimDuration: 0.5
+  atk3AnimDuration: 0.5
+--- !u!54 &-4891419560426443480
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2695587624404813549}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!136 &308317635817327983
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2695587624404813549}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.96
+  m_Height: 1.92
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

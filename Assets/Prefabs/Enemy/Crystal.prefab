@@ -308,6 +308,7 @@ GameObject:
   - component: {fileID: 7924365865503091371}
   - component: {fileID: 4443585118103572561}
   - component: {fileID: 413059861980600192}
+  - component: {fileID: -1799233839467373217}
   m_Layer: 9
   m_Name: Crystal
   m_TagString: Enemy
@@ -445,8 +446,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   moveSpeed: 5
-  anim: {fileID: 0}
+  anim: {fileID: 4502292986517328008}
   hitBackForce: 5
+  hitBackDuration: 0.5
 --- !u!114 &4443585118103572561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,3 +505,30 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!54 &-1799233839467373217
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686363277280844216}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0

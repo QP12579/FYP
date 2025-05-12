@@ -2,36 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(elitemovement))]
-public class EliteEnemy : MonoBehaviour
+[RequireComponent(typeof(elitemovement), typeof(Animator))]
+public class EliteEnemy : Enemy
 {
     private IEnemyState currentState;
 
     [Header("Elite Enemy Settings")]
-    public float patrolSpeed = 3f; // 巡邏速度
-    public float attackRange = 2f; // 攻擊範圍
-    public float restDuration = 2f; // 休息時間
+    public float patrolSpeed = 3f;
+    public float attackRange = 2f;
+    public float restDuration = 2f;
+    public float earthquakeRange = 5f;
+    public float earthquakeDamage = 20f;
 
     [Header("Hand Prefab")]
-    public Mechhand mechhandPrefab; // 指定手臂預製件
+    [SerializeField] private Mechhand mechhandPrefab;
 
-    private elitemovement movement;
-    public Player player;
+    private elitemovement eliteMovement;
+    private Animator anim;
     private bool lastAttackWasFast = false;
     public bool LastAttackWasFast => lastAttackWasFast;
 
-    private void Start()
-    {
-        movement = GetComponent<elitemovement>();
+    // 動畫參數持續時間，可依實際動畫長度調整
+    private float fastAttackAnimDuration = 1f;
+    private float slowAttackAnimDuration = 1f;
+    private float shootHandAnimDuration = 1f;
+    private float earthquakeAnimDuration = 1f;
 
-        if (movement == null)
+    protected Player player; // Change the access modifier from private to protected in the Enemy class
+
+    protected override void Start()
+    {
+        base.Start();
+
+        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            Debug.LogError("Animator component is missing on EliteEnemy!");
+            enabled = false;
+            return;
+        }
+
+        eliteMovement = GetComponent<elitemovement>();
+        if (eliteMovement == null)
         {
             Debug.LogError("elitemovement component is missing on EliteEnemy!");
             enabled = false;
             return;
         }
 
-        player = FindObjectOfType<Player>();
         if (player == null)
         {
             Debug.LogError("Player object not found in the scene!");
@@ -42,8 +60,9 @@ public class EliteEnemy : MonoBehaviour
         ChangeState(new PatrolState(this));
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         currentState?.UpdateState();
     }
 
@@ -56,12 +75,12 @@ public class EliteEnemy : MonoBehaviour
 
     public void StopMovement()
     {
-        movement.Stop();
+        eliteMovement.Stop();
     }
 
     public void ResumeMovement()
     {
-        movement.Move();
+        eliteMovement.Move();
     }
 
     public void FastMeleeAttack()
@@ -69,12 +88,14 @@ public class EliteEnemy : MonoBehaviour
         Debug.Log("Performing fast melee attack!");
         if (player != null && IsPlayerInRange(attackRange))
         {
-            player.TakeDamage(10); // Fast melee attack deals低傷害
+            player.TakeDamage(10);
         }
         lastAttackWasFast = true;
-
-        // 建議：在這裡觸發動畫
-        // GetComponent<Animator>().SetTrigger("FastAttack");
+        if (anim != null)
+        {
+            anim.SetBool("FastAttack", true);
+            StartCoroutine(ResetBoolAfterDelay("FastAttack", fastAttackAnimDuration));
+        }
     }
 
     public void SlowMeleeAttack()
@@ -82,12 +103,14 @@ public class EliteEnemy : MonoBehaviour
         Debug.Log("Performing slow melee attack!");
         if (player != null && IsPlayerInRange(attackRange))
         {
-            player.TakeDamage(30); // Slow melee attack deals高傷害
+            player.TakeDamage(30);
         }
         lastAttackWasFast = false;
-
-        // 建議：在這裡觸發動畫
-        // GetComponent<Animator>().SetTrigger("SlowAttack");
+        if (anim != null)
+        {
+            anim.SetBool("SlowAttack", true);
+            StartCoroutine(ResetBoolAfterDelay("SlowAttack", slowAttackAnimDuration));
+        }
     }
 
     public void ShootHandAttack()
@@ -97,25 +120,65 @@ public class EliteEnemy : MonoBehaviour
 
         if (mechhandPrefab != null && player != null)
         {
-            // 生成手臂於本體位置與旋轉
             Mechhand hand = Instantiate(mechhandPrefab, transform.position, transform.rotation);
-            // 射出手臂，回收後恢復移動
             hand.ShootAt(player.transform.position, ResumeMovement);
         }
         else
         {
-            // 若未設置 prefab 或找不到玩家，直接恢復移動避免卡死
             ResumeMovement();
         }
 
-        // 建議：在這裡觸發動畫
-        // GetComponent<Animator>().SetTrigger("ShootHand");
+        if (anim != null)
+        {
+            anim.SetBool("ShootHand", true);
+            StartCoroutine(ResetBoolAfterDelay("ShootHand", shootHandAnimDuration));
+        }
+    }
+
+    public void EarthquakeAttack()
+    {
+        Debug.Log("Performing earthquake attack!");
+        StopMovement();
+
+        if (anim != null)
+        {
+            anim.SetBool("ATK4", true);
+            StartCoroutine(ResetBoolAfterDelay("ATK4", earthquakeAnimDuration));
+        }
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, earthquakeRange);
+        foreach (var hitCollider in hitColliders)
+        {
+            Player targetPlayer = hitCollider.GetComponent<Player>();
+            if (targetPlayer != null)
+            {
+                targetPlayer.TakeDamage(earthquakeDamage);
+                Debug.Log($"Player took {earthquakeDamage} damage from earthquake attack!");
+            }
+        }
+
+        ResumeMovement();
+    }
+
+    private IEnumerator ResetBoolAfterDelay(string param, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (anim != null)
+        {
+            anim.SetBool(param, false);
+        }
     }
 
     public bool IsPlayerInRange(float range)
     {
         if (player == null) return false;
         return Vector3.Distance(transform.position, player.transform.position) <= range;
+    }
+
+    // Added method to expose player's position
+    public Vector3 GetPlayerPosition()
+    {
+        return player.transform.position;
     }
 }
 
@@ -156,6 +219,10 @@ public class PatrolState : IEnemyState
     }
 }
 
+// Fix for the error CS1061: 'bool' does not contain a definition for 'transform'  
+// The issue is caused by the incorrect usage of 'enemy.isLocalPlayer' which is a bool.  
+// The correct property to access the player's transform should be 'enemy.player.transform'.  
+
 public class ChaseState : IEnemyState
 {
     private EliteEnemy enemy;
@@ -178,8 +245,9 @@ public class ChaseState : IEnemyState
             return;
         }
 
-        Vector3 directionToPlayer = (enemy.player.transform.position - enemy.transform.position).normalized;
-        enemy.transform.position += directionToPlayer * Time.deltaTime;
+        // Use the new method to access the player's position
+        Vector3 directionToPlayer = (enemy.GetPlayerPosition() - enemy.transform.position).normalized;
+        enemy.transform.position += directionToPlayer * Time.deltaTime * enemy.patrolSpeed;
     }
 
     public void ExitState()
@@ -229,14 +297,18 @@ public class AttackState : IEnemyState
         }
         else
         {
-            int attackType = Random.Range(0, 2);
+            int attackType = Random.Range(0, 3); // 增加地震攻擊的隨機選擇
             if (attackType == 0)
             {
                 enemy.FastMeleeAttack();
             }
-            else
+            else if (attackType == 1)
             {
                 enemy.ShootHandAttack();
+            }
+            else if (attackType == 2)
+            {
+                enemy.EarthquakeAttack();
             }
         }
     }

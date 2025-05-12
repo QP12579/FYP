@@ -6,23 +6,22 @@ using UnityEngine;
 public class RangedEnemy : Enemy
 {
     [Header("Attack")]
-    [SerializeField] private int damage;
-    [SerializeField] private float attackFrequency;
+    [SerializeField] private int damage = 10;
+    [SerializeField] private float attackFrequency = 1f; // 每秒攻擊次數
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
+
     [Header("Animation")]
     [SerializeField] private float attackAnimDuration = 0.5f; // 攻擊動畫長度（秒）
 
-    private float attackDelay;
     private float nextAttackTime;
 
     protected override void Start()
     {
         base.Start();
         movement = GetComponent<EnemyMovement>();
-        attackFrequency = Mathf.Clamp(attackFrequency, 0.01f, 2f);
-        attackDelay = 30f / attackFrequency;
-        nextAttackTime = Time.time + attackDelay;
+        attackFrequency = Mathf.Clamp(attackFrequency, 0.01f, 10f);
+        nextAttackTime = Time.time;
     }
 
     protected override void Update()
@@ -31,7 +30,7 @@ public class RangedEnemy : Enemy
         if (Time.time >= nextAttackTime)
         {
             TryAttack();
-            nextAttackTime = Time.time + attackDelay;
+            nextAttackTime = Time.time + 1f / attackFrequency;
         }
     }
 
@@ -39,7 +38,6 @@ public class RangedEnemy : Enemy
     {
         if (IsPlayerInRange())
         {
-            Debug.Log("Player is in range. Attempting to attack.");
             Attack();
             if (movement.anim != null)
             {
@@ -58,6 +56,7 @@ public class RangedEnemy : Enemy
 
     private bool IsPlayerInRange()
     {
+        if (player == null) return false;
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         return distanceToPlayer < playerDetectionRadius;
     }
@@ -66,13 +65,11 @@ public class RangedEnemy : Enemy
     {
         if (projectilePrefab == null || firePoint == null || player == null)
         {
-            Debug.LogWarning("Missing required components for attack.");
+            Debug.LogWarning("RangedEnemy: Missing projectilePrefab, firePoint, or player.");
             return;
         }
 
-        Debug.Log("Shooting at player with " + damage + " damage");
-
-        // Instantiate and shoot the projectile
+        // 生成並發射投射物
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         if (projectileScript != null)
@@ -80,14 +77,6 @@ public class RangedEnemy : Enemy
             projectileScript.SetTarget(player.transform);
             projectileScript.SetDamage(damage);
         }
-
-        // 恢復移動
-        StartCoroutine(ResumeMovementAfterAttack());
-    }
-
-    private IEnumerator ResumeMovementAfterAttack()
-    {
-        yield return new WaitForSeconds(0.5f); // 攻擊後的延遲時間
     }
 }
 
@@ -120,13 +109,17 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Assuming the player has a script with a TakeDamage method
-            // other.GetComponent<PlayerController>().TakeDamage(damage);
-            Destroy(gameObject); // Destroy the projectile after it hits the player
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                // 這裡假設玩家有 TakeDamage(float) 方法
+                player.TakeDamage(damage);
+            }
+            Destroy(gameObject);
         }
         else if (other.CompareTag("Obstacle"))
         {
-            Destroy(gameObject); // Destroy the projectile if it hits an obstacle
+            Destroy(gameObject);
         }
     }
 }

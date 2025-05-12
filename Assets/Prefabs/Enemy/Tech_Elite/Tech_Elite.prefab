@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4898343155275894694}
   - component: {fileID: 325519673153550984}
   - component: {fileID: 1554876955182299121}
+  - component: {fileID: 1492041755729743710}
+  - component: {fileID: 2551354518130204947}
   m_Layer: 0
   m_Name: Tech_Elite
   m_TagString: Untagged
@@ -101,8 +103,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   moveDistance: 5
-  teleportDistance: 10
+  chaseSpeed: 5
+  dashSpeed: 10
+  dashDistance: 8
+  chaseRange: 10
   player: {fileID: 0}
+  dashAttackType: 0
 --- !u!114 &325519673153550984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +123,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolSpeed: 3
   attackRange: 2
-  laserRange: 15
   restDuration: 2
+  earthquakeRange: 5
+  earthquakeDamage: 20
+  mechhandPrefab: {fileID: 5250270597504836957, guid: 46916f344a010dd40be3fdaea5b179e6,
+    type: 3}
   player: {fileID: 0}
 --- !u!95 &1554876955182299121
 Animator:
@@ -141,3 +150,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &1492041755729743710
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814647237967976728}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!65 &2551354518130204947
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814647237967976728}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.92, y: 1.92, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
