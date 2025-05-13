@@ -480,7 +480,7 @@ MonoBehaviour:
   detectionRange: 10
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   dashRange: 0
   dashSpeed: 20
   dashDamage: 20

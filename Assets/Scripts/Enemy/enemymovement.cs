@@ -93,6 +93,8 @@ public class EnemyMovement : NetworkBehaviour
         // Stop movement
         moveSpeed = 0f;
 
+        anim.SetBool("isAttack", false);
+
         // Ensure Rigidbody exists
         if (rb != null)
         {
