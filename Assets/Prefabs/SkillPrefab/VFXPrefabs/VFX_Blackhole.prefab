@@ -54,6 +54,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  audioClip: {fileID: 8300000, guid: 5e5e7b247e032bd42aabdfa8959fbe05, type: 3}
   duration: 0.2
 --- !u!114 &7193020553959572320
 MonoBehaviour:
