@@ -169,7 +169,7 @@ public class PlayerSkillController : NetworkBehaviour
         {
             case SkillType.ATK:
                 AttackSkill skill = skillInstance.GetComponent<AttackSkill>();
-                if(skill == null) skill = skillInstance.AddComponent<AttackSkill>() ;
+                if(skill == null) skill = skillInstance.AddComponent<AttackSkill>();
                 skill.Initialize(equippedSkill.skillData.power *(1 + AbilitySkillDamagePlus + buffATKPlus));
                 skill.SetAttackType(skillSpawnPoint);
                 if (equippedSkill.skillData.types.Length > 1 && equippedSkill.skillData.types[1] == SkillType.DeBuff)

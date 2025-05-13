@@ -14719,7 +14719,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  duration: 0.4
+  duration: 3
 --- !u!114 &1355756848954025334
 MonoBehaviour:
   m_ObjectHideFlags: 0

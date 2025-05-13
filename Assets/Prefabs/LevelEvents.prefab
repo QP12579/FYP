@@ -405,6 +405,11 @@ PrefabInstance:
       propertyPath: _assetId
       value: 2497393981
       objectReference: {fileID: 0}
+    - target: {fileID: 6872513183738486007, guid: a0a83844dbee56d41a0223656b29ef3a,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6919932515321140879, guid: a0a83844dbee56d41a0223656b29ef3a,
         type: 3}
       propertyPath: m_Name
