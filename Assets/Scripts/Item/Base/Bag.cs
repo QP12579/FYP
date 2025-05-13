@@ -26,7 +26,7 @@ public class Bag : Singleton<Bag>
 
     [Header("Reference")]
     [SerializeField]
-    private SkillPanel _skillPanel;
+    private SkillManager _skillManager;
     [SerializeField]
     private AbilityPanel _abilityPanel;
     [SerializeField]
@@ -34,8 +34,8 @@ public class Bag : Singleton<Bag>
 
     private void Start()
     {
-        if (_skillPanel == null)
-            _skillPanel = FindObjectOfType<SkillPanel>();
+        if (_skillManager == null)
+            _skillManager = FindObjectOfType<SkillManager>();
         if (_abilityPanel == null) 
         _abilityPanel = FindObjectOfType<AbilityPanel>();
         if(_playerBuffSystem == null)
@@ -86,7 +86,7 @@ public class Bag : Singleton<Bag>
 
     public void AddSkillPoint(int p = 1)
     {
-        _skillPanel.AddSkillPoints(p);
+        _skillManager.AddSkillPoints(p);
     }
 
     public void AddBasePoint(int p = 1)

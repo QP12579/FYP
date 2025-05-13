@@ -12382,9 +12382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffe5eee494b76a4e8feddc2bb9e77a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   _skillPoints: 100
   skillPointText: {fileID: 2125099952738238092}
   resetAllButton: {fileID: 1547639465762012027}
@@ -13660,7 +13657,7 @@ MonoBehaviour:
   item_2: 50
   item_3: 51
   item_4: 52
-  _skillPanel: {fileID: 7890565653164162139}
+  _skillManager: {fileID: 8915813769835810029}
   _abilityPanel: {fileID: 6109004836255952991}
   _playerBuffSystem: {fileID: 7731366007428266731}
 --- !u!1 &6097719865622257839
