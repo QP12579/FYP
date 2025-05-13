@@ -16,7 +16,6 @@ public class Bomb : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        player = FindObjectOfType<Player>();
 
         transform.localScale = Vector3.one * 1.2f;
     }
@@ -24,6 +23,7 @@ public class Bomb : MonoBehaviour
     public Bomb SetTrapTypeBomb (Transform weaponPosi)
     {
         transform.position = weaponPosi.position;
+        player = weaponPosi.GetComponentInParent<Player>();
         if (type != BombType.trap)
         {
             //Let vfx move front to mouse position
@@ -72,7 +72,7 @@ public class Bomb : MonoBehaviour
         }
         if (type == BombType.Shoot)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
         }
     }
 
@@ -114,7 +114,7 @@ public class Bomb : MonoBehaviour
 
         if (type == BombType.Shoot)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
         }
         if (type == BombType.bomb)
         {
