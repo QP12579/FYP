@@ -23,16 +23,4 @@ public class FollowAttack : AttackSkill
     {
         Destroy(gameObject, length);
     }
-
-    protected override void OnCollisionEnter(Collision other)
-    {
-        base.OnCollisionEnter(other);
-        Destroy(gameObject, 1f);
-    }
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
-        Destroy(gameObject, speed);
-    }
 }

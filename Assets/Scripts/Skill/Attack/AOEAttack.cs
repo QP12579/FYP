@@ -33,7 +33,7 @@ public class AOEAttack : AttackSkill
                     }
                 }
             }
-            player.GetSP();
+            PlayerSkillController.instance.gameObject.GetComponent<Player>().GetSP();
         }
     }
     protected void OnTriggerExit(Collider other)
@@ -65,7 +65,7 @@ public class AOEAttack : AttackSkill
                     }
                 }
             }
-            player.GetSP();
+            PlayerSkillController.instance.gameObject.GetComponent<Player>().GetSP();
         }
 
     }
