@@ -12,7 +12,7 @@ public class Shop : NetworkBehaviour
     private ItemType[] canSpawntype;
 
     public float tariffs = 2;
-    private List<ShopItem> spawnedItems;
+    private List<ShopItem> spawnedItems = new List<ShopItem>();
 
     // Start is called before the first frame update
     void Start()
