@@ -47,6 +47,11 @@ public class PlayerMovement : NetworkBehaviour
     public bool canMove;
     [HideInInspector] public bool isFaceFront;
 
+    [Header(" Audio Clip")]
+    [SerializeField] private AudioClip Running_SFX;
+    [SerializeField] private AudioClip Jump_SFX;
+    [SerializeField] private AudioClip Rolling_SFX;
+
     private CinemachineVirtualCamera virtualCamera;
 
     // x, y
@@ -116,6 +121,8 @@ public class PlayerMovement : NetworkBehaviour
         if (isGrounded && canMove && Input.GetKeyDown(JumpKey))
         {
             jumpRequest = true;
+            if(Jump_SFX!=null&&SoundManager.instance!=null)
+                SoundManager.instance.PlaySFX(Jump_SFX);
         }
 
         if (canMove)
@@ -217,6 +224,8 @@ public class PlayerMovement : NetworkBehaviour
         else
             rb.velocity = new Vector3(x, 0, y) * speed * (1 + rollingSpeed + abilityRollingSpeed) * Time.deltaTime;
 
+        if (Rolling_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(Rolling_SFX);
         LeanTween.delayedCall(rollingTime, CanMove);
     }
 

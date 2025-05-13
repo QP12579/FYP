@@ -14722,6 +14722,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  audioClip: {fileID: 8300000, guid: 0bed8068df59ba64ba4fa6236b0a98a4, type: 3}
 --- !u!135 &5771640871239036775
 SphereCollider:
   m_ObjectHideFlags: 0

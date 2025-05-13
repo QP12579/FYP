@@ -22,6 +22,13 @@ public class Player : NetworkBehaviour
 
     public int level = 1;
 
+    [Header(" Audio Clip")]
+    [SerializeField] private AudioClip UseSP_SFX;
+    [SerializeField] private AudioClip GetHurt_SFX;
+    [SerializeField] private AudioClip Die_SFX;
+    [SerializeField] private AudioClip Defense_SFX;
+    [SerializeField] private AudioClip Heal_SFX;
+
     [SyncVar]
     private float speedModifier = 1.0f;
 
@@ -139,12 +146,17 @@ public class Player : NetworkBehaviour
         UpdatePlayerUIInfo();
         animator.SetTrigger("Hurt");
 
+        if (GetHurt_SFX != null && SoundManager.instance!= null)
+            SoundManager.instance.PlaySFX(GetHurt_SFX);
+
         if (HP <= 0)
             Die();
     }
 
     public void Die()
     {
+        if (Die_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(Die_SFX);
         Destroy(gameObject, 1f);
     }
 
@@ -152,6 +164,9 @@ public class Player : NetworkBehaviour
     {
         float realHill = Mathf.Min(HP + h, MaxHP);
         HP += realHill;
+
+        if (Heal_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(Heal_SFX);
         UpdatePlayerUIInfo();
     }
 
@@ -184,6 +199,8 @@ public class Player : NetworkBehaviour
     public void UseSP()
     {
         SP = 0;
+        if (UseSP_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(UseSP_SFX);
         UpdatePlayerUIInfo();
     }
     public void BuffMPRegen(float mpRegen)

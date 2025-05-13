@@ -34278,6 +34278,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 320
+  audioClip: {fileID: 8300000, guid: e28f11aa77ae458489afffbe64ea9302, type: 3}
   rb: {fileID: -2063357469411310967}
   speed: 5
 --- !u!114 &2504499174369824695

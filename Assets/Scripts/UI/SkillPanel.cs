@@ -104,6 +104,14 @@ public class SkillPanel : MonoBehaviour
 
     private void Update()
     {
+        if (uiController.state != UIPanelState.SkillAbilityPanel)
+        {
+            HideTooltip();
+            equipButtons[0].image.raycastTarget = false;
+            equipButtons[1].image.raycastTarget = false;
+            return;
+        }
+        OpenEquippedButton();
         // 更新 Tooltip 位置
         if (currentTooltip != null)
         {
@@ -131,15 +139,6 @@ public class SkillPanel : MonoBehaviour
             if (topEdge > screenHeight)
             {
                 tooltipRectTransform.position -= new Vector3(0, topEdge - screenHeight, 0);
-            }
-            if (uiController.state != UIPanelState.SkillAbilityPanel){
-                HideTooltip();
-                equipButtons[0].image.raycastTarget = false;
-                equipButtons[1].image.raycastTarget = false;
-            }
-            else
-            {
-                OpenEquippedButton();
             }
         }
     }

@@ -55,6 +55,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  audioClip: {fileID: 8300000, guid: 4aecfc622d37f4d4887719c295f26b5c, type: 3}
   duration: 2
 --- !u!65 &216748196716064559
 BoxCollider:

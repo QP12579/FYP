@@ -201,6 +201,8 @@ MonoBehaviour:
   criticalMultiplier: 1.5
   criticalEffectPrefab: {fileID: 0}
   criticalSound: {fileID: 0}
+  NrmATK_SFX: {fileID: 0}
+  FarATK_SFX: {fileID: 0}
   AbilityATKPlus: 0
   AbilityATKSpeedPlus: 0
   AbilityATKArea: 0
@@ -350,6 +352,9 @@ MonoBehaviour:
   isGrounded: 0
   canMove: 0
   isFaceFront: 0
+  Running_SFX: {fileID: 8300000, guid: ea7b8d18e89c37e41afb304d2899fc71, type: 3}
+  Jump_SFX: {fileID: 8300000, guid: 58b8e5bc5c2cbdf468eff5d850a7ef68, type: 3}
+  Rolling_SFX: {fileID: 8300000, guid: b0a251be352dfc9439e45776d65d47e8, type: 3}
   groundCheckRadius: 0.3
   groundCheckOffset: 0.1
 --- !u!1 &4606641454445231472
@@ -417,6 +422,11 @@ MonoBehaviour:
   MP: 50
   SP: 0
   level: 1
+  UseSP_SFX: {fileID: 0}
+  GetHurt_SFX: {fileID: 0}
+  Die_SFX: {fileID: 0}
+  Defense_SFX: {fileID: 0}
+  Heal_SFX: {fileID: 0}
   animator: {fileID: 0}
   abilityPerfectDefenceluck: 0
   abilityNormalDefencePlus: 0
@@ -435,6 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272e1fd71bad6e843a936e0dcaa1f572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   equippedSkills:
   - activationKey: 113
     skillData:
@@ -465,7 +478,6 @@ MonoBehaviour:
     cooldownTimer: 0
   skillSpawnPoint: {fileID: 4822267913083150260}
   BuffSpawnPoint: {fileID: 2288683890498226254}
-  skillManager: {fileID: 0}
   player: {fileID: 7286353846663120720}
   move: {fileID: 4309970799316680556}
   AbilitySkillDamagePlus: 0

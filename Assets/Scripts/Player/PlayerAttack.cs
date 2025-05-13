@@ -27,6 +27,8 @@ public class PlayerAttack : NetworkBehaviour
     public GameObject criticalEffectPrefab;              // 暴擊特效（可選）
     public AudioClip criticalSound;                      // 暴擊音效（可選）
 
+    [SerializeField] private AudioClip NrmATK_SFX;
+    [SerializeField] private AudioClip FarATK_SFX;
     // Ability
     [HideInInspector]
     public float AbilityATKPlus = 0;
@@ -43,7 +45,7 @@ public class PlayerAttack : NetworkBehaviour
         animator = GetComponent<Animator>();
         canAtk = true;
         if(player == null)
-            player = FindObjectOfType<Player>();
+            player = GetComponentInParent<Player>();
         ATKCollider = GetComponent<BoxCollider>();
     }
 
@@ -55,6 +57,8 @@ public class PlayerAttack : NetworkBehaviour
         {
             player.animator.SetTrigger("Attack");
             FarAttack();
+            if(FarATK_SFX!=null&&SoundManager.instance!=null)
+                SoundManager.instance.PlaySFX(FarATK_SFX);
         }
     }
 
@@ -64,6 +68,8 @@ public class PlayerAttack : NetworkBehaviour
         if (Input.GetKeyDown(NATKKey) && canAtk)
         {
             NrmATK(c);
+            if (NrmATK_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(NrmATK_SFX);
         }
     }
 
