@@ -7,6 +7,9 @@ public class AttackSkill : MonoBehaviour
     [SerializeField] private LayerMask EnemyMask;
     [SerializeField] public LayerMask groundMask;
 
+    [Header("Audio Clip")]
+    [SerializeField] private AudioClip audioClip;
+
     protected bool haveDebuff = false;
     protected DebuffSkill[] debuffs;
     protected Player player;
@@ -26,6 +29,10 @@ public class AttackSkill : MonoBehaviour
     public AttackSkill SetAttackType(Transform weaponPosi)
     {
         transform.position = weaponPosi.position;
+        if (audioClip != null && SoundManager.instance != null) 
+        {
+            SoundManager.instance.PlaySFX(audioClip, transform);
+        }
         switch (type)
         {
             case AttackType.Follow:

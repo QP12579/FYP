@@ -92,9 +92,11 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    public void PlaySFX(AudioClip audioClip)
+    public void PlaySFX(AudioClip audioClip, Transform spawnTrans = null)
     {
-        AudioSource audioSource = Instantiate(SFXObject, sfxPosi.position, Quaternion.identity);
+        Transform sfxPosition = spawnTrans == null? sfxPosi : spawnTrans;
+
+        AudioSource audioSource = Instantiate(SFXObject, sfxPosition.position, Quaternion.identity);
         audioSource.transform.parent = sfxPosi.transform;
         audioSource.clip = audioClip;
         audioSource.volume = sfxVolume;
