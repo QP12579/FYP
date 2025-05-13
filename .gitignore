@@ -70,3 +70,14 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/Scenes/SampleScene 1.unity
+Assets/Scripts/Player/PlayerSkillController.cs
+Assets/Settings/URP-Balanced.asset
+Assets/Settings/URP-HighFidelity.asset
+Assets/Settings/URP-Performant.asset
+Assets/StreamingAssets.meta
+Assets/StreamingAssets/Whisper.meta
+Assets/StreamingAssets/Whisper/ggml-small.bin
+Assets/StreamingAssets/Whisper/ggml-small.bin.meta
+Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton SDF.asset
+Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers SDF.asset

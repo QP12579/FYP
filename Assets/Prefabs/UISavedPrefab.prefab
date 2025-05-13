@@ -16875,6 +16875,7 @@ GameObject:
   - component: {fileID: 239370912243842385}
   - component: {fileID: 9061710948147853689}
   - component: {fileID: 4109561235077225006}
+  - component: {fileID: 4157764772592261383}
   m_Layer: 0
   m_Name: Demo
   m_TagString: Untagged
@@ -16940,7 +16941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whisper: {fileID: 2425719092471593873}
   microphoneRecord: {fileID: 239370912243842385}
-  _SpeechKeywords: {fileID: 0}
+  _SpeechKeywords: {fileID: 4157764772592261383}
   streamSegments: 1
   outputText: {fileID: 317698788120058851}
   timeText: {fileID: 883051809768411657}
@@ -16975,6 +16976,27 @@ MonoBehaviour:
   - {fileID: 7730123635696225248, guid: a6e0cb1f557e0aa43b7fe1ed62024335, type: 3}
   - {fileID: 1064552591134439490, guid: 313623e14de298b48b86f9ea5a028526, type: 3}
   - {fileID: 5840988937115352157, guid: 31f08fb7ef965e1489ffade33cb81bf5, type: 3}
+--- !u!114 &4157764772592261383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6977570901167678757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc8a96ad66bf0d4d83c6ac4a5f7abb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  outputText: {fileID: 317698788120058851}
+  keywords:
+  - fire
+  vfxPrefabs:
+  - {fileID: 4716802786508907285, guid: 39cdb11a057daf545b9d8a06f92d5946, type: 3}
+  vfxSpawnOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &7012803934625970279
 GameObject:
   m_ObjectHideFlags: 0
