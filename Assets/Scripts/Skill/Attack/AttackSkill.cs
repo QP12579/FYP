@@ -12,12 +12,10 @@ public class AttackSkill : MonoBehaviour
 
     protected bool haveDebuff = false;
     protected DebuffSkill[] debuffs;
-    protected Player player;
 
     public void Initialize(float power)
     {
         damage = power;
-        player = PlayerSkillController.instance.player;
     }
 
     public void HaveDebuff()
@@ -89,7 +87,7 @@ public class AttackSkill : MonoBehaviour
                     }
                 }
             }
-            player.GetSP();
+            PlayerSkillController.instance.gameObject.GetComponent<Player>().GetSP();
         }
     }
 
@@ -110,7 +108,7 @@ public class AttackSkill : MonoBehaviour
                     }
                 }
             }
-            player.GetSP();
+            PlayerSkillController.instance.gameObject.GetComponent<Player>().GetSP();
         }
     }
 
