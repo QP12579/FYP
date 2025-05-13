@@ -45,6 +45,7 @@ public class PlayerSkillController : NetworkBehaviour
 
         if (isLocalPlayer)
         {
+            instance = this;
             Initialize();
         }
         

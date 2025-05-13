@@ -41,13 +41,18 @@ public class Gift : BaseItem
         if(randomValue < buffChance)
         {
             // Buff
-            if(buffPrefab!= null)
+            if(buffPrefab!= null && PlayerSkillController.instance!=null)
             PlayerSkillController.instance.AddRandomBuff(buffPrefab, 1);
+
+            if (PlayerSkillController.instance == null)
+                Debug.LogError("What?!!!????OAO");
         }
         else if(randomValue < buffChance + debuffChance)
         {
+            if (PlayerSkillController.instance == null)
+                Debug.LogError("What?!!!????OAO");
             //Debuff
-            if(debuffPrefab!= null)
+            if (debuffPrefab!= null)
             PlayerSkillController.instance.AddRandomDebuff(debuffPrefab, 1);
         }
         else

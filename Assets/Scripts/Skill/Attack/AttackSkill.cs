@@ -29,10 +29,6 @@ public class AttackSkill : MonoBehaviour
     public AttackSkill SetAttackType(Transform weaponPosi)
     {
         transform.position = weaponPosi.position;
-        if (audioClip != null && SoundManager.instance != null) 
-        {
-            SoundManager.instance.PlaySFX(audioClip, transform);
-        }
         switch (type)
         {
             case AttackType.Follow:

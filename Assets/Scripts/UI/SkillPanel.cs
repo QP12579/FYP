@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using Mirror;
 
-public class SkillPanel : NetworkBehaviour
+public class SkillPanel : MonoBehaviour
 {
     public static SkillPanel instance { get; private set; }
 
@@ -61,6 +60,8 @@ public class SkillPanel : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+
+        InitializePanel();
     }
 
 

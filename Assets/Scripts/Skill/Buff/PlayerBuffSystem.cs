@@ -54,32 +54,10 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
     private Dictionary<BuffType, Coroutine> _activeBuffRoutines = new Dictionary<BuffType, Coroutine>();
     private Dictionary<DeBuffType, Coroutine> _activeDebuffRoutines = new Dictionary<DeBuffType, Coroutine>();
 
-    private Player player;
-    private PlayerMovement movement;
-    private PlayerSkillController skillController;
-    private PlayerAttack playerAttack;
-
     [HideInInspector] public bool hasActiveBuffs = false;
     [HideInInspector] public bool hasActiveDebuffs = false;
 
     public static event Action OnBuffsUpdated;
-
-    private void Start()
-    {
-        GetPlayerInfo();
-    }
-
-    private void GetPlayerInfo()
-    {
-        skillController = PlayerSkillController.instance;
-        player = PlayerSkillController.instance.gameObject.GetComponent<Player>();
-        movement = PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>();
-        playerAttack = PlayerSkillController.instance.gameObject.GetComponentInChildren<PlayerAttack>();
-        if (player == null || movement == null || skillController == null || playerAttack == null)
-            LeanTween.delayedCall(0.1f, GetPlayerInfo);
-        else
-            Debug.Log("PlayerBuffSystem Reference ready.");
-    }
 
     private void Update()
     {
@@ -129,16 +107,16 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         switch (type)
         {
             case BuffType.AttackPowerUp:
-                skillController.BuffApplyATKDamage(value);
+                PlayerSkillController.instance.BuffApplyATKDamage(value);
                 break;
             case BuffType.HPRegen:
                 ApplyHOT(type, value, 10f);
                 break;
             case BuffType.MPRegen:
-                player.BuffMPRegen(value);
+                PlayerSkillController.instance.gameObject.GetComponent<Player>().BuffMPRegen(value);
                 break;
             case BuffType.MoveSpeedUp:
-                movement.SpeedChange();
+                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().SpeedChange();
                 break;
             case BuffType.ItemDropUp:
                 break;
@@ -174,10 +152,10 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
         switch (type)
         {
             case BuffType.AttackPowerUp:
-                skillController.ResetBuffATKDamage();
+                PlayerSkillController.instance.ResetBuffATKDamage();
                 break;
             case BuffType.MoveSpeedUp:
-                movement.ResetSpeed();
+                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().ResetSpeed();
                 break;
             case BuffType.HPRegen:
                 RemoveBuffEffect(type);
@@ -260,10 +238,10 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
                 ApplyDOT(type, value, 10f);
                 break;
             case DeBuffType.Dizziness:
-                movement.Dizziness(value);
+                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().Dizziness(value);
                 break;
             case DeBuffType.Slow:
-                movement.SpeedChange();
+                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().SpeedChange();
                 break;
             default:
                 break;
@@ -301,10 +279,10 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
                 RemoveDebuffEffect(type);
                 break;
             case DeBuffType.Dizziness:
-                movement.canMove = true;
+                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().canMove = true;
                 break;
             case DeBuffType.Slow:
-                movement.SpeedChange();
+                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().SpeedChange();
                 break;
             default:
                 break;
@@ -365,7 +343,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 
         for (float t = 0; t < duration; t += interval)
         {
-            player.Heal(healPerTick);
+            PlayerSkillController.instance.gameObject.GetComponent<Player>().Heal(healPerTick);
             yield return new WaitForSeconds(interval);
         }
 
@@ -378,7 +356,7 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 
         for (float t = 0; t < duration; t += interval)
         {
-            player.Heal(damagePerTick);
+            PlayerSkillController.instance.gameObject.GetComponent<Player>().Heal(damagePerTick);
             yield return new WaitForSeconds(interval);
         }
 
