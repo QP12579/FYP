@@ -1,77 +1,75 @@
 using DG.Tweening;
-using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    [Header( "Panel ")]
     public GameObject GamingUI;
 
     public GameObject SkillOrAbilityPanel;
     public GameObject SpecialAttackPanel;
     public GameObject SettingPanel;
 
+    [Header(" Scrollbar ")]
     public Scrollbar SkillAbilityscrollbar;
     public Scrollbar SpecialAttackscrollbar;
+    public float scrollSpeed = 1f;
 
+    [Header(" CyanSelectedBlock ")]
     public RectTransform cyanSelectedBlock;
     private bool isIncreasing = false;
     private bool isDecreasing = false;
 
+    [Header(" Button ")]
     public Button arrowButton;
     public Button skillOrAbilityButton;
     public Button specialAttackButton;
     public Button settingButton;
     public Button EseButton;
+    public Button TabButton;
+    public Button TButton;
 
-    public GameObject SkillClickArea;
-    public GameObject AbilityClickArea;
+    [Header(" Click Area ")]
+    public Button SkillClickArea;
+    public Button AbilityClickArea;
 
-    public float scrollSpeed = 0.1f;
+    [Header(" Audio Clip ")]
+    [SerializeField] private AudioClip buttonClickSFX;
+
     [HideInInspector]
     public UIPanelState state = UIPanelState.None;
     private UIPanelState oldState = UIPanelState.None;
 
     private void Start()
     {
-
-        GamingUI.SetActive(false);
         SkillAbilityscrollbar.value = 0;
-
-        arrowButton.onClick.AddListener(OnArrowButtonClick);
-        skillOrAbilityButton.onClick.AddListener(OnSkillOrAbilityButtonClick);
-        specialAttackButton.onClick.AddListener(OnSpecialAttackButtonClick);
-        settingButton.onClick.AddListener(OnSettingButtonClick);
-        EseButton.onClick.AddListener(OnEseButtonClick);
 
         UpdateButtonActive();
 
         SkillOrAbilityPanel.SetActive(true);
         SpecialAttackPanel.SetActive(false);
         SettingPanel.SetActive(false);
-        SkillClickArea.SetActive(false);
-        AbilityClickArea.SetActive(false);
+        SkillClickArea.gameObject.SetActive(false);
+        AbilityClickArea.gameObject.SetActive(false);
+        GamingUI.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) { GamingUI.SetActive(true); state = oldState; }
+        if (Input.GetKeyDown(KeyCode.Tab)) { OnTabButtonClick(TabButton); }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            ShowSkillPart();
-            ShowSkillAbilityPanel();
-            GamingUI.SetActive(true);
-            state = UIPanelState.SkillAbilityPanel;
+            OnTButtonClick(TButton);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GamingUI.SetActive(false);
-            oldState = state;
-            state = UIPanelState.None;
+            OnEseButtonClick(EseButton);
         }
 
+        if (state == UIPanelState.None) return;
         // get mouse scroll value
         float scrollDelta = Input.mouseScrollDelta.y;
 
@@ -109,19 +107,6 @@ public class UIController : MonoBehaviour
             }
         }
 
-
-        if (SkillOrAbilityPanel.activeInHierarchy == false)
-        {
-            skillOrAbilityButton.enabled = false;
-            SkillClickArea.SetActive(true);
-            AbilityClickArea.SetActive(true);
-        }
-        else
-        {
-            skillOrAbilityButton.enabled = true;
-            SkillClickArea.SetActive(false);
-            AbilityClickArea.SetActive(false);
-        }
         // control button active
         UpdateButtonActive();
 
@@ -135,43 +120,50 @@ public class UIController : MonoBehaviour
         SpecialAttackPanel.SetActive(false);
         SettingPanel.SetActive(false);
 
+        skillOrAbilityButton.interactable = true;
+        SkillClickArea.gameObject.SetActive(false);
+        AbilityClickArea.gameObject.SetActive(false);
+
         state = UIPanelState.SkillAbilityPanel;
+
+        UpdateCyanSelectedBlock();
     }
 
     public void ShowSkillPart() { SkillAbilityscrollbar.value = 0f; }
 
     public void ShowAbilityPart() { SkillAbilityscrollbar.value = 1f; }
-    private void OnArrowButtonClick()
+    public void OnArrowButtonClick()
     {
         isIncreasing = true;
+        UpdateButtonActive();
     }
 
-    private void OnSpecialAttackButtonClick()
+    public void OnSpecialAttackButtonClick(Button but)
     {
         SkillOrAbilityPanel.SetActive(false);
         SettingPanel.SetActive(false);
         SpecialAttackPanel.SetActive(true);
 
+        SkillAbilityButInteratableFalse();
         state = UIPanelState.SpeacialATKPanel;
 
         //reset special attack scrollbar
         SpecialAttackscrollbar.value = 1f;
 
-        // set scale to 0.5, and back to 1 in 0.2 sec
-        specialAttackButton.transform.localScale = Vector3.one * 0.5f;
-        specialAttackButton.transform.DOScale(Vector3.one, 0.2f);
+        OnClickButtonDOScaleVisual(but);
     }
 
-    private void OnSettingButtonClick()
+    public void OnSettingButtonClick(Button but)
     {
         SkillOrAbilityPanel.SetActive(false);
         SpecialAttackPanel.SetActive(false);
         SkillAbilityscrollbar.value = 1f;
 
+        SkillAbilityButInteratableFalse();
         state = UIPanelState.SettingPanel;
         // set scale to 0.5, and back to 1 in 0.2 sec
-        settingButton.transform.localScale = Vector3.one * 0.5f;
-        settingButton.transform.DOScale(Vector3.one, 0.2f);
+        OnClickButtonDOScaleVisual(but);
+
         SettingPanel.SetActive(true);
     }
 
@@ -179,40 +171,79 @@ public class UIController : MonoBehaviour
     {
         // value < 0.7, ArrowButton setActive true
         arrowButton.gameObject.SetActive(SkillAbilityscrollbar.value < 0.7f);
+        UpdateCyanSelectedBlock();
     }
 
-    private void OnEseButtonClick()
+    private void SkillAbilityButInteratableFalse()
     {
-        specialAttackButton.transform.localScale = Vector3.one * 0.5f;
-        specialAttackButton.transform.DOScale(Vector3.one, 0.2f);
-
-        GamingUI.SetActive(false);
+        skillOrAbilityButton.interactable = false;
+        SkillClickArea.gameObject.SetActive(true);
+        AbilityClickArea.gameObject.SetActive(true);
     }
 
-    private void OnSkillOrAbilityButtonClick()
+    public void OnTabButtonClick(Button but)
+    {
+        GamingUI.SetActive(true);
+        state = oldState;
+        OnClickButtonDOScaleVisual(but);
+    }
+
+    public void OnTButtonClick(Button but)
+    {
+        Debug.Log(" Showing Panel ");
+        GamingUI.SetActive(true);
+        ShowSkillAbilityPanel();
+        ShowSkillPart();
+        state = UIPanelState.SkillAbilityPanel;
+
+        OnClickButtonDOScaleVisual(but);
+    }
+
+    public void OnEseButtonClick(Button but)
+    {
+        oldState = state;
+        state = UIPanelState.None;
+        GamingUI.SetActive(false);
+
+        OnClickButtonDOScaleVisual(but);
+    }
+
+    public void OnSkillOrAbilityButtonClick(Button but)
     {
         ShowSkillAbilityPanel();
 
-        // set scale to 0.5, and back to 1 in 0.2 sec
-        skillOrAbilityButton.transform.localScale = Vector3.one * 0.5f;
-        skillOrAbilityButton.transform.DOScale(Vector3.one, 0.2f);
-
         if (SkillAbilityscrollbar.value < 0.6) { isIncreasing = true; }
         else { isDecreasing = true; }
+        // set scale to 0.5, and back to 1 in 0.2 sec
+        OnClickButtonDOScaleVisual(but);
+    }
 
+    private void OnClickButtonDOScaleVisual(Button but)
+    {
+        // set scale to 0.5, and back to 1 in 0.2 sec
+        but.transform.localScale = Vector3.one * 0.5f;
+        but.transform.DOScale(Vector3.one, 0.2f);
+
+        UpdateCyanSelectedBlock();
+        if (buttonClickSFX != null & SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySFX(buttonClickSFX);
+        }
     }
 
     private void UpdateCyanSelectedBlock()
     {
-        if (SpecialAttackPanel.activeInHierarchy == true)
+        if (state == UIPanelState.SpeacialATKPanel)
         {
             cyanSelectedBlock.anchoredPosition = new Vector2(275, 8);
             cyanSelectedBlock.sizeDelta = new Vector2(365, cyanSelectedBlock.sizeDelta.y);
+            SkillAbilityButInteratableFalse();
         }
-        else if (SettingPanel.activeInHierarchy == true)
+        else if (state == UIPanelState.SettingPanel)
         {
             cyanSelectedBlock.anchoredPosition = new Vector2(725, 8);
             cyanSelectedBlock.sizeDelta = new Vector2(300, cyanSelectedBlock.sizeDelta.y);
+            SkillAbilityButInteratableFalse();
         }
         else if (SkillAbilityscrollbar.value > 0.6f)
         {

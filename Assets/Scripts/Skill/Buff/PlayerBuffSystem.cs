@@ -71,14 +71,10 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
 
     private void GetPlayerInfo()
     {
-        if (player == null)
-            player = FindObjectOfType<Player>();
-        if (movement == null)
-            movement = FindObjectOfType<PlayerMovement>();
-        if (skillController == null)
-            skillController = FindObjectOfType<PlayerSkillController>();
-        if (playerAttack == null)
-            playerAttack = FindObjectOfType<PlayerAttack>();
+        skillController = PlayerSkillController.instance;
+        player = PlayerSkillController.instance.gameObject.GetComponent<Player>();
+        movement = PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>();
+        playerAttack = PlayerSkillController.instance.gameObject.GetComponentInChildren<PlayerAttack>();
         if (player == null || movement == null || skillController == null || playerAttack == null)
             LeanTween.delayedCall(0.1f, GetPlayerInfo);
         else

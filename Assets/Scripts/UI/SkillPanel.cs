@@ -136,6 +136,10 @@ public class SkillPanel : NetworkBehaviour
                 equipButtons[0].image.raycastTarget = false;
                 equipButtons[1].image.raycastTarget = false;
             }
+            else
+            {
+                OpenEquippedButton();
+            }
         }
     }
 

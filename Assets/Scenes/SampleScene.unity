@@ -1144,6 +1144,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2773428409627996001, guid: 59beac8b0f6276e459e80b018d7e8aba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3313544922743070320, guid: 59beac8b0f6276e459e80b018d7e8aba,
         type: 3}
       propertyPath: m_IsActive
@@ -2010,6 +2015,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Value
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249692875156402975, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: coins
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2422081787491916700, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
