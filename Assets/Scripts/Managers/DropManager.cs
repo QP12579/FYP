@@ -4,10 +4,11 @@ using UnityEngine;
 using System;
 
 using Random = UnityEngine.Random;
+using Mirror;
 
-public class DropManager : MonoBehaviour
+public class DropManager : NetworkBehaviour
 {
-
+    
     [Header(" Elements ")]
     [SerializeField] private Coins coinPrefab;
 
@@ -19,7 +20,7 @@ public class DropManager : MonoBehaviour
 
     private void OnDestroy() 
     {
-        Enemy.OnPassAway += EnemyPassAwayCallBack;
+        Enemy.OnPassAway -= EnemyPassAwayCallBack;
         
     }
 
@@ -34,9 +35,13 @@ public class DropManager : MonoBehaviour
         
     }
 
+    [Server]
     private void EnemyPassAwayCallBack(Vector3 enemyPosition)
     {
        Coins coinInstance =  Instantiate(coinPrefab , enemyPosition, Quaternion.identity , transform);
+        NetworkServer.Spawn(coinInstance.gameObject);
         coinInstance.name = "Coin " + Random.Range(0, 5000);
+
+        
     }
 }

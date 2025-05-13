@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(NetworkIdentity))]
-[RequireComponent(typeof(NetworkTransformReliable))]
+
 [DisallowMultipleComponent]
 public class Box : NetworkBehaviour
 {

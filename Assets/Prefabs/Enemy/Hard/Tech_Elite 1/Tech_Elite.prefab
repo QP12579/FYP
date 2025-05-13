@@ -208,7 +208,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  spriterenderer: {fileID: 0}
+  spriterenderer: {fileID: 8919987545138309713}
   spawnIndicator: {fileID: 5394610427664346458}
   passAwayParticles: {fileID: 0}
   playerDetectionRadius: 7

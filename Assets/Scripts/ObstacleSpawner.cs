@@ -14,7 +14,7 @@ public class ObstacleSpawner : NetworkBehaviour
 
     public GameObject specificTrapPrefab;
     public int maxSpecificTrapCount = 3;
-
+    
     void Start()
     {
         SpawnObstacles();
@@ -37,6 +37,9 @@ public class ObstacleSpawner : NetworkBehaviour
             Instantiate(obstaclePrefab, spawnPoint.position, spawnPoint.rotation);
 
             availableSpawnPoints.RemoveAt(randomIndex);
+
+           
+
         }
     }
     [Server]
@@ -67,4 +70,6 @@ public class ObstacleSpawner : NetworkBehaviour
             availableTrapSpawnPoints.RemoveAt(randomIndex);
         }
     }
+
+
 }

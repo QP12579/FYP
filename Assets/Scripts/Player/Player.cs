@@ -79,15 +79,21 @@ public class Player : NetworkBehaviour
     private void Update()
     {
         SP = Mathf.Clamp(SP, 0, 1f);
-        if ( isLocalPlayer )
+        if (isLocalPlayer)
             UpdatePlayerUIInfo();
 
-       if (Input.GetKeyDown(KeyCode.G) && isLocalPlayer)
+        /////////////////////////  C H E A T //////////////////////////////////
+        if (Input.GetKeyDown(KeyCode.G) && isLocalPlayer)
         {
-           SkillManager.instance. AddSkillPoints(1);
-           
+            SkillManager.instance.AddSkillPoints(1);
+
             Debug.Log("Added SKill points");
         }
+        if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
+         {
+            Bag.instance.AddCoins(10);
+         }
+
     }
 
     public Player()

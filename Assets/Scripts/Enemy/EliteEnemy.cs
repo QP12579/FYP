@@ -28,7 +28,7 @@ public class EliteEnemy : Enemy
     private float shootHandAnimDuration = 1f;
     private float earthquakeAnimDuration = 1f;
 
-    protected Player player; // Change the access modifier from private to protected in the Enemy class
+   
 
     protected override void Start()
     {
@@ -38,7 +38,7 @@ public class EliteEnemy : Enemy
         if (anim == null)
         {
             Debug.LogError("Animator component is missing on EliteEnemy!");
-            enabled = false;
+           // enabled = false;
             return;
         }
 
@@ -46,14 +46,14 @@ public class EliteEnemy : Enemy
         if (eliteMovement == null)
         {
             Debug.LogError("elitemovement component is missing on EliteEnemy!");
-            enabled = false;
+           // enabled = false;
             return;
         }
 
         if (player == null)
         {
             Debug.LogError("Player object not found in the scene!");
-            enabled = false;
+           // enabled = false;
             return;
         }
 
@@ -93,8 +93,8 @@ public class EliteEnemy : Enemy
         lastAttackWasFast = true;
         if (anim != null)
         {
-            anim.SetBool("FastAttack", true);
-            StartCoroutine(ResetBoolAfterDelay("FastAttack", fastAttackAnimDuration));
+            anim.SetBool("FastATK", true);
+            StartCoroutine(ResetBoolAfterDelay("FastATK", fastAttackAnimDuration));
         }
     }
 
@@ -108,7 +108,7 @@ public class EliteEnemy : Enemy
         lastAttackWasFast = false;
         if (anim != null)
         {
-            anim.SetBool("SlowAttack", true);
+            anim.SetBool("SlowATK", true);
             StartCoroutine(ResetBoolAfterDelay("SlowAttack", slowAttackAnimDuration));
         }
     }
