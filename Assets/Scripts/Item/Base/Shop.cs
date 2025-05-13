@@ -1,7 +1,8 @@
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+public class Shop : NetworkBehaviour
 {
     [SerializeField]
     private List<Transform> spawnPoints;
@@ -24,7 +25,7 @@ public class Shop : MonoBehaviour
         List<ItemType> willSpawnTypes = GetRandomElements(canSpawntype, spawnPoints.Count);
         for (int i = 0; i < spawnPoints.Count; i++) 
         {
-            SpawnItems(FindShopObject(willSpawnTypes[i]), spawnPoints[i]);
+            CmdSpawnItems(FindShopObject(willSpawnTypes[i]), spawnPoints[i]);
         }
     }
 
@@ -33,23 +34,25 @@ public class Shop : MonoBehaviour
         foreach (var item in spawnItems) 
         {
             ShopItem shopItem = item.GetComponent<ShopItem>();
+            Debug.Log("Get " + shopItem);
             spawnedItems.Add(shopItem);
             if(shopItem.itemPrefab.item.Type == type)
             {
+                Debug.Log(item);
                 return item;
+
             }
         }
-        Debug.Log("");
+        
         return null;
     }
 
-    void SpawnItems(GameObject spawnObject, Transform spawnpoint)
+    [Command] 
+    void CmdSpawnItems(GameObject spawnObject, Transform spawnpoint)
     {
-        GameObject ShopItem = Instantiate(
-            spawnObject,
-            spawnpoint.position,
-            spawnpoint.rotation
-            );
+        GameObject ShopItem = Instantiate(spawnObject, spawnpoint.position, spawnpoint.rotation);
+
+        NetworkServer.Spawn(ShopItem);
     }
 
     private List<T> GetRandomElements<T>(T[] array, int count)
