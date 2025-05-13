@@ -57,6 +57,8 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     [SyncVar]
     private uint targetPlayerNetId;
 
+    private CoinBag coinbag;
+
     [Server]
     public void SetTargetPlayer(Player targetPlayer)
     {
@@ -287,19 +289,16 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     public void RPCPassAway(GameObject enemy)
     {
        DestroyImmediate(enemy);
-        Debug.Log(" Died ");
+      
     }
 
     [Server]
     public void PassAway()
     {
-        // Play death effect on all clients
+        OnPassAway?.Invoke(transform.position);
+       
         RpcPlayDeathEffect();
 
-        // Trigger the static action
-        OnPassAway?.Invoke(transform.position);
-
-        // Destroy on server, which will automatically destroy on clients
         NetworkServer.Destroy(gameObject);
         RPCPassAway(gameObject);
     
@@ -322,11 +321,11 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         Gizmos.DrawWireSphere(transform.position, playerDetectionRadius);
     }
 
-    public void GetHit(Vector2 hitDirection, float damage)
+    public void GetHit(Vector3 hitDirection, float damage)
     {
         StartCoroutine(ShowHitEffect());
-        if (movement != null)
-            movement.ApplyHitBack(hitDirection);
+        //if (movement != null)
+            //movement.ApplyHitBack(hitDirection);
     }
 
     private IEnumerator ShowHitEffect()

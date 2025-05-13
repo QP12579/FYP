@@ -40,7 +40,10 @@ public class DropManager : NetworkBehaviour
     {
        Coins coinInstance =  Instantiate(coinPrefab , enemyPosition, Quaternion.identity , transform);
         NetworkServer.Spawn(coinInstance.gameObject);
+        coinInstance.gameObject.transform.localPosition = enemyPosition;
+
         coinInstance.name = "Coin " + Random.Range(0, 5000);
+       
 
         
     }

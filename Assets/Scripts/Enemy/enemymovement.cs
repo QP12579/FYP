@@ -85,7 +85,7 @@ public class EnemyMovement : NetworkBehaviour
     /// Apply a hit-back effect to the enemy.
     /// </summary>
     /// <param name="hitDirection">The direction of the hit as a 2D vector.</param>
-    public void ApplyHitBack(Vector2 hitDirection)
+    public void ApplyHitBack(Vector3 hitDirection)
     {
         // Temporarily store the current speed
         float originalSpeed = moveSpeed;

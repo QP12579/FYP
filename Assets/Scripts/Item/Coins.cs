@@ -11,7 +11,7 @@ public class Coins : BaseItem
             description = "Can buy items"
         };
     }
-
+    public int CoinValue = 5;
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -19,7 +19,7 @@ public class Coins : BaseItem
 
     protected override void GetItem()
     {
-        Bag.instance.AddCoins();
+        Bag.instance.AddCoins(CoinValue);
         base.GetItem();
     }
 }

@@ -448,7 +448,7 @@ MonoBehaviour:
   syncInterval: 0
   moveSpeed: 2
   anim: {fileID: 4502292986517328008}
-  hitBackForce: 2
+  hitBackForce: 0.5
   hitBackDuration: 0.5
 --- !u!114 &3087977625734767486
 MonoBehaviour:
@@ -465,14 +465,14 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  spriterenderer: {fileID: 0}
+  spriterenderer: {fileID: 937333539423217826}
   spawnIndicator: {fileID: 6052340272583123884}
   passAwayParticles: {fileID: 0}
   playerDetectionRadius: 1
   gizmos: 1
-  hitEffectDuration: 0.2
-  currentHP: 10
-  maxHP: 10
+  hitEffectDuration: 0.7
+  currentHP: 100
+  maxHP: 100
   hpBar: {fileID: 4426702829857933552}
   animationSpeed: 0.1
   detectionRange: 10
@@ -543,7 +543,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7686363277280844216}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.2
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}

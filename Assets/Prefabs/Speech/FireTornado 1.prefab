@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7103899332599358653}
   - component: {fileID: 7331466831757179540}
+  - component: {fileID: 6932710441401006256}
   - component: {fileID: 1100003774137675523}
   - component: {fileID: 5795757159930744749}
   - component: {fileID: 1348510721831994041}
@@ -94,6 +95,18 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!114 &6932710441401006256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4716802786508907285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85433a93a90f9e840845c283bcc7bdf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!73398921 &1100003774137675523
 VFXRenderer:
   serializedVersion: 1

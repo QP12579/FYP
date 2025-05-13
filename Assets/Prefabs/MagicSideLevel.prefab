@@ -285,6 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9198028948178238333}
   - component: {fileID: 2545427044814684479}
+  - component: {fileID: -6782856815558311801}
   m_Layer: 0
   m_Name: MagicSideLevel
   m_TagString: Untagged
@@ -364,6 +365,23 @@ MonoBehaviour:
   specificTrapPrefab: {fileID: 6425430474562677601, guid: 3bd5090681c5f03499e49c72112a7ad8,
     type: 3}
   maxSpecificTrapCount: 2
+--- !u!114 &-6782856815558311801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4181620501396452488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 650162535
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &4193960264089816132
 GameObject:
   m_ObjectHideFlags: 0
