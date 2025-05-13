@@ -9718,9 +9718,10 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  audioClip: {fileID: 8300000, guid: 5e5e7b247e032bd42aabdfa8959fbe05, type: 3}
   duration: 2
   pullForce: 0.01
-  maxPullDistance: 5
+  maxPullDistance: 2
 --- !u!114 &7193020553959572320
 MonoBehaviour:
   m_ObjectHideFlags: 0
