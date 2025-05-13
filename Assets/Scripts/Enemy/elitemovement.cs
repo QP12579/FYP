@@ -13,9 +13,6 @@ public class elitemovement : EnemyMovement
     public float dashSpeed = 10f;
     public float chaseSpeed = 5f;
 
-    [Header("Player Reference")]
-    public new Transform player; // Use 'new' to explicitly hide the inherited member
-
     public enum DashAttackType { None, Fast, Slow }
     [HideInInspector] public DashAttackType dashAttackType = DashAttackType.None;
 
@@ -44,7 +41,7 @@ public class elitemovement : EnemyMovement
             return;
         }
 
-        if (player != null && Vector3.Distance(transform.position, player.position) < chaseRange)
+        if (player != null && Vector3.Distance(transform.position, player.transform.position) < chaseRange)
         {
             PatrolWithDash();
         }
@@ -75,8 +72,9 @@ public class elitemovement : EnemyMovement
         {
             if (player != null && dashAttackType != DashAttackType.None)
             {
-                Vector3 dir = (player.position - transform.position).normalized;
+                Vector3 dir = (player.transform.position - transform.position).normalized;
                 dashTargetPos = transform.position + dir * dashDistance;
+                Debug.Log($"Dash to player: {dir}, dashTargetPos: {dashTargetPos}");
                 isDashing = true;
             }
             patrolCount = 0;
@@ -107,7 +105,7 @@ public class elitemovement : EnemyMovement
     {
         if (player != null)
         {
-            Vector3 dir = (player.position - transform.position).normalized;
+            Vector3 dir = (player.transform.position - transform.position).normalized;
             dashTargetPos = transform.position + dir * dashDistance;
             isDashing = true;
             dashAttackType = attackType;
