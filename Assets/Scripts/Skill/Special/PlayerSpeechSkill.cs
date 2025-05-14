@@ -75,9 +75,8 @@ public class PlayerSpeechSkill : NetworkBehaviour
 
         // Loop through the keywords list.
         for (int i = 0; i < keywords.Count; i++)
-        {
-            // When the spoken word matches a keyword (ignoring case) and it hasn't been used before…
-            if (speechword.Equals(keywords[i], System.StringComparison.OrdinalIgnoreCase) && !generatedKeywords.Contains(keywords[i]))
+        { 
+            if (speechword.Equals(keywords[i], System.StringComparison.OrdinalIgnoreCase) )
             {
                 Debug.Log($"Keyword matched: {keywords[i]}! Generating VFX on the other player.");
 
@@ -89,6 +88,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
                 {
                     Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
                     CmdSpawnSkillVFX(i, spawnPosition, otherPlayer.transform.rotation);
+                    ResetSP();
                     Debug.Log(otherPlayer.transform.rotation);
                     Debug.Log(otherPlayer.name);
                 }
@@ -100,6 +100,11 @@ public class PlayerSpeechSkill : NetworkBehaviour
                 break;
             }
         }
+    }
+
+    private void ResetSP()
+    {
+        PersistentUI.Instance.SpecialAttackSlider.value = 0;
     }
 
     private string RemovePunctuation(string input)

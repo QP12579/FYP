@@ -16948,7 +16948,6 @@ GameObject:
   - component: {fileID: 7017086233359918862}
   - component: {fileID: 239370912243842385}
   - component: {fileID: 9061710948147853689}
-  - component: {fileID: 4109561235077225006}
   - component: {fileID: 4157764772592261383}
   m_Layer: 0
   m_Name: Demo
@@ -17019,37 +17018,6 @@ MonoBehaviour:
   streamSegments: 1
   outputText: {fileID: 317698788120058851}
   timeText: {fileID: 883051809768411657}
---- !u!114 &4109561235077225006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6977570901167678757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27da94c31951f0d48b45fb7dc7d6dc8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outputText: {fileID: 317698788120058851}
-  keywords:
-  - fire tornado
-  - guess who i am
-  - double damage
-  - set the bomb
-  - being a poor person
-  - donald trump
-  - give up treatment
-  - enemies from the sky
-  vfxPrefabs:
-  - {fileID: 175733916365707409, guid: b91e4c447a15d1647adb9020203c40ba, type: 3}
-  - {fileID: 5062076526089732250, guid: edf4aadce6f1d86428d55be04b73fe24, type: 3}
-  - {fileID: 5625429529636597221, guid: 170dc4a7e6d49084bbfdfe0f4990dfa4, type: 3}
-  - {fileID: 4675943462657734409, guid: aeed30324b521bd43945520fa630d08c, type: 3}
-  - {fileID: 8819302345127342804, guid: 72ab1240a6099e54abca0ad1b102895f, type: 3}
-  - {fileID: 7730123635696225248, guid: a6e0cb1f557e0aa43b7fe1ed62024335, type: 3}
-  - {fileID: 1064552591134439490, guid: 313623e14de298b48b86f9ea5a028526, type: 3}
-  - {fileID: 5840988937115352157, guid: 31f08fb7ef965e1489ffade33cb81bf5, type: 3}
 --- !u!114 &4157764772592261383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17717,7 +17685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 1146705923
+  _assetId: 0
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -18192,6 +18160,23 @@ MonoBehaviour:
   spawnParent: {fileID: 3604391289182412442}
   SpecialAttackscrollbar: {fileID: 2121541841143323151}
   scrollSpeed: 0.1
+  keywordTexts:
+  - '<color=yellow>Fire Tornado</color>: Generate a massive fire tornado in the arena
+    to damage the opponent.'
+  - '<color=yellow>Double Damage</color>: Cause the opponent to take double damage
+    from enemies and traps.'
+  - '<color=yellow>Guess Who I Am</color>: Allow a helper to obstruct the opponent''s
+    line of sight.'
+  - '<color=yellow>Set the Bomb</color>: Place bombs on obstacles in the opponent''s
+    arena; touching the obstacles will trigger explosive damage.'
+  - '<color=yellow>Give Up Treatment</color>: Prevent the opponent from recovering
+    HP by any means for 2 minutes.'
+  - '<color=yellow>Being a Poor Person</color>: Prevent the opponent from acquiring
+    any coins or items for 1 minute.'
+  - '<color=yellow>Donald Trump</color>: Force the opponent to pay double the price
+    for certain items at their next encounter with a shop.'
+  - '<color=yellow>Enemies From The Sky</color>: Random enemies will drop from the
+    sky above the opponent, potentially causing trouble.'
 --- !u!1 &7736621054821971054
 GameObject:
   m_ObjectHideFlags: 0

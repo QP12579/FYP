@@ -15,7 +15,7 @@ public class UISpawner : MonoBehaviour
     public float scrollSpeed = 0.1f;
 
     // KeywordTexts' content
-    private string[] keywordTexts = {     
+    [SerializeField] string[] keywordTexts = {     
         "<color=yellow>Fire Tornado</color>: Generate a massive fire tornado in the arena to damage the opponent.",
         "<color=yellow>Double Damage</color>: Cause the opponent to take double damage from enemies and traps.",
         "<color=yellow>Guess Who I Am</color>: Allow a helper to obstruct the opponent's line of sight.",
