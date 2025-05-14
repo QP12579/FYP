@@ -5,6 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Magicmovement))]
 public class MagicElite : Enemy
 {
+    [Header("Audio Clip")]
+    public AudioClip ATK2_SFX;
+    public AudioClip ATK3_SFX;
+
     [Header("Magic Elite Settings")]
     public float attackRange = 8f;
     public float meleeRange = 2f;
@@ -32,8 +36,7 @@ public class MagicElite : Enemy
     public float atk2AnimDuration = 0.5f; // 魔法彈動畫長度
     public float atk3AnimDuration = 0.5f; // 雷射動畫長度
 
-    private Magicmovement movement;
-    private Player player;
+    private Magicmovement _movement;
     private Animator anim;
 
     // 各攻擊冷卻計時器
@@ -41,11 +44,10 @@ public class MagicElite : Enemy
     private float magicTimer = 0f;
     private float laserTimer = 0f;
 
-    private void Start()
+    protected override void Start()
     {
-        movement = GetComponent<Magicmovement>();
+        _movement = GetComponent<Magicmovement>();
         anim = GetComponentInChildren<Animator>();
-        player = FindObjectOfType<Player>();
     }
 
     private void Update()
@@ -65,31 +67,39 @@ public class MagicElite : Enemy
 
         if (distance <= meleeRange)
         {
-            movement.Stop();
+            _movement.Stop();
             if (meleeTimer <= 0f)
             {
                 MeleeAttack();
                 meleeTimer = meleeCooldown;
+
+                if (ATK_SFX != null && SoundManager.instance != null)
+                    SoundManager.instance.PlaySFX(ATK_SFX);
             }
         }
         else if (distance <= attackRange)
         {
-            movement.Stop();
+            _movement.Stop();
             int attackType = Random.Range(0, 2); // 0: magic ball, 1: laser
             if (attackType == 0 && magicTimer <= 0f)
             {
                 MagicAttack();
                 magicTimer = magicCooldown;
+            if (ATK2_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(ATK2_SFX);
             }
             else if (attackType == 1 && laserTimer <= 0f)
             {
                 StartCoroutine(LaserAttack());
                 laserTimer = laserCooldown;
+
+                if (ATK3_SFX != null && SoundManager.instance != null)
+                    SoundManager.instance.PlaySFX(ATK3_SFX);
             }
         }
         else
         {
-            movement.Move();
+            _movement.Move();
         }
     }
 

@@ -7,6 +7,11 @@ public class EliteEnemy : Enemy
 {
     private IEnemyState currentState;
 
+    [Header("Audio Clip")]
+    public AudioClip SlowATK_SFX;
+    public AudioClip ShootATK_SFX;
+    public AudioClip ATK4_SFX;
+
     [Header("Elite Enemy Settings")]
     public float patrolSpeed = 3f;
     public float attackRange = 2f;
@@ -95,6 +100,8 @@ public class EliteEnemy : Enemy
         {
             anim.SetBool("FastATK", true);
             StartCoroutine(ResetBoolAfterDelay("FastATK", fastAttackAnimDuration));
+            if (ATK_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(ATK_SFX, transform);
         }
     }
 
@@ -110,6 +117,8 @@ public class EliteEnemy : Enemy
         {
             anim.SetBool("SlowATK", true);
             StartCoroutine(ResetBoolAfterDelay("SlowAttack", slowAttackAnimDuration));
+            if (SlowATK_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(SlowATK_SFX, transform);
         }
     }
 
@@ -132,6 +141,8 @@ public class EliteEnemy : Enemy
         {
             anim.SetBool("ShootHand", true);
             StartCoroutine(ResetBoolAfterDelay("ShootHand", shootHandAnimDuration));
+            if (ShootATK_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(ShootATK_SFX, transform);
         }
     }
 
@@ -144,6 +155,9 @@ public class EliteEnemy : Enemy
         {
             anim.SetBool("ATK4", true);
             StartCoroutine(ResetBoolAfterDelay("ATK4", earthquakeAnimDuration));
+
+            if (ATK4_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(ATK4_SFX, transform);
         }
 
         // 延遲到動畫最後一幀才造成傷害

@@ -77,6 +77,9 @@ public class RangedEnemy : Enemy
             projectileScript.SetTarget(player.transform);
             projectileScript.SetDamage(damage);
         }
+
+        if (ATK_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(ATK_SFX, this.transform);
     }
 }
 

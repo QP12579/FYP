@@ -62,6 +62,9 @@ public class MeleeEnemy : Enemy
 
         if (anim != null)
             anim.SetTrigger("isAttack");
+
+        if(ATK_SFX!=null&&SoundManager.instance!=null)
+            SoundManager.instance.PlaySFX(ATK_SFX, this.transform);
     }
 
     public void EnemyGetHit(Vector3 hitDirection, float damage)

@@ -38,6 +38,11 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     [SyncVar(hook = nameof(OnHPChanged))]
     public float currentHP;
 
+    [Header("Audio Clip")]
+    public AudioClip Hit_SFX;
+    public AudioClip ATK_SFX;
+    public AudioClip Die_SFX;
+
     [Header("EnemyController")]
     public float maxHP = 100;
 
@@ -215,6 +220,8 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     {
         if (movement != null && movement.anim != null)
             movement.anim.SetTrigger("hurt");
+        if (Hit_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(Hit_SFX, this.transform);
 
         float realdamage = Mathf.Min(damage, currentHP);
         currentHP -= realdamage;
@@ -289,7 +296,7 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
     public void RPCPassAway(GameObject enemy)
     {
        DestroyImmediate(enemy);
-      
+       
     }
 
     [Server]
@@ -310,6 +317,8 @@ public abstract class Enemy : NetworkBehaviour, IAttackable, IDebuffable
         // Play death effect on all clients
         if (passAwayParticles != null)
             passAwayParticles.Play();
+        if(Die_SFX!=null&&SoundManager.instance!=null)
+            SoundManager.instance.PlaySFX(Die_SFX);
     }
 
     private void OnDrawGizmos()

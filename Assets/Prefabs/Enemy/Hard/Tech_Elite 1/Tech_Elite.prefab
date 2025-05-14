@@ -215,6 +215,9 @@ MonoBehaviour:
   gizmos: 0
   hitEffectDuration: 0.2
   currentHP: 150
+  Hit_SFX: {fileID: 8300000, guid: b4986b79ceb4e08429a9f20e1e38b4db, type: 3}
+  ATK_SFX: {fileID: 8300000, guid: e8ff6f4cc7b370742ad792ca7649c9f3, type: 3}
+  Die_SFX: {fileID: 8300000, guid: 14bcd0e4124d03e4f8e70df54d3b50d8, type: 3}
   maxHP: 150
   hpBar: {fileID: 2615874735030961670}
   animationSpeed: 0.1
@@ -226,6 +229,9 @@ MonoBehaviour:
   dashSpeed: 4
   dashDamage: 20
   attackCooldown: 3
+  SlowATK_SFX: {fileID: 8300000, guid: e8ff6f4cc7b370742ad792ca7649c9f3, type: 3}
+  ShootATK_SFX: {fileID: 8300000, guid: 6c581622005070041954ba8c33e64e03, type: 3}
+  ATK4_SFX: {fileID: 8300000, guid: 49f1a2a869c939c41924197b8222b2e4, type: 3}
   patrolSpeed: 3
   attackRange: 2
   restDuration: 2

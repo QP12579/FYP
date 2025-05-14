@@ -474,6 +474,9 @@ MonoBehaviour:
   gizmos: 0
   hitEffectDuration: 0.2
   currentHP: 75
+  Hit_SFX: {fileID: 8300000, guid: 1f05692b8479e94409c56079377d2013, type: 3}
+  ATK_SFX: {fileID: 8300000, guid: 6c581622005070041954ba8c33e64e03, type: 3}
+  Die_SFX: {fileID: 8300000, guid: 7351868cb76fc964ebd2f43364c606b6, type: 3}
   maxHP: 75
   hpBar: {fileID: 4426702829857933552}
   animationSpeed: 0.1

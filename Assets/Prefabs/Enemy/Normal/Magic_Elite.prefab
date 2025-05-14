@@ -161,6 +161,9 @@ MonoBehaviour:
   gizmos: 0
   hitEffectDuration: 0.2
   currentHP: 125
+  Hit_SFX: {fileID: 8300000, guid: a8b8b5319c7ba2d419625d79da462261, type: 3}
+  ATK_SFX: {fileID: 8300000, guid: ae4ca4f4925943645b8320280e7c4556, type: 3}
+  Die_SFX: {fileID: 8300000, guid: a8b8b5319c7ba2d419625d79da462261, type: 3}
   maxHP: 125
   hpBar: {fileID: 0}
   animationSpeed: 0.1
@@ -172,6 +175,8 @@ MonoBehaviour:
   dashSpeed: 20
   dashDamage: 20
   attackCooldown: 3
+  ATK2_SFX: {fileID: 8300000, guid: 677f49733cd25b14d948fb454e14e912, type: 3}
+  ATK3_SFX: {fileID: 8300000, guid: 5d45a13089398e642afdad1e3cdd0ec8, type: 3}
   attackRange: 8
   meleeRange: 2
   meleeCooldown: 5
