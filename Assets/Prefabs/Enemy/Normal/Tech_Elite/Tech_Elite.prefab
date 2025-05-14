@@ -116,7 +116,6 @@ MonoBehaviour:
   chaseRange: 0
   dashSpeed: 10
   chaseSpeed: 5
-  player: {fileID: 0}
   dashAttackType: 0
 --- !u!114 &325519673153550984
 MonoBehaviour:
@@ -139,8 +138,8 @@ MonoBehaviour:
   playerDetectionRadius: 0
   gizmos: 0
   hitEffectDuration: 0.2
-  currentHP: 0
-  maxHP: 100
+  currentHP: 125
+  maxHP: 125
   hpBar: {fileID: 0}
   animationSpeed: 0.1
   detectionRange: 10

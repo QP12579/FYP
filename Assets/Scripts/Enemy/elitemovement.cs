@@ -19,16 +19,23 @@ public class elitemovement : EnemyMovement
     private Vector3 targetPosition;
     private bool isMoving = false;
     private bool isStopped = false;
-    private int patrolCount = 0;
     private bool isDashing = false;
     private Vector3 dashTargetPos;
     private EliteEnemy eliteEnemy;
 
+    // 巡邏次數與目標次數
+    private int patrolsDone = 0;
+    private int patrolsBeforeDash = 2;
+
     protected override void Start()
     {
         base.Start();
-        SetRandomTargetPosition();
         eliteEnemy = GetComponent<EliteEnemy>();
+        ResetPatrolsBeforeDash();
+        SetRandomTargetPosition();
+        // 確保有 Rigidbody
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
     }
 
     protected override void Update()
@@ -41,43 +48,40 @@ public class elitemovement : EnemyMovement
             return;
         }
 
-        if (player != null && Vector3.Distance(transform.position, player.transform.position) < chaseRange)
+        PatrolLogic();
+    }
+
+    private void PatrolLogic()
+    {
+        if (!isMoving)
         {
-            PatrolWithDash();
+            SetRandomTargetPosition();
         }
-        else
+
+        MoveTowards(targetPosition, moveSpeed);
+
+        if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPosition.x, 0, targetPosition.z)) < 0.1f)
         {
-            PatrolWithDash();
+            isMoving = false;
+            patrolsDone++;
+
+            if (patrolsDone >= patrolsBeforeDash)
+            {
+                StartDashToPlayer();
+            }
         }
     }
 
-    private void PatrolWithDash()
+    private void StartDashToPlayer()
     {
-        if (patrolCount < 2)
+        if (player != null)
         {
-            if (!isMoving)
-            {
-                SetRandomTargetPosition();
-            }
-
-            MoveTowards(targetPosition, moveSpeed);
-
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-            {
-                isMoving = false;
-                patrolCount++;
-            }
-        }
-        else
-        {
-            if (player != null && dashAttackType != DashAttackType.None)
-            {
-                Vector3 dir = (player.transform.position - transform.position).normalized;
-                dashTargetPos = transform.position + dir * dashDistance;
-                Debug.Log($"Dash to player: {dir}, dashTargetPos: {dashTargetPos}");
-                isDashing = true;
-            }
-            patrolCount = 0;
+            Vector3 dir = (player.transform.position - transform.position).normalized;
+            dir.y = 0;
+            dashTargetPos = transform.position + dir * dashDistance;
+            isDashing = true;
+            patrolsDone = 0;
+            ResetPatrolsBeforeDash();
         }
     }
 
@@ -85,47 +89,41 @@ public class elitemovement : EnemyMovement
     {
         MoveTowards(dashTargetPos, dashSpeed);
 
-        if (Vector3.Distance(transform.position, dashTargetPos) < 0.1f)
+        if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(dashTargetPos.x, 0, dashTargetPos.z)) < 0.1f)
         {
             isDashing = false;
             isMoving = false;
 
+            // Dash 結束後隨機攻擊
             if (eliteEnemy != null)
             {
-                if (dashAttackType == DashAttackType.Fast)
+                int attackType = Random.Range(0, 3);
+                if (attackType == 0)
                     eliteEnemy.FastMeleeAttack();
-                else if (dashAttackType == DashAttackType.Slow)
+                else if (attackType == 1)
                     eliteEnemy.SlowMeleeAttack();
+                else
+                    eliteEnemy.EarthquakeAttack();
             }
-            dashAttackType = DashAttackType.None;
         }
     }
 
-    public void DashToPlayerWithAttack(DashAttackType attackType)
+    private void ResetPatrolsBeforeDash()
     {
-        if (player != null)
-        {
-            Vector3 dir = (player.transform.position - transform.position).normalized;
-            dashTargetPos = transform.position + dir * dashDistance;
-            isDashing = true;
-            dashAttackType = attackType;
-            patrolCount = 0;
-        }
+        patrolsBeforeDash = Random.Range(2, 4); // 2~3 次
     }
 
-    protected virtual void MoveTowards(Vector3 destination, float speed)
-    {
-        Vector3 direction = (destination - transform.position).normalized;
-        direction.y = 0;
-        transform.position += direction * speed * Time.deltaTime;
-    }
-
-    private void SetRandomTargetPosition()
+    public void SetRandomTargetPosition()
     {
         float angle = Random.Range(0f, 360f);
         Vector3 randomDirection = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
         targetPosition = transform.position + randomDirection * moveDistance;
         isMoving = true;
+    }
+
+    public bool IsAtPatrolPoint()
+    {
+        return !isMoving && Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPosition.x, 0, targetPosition.z)) < 0.1f;
     }
 
     public void Stop()
@@ -147,6 +145,24 @@ public class elitemovement : EnemyMovement
         {
             Debug.Log("Collided with wall, changing direction.");
             SetRandomTargetPosition();
+        }
+    }
+
+    // 只移動XZ平面，Y軸交給物理引擎
+    protected void MoveTowards(Vector3 destination, float speed)
+    {
+        if (rb == null) rb = GetComponent<Rigidbody>();
+        Vector3 currentPos = transform.position;
+        Vector3 targetXZ = new Vector3(destination.x, currentPos.y, destination.z);
+        Vector3 direction = (targetXZ - currentPos);
+        direction.y = 0;
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            direction = direction.normalized;
+            Vector3 move = direction * speed * Time.deltaTime;
+            Vector3 newPosition = currentPos + move;
+            newPosition.y = currentPos.y; // 保持Y軸不變
+            rb.MovePosition(newPosition);
         }
     }
 }

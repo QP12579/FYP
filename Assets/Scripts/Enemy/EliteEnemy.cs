@@ -146,6 +146,15 @@ public class EliteEnemy : Enemy
             StartCoroutine(ResetBoolAfterDelay("ATK4", earthquakeAnimDuration));
         }
 
+        // 延遲到動畫最後一幀才造成傷害
+        StartCoroutine(DealEarthquakeDamageAfterDelay(earthquakeAnimDuration));
+        // ResumeMovement() 移到傷害結束後
+    }
+
+    private IEnumerator DealEarthquakeDamageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, earthquakeRange);
         foreach (var hitCollider in hitColliders)
         {
@@ -159,6 +168,7 @@ public class EliteEnemy : Enemy
 
         ResumeMovement();
     }
+
 
     private IEnumerator ResetBoolAfterDelay(string param, float delay)
     {

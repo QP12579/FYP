@@ -472,8 +472,8 @@ MonoBehaviour:
   playerDetectionRadius: 0
   gizmos: 0
   hitEffectDuration: 0.2
-  currentHP: 0
-  maxHP: 100
+  currentHP: 75
+  maxHP: 75
   hpBar: {fileID: 0}
   animationSpeed: 0.1
   detectionRange: 10
@@ -549,7 +549,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &6203998965830246009
 MonoBehaviour:
