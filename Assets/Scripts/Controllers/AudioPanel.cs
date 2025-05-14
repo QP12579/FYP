@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AudioPanel : BasePanel
+public class AudioPanel : MonoBehaviour
 {
     [SerializeField]
     private Slider m_BGMSlider;
     [SerializeField]
     private Slider m_SFXSlider;
 
-    protected override void Start()
+    public void Start()
     {
-        base.Start();
         print(SoundManager.instance.name);
         m_BGMSlider.value = SoundManager.instance.bgmVolume;
         m_SFXSlider.value = SoundManager.instance.sfxVolume;
