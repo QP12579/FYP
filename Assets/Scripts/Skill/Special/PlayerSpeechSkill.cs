@@ -157,14 +157,22 @@ public class PlayerSpeechSkill : NetworkBehaviour
         
         float originalMultiplier = notLocalPlayer.DamageMultiplier;
 
-        // Set the damage multiplier to 1.5.
         notLocalPlayer.DamageMultiplier = 1.5f;
-        Debug.Log("Damage multiplier set to " + notLocalPlayer.DamageMultiplier );
+       
+        TargetShowUIApplied(connectionToClient);
+
+        // Find the target client's connection, if available.
+        NetworkIdentity targetIdentity = notLocalPlayer.GetComponent<NetworkIdentity>();
+        if (targetIdentity != null && targetIdentity.connectionToClient != null)
+        {
+            TargetShowUIReceived(targetIdentity.connectionToClient);
+            
+        }
 
         yield return new WaitForSeconds(7f);
 
-        notLocalPlayer.DamageMultiplier = originalMultiplier;
-        Debug.Log("Damage multiplier reset to "+ notLocalPlayer.DamageMultiplier);
+        notLocalPlayer.DamageMultiplier = 1f;
+
     }
 
     private void ResetSP()
@@ -202,15 +210,33 @@ public class PlayerSpeechSkill : NetworkBehaviour
         Debug.Log($"[RPC] Skill VFX #{index} spawned at {targetPosition}");
     }
 
-    [ClientRpc]
-    private void RpcNotifyDoubleDamageActivated()
+    
+    private void TargetShowUIApplied(NetworkConnection target)
     {
-        Debug.Log("Double damage activated for 7 seconds [ClientRpc].");
+        OnRecieveUI onRecieveUI = FindObjectOfType<OnRecieveUI>();
+        if (onRecieveUI != null)
+        {
+         
+            onRecieveUI.ShowStatusMessage("Double Damage Applied!", 7f);
+        }
+        else
+        {
+            Debug.LogWarning("onRecieveUI not found (applied side).");
+        }
     }
 
-    [ClientRpc]
-    private void RpcNotifyDoubleDamageReset()
+    [TargetRpc]
+    private void TargetShowUIReceived(NetworkConnection target)
     {
-        Debug.Log("Double damage effect ended [ClientRpc].");
+        OnRecieveUI onRecieveUI = FindObjectOfType<OnRecieveUI>();
+        if (onRecieveUI != null)
+        {
+            
+            onRecieveUI.ShowStatusMessage("Double Damage Received!", 7f);
+        }
+        else
+        {
+            Debug.LogWarning("onRecieveUI not found (received side).");
+        }
     }
 }
