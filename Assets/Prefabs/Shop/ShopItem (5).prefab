@@ -226,8 +226,8 @@ MonoBehaviour:
   purchaseKey: 114
   purchasePrompt: {fileID: 1508605874397907702}
   Buy_SFX: {fileID: 8300000, guid: f0d352f60b8162b4aab40e2abd246e74, type: 3}
-  BuyFail_SFX: {fileID: 0}
-  BagFull_SFX: {fileID: 0}
+  BuyFail_SFX: {fileID: 8300000, guid: c96f7d8b3338d484785573ecc2259a4f, type: 3}
+  BagFull_SFX: {fileID: 8300000, guid: 5c43f96264f9b6d4daeaf99c02e506ae, type: 3}
 --- !u!65 &8678464669608630304
 BoxCollider:
   m_ObjectHideFlags: 0
