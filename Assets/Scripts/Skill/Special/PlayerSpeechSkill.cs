@@ -201,4 +201,16 @@ public class PlayerSpeechSkill : NetworkBehaviour
     {
         Debug.Log($"[RPC] Skill VFX #{index} spawned at {targetPosition}");
     }
+
+    [ClientRpc]
+    private void RpcNotifyDoubleDamageActivated()
+    {
+        Debug.Log("Double damage activated for 7 seconds [ClientRpc].");
+    }
+
+    [ClientRpc]
+    private void RpcNotifyDoubleDamageReset()
+    {
+        Debug.Log("Double damage effect ended [ClientRpc].");
+    }
 }

@@ -483,7 +483,7 @@ MonoBehaviour:
   dashSpeed: 20
   dashDamage: 20
   attackCooldown: 3
-  damage: 1
+  damage: 5
   attackFrequency: 1
 --- !u!114 &-8629394256709007119
 MonoBehaviour:
