@@ -32,6 +32,9 @@ public class Player : NetworkBehaviour
     [SyncVar]
     private float speedModifier = 1.0f;
 
+    [SyncVar]
+    public float DamageMultiplier = 1.0f;
+
     private PlayerMovement move;
     private PersistentUI persistentUI;
     [HideInInspector] public Animator animator;
@@ -141,7 +144,7 @@ public class Player : NetworkBehaviour
             Debug.Log("Normal Block");
         }
         float realDamage = Mathf.Min(damage * (1 - abilityDamageReduction - PlayerBuffSystem.instance.GetBuffValue(BuffType.DamageReduction)), HP);
-        HP -= realDamage;
+        HP -= realDamage * DamageMultiplier ;
 
         UpdatePlayerUIInfo();
         animator.SetTrigger("Hurt");

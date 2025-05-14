@@ -4,12 +4,21 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using Mirror;
+using System.Security.Principal;
+using System;
+using static Cinemachine.DocumentationSortingAttribute;
+using Unity.Mathematics;
 
 public class PlayerSpeechSkill : NetworkBehaviour
 {
     [Header("UI & Speech Settings")]
     public TMP_Text outputText;       
-    public List<string> keywords;     
+    public List<string> keywords;
+
+    private delegate void KeywordAction();
+
+    // Create a dictionary to map keywords to actions.
+    private Dictionary<string, KeywordAction> keywordActions;
 
     [Header("VFX Settings")]
     public List<GameObject> vfxPrefabs;
@@ -19,7 +28,8 @@ public class PlayerSpeechSkill : NetworkBehaviour
     private HashSet<string> generatedKeywords = new HashSet<string>();
 
     private GameObject otherPlayer;
-
+    private Player notLocalPlayer;
+    private Player LocalPlayer;
     private void Awake()
     {
 
@@ -35,14 +45,41 @@ public class PlayerSpeechSkill : NetworkBehaviour
 
     private void Start()
     {
-        Debug.Log(" aiosjudhnsaijndf "); 
-       
+        FindLocalPlayer();
         FindOtherPlayer();
-    }
+        keywordActions = new Dictionary<string, KeywordAction>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "Double", () => {
+                if (notLocalPlayer != null)
+                    FindOtherPlayer();
+                     MakeItDouble();
+            ResetSP();
+            }
+        },
 
+        { "burn", () => {
+                if (otherPlayer != null)
+                {
+                    Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
+                    // Assume that index 0 is reserved for an explosion VFX or adjust accordingly.
+                    CmdSpawnSkillVFX(0, spawnPosition, otherPlayer.transform.rotation);
+                    ResetSP();
+                    Debug.Log("[Action] Explosion VFX spawned.");
+                }
+                else
+                {
+                    Debug.LogWarning("Other player reference is null. Cannot spawn explosion VFX.");
+                }
+              }
+            }
+      
+         };
+
+    }
    public void FindOtherPlayer()
     {
-        
+        if (otherPlayer != null) return;
+
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
@@ -50,7 +87,10 @@ public class PlayerSpeechSkill : NetworkBehaviour
             if (identity != null && !(identity.isLocalPlayer))
             {
                 otherPlayer = player;
+                notLocalPlayer = identity;
                 Debug.Log($"Other player found: {otherPlayer.name}");
+                
+                
                 break;
             }
         }
@@ -60,51 +100,78 @@ public class PlayerSpeechSkill : NetworkBehaviour
             Debug.LogWarning("No other player found.");
         }
     }
+
+    public void FindLocalPlayer()
+    {
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            Player identity = player.GetComponent<Player>();
+            if (identity != null && (identity.isLocalPlayer))
+
+                LocalPlayer = identity;
+                Debug.Log($"local player found: {otherPlayer.name}");
+                break;
+          }
+        
+
+    }
     public void CheckForKeyword()
     {
         FindOtherPlayer();
         if (PersistentUI.Instance.SpecialAttackSlider.value != 1)
         {
-            Debug.Log("Special skill cannot be used because the special bar is not full.");
+            Debug.Log("special bar is not full.");
             return;
         }
 
-        // Remove punctuation and trim spaces
         string speechword = RemovePunctuation(outputText.text.Trim());
         Debug.Log($"Current output: {speechword}");
 
-        // Loop through the keywords list.
-        for (int i = 0; i < keywords.Count; i++)
-        { 
-            if (speechword.Equals(keywords[i], System.StringComparison.OrdinalIgnoreCase) )
+        // Loop through our keyword mapping.
+        foreach (var pair in keywordActions)
+        {
+            if (speechword.Equals(pair.Key, StringComparison.OrdinalIgnoreCase))
             {
-                Debug.Log($"Keyword matched: {keywords[i]}! Generating VFX on the other player.");
-
-                // Mark this keyword as used.
-                generatedKeywords.Add(keywords[i]);
-
-                // If we have a reference to the other player, spawn the effect at their position.
-                if (otherPlayer != null)
-                {
-                    Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
-                    CmdSpawnSkillVFX(i, spawnPosition, otherPlayer.transform.rotation);
-                    ResetSP();
-                    Debug.Log(otherPlayer.transform.rotation);
-                    Debug.Log(otherPlayer.name);
-                }
-                else
-                {
-                    Debug.LogWarning("Other player reference is null. Cannot spawn VFX.");
-                }
-
+                Debug.Log($"Keyword matched: {pair.Key}! Executing its action.");
+                // Mark the keyword as used.
+                generatedKeywords.Add(pair.Key);
+                // Execute the corresponding action.
+                pair.Value.Invoke();
                 break;
             }
         }
     }
 
+
+    [Command(requiresAuthority = false)]
+    private void MakeItDouble()
+    {
+        
+        notLocalPlayer.DamageMultiplier = 1.5f;
+        StartCoroutine(TemporaryDoubleDamage());
+    }
+    private IEnumerator TemporaryDoubleDamage()
+    {
+        
+        float originalMultiplier = notLocalPlayer.DamageMultiplier;
+
+        // Set the damage multiplier to 1.5.
+        notLocalPlayer.DamageMultiplier = 1.5f;
+        Debug.Log("Damage multiplier set to " + notLocalPlayer.DamageMultiplier );
+
+        yield return new WaitForSeconds(7f);
+
+        notLocalPlayer.DamageMultiplier = originalMultiplier;
+        Debug.Log("Damage multiplier reset to "+ notLocalPlayer.DamageMultiplier);
+    }
+
     private void ResetSP()
     {
-        PersistentUI.Instance.SpecialAttackSlider.value = 0;
+        FindLocalPlayer();
+        LocalPlayer.UseSP();
+
     }
 
     private string RemovePunctuation(string input)

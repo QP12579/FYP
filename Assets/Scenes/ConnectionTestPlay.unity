@@ -112165,17 +112165,32 @@ PrefabInstance:
     - target: {fileID: 2958688984248064385, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: -0.000037558064
       objectReference: {fileID: 0}
     - target: {fileID: 3604391289182412442, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000061035156
+      value: 0.00004569264
       objectReference: {fileID: 0}
     - target: {fileID: 3784328183292628399, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
       propertyPath: sceneId
       value: 2693376253
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157764772592261383, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: keywords.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157764772592261383, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: keywords.Array.data[0]
+      value: double
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157764772592261383, guid: 23ff8e82570b16e468883a7be209780a,
+        type: 3}
+      propertyPath: keywords.Array.data[1]
+      value: burn
       objectReference: {fileID: 0}
     - target: {fileID: 4268302792033715699, guid: 23ff8e82570b16e468883a7be209780a,
         type: 3}
@@ -112592,8 +112607,7 @@ PrefabInstance:
       propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4109561235077225006, guid: 23ff8e82570b16e468883a7be209780a, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
