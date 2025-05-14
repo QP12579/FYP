@@ -200,9 +200,9 @@ MonoBehaviour:
   criticalRate: 0.2
   criticalMultiplier: 1.5
   criticalEffectPrefab: {fileID: 0}
-  criticalSound: {fileID: 0}
-  NrmATK_SFX: {fileID: 0}
-  FarATK_SFX: {fileID: 0}
+  criticalSound: {fileID: 8300000, guid: 3552e832b628012448e7f3ba8e113254, type: 3}
+  NrmATK_SFX: {fileID: 8300000, guid: a0b7fea9d5ffeef459ed034291c563bc, type: 3}
+  FarATK_SFX: {fileID: 8300000, guid: f30d5b0d2a495f2489a5226edc19dbc7, type: 3}
   AbilityATKPlus: 0
   AbilityATKSpeedPlus: 0
   AbilityATKArea: 0
@@ -422,11 +422,12 @@ MonoBehaviour:
   MP: 50
   SP: 0
   level: 1
-  UseSP_SFX: {fileID: 0}
-  GetHurt_SFX: {fileID: 0}
-  Die_SFX: {fileID: 0}
-  Defense_SFX: {fileID: 0}
-  Heal_SFX: {fileID: 0}
+  UseSP_SFX: {fileID: 8300000, guid: e051cb14ecbc5994c8d12003f8fb2531, type: 3}
+  GetHurt_SFX: {fileID: 8300000, guid: 82500e8d1aff5d3499b862fa16b3d101, type: 3}
+  Die_SFX: {fileID: 8300000, guid: 3552e832b628012448e7f3ba8e113254, type: 3}
+  Defense_SFX: {fileID: 8300000, guid: 5d45a13089398e642afdad1e3cdd0ec8, type: 3}
+  Heal_SFX: {fileID: 8300000, guid: 77ed71b3e62a3de46ac1a10cd2bc3e1b, type: 3}
+  DamageMultiplier: 1
   animator: {fileID: 0}
   abilityPerfectDefenceluck: 0
   abilityNormalDefencePlus: 0
