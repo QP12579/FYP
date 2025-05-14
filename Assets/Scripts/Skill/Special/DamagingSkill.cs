@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class DamagingSkill : MonoBehaviour
 {
-
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
+        Player player = other.gameObject.GetComponent<Player>();
 
         if (player != null && !isDamaging)
         {
@@ -27,7 +26,4 @@ public class DamagingSkill : MonoBehaviour
         }
         isDamaging = false;
     }
-
-
-
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1100003774137675523}
   - component: {fileID: 5795757159930744749}
   - component: {fileID: 1348510721831994041}
+  - component: {fileID: 3691490856985159340}
   m_Layer: 0
   m_Name: FireTornado 1
   m_TagString: Untagged
@@ -197,3 +198,24 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!65 &3691490856985159340
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4716802786508907285}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.096828274, y: 0.11055698, z: 0.081647985}
+  m_Center: {x: -0.00081041455, y: 0.055903792, z: -0.0009093091}
