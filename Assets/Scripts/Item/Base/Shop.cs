@@ -10,6 +10,7 @@ public class Shop : MonoBehaviour
     [SerializeField]
     private ItemType[] canSpawntype;
 
+    [SerializeField] bool isMagic;
     public float tariffs = 2;
     private List<ShopItem> spawnedItems = new List<ShopItem>();
 
