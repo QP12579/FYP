@@ -12,7 +12,7 @@ using Unity.Mathematics;
 public class PlayerSpeechSkill : NetworkBehaviour
 {
     [Header("UI & Speech Settings")]
-    public TMP_Text outputText;       
+    public TMP_Text outputText;
     public List<string> keywords;
 
     private delegate void KeywordAction();
@@ -52,8 +52,13 @@ public class PlayerSpeechSkill : NetworkBehaviour
         { "Double", () => {
                 if (notLocalPlayer != null)
                     FindOtherPlayer();
+
+                 Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
+
                      MakeItDouble();
-            ResetSP();
+                     CmdSpawnSkillVFX(1, spawnPosition, otherPlayer.transform.rotation);
+                     ResetSP();
+                     UIDoubleDamageStatus(true);
             }
         },
 
@@ -63,6 +68,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
                     Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
                     // Assume that index 0 is reserved for an explosion VFX or adjust accordingly.
                     CmdSpawnSkillVFX(0, spawnPosition, otherPlayer.transform.rotation);
+                     UIFireStatus(true);
                     ResetSP();
                     Debug.Log("[Action] Explosion VFX spawned.");
                 }
@@ -72,11 +78,11 @@ public class PlayerSpeechSkill : NetworkBehaviour
                 }
               }
             }
-      
+
          };
 
     }
-   public void FindOtherPlayer()
+    public void FindOtherPlayer()
     {
         if (otherPlayer != null) return;
 
@@ -89,8 +95,8 @@ public class PlayerSpeechSkill : NetworkBehaviour
                 otherPlayer = player;
                 notLocalPlayer = identity;
                 Debug.Log($"Other player found: {otherPlayer.name}");
-                
-                
+
+
                 break;
             }
         }
@@ -111,10 +117,10 @@ public class PlayerSpeechSkill : NetworkBehaviour
             if (identity != null && (identity.isLocalPlayer))
 
                 LocalPlayer = identity;
-                Debug.Log($"local player found: {otherPlayer.name}");
-                break;
-          }
-        
+            Debug.Log($"local player found: {otherPlayer.name}");
+            break;
+        }
+
 
     }
     public void CheckForKeyword()
@@ -148,26 +154,16 @@ public class PlayerSpeechSkill : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void MakeItDouble()
     {
-        
+
         notLocalPlayer.DamageMultiplier = 1.5f;
         StartCoroutine(TemporaryDoubleDamage());
     }
     private IEnumerator TemporaryDoubleDamage()
     {
-        
+
         float originalMultiplier = notLocalPlayer.DamageMultiplier;
 
         notLocalPlayer.DamageMultiplier = 1.5f;
-       
-        TargetShowUIApplied(connectionToClient);
-
-        // Find the target client's connection, if available.
-        NetworkIdentity targetIdentity = notLocalPlayer.GetComponent<NetworkIdentity>();
-        if (targetIdentity != null && targetIdentity.connectionToClient != null)
-        {
-            TargetShowUIReceived(targetIdentity.connectionToClient);
-            
-        }
 
         yield return new WaitForSeconds(7f);
 
@@ -190,7 +186,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void CmdSpawnSkillVFX(int index, Vector3 targetPosition, Quaternion targetRotation)
     {
-        
+
         // Instantiate the VFX prefab at the target player's position.
         GameObject effect = Instantiate(vfxPrefabs[index], targetPosition, targetRotation);
 
@@ -204,39 +200,50 @@ public class PlayerSpeechSkill : NetworkBehaviour
         RpcOnSkillUsed(index, targetPosition);
     }
 
-    [ClientRpc]
+    [TargetRpc]
     private void RpcOnSkillUsed(int index, Vector3 targetPosition)
     {
         Debug.Log($"[RPC] Skill VFX #{index} spawned at {targetPosition}");
     }
 
-    
-    private void TargetShowUIApplied(NetworkConnection target)
+
+
+    [TargetRpc]
+    private void RPCUIDoubleDamageStatus(bool isActive)
     {
+        // Find the UI manager on this client.
         OnRecieveUI onRecieveUI = FindObjectOfType<OnRecieveUI>();
         if (onRecieveUI != null)
         {
-         
-            onRecieveUI.ShowStatusMessage("Double Damage Applied!", 7f);
-        }
-        else
-        {
-            Debug.LogWarning("onRecieveUI not found (applied side).");
+            if (isActive)
+                onRecieveUI.ShowStatusMessage("Feel Double", 7f);
+
         }
     }
 
-    [TargetRpc]
-    private void TargetShowUIReceived(NetworkConnection target)
+    [Command]
+    private void UIDoubleDamageStatus(bool isActive)
     {
+        // Find the UI manager on this client.
         OnRecieveUI onRecieveUI = FindObjectOfType<OnRecieveUI>();
         if (onRecieveUI != null)
         {
-            
-            onRecieveUI.ShowStatusMessage("Double Damage Received!", 7f);
+            if (isActive)
+                onRecieveUI.ShowStatusMessage("Double Damage Applied!", 7f);
+
         }
-        else
+    }
+
+    [Command]
+    private void UIFireStatus(bool isActive)
+    {
+        // Find the UI manager on this client.
+        OnRecieveUI onRecieveUI = FindObjectOfType<OnRecieveUI>();
+        if (onRecieveUI != null)
         {
-            Debug.LogWarning("onRecieveUI not found (received side).");
+            if (isActive)
+                onRecieveUI.ShowStatusMessage("Opponent is burning LOL", 3f);
+
         }
     }
 }

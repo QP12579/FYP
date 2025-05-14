@@ -104,6 +104,10 @@ public class Player : NetworkBehaviour
             Bag.instance.AddCoins(10);
          }
 
+        if (Input.GetKeyDown (KeyCode.V) && isLocalPlayer)
+        {
+            GetSP();
+        }
     }
 
     public Player()
