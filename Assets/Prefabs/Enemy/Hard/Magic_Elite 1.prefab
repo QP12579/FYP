@@ -139,6 +139,7 @@ MonoBehaviour:
   teleportTestKey: 116
   appearAnimDuration: 0.5
   floor: {fileID: 0}
+  transfer_SFX: {fileID: 8300000, guid: 3e35d2e6016260c42ae79b1300634393, type: 3}
 --- !u!114 &750007621120449902
 MonoBehaviour:
   m_ObjectHideFlags: 0

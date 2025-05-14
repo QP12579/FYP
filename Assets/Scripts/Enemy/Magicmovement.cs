@@ -22,6 +22,9 @@ public class Magicmovement : EnemyMovement
     [Header("Floor Reference")]
     public GameObject floor; // 拖曳你的 floor prefab 進來
 
+    [Header("Audio Clip")]
+    [SerializeField] private AudioClip transfer_SFX;
+
     private Vector3 areaMin;
     private Vector3 areaMax;
 
@@ -158,7 +161,7 @@ public class Magicmovement : EnemyMovement
         if (anim != null)
         {
             anim.SetBool("isAppear", false);
-            StartCoroutine(ResetIsAppearAfterDelay());
+            StartCoroutine(ResetIsAppearAfterDelay()); PlayTransferSFX();
         }
     }
 
@@ -166,7 +169,13 @@ public class Magicmovement : EnemyMovement
     {
         yield return new WaitForSeconds(appearAnimDuration);
         if (anim != null)
-            anim.SetBool("isAppear", true);
+            anim.SetBool("isAppear", true); PlayTransferSFX();
+    }
+
+    private void PlayTransferSFX()
+    {
+        if (transfer_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(transfer_SFX, transform);
     }
 
     // 移除 new 關鍵字
