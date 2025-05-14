@@ -10,6 +10,9 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private TextMeshPro costText;
     [SerializeField] private KeyCode purchaseKey = KeyCode.R;
     [SerializeField] private GameObject purchasePrompt; // 購買提示UI
+    [SerializeField] private AudioClip Buy_SFX;
+    [SerializeField] private AudioClip BuyFail_SFX;
+    [SerializeField] private AudioClip BagFull_SFX;
 
     private bool playerInRange = false;
 
@@ -62,12 +65,16 @@ public class ShopItem : MonoBehaviour
         // 檢查條件
         if (Bag.instance.isItemBagFull)
         {
+            if (BagFull_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(BagFull_SFX);
             Debug.Log("背包已滿!");
             return;
         }
 
         if (Bag.instance.coins < cost)
         {
+            if (BuyFail_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(BuyFail_SFX);
             Debug.Log("金幣不足!");
             return;
         }
@@ -77,6 +84,8 @@ public class ShopItem : MonoBehaviour
         Bag.instance.AddItem(itemPrefab.item);
         Bag.instance.UpdateBagUI();
 
+        if (Buy_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(Buy_SFX);
         Debug.Log($"購買了 {itemPrefab.item.name}!");
     }
 

@@ -225,6 +225,9 @@ MonoBehaviour:
   costText: {fileID: 3993880579576496489}
   purchaseKey: 114
   purchasePrompt: {fileID: 7162730403420725958}
+  Buy_SFX: {fileID: 8300000, guid: f0d352f60b8162b4aab40e2abd246e74, type: 3}
+  BuyFail_SFX: {fileID: 0}
+  BagFull_SFX: {fileID: 0}
 --- !u!65 &-5773482498788824991
 BoxCollider:
   m_ObjectHideFlags: 0
