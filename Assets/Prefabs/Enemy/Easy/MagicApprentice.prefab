@@ -445,7 +445,7 @@ MonoBehaviour:
   spriterenderer: {fileID: 937333539423217826}
   spawnIndicator: {fileID: 6052340272583123884}
   passAwayParticles: {fileID: 0}
-  playerDetectionRadius: 0
+  playerDetectionRadius: 1
   gizmos: 0
   hitEffectDuration: 0.2
   currentHP: 50

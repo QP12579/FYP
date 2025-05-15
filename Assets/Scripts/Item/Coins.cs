@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Coins : BaseItem
 {
+    public AudioClip CoinSound;
+
     public Coins()
     {
         item = new Item
@@ -15,6 +17,8 @@ public class Coins : BaseItem
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
+        if (CoinSound != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(CoinSound);
     }
 
     protected override void GetItem()

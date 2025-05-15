@@ -10,6 +10,7 @@ public class Portal : NetworkBehaviour
 
     public Transform destinationPoint;
 
+    public AudioClip portalSound;
     [Server]
     public void SetTargetPlayer(Player player)
     {
@@ -17,6 +18,14 @@ public class Portal : NetworkBehaviour
         {
             targetPlayerNetId = player.netId;
             Debug.Log($"Portal target set to player with netId {targetPlayerNetId}");
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (portalSound != null)
+        {
+            SoundManager.instance.PlaySFX(portalSound, transform);
         }
     }
 

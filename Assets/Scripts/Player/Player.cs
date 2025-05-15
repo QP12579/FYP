@@ -36,7 +36,7 @@ public class Player : NetworkBehaviour
     public float DamageMultiplier = 1.0f;
 
     private PlayerMovement move;
-    private PersistentUI persistentUI;
+    public PersistentUI persistentUI;
     [HideInInspector] public Animator animator;
 
     // Defense
@@ -48,8 +48,8 @@ public class Player : NetworkBehaviour
     [HideInInspector] public float abilityDecreaseMP = 0;
     [HideInInspector] public float abilityAutoFillMP = 0;
 
-
-    [SerializeField] private bool isMagic;
+    [SyncVar]
+    [SerializeField] public bool isMagic;
     private void Start()
     {
         InitializeUI();
@@ -172,14 +172,10 @@ public class Player : NetworkBehaviour
         if (HP <= 0)
             Die();
     }
-
-    public void Die()
+    [ClientRpc]
+    public void CmdPlayerWin()
     {
-
-        if (Die_SFX != null && SoundManager.instance != null)
-            SoundManager.instance.PlaySFX(Die_SFX);
-
-        if (isMagic == true )
+        if (isMagic == true)
         {
             PersistentUI.Instance.ShowMagicWin();
         }
@@ -187,8 +183,29 @@ public class Player : NetworkBehaviour
         {
             PersistentUI.Instance.ShowTechWin();
         }
-            
-            
+    }
+
+    [Command]
+    public void CmdPlayerDied()
+    {
+        if (isMagic == true)
+        {
+            PersistentUI.Instance.ShowTechWin();
+        }
+        else
+        {
+            PersistentUI.Instance.ShowMagicWin();
+        }
+
+    }
+
+    public void Die()
+    {
+        if (Die_SFX != null && SoundManager.instance != null)
+            SoundManager.instance.PlaySFX(Die_SFX);
+
+            CmdPlayerDied();
+
             Destroy(gameObject, 1f);
     }
 

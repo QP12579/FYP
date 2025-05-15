@@ -19449,6 +19449,8 @@ GameObject:
   - component: {fileID: 4213246051879800762}
   - component: {fileID: 542658390702635466}
   - component: {fileID: 2130535221093192553}
+  - component: {fileID: 522944826468262995}
+  - component: {fileID: -5461849028335181243}
   m_Layer: 0
   m_Name: Goal
   m_TagString: Untagged
@@ -19540,12 +19542,44 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.98, y: 1.3, z: 0.2}
   m_Center: {x: 0, y: -0.2, z: 0}
+--- !u!114 &522944826468262995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8361591289610871366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de99f4f4605542443939cedab3c26a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &-5461849028335181243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8361591289610871366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1795109581
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &8556156131155913454
 GameObject:
   m_ObjectHideFlags: 0

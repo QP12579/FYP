@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6530187067924380788
 Transform:
   m_ObjectHideFlags: 0
@@ -149,6 +149,8 @@ MonoBehaviour:
     name: Coin
     description: Can buy items
   GetSound: {fileID: 0}
+  CoinSound: {fileID: 8300000, guid: f0d352f60b8162b4aab40e2abd246e74, type: 3}
+  CoinValue: 5
 --- !u!114 &-2816646786626900176
 MonoBehaviour:
   m_ObjectHideFlags: 0

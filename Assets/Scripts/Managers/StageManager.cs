@@ -194,7 +194,7 @@ public class StageManager : NetworkBehaviour
                     Transform spawnPoint = nextController.GetPlayerSpawnPoint();
                     if (spawnPoint != null)
                     {
-                        portalComponent.destinationPoint = spawnPoint;
+                        //portalComponent.destinationPoint = spawnPoint;
                     }
                 }
             }

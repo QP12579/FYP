@@ -38,7 +38,7 @@ public class DropManager : NetworkBehaviour
     [Server]
     private void EnemyPassAwayCallBack(Vector3 enemyPosition)
     {
-       Coins coinInstance =  Instantiate(coinPrefab , enemyPosition, Quaternion.identity , transform);
+       Coins coinInstance =  Instantiate(coinPrefab , enemyPosition, Quaternion.identity);
         NetworkServer.Spawn(coinInstance.gameObject);
         coinInstance.gameObject.transform.localPosition = enemyPosition;
 
