@@ -159,7 +159,7 @@ MonoBehaviour:
   patrolSpeed: 3
   attackRange: 2
   restDuration: 2
-  earthquakeRange: 5
+  earthquakeRange: 1
   earthquakeDamage: 20
   mechhandPrefab: {fileID: 5250270597504836957, guid: 46916f344a010dd40be3fdaea5b179e6,
     type: 3}

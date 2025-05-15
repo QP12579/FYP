@@ -91,10 +91,12 @@ public class EliteEnemy : Enemy
         {
             anim.SetBool("FastATK", true);
             StartCoroutine(FastAttackCoroutine());
-            if (ATK_SFX != null && SoundManager.instance != null)
-                SoundManager.instance.PlaySFX(ATK_SFX, transform);
+            // 播放 SlowATK_SFX（快攻和慢攻都用這個）
+            if (SlowATK_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(SlowATK_SFX, transform);
         }
     }
+
 
     private IEnumerator FastAttackCoroutine()
     {

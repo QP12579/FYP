@@ -234,7 +234,7 @@ MonoBehaviour:
   ATK4_SFX: {fileID: 8300000, guid: 49f1a2a869c939c41924197b8222b2e4, type: 3}
   patrolSpeed: 3
   attackRange: 2
-  restDuration: 2
+  restDuration: 0.5
   earthquakeRange: 5
   earthquakeDamage: 20
   mechhandPrefab: {fileID: 5250270597504836957, guid: 46916f344a010dd40be3fdaea5b179e6,
