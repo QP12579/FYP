@@ -38,8 +38,7 @@ public class StageManager : NetworkBehaviour
 
     void Start()
     {
-        void Start()
-        {
+        
             gameStartTime = Time.time;
 
             if (isServer)
@@ -54,7 +53,7 @@ public class StageManager : NetworkBehaviour
 
             if (winnerPanel != null)
                 winnerPanel.SetActive(false);
-        }
+        
     }
 
     private void InitializeStages(GameObject[] stages)

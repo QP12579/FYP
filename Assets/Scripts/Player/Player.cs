@@ -48,6 +48,8 @@ public class Player : NetworkBehaviour
     [HideInInspector] public float abilityDecreaseMP = 0;
     [HideInInspector] public float abilityAutoFillMP = 0;
 
+
+    [SerializeField] private bool isMagic;
     private void Start()
     {
         InitializeUI();
@@ -99,7 +101,7 @@ public class Player : NetworkBehaviour
 
             Debug.Log("Added SKill points");
         }
-        if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
+        if (Input.GetKeyDown(KeyCode.J) && isLocalPlayer)
          {
             Bag.instance.AddCoins(10);
          }
@@ -108,6 +110,17 @@ public class Player : NetworkBehaviour
         {
             GetSP();
         }
+        if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
+        {
+            Heal(30);
+
+        }
+        if (Input.GetKeyDown(KeyCode.K) && isLocalPlayer)
+        {
+            GetMP(30);
+
+        }
+
     }
 
     public Player()
@@ -162,9 +175,21 @@ public class Player : NetworkBehaviour
 
     public void Die()
     {
+
         if (Die_SFX != null && SoundManager.instance != null)
             SoundManager.instance.PlaySFX(Die_SFX);
-        Destroy(gameObject, 1f);
+
+        if (isMagic == true )
+        {
+            PersistentUI.Instance.ShowMagicWin();
+        }
+        else
+        {
+            PersistentUI.Instance.ShowTechWin();
+        }
+            
+            
+            Destroy(gameObject, 1f);
     }
 
     public void Heal(float h)

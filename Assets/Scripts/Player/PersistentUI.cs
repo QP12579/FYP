@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PersistentUI : MonoBehaviour
+public class PersistentUI : NetworkBehaviour
 {
     public static PersistentUI Instance { get; private set; }
     [Header("UI References")]
@@ -17,7 +17,11 @@ public class PersistentUI : MonoBehaviour
     public GameObject SPFullEffect;
     public GameObject SPHintKeywords;
     private bool isSPFullEffectAnimating = false;
+    public GameObject magicPanel;
+    public GameObject techPanel;
+       
 
+    
     private void Awake()
     {
         if (Instance == null)
@@ -121,5 +125,17 @@ public class PersistentUI : MonoBehaviour
             canvasGroup = obj.AddComponent<CanvasGroup>();
         }
         canvasGroup.alpha = alpha;
+    }
+
+    [ClientRpc]
+   public void ShowMagicWin()
+    {
+        magicPanel.gameObject.SetActive(true);
+    }
+
+    [ClientRpc]
+    public void ShowTechWin()
+    {
+        techPanel.gameObject.SetActive(true);
     }
 }

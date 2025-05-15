@@ -208,16 +208,10 @@ public class PlayerSpeechSkill : NetworkBehaviour
         // Optionally, clean it up after 5 seconds.
         Destroy(effect, 5f);
 
-        // Optionally, broadcast an RPC for logging/notification.
-        RpcOnSkillUsed(index, targetPosition);
+     
     }
 
-    [TargetRpc]
-    private void RpcOnSkillUsed(int index, Vector3 targetPosition)
-    {
-        Debug.Log($"[RPC] Skill VFX #{index} spawned at {targetPosition}");
-    }
-
+   
 
 
     [TargetRpc]
