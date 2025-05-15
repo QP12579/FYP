@@ -58,7 +58,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
                      MakeItDouble();
                      CmdSpawnSkillVFX(1, spawnPosition, otherPlayer.transform.rotation);
                      ResetSP();
-                    // UIDoubleDamageStatus(true);
+                     UIDoubleDamageStatus(true);
             }
         },
 
@@ -77,22 +77,9 @@ public class PlayerSpeechSkill : NetworkBehaviour
                     Debug.LogWarning("Other player reference is null. Cannot spawn explosion VFX.");
                 }
               }
-            },
-
-             { "Enemy", () => {
-                if (notLocalPlayer != null)
-                    FindOtherPlayer();
-
-                 Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
-
-                     
-                     CmdSpawnSkillVFX(2, spawnPosition, otherPlayer.transform.rotation);
-                     ResetSP();
-                     
-             }
             }
+
          };
-        
 
     }
     public void FindOtherPlayer()
@@ -209,9 +196,30 @@ public class PlayerSpeechSkill : NetworkBehaviour
         // Optionally, clean it up after 5 seconds.
         Destroy(effect, 5f);
 
+        // Optionally, broadcast an RPC for logging/notification.
+        RpcOnSkillUsed(index, targetPosition);
     }
 
-   
+    [TargetRpc]
+    private void RpcOnSkillUsed(int index, Vector3 targetPosition)
+    {
+        Debug.Log($"[RPC] Skill VFX #{index} spawned at {targetPosition}");
+    }
+
+
+
+    [TargetRpc]
+    private void RPCUIDoubleDamageStatus(bool isActive)
+    {
+        // Find the UI manager on this client.
+        OnRecieveUI onRecieveUI = FindObjectOfType<OnRecieveUI>();
+        if (onRecieveUI != null)
+        {
+            if (isActive)
+                onRecieveUI.ShowStatusMessage("Feel Double", 7f);
+
+        }
+    }
 
     [Command]
     private void UIDoubleDamageStatus(bool isActive)
