@@ -131,7 +131,7 @@ public class StageController : NetworkBehaviour
             Portal portalComponent = portal.GetComponent<Portal>();
             if (portalComponent != null && targetPlayer != null)
             {
-                portalComponent.SetTargetPlayer(targetPlayer);
+                //portalComponent.SetTargetPlayer(targetPlayer);
             }
         }
 

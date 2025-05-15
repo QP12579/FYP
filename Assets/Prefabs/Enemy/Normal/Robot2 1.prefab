@@ -446,7 +446,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  moveSpeed: 3
+  moveSpeed: 1.8
   anim: {fileID: 4502292986517328008}
   hitBackForce: 2
   hitBackDuration: 0.5
@@ -485,7 +485,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   dashRange: 0
-  dashSpeed: 20
+  dashSpeed: 11.03
   dashDamage: 20
   attackCooldown: 10
   damage: 0

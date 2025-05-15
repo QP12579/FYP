@@ -19,8 +19,7 @@ public class Portal : NetworkBehaviour
             Debug.Log($"Portal target set to player with netId {targetPlayerNetId}");
         }
     }
-
-    [ServerCallback]
+    
     private void OnTriggerEnter(Collider other)
     {
         Player player = other.GetComponent<Player>();

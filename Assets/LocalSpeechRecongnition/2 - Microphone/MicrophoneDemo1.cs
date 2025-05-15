@@ -35,6 +35,8 @@ namespace Whisper.Samples
 
         }
 
+      
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.C))

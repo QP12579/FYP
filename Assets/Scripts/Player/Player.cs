@@ -10,7 +10,7 @@ public class Player : NetworkBehaviour
     public int MaxHP = 100;
     [HideInInspector]
     public float HP = 100;
-
+    public bool isMagicPlayer;
     public float MaxMP = 50;
 
     public float CurrentMaxHP => MaxHP * (1 + PlayerBuffSystem.instance.GetBuffValue(BuffType.MaxHPUp));
@@ -99,7 +99,7 @@ public class Player : NetworkBehaviour
 
             Debug.Log("Added SKill points");
         }
-        if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
+        if (Input.GetKeyDown(KeyCode.K) && isLocalPlayer)
          {
             Bag.instance.AddCoins(10);
          }
@@ -107,6 +107,15 @@ public class Player : NetworkBehaviour
         if (Input.GetKeyDown (KeyCode.V) && isLocalPlayer)
         {
             GetSP();
+        }
+
+        if (Input.GetKeyDown(KeyCode.J) && isLocalPlayer)
+        {
+            GetMP(30);
+        }
+        if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
+        {
+            Heal(30);
         }
     }
 
@@ -159,11 +168,17 @@ public class Player : NetworkBehaviour
         if (HP <= 0)
             Die();
     }
-
+    [Server]
     public void Die()
     {
         if (Die_SFX != null && SoundManager.instance != null)
             SoundManager.instance.PlaySFX(Die_SFX);
+
+
+        if (StageManager.Instance != null)
+        {
+            StageManager.Instance.OnPlayerDied(isMagicPlayer);
+        }
         Destroy(gameObject, 1f);
     }
 

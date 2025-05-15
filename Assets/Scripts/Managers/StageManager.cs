@@ -14,14 +14,19 @@ public class StageManager : NetworkBehaviour
     [Header("Techno Path Stages")]
     [SerializeField] private GameObject[] technoStages;
 
-    
+    [Header("Win/Lose Conditions")]
+    [SerializeField] private GameObject finalStageTrophy; 
+    private bool gameEnded = false;
+
     private Dictionary<uint, PlayerProgress> playerProgress = new Dictionary<uint, PlayerProgress>();
 
     
     private float gameStartTime;
 
-   
-    [SerializeField] private GameObject winnerPanel;
+
+    [Header("Win Panels")]
+    [SerializeField] private GameObject magicWinPanel;
+    [SerializeField] private GameObject technoWinPanel;
     [SerializeField] private TMPro.TextMeshProUGUI winnerText;
 
 
@@ -38,23 +43,22 @@ public class StageManager : NetworkBehaviour
 
     void Start()
     {
-        void Start()
-        {
+        
             gameStartTime = Time.time;
 
             if (isServer)
             {
-                // Spawn all stages on network before initializing them
+             
                 SpawnAllStages();
             }
 
-            // Initialize stages
+           
             InitializeStages(magicStages);
             InitializeStages(technoStages);
 
-            if (winnerPanel != null)
-                winnerPanel.SetActive(false);
-        }
+        if (magicWinPanel != null) magicWinPanel.SetActive(false);
+        if (technoWinPanel != null) technoWinPanel.SetActive(false);
+
     }
 
     private void InitializeStages(GameObject[] stages)
@@ -195,7 +199,7 @@ public class StageManager : NetworkBehaviour
                     Transform spawnPoint = nextController.GetPlayerSpawnPoint();
                     if (spawnPoint != null)
                     {
-                        portalComponent.destinationPoint = spawnPoint;
+                       // portalComponent.destinationPoint = spawnPoint;
                     }
                 }
             }
@@ -289,7 +293,6 @@ public class StageManager : NetworkBehaviour
         }
     }
 
-    // Called when player completes all stages
     [Server]
     private void PlayerCompletedAllStages(Player player)
     {
@@ -299,22 +302,50 @@ public class StageManager : NetworkBehaviour
         // Calculate completion time
         float completionTime = Time.time - gameStartTime;
 
-        // Announce winner to all clients
-        RpcShowWinner(progress.isMagicPlayer ? "Magic Player" : "Techno Player", completionTime);
+        RpcShowWinner(progress.isMagicPlayer);
     }
 
     [ClientRpc]
-    private void RpcShowWinner(string playerType, float completionTime)
+    private void RpcShowWinner(bool isMagicPlayerWinner)
     {
-        // Show winner UI
-        if (winnerPanel != null)
+        // Activate the correct win panel
+        if (isMagicPlayerWinner)
         {
-            winnerPanel.SetActive(true);
-
-            if (winnerText != null)
+            if (magicWinPanel != null)
             {
-                winnerText.text = $"{playerType} wins!\nTime: {completionTime:F2} seconds";
+                magicWinPanel.SetActive(true);
+                if (technoWinPanel != null) technoWinPanel.SetActive(false);
+            }
+        }
+        else
+        {
+            if (technoWinPanel != null)
+            {
+                technoWinPanel.SetActive(true);
+                if (magicWinPanel != null) magicWinPanel.SetActive(false);
             }
         }
     }
+    [Server]
+    public void OnPlayerDied(bool isDeadPlayerMagic)
+    {
+        if (gameEnded) return;
+        gameEnded = true;
+
+        // The winner is the opposite player type
+        bool isMagicPlayerWinner = !isDeadPlayerMagic;
+
+        // Show winner UI
+        RpcShowWinner(isMagicPlayerWinner);
+    }
+    [Server]
+    public void OnTrophyCollected(bool isMagicPlayerWinner)
+    {
+        if (gameEnded) return;
+        gameEnded = true;
+
+        // Show winner UI
+        RpcShowWinner(isMagicPlayerWinner);
+    }
+
 }

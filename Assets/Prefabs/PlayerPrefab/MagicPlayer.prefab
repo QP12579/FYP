@@ -418,6 +418,7 @@ MonoBehaviour:
   syncInterval: 0
   MaxHP: 100
   HP: 100
+  isMagicPlayer: 1
   MaxMP: 50
   MP: 50
   SP: 0
