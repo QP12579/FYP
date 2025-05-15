@@ -77,9 +77,21 @@ public class PlayerSpeechSkill : NetworkBehaviour
                     Debug.LogWarning("Other player reference is null. Cannot spawn explosion VFX.");
                 }
               }
-            }
+            },
+            {
+                "Enemy", () => {
+            if (otherPlayer != null)
+                FindOtherPlayer();
+             Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
 
-         };
+                 CmdSpawnSkillVFX(2, spawnPosition, otherPlayer.transform.rotation);
+
+                 ResetSP();
+
+         }
+
+            }
+        };
 
     }
     public void FindOtherPlayer()
