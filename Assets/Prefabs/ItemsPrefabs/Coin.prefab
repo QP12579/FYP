@@ -150,7 +150,7 @@ MonoBehaviour:
     description: Can buy items
   GetSound: {fileID: 0}
   CoinSound: {fileID: 8300000, guid: f0d352f60b8162b4aab40e2abd246e74, type: 3}
-  CoinValue: 5
+  CoinValue: 15
 --- !u!114 &-2816646786626900176
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -446,7 +446,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  moveSpeed: 4
+  moveSpeed: 2
   anim: {fileID: 4502292986517328008}
   hitBackForce: 2
   hitBackDuration: 0.5

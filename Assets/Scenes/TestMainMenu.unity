@@ -3941,7 +3941,6 @@ GameObject:
   - component: {fileID: 1024726801}
   - component: {fileID: 1024726803}
   - component: {fileID: 1024726799}
-  - component: {fileID: 1024726805}
   - component: {fileID: 1024726806}
   m_Layer: 0
   m_Name: Extended
@@ -4082,20 +4081,6 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
---- !u!114 &1024726805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024726797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0
 --- !u!114 &1024726806
 MonoBehaviour:
   m_ObjectHideFlags: 0
