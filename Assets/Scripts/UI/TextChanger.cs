@@ -6,8 +6,7 @@ public class TextChanger : MonoBehaviour
 {
     public TMP_Text textComponent;
     private string[] phrases = {
-        "Fire Tornado", "Double Damage", "Guess Who I Am", "Set the Bomb", "Give Up Treatment",
-        "Being a Poor Person", "Donald Trump", "Enemies From The Sky"
+        "Fire", "Double", "Enemy", 
     };
 
     private int currentIndex = 0; 
