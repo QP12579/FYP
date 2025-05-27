@@ -326,7 +326,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 2544257123142050008}
   cost: 20
   costText: {fileID: 4446718252269618118}
-  purchaseKey: 114
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
   purchasePrompt: {fileID: 1920533538882873002}
   Buy_SFX: {fileID: 8300000, guid: f0d352f60b8162b4aab40e2abd246e74, type: 3}
   BuyFail_SFX: {fileID: 8300000, guid: c96f7d8b3338d484785573ecc2259a4f, type: 3}

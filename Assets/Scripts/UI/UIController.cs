@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -41,6 +42,9 @@ public class UIController : MonoBehaviour
     public UIPanelState state = UIPanelState.None;
     private UIPanelState oldState = UIPanelState.None;
 
+    [Header("KeyCode")]
+    [SerializeField] private InputActionAsset inputActions;
+
     private void Start()
     {
         SkillAbilityscrollbar.value = 0;
@@ -57,21 +61,24 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) { OnTabButtonClick(TabButton); }
-
-        if (Input.GetKeyDown(KeyCode.T))
+        if (inputActions.FindAction(Constraints.InputKey.Tab).triggered)
+        {
+            OnTabButtonClick(TabButton);
+        }
+        
+        if (inputActions.FindAction(Constraints.InputKey.T).triggered)
         {
             OnTButtonClick(TButton);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (inputActions.FindAction(Constraints.InputKey.ESC).triggered)
         {
             OnEseButtonClick(EseButton);
         }
 
         if (state == UIPanelState.None) return;
         // get mouse scroll value
-        float scrollDelta = Input.mouseScrollDelta.y;
+        float scrollDelta = inputActions.FindAction(Constraints.InputKey.Aim).ReadValue<Vector2>().y;
 
         // update value if have scroll value
         if (scrollDelta != 0)

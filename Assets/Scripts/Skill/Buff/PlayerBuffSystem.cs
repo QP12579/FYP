@@ -279,10 +279,10 @@ public class PlayerBuffSystem : Singleton<PlayerBuffSystem>
                 RemoveDebuffEffect(type);
                 break;
             case DeBuffType.Dizziness:
-                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().canMove = true;
+                PlayerSkillController.instance.gameObject.GetComponentInChildren<PlayerMovement>().canMove = true;
                 break;
             case DeBuffType.Slow:
-                PlayerSkillController.instance.gameObject.GetComponent<PlayerMovement>().SpeedChange();
+                PlayerSkillController.instance.gameObject.GetComponentInChildren<PlayerMovement>().SpeedChange();
                 break;
             default:
                 break;

@@ -187,10 +187,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   player: {fileID: 7286353846663120720}
-  NATKKey: 323
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
   attack: 5
   waitTime: 0.5
-  FATKKey: 324
   ATKPrefab: {fileID: 762561748974927365, guid: 61a27dc5282995542a271e5d7365e967,
     type: 3}
   FarAtk: 10
@@ -333,9 +333,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   spawn: {fileID: 0}
-  RollKey: 304
-  JumpKey: 32
-  DEFKey: 102
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
   isReflect: 0
   reflectDamageMultiplier: 1
   RollingATK: 0
@@ -375,6 +374,7 @@ GameObject:
   - component: {fileID: 3369173495879608747}
   - component: {fileID: 530061124973392260}
   - component: {fileID: 8083189896737119438}
+  - component: {fileID: 622876181583258563}
   m_Layer: 3
   m_Name: MagicPlayer
   m_TagString: Player
@@ -428,6 +428,7 @@ MonoBehaviour:
   Defense_SFX: {fileID: 8300000, guid: 5d45a13089398e642afdad1e3cdd0ec8, type: 3}
   Heal_SFX: {fileID: 8300000, guid: 77ed71b3e62a3de46ac1a10cd2bc3e1b, type: 3}
   DamageMultiplier: 1
+  persistentUI: {fileID: 0}
   animator: {fileID: 0}
   abilityPerfectDefenceluck: 0
   abilityNormalDefencePlus: 0
@@ -435,6 +436,8 @@ MonoBehaviour:
   abilityDecreaseMP: 0
   abilityAutoFillMP: 0
   isMagic: 1
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
 --- !u!114 &2641640491229284674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,9 +453,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
   equippedSkills:
-  - activationKey: 113
-    skillData:
+  - skillData:
       ID: 0
       level: 0
       Icon: {fileID: 0}
@@ -465,8 +469,7 @@ MonoBehaviour:
     skillPrefab: {fileID: 7213507522912682957, guid: 621f774798aa1b94cae7342617cef998,
       type: 3}
     cooldownTimer: 0
-  - activationKey: 101
-    skillData:
+  - skillData:
       ID: 0
       level: 0
       Icon: {fileID: 0}
@@ -674,6 +677,177 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &622876181583258563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4606641454445231472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 70288be4-d83e-48a3-b8aa-0923819e915d
+    m_ActionName: Player/Roll[/DualSenseGamepadHID/leftStickPress,/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4309970799316680556}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0aa42415-b247-4973-aa73-337237da289d
+    m_ActionName: Player/Jump[/DualSenseGamepadHID/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4309970799316680556}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnDefense
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2bfac141-eeb5-4b1a-9ef6-6504fa92ced7
+    m_ActionName: Player/Defense[/DualSenseGamepadHID/buttonWest,/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2f0e9186-93ce-4a92-a774-bea26670f6b4
+    m_ActionName: Player/Attack[/DualSenseGamepadHID/rightShoulder,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8a1fcfd1-393d-406c-8692-cf9b1c371767
+    m_ActionName: Player/Record[/DualSenseGamepadHID/rightStickPress,/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 59948ea6-d2c9-4f57-8821-7628b2b5177f
+    m_ActionName: Player/Aim[/DualSenseGamepadHID/rightStick,/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4309970799316680556}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 48b52ea9-1b3a-4f1b-8f01-679ea13e781a
+    m_ActionName: Player/Move[/DualSenseGamepadHID/leftStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 28305f8a-b071-4402-8f64-9468ebc9a5cc
+    m_ActionName: Player/FarAttack[/DualSenseGamepadHID/rightTrigger,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 54288b8a-80c0-429f-8af3-e269a1cfa4e3
+    m_ActionName: Player/Skill1[/DualSenseGamepadHID/leftShoulder,/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4d26e151-69e5-4428-828d-67012ef15277
+    m_ActionName: Player/Skill2[/DualSenseGamepadHID/leftTrigger,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 46944df5-13f8-4c84-bca4-c3627c5ee685
+    m_ActionName: Player/Tab[/DualSenseGamepadHID/start,/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 03ea9972-b241-41de-a6fb-00996379503b
+    m_ActionName: Player/Escape[/DualSenseGamepadHID/buttonEast,/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 48df19a7-f856-4188-87e9-9f1cbc766cb7
+    m_ActionName: Player/T[/DualSenseGamepadHID/dpad/up,/Keyboard/t]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8caa8cbe-501b-4e2d-a5f8-eeedc24f1bb9
+    m_ActionName: Cheat/AddCoins[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7286353846663120720}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: AddSkillPoint
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 10
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a797a114-c916-4780-b099-23b311f65d23
+    m_ActionName: Cheat/AddSkillPoints[/Keyboard/j]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bb6721f1-05d6-44c2-ac32-a5dfb2431730
+    m_ActionName: Cheat/GetSP[/Keyboard/v]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7eac2b59-6e48-4937-a242-b3bc9bd82e35
+    m_ActionName: Cheat/Heal[/Keyboard/h]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 464a3b8b-5b6e-45c1-a243-a2d0d13f2fdc
+    m_ActionName: Cheat/GetMP[/Keyboard/k]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c1324105-2b51-4103-9ca4-f9c6dbc1c85f
+    m_ActionName: Player/Purchase[/DualSenseGamepadHID/buttonNorth,/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7286353846663120720}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: AddSkillPoint
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e1f1775d-af5d-4d9a-9174-3280752c50a3
+    m_ActionName: Player/AddSkillPoints[/DualSenseGamepadHID/dpad/down]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: GamePad
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &5643439963480589926
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +897,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
 --- !u!1 &6981857442996768628
 GameObject:
   m_ObjectHideFlags: 0

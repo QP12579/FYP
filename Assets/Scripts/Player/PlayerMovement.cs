@@ -1,6 +1,7 @@
 using Cinemachine;
 using Mirror;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -18,9 +19,7 @@ public class PlayerMovement : NetworkBehaviour
     private float LowerYPosi = -1;
 
     [Header("KeyCode")]
-    [SerializeField] private KeyCode RollKey = KeyCode.LeftShift;
-    [SerializeField] private KeyCode JumpKey = KeyCode.Space;
-    [SerializeField] private KeyCode DEFKey = KeyCode.F;
+    [SerializeField] private InputActionAsset inputActions;
 
     [Header("Defense/Rolling")]
     public bool isReflect = false;
@@ -113,27 +112,52 @@ public class PlayerMovement : NetworkBehaviour
             this.gameObject.SetActive(true);
         }
 
+        // x = inputActions.FindAction(Constraints.InputKey.Move).ReadValue<Vector2>().x;
+        // y = inputActions.FindAction(Constraints.InputKey.Move).ReadValue<Vector2>().y;
 
+        // if  (isGrounded && canMove && inputActions.FindAction(Constraints.InputKey.Jump).triggered)
+        // {
+        //     jumpRequest = true;
+        //     if(Jump_SFX!=null&&SoundManager.instance!=null)
+        //         SoundManager.instance.PlaySFX(Jump_SFX);
+        // }
 
-        x = Input.GetAxis("Horizontal");
-        y = Input.GetAxis("Vertical");
+        // if (canMove)
+        // {
+            
+        //     if (inputActions.FindAction(Constraints.InputKey.Defense).triggered && Time.time > blockTimes + defenceDelayTime) //delay time
+        //     {
+        //         BlockAttack();
+        //     }
+        // }
+        ChracterFacing();
+        GroundCheck();
+    }
 
-        if (isGrounded && canMove && Input.GetKeyDown(JumpKey))
+    public void OnMove (InputAction.CallbackContext context)
+    {
+        x = context.ReadValue<Vector2>().x;
+        y = context.ReadValue<Vector2>().y;
+
+        Debug.Log($"Move: [{x}, {y}]");
+    }
+
+    public void OnJump (InputAction.CallbackContext context)
+    {
+        if  (isGrounded && canMove)
         {
             jumpRequest = true;
             if(Jump_SFX!=null&&SoundManager.instance!=null)
                 SoundManager.instance.PlaySFX(Jump_SFX);
         }
+    }
 
-        if (canMove)
+    public void OnDefense (InputAction.CallbackContext context)
+    {
+        if (canMove && Time.time > blockTimes + defenceDelayTime) //delay time
         {
-            if (Input.GetKeyDown(DEFKey) && Time.time > blockTimes + defenceDelayTime) //delay time
-            {
-                BlockAttack();
-            }
+            BlockAttack();
         }
-        ChracterFacing();
-        GroundCheck();
     }
 
     private void ChracterFacing()
@@ -190,7 +214,8 @@ public class PlayerMovement : NetworkBehaviour
             {
                 jumpRequest = false;
             }
-            if (isGrounded && Input.GetKeyDown(RollKey))
+            
+            if (isGrounded && inputActions.FindAction(Constraints.InputKey.Roll).triggered)
             {
                 Rolling();
             }

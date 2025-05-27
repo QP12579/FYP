@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Collections;
 using Mirror;
@@ -9,11 +10,14 @@ public class PlayerSkillController : NetworkBehaviour
     [System.Serializable]
     public class EquippedSkill
     {
-        public KeyCode activationKey;
+        // public KeyCode activationKey;
         public SkillData skillData;
         public GameObject skillPrefab;
         [HideInInspector] public float cooldownTimer;
     }
+
+    [SerializeField]
+    private InputActionAsset inputActions;
 
     [Header("Skill Slots")]
     public EquippedSkill[] equippedSkills = new EquippedSkill[2];
@@ -64,10 +68,10 @@ public class PlayerSkillController : NetworkBehaviour
             move = GetComponentInChildren<PlayerMovement>();
       
         // Initialize with default keys (Q and E)
-        if(equippedSkills[0].activationKey == KeyCode.None)
-        equippedSkills[0].activationKey = KeyCode.Q;
-        if(equippedSkills[1].activationKey == KeyCode.None)
-        equippedSkills[1].activationKey = KeyCode.E;
+        // if(equippedSkills[0].activationKey == KeyCode.None)
+        // equippedSkills[0].activationKey = KeyCode.Q;
+        // if(equippedSkills[1].activationKey == KeyCode.None)
+        // equippedSkills[1].activationKey = KeyCode.E;
         equippedSkills[0].cooldownTimer = 0;
         equippedSkills[1].cooldownTimer = 0;
 
@@ -77,11 +81,13 @@ public class PlayerSkillController : NetworkBehaviour
     private void Update()
     {
         // Check key press
-        if (Input.GetKeyDown(equippedSkills[0].activationKey) && equippedSkills[0].cooldownTimer <= 0)
+        // if (Input.GetKeyDown(equippedSkills[0].activationKey) && equippedSkills[0].cooldownTimer <= 0)
+        if (inputActions.FindAction(Constraints.InputKey.Skill1).triggered && equippedSkills[0].cooldownTimer <= 0)
         {
             ActivateSkill(0);
         }
-        if (Input.GetKeyDown(equippedSkills[1].activationKey) && equippedSkills[1].cooldownTimer <= 0)
+        // if (Input.GetKeyDown(equippedSkills[1].activationKey) && equippedSkills[1].cooldownTimer <= 0)
+        if (inputActions.FindAction(Constraints.InputKey.Skill2).triggered && equippedSkills[1].cooldownTimer <= 0)
         {
             ActivateSkill(1);
         }

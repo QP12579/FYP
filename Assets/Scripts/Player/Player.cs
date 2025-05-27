@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 
@@ -50,6 +51,9 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     [SerializeField] public bool isMagic;
+
+    [Header("KeyCode")]
+    [SerializeField] private InputActionAsset inputActions;
     private void Start()
     {
         InitializeUI();
@@ -92,35 +96,35 @@ public class Player : NetworkBehaviour
     {
         SP = Mathf.Clamp(SP, 0, 1f);
         if (isLocalPlayer)
+        {
             UpdatePlayerUIInfo();
 
-        /////////////////////////  C H E A T //////////////////////////////////
-        if (Input.GetKeyDown(KeyCode.G) && isLocalPlayer)
-        {
-            SkillManager.instance.AddSkillPoints(1);
+            /////////////////////////  C H E A T //////////////////////////////////
+            if (inputActions.FindAction(Constraints.CheatKey.AddSkillPoints).triggered)
+            {
+                SkillManager.instance.AddSkillPoints(1);
 
-            Debug.Log("Added SKill points");
-        }
-        if (Input.GetKeyDown(KeyCode.J) && isLocalPlayer)
-         {
-            Bag.instance.AddCoins(10);
-         }
+                Debug.Log("Added SKill points");
+            }
+            if (inputActions.FindAction(Constraints.CheatKey.AddCoins).triggered)
+            {
+                Bag.instance.AddCoins(10);
+            }
 
-        if (Input.GetKeyDown (KeyCode.V) && isLocalPlayer)
-        {
-            GetSP();
-        }
-        if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
-        {
-            Heal(30);
+            if (inputActions.FindAction(Constraints.CheatKey.GetSP).triggered)
+            {
+                GetSP();
+            }
+            if (inputActions.FindAction(Constraints.CheatKey.Heal).triggered)
+            {
+                Heal(30);
 
-        }
-        if (Input.GetKeyDown(KeyCode.K) && isLocalPlayer)
-        {
-            GetMP(30);
-
-        }
-
+            }
+            if (inputActions.FindAction(Constraints.CheatKey.GetMP).triggered)
+            {
+                GetMP(30);
+            }
+        } 
     }
 
     public Player()
@@ -217,6 +221,11 @@ public class Player : NetworkBehaviour
         if (Heal_SFX != null && SoundManager.instance != null)
             SoundManager.instance.PlaySFX(Heal_SFX);
         UpdatePlayerUIInfo();
+    }
+
+    public void AddSkillPoint (int addPoint)
+    {
+        SkillManager.instance.AddSkillPoints(addPoint);
     }
 
     public bool canUseSkill(float mp)
