@@ -16,14 +16,10 @@ public class UISpawner : MonoBehaviour
 
     // KeywordTexts' content
     [SerializeField] string[] keywordTexts = {     
-        "<color=yellow>Fire Tornado</color>: Generate a massive fire tornado in the arena to damage the opponent.",
-        "<color=yellow>Double Damage</color>: Cause the opponent to take double damage from enemies and traps.",
-        "<color=yellow>Guess Who I Am</color>: Allow a helper to obstruct the opponent's line of sight.",
-        "<color=yellow>Set the Bomb</color>: Place bombs on obstacles in the opponent's arena; touching the obstacles will trigger explosive damage.",
-        "<color=yellow>Give Up Treatment</color>: Prevent the opponent from recovering HP by any means for 2 minutes.",
-        "<color=yellow>Being a Poor Person</color>: Prevent the opponent from acquiring any coins or items for 1 minute.",
-        "<color=yellow>Donald Trump</color>: Force the opponent to pay double the price for certain items at their next encounter with a shop.",
-        "<color=yellow>Enemies From The Sky</color>: Random enemies will drop from the sky above the opponent, potentially causing trouble.",
+        "<color=yellow>Fire</color>: Generate a massive fire tornado in the arena to damage the opponent.",
+        "<color=yellow>Double</color>: Cause the opponent to take double damage from enemies and traps.",
+        "<color=yellow>Enemy</color>: Summon a strong elite enemy on your oponents head.",
+        
     };
 
     void Start()
