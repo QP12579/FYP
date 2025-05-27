@@ -2,21 +2,23 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAttack : NetworkBehaviour
 {
     [Header(" Components ")]
     public Player player;
 
+    [Header("KeyCode")]
+    [SerializeField] private InputActionAsset inputActions;
+
     [Header("NormalAttack")]
-    [SerializeField] private KeyCode NATKKey = KeyCode.Mouse0;
     public float attack = 5;
     public float waitTime = 0.5f;
     private bool canAtk = false;
     private Animator animator;
 
     [Header("FarAttack")]
-    [SerializeField] private KeyCode FATKKey = KeyCode.Mouse1;
     public GameObject ATKPrefab;
     public float FarAtk = 5;
     [SerializeField] private LayerMask groundMask;
@@ -53,7 +55,7 @@ public class PlayerAttack : NetworkBehaviour
     {
         if(!isLocalPlayer) return;
 
-        if (Input.GetKeyDown(FATKKey) && canAtk)
+        if (inputActions.FindAction(Constraints.InputKey.Attack).triggered && canAtk)
         {
             player.animator.SetTrigger("Attack");
             FarAttack();
@@ -65,7 +67,7 @@ public class PlayerAttack : NetworkBehaviour
     public void OnTriggerStay(Collider c)
     {
         if (!isLocalPlayer) return;
-        if (Input.GetKeyDown(NATKKey) && canAtk)
+        if (inputActions.FindAction(Constraints.InputKey.FarAttack).triggered && canAtk)
         {
             NrmATK(c);
             if (NrmATK_SFX != null && SoundManager.instance != null)

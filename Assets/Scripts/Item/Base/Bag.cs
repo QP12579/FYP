@@ -49,13 +49,18 @@ public class Bag : Singleton<Bag>
     public void Update()
     {
         isItemBagFull = _items.Count >= bagBlocks.Count;
-        for (int i = 0; i < _items.Count; i++)
-        {
-            if (Input.GetKeyDown(item_KeyCodes[i]))
-            {
-                UseItem(_items[i]);
-            }
-        }
+        // for (int i = 0; i < _items.Count; i++)
+        // {
+        //     if (Input.GetKeyDown(item_KeyCodes[i]))
+        //     {
+        //         UseItem(_items[i]);
+        //     }
+        // }
+    }
+
+    public void OnItemIconClicked (int itemID)
+    {
+        UseItem(_items[itemID]);
     }
 
     public void UpdateBagUI()

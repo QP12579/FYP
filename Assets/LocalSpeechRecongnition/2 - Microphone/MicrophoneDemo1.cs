@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Whisper.Utils;
 using Button = UnityEngine.UI.Button;
+using UnityEngine.InputSystem;
 
 namespace Whisper.Samples
 {
@@ -24,6 +25,9 @@ namespace Whisper.Samples
         
         private string _buffer;
 
+        [Header("KeyCode")]
+        [SerializeField] private InputActionAsset inputActions;
+
         private void Awake()
         {
             whisper.OnNewSegment += OnNewSegment;
@@ -37,7 +41,8 @@ namespace Whisper.Samples
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.C))
+            // if (Input.GetKeyDown(KeyCode.C))
+            if (inputActions.FindAction(Constraints.InputKey.Record).triggered)
             {
                 OnKeyDown();
             }

@@ -33,4 +33,31 @@ public static class Constraints
         public readonly static string TrueEnd = EndingImage + "OnlyShootTarget";
         public readonly static string KillEveryone = EndingImage + "TheUnscrupulousKiller";
     }
+
+    public static class InputKey
+    {
+        public readonly static string Move = "Move";
+        public readonly static string Jump = "Jump";
+        public readonly static string Defense = "Defense";
+        public readonly static string Attack = "Attack";
+        public readonly static string Record = "Record";
+        public readonly static string Roll = "Roll";
+        public readonly static string Aim = "Aim";
+        public readonly static string FarAttack = "FarAttack";
+        public readonly static string Skill1 = "Skill1";
+        public readonly static string Skill2 = "Skill2";
+        public readonly static string Tab = "Tab";
+        public readonly static string T = "T";
+        public readonly static string ESC = "Escape";
+        public readonly static string Purchase = "Purchase";
+    }
+
+    public static class CheatKey
+    {
+        public readonly static string AddCoins = "AddCoins";
+        public readonly static string AddSkillPoints = "AddSkillPoints";
+        public readonly static string GetSP = "GetSP";
+        public readonly static string GetMP = "GetMP";
+        public readonly static string Heal = "Heal";
+    }
 }

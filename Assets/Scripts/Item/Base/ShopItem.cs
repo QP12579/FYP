@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 
@@ -8,7 +9,8 @@ public class ShopItem : MonoBehaviour
     [SerializeField] public BaseItem itemPrefab; // 物品預製件
     public int cost = 10;
     [SerializeField] private TextMeshPro costText;
-    [SerializeField] private KeyCode purchaseKey = KeyCode.R;
+    // [SerializeField] private KeyCode purchaseKey = KeyCode.R;
+    [SerializeField] private InputActionAsset inputActions;
     [SerializeField] private GameObject purchasePrompt; // 購買提示UI
     [SerializeField] private AudioClip Buy_SFX;
     [SerializeField] private AudioClip BuyFail_SFX;
@@ -36,7 +38,7 @@ public class ShopItem : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(purchaseKey))
+        if (playerInRange && inputActions.FindAction(Constraints.InputKey.Purchase).triggered)
         {
             AttemptPurchase();
         }

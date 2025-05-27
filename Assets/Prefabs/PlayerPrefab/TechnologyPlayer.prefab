@@ -55,9 +55,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   spawn: {fileID: 0}
-  RollKey: 304
-  JumpKey: 32
-  DEFKey: 102
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
   isReflect: 0
   reflectDamageMultiplier: 1
   RollingATK: 0
@@ -69,11 +68,14 @@ MonoBehaviour:
   blockPercentage: 0.5
   blockTimes: 0
   damage: 0
-  sr: {fileID: 0}
-  anim: {fileID: 0}
+  sr: {fileID: 5292132577396529051}
+  anim: {fileID: 8197628350864115054}
   isGrounded: 0
   canMove: 0
   isFaceFront: 0
+  Running_SFX: {fileID: 8300000, guid: ea7b8d18e89c37e41afb304d2899fc71, type: 3}
+  Jump_SFX: {fileID: 8300000, guid: 58b8e5bc5c2cbdf468eff5d850a7ef68, type: 3}
+  Rolling_SFX: {fileID: 8300000, guid: b0a251be352dfc9439e45776d65d47e8, type: 3}
   groundCheckRadius: 0.3
   groundCheckOffset: 0.1
 --- !u!1 &4135366712226937655
@@ -144,11 +146,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bc9559d2b8c8b429887bc2d7a08be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   player: {fileID: 7286353846663120720}
-  NATKKey: 323
+  inputActions: {fileID: 0}
   attack: 5
   waitTime: 0.5
-  FATKKey: 324
   ATKPrefab: {fileID: 762561748974927365, guid: 61a27dc5282995542a271e5d7365e967,
     type: 3}
   FarAtk: 5
@@ -159,6 +163,8 @@ MonoBehaviour:
   criticalMultiplier: 1.5
   criticalEffectPrefab: {fileID: 0}
   criticalSound: {fileID: 0}
+  NrmATK_SFX: {fileID: 0}
+  FarATK_SFX: {fileID: 0}
   AbilityATKPlus: 0
   AbilityATKSpeedPlus: 0
   AbilityATKArea: 0
@@ -298,12 +304,22 @@ MonoBehaviour:
   MP: 50
   SP: 0
   level: 1
+  UseSP_SFX: {fileID: 0}
+  GetHurt_SFX: {fileID: 0}
+  Die_SFX: {fileID: 0}
+  Defense_SFX: {fileID: 0}
+  Heal_SFX: {fileID: 0}
+  DamageMultiplier: 1
+  persistentUI: {fileID: 0}
   animator: {fileID: 0}
   abilityPerfectDefenceluck: 0
   abilityNormalDefencePlus: 0
   abilityDamageReduction: 0
   abilityDecreaseMP: 0
   abilityAutoFillMP: 0
+  isMagic: 0
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
 --- !u!114 &2641640491229284674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,9 +332,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272e1fd71bad6e843a936e0dcaa1f572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
   equippedSkills:
-  - activationKey: 113
-    skillData:
+  - skillData:
       ID: 0
       level: 0
       Icon: {fileID: 0}
@@ -330,8 +350,7 @@ MonoBehaviour:
       cooldown: 5
     skillPrefab: {fileID: 0}
     cooldownTimer: 0
-  - activationKey: 101
-    skillData:
+  - skillData:
       ID: 0
       level: 0
       Icon: {fileID: 0}
@@ -345,7 +364,6 @@ MonoBehaviour:
     cooldownTimer: 0
   skillSpawnPoint: {fileID: 4822267913083150260}
   BuffSpawnPoint: {fileID: 0}
-  skillManager: {fileID: 0}
   player: {fileID: 7286353846663120720}
   move: {fileID: 2027344488009931479}
   AbilitySkillDamagePlus: 0
@@ -589,6 +607,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
+    type: 3}
 --- !u!1 &6981857442996768628
 GameObject:
   m_ObjectHideFlags: 0

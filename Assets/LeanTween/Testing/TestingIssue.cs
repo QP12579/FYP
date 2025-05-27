@@ -20,7 +20,7 @@ public class TestingIssue : MonoBehaviour {
 	}
 
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.A))
+		if(Input.GetKeyDown(KeyCode.A))	
 		{
 			// Debug.Log("id:"+id);
 			LeanTween.resume(id);
