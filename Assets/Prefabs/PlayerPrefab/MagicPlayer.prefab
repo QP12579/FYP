@@ -844,7 +844,7 @@ MonoBehaviour:
     m_ActionId: e1f1775d-af5d-4d9a-9174-3280752c50a3
     m_ActionName: Player/AddSkillPoints[/DualSenseGamepadHID/dpad/down]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: GamePad
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

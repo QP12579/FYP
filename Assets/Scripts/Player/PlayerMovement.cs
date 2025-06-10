@@ -56,7 +56,10 @@ public class PlayerMovement : NetworkBehaviour
     // x, y
     private float x, y, rx, ry;
 
-   
+   private void Start() 
+   {    
+        inputActions.bindingMask = InputBinding.MaskByGroup(InputSystemData.instance.controlScheme);
+   }
 
     void Awake()
     {

@@ -10,10 +10,11 @@ public class PointerController : MonoBehaviour
 
     private Vector3 screenPos = Vector3.zero;
 
+
+
     void Update()
     {
         Vector3 mousePosition = GetMouseWorldPosition();
-
         Vector3 direction = mousePosition - transform.position;
         direction.y = 0;
 
@@ -22,20 +23,37 @@ public class PointerController : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
         }
-            /*if (Input.GetMouseButtonDown(0))
+        
+        if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("direction: "+ direction);
-        }*/
+        }
     }
 
     private Vector3 GetMouseWorldPosition()
     {
-        // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, groundMask))
-        // {
-        //     return hitInfo.point;
-        // }
+        inputActions.bindingMask = InputBinding.MaskByGroup(InputSystemData.instance.controlScheme);
+        var controlScheme = inputActions.bindingMask;
 
+        if (controlScheme == InputBinding.MaskByGroup("GamePad"))
+        {
+            // Gamepad control scheme is active
+            return GetGamepadAimPosition();
+        }
+        else if (controlScheme == InputBinding.MaskByGroup("Keyboard"))
+        {
+            // Keyboard control scheme is active
+            return GetMouseAimPosition();
+        }
+        else
+        {
+            Debug.LogError($"control Scheme [{controlScheme}] not found!");
+            return Vector3.zero;
+        }
+    }
+
+    public Vector3 GetGamepadAimPosition()
+    {
         // Find the "Aim" action in the inputActions asset
         var aimAction = inputActions != null ? inputActions.FindAction(Constraints.InputKey.Aim) : null;
         if (aimAction != null)
@@ -57,6 +75,17 @@ public class PointerController : MonoBehaviour
                     return hitInfo.point;
                 }
             }
+        }
+        
+        return Vector3.zero;
+    }
+
+    public Vector3 GetMouseAimPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, groundMask))
+        {
+            return hitInfo.point;
         }
         
         return Vector3.zero;

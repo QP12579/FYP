@@ -159,7 +159,7 @@
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamePad;Keyboard",
                     "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -181,7 +181,7 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamePad;Keyboard",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -203,7 +203,7 @@
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Defense",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -222,10 +222,10 @@
                 {
                     "name": "",
                     "id": "a6adc5e8-7818-4b8b-a1cf-965eb17b606c",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -247,7 +247,7 @@
                     "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Record",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -269,7 +269,7 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -302,7 +302,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -313,7 +313,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamePad;Keyboard",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -324,7 +324,7 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -335,7 +335,62 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
+                    "groups": "Keyboard;GamePad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector [alt]",
+                    "id": "a7de2e4d-5ea9-461b-b1a6-02c9784ef807",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
                     "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "55b4033a-9b0c-480f-8289-02f54e8e9260",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard;GamePad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "104a281d-fae9-407d-a427-964f0db957f9",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard;GamePad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b8a68770-f85c-4649-9c1b-cdea26a93419",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad;Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "6e60b3b1-bb7a-4d00-9412-51c2add5800c",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -357,7 +412,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "FarAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -379,7 +434,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Skill1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -401,7 +456,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Skill2",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -423,7 +478,7 @@
                     "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "Tab",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -445,7 +500,7 @@
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamePad;Keyboard",
                     "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -467,7 +522,7 @@
                     "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard;GamePad",
                     "action": "T",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -489,7 +544,7 @@
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamePad;Keyboard",
                     "action": "Purchase",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -501,6 +556,17 @@
                     "interactions": "Hold(duration=0.4)",
                     "processors": "",
                     "groups": "",
+                    "action": "AddSkillPoints",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a589a36a-412d-4480-b5ca-58cde6f29ad0",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad;Keyboard",
                     "action": "AddSkillPoints",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -639,6 +705,11 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }

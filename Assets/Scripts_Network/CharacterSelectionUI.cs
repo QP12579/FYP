@@ -18,6 +18,8 @@ public class CharacterSelectionUI : MonoBehaviour
         
     }
 
+    public TMP_Text IP_Text;
+
     public CharacterSlot[] characterSlots = new CharacterSlot[2];
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI playerIdentityText; // Shows if you are P1 or P2
@@ -42,11 +44,43 @@ public class CharacterSelectionUI : MonoBehaviour
         if (NetworkServer.active)
         {
             playerIdentityText.text = "You are Player 1";
+            UpdateIPText();
         }
         else if (NetworkClient.active)
         {
             playerIdentityText.text = "You are Player 2";
+            IP_Text.gameObject.SetActive(false);
         }
+    }
+
+    public void UpdateIPText()
+    {
+        string localIP = "Not available";
+
+        try
+        {
+            var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                    break;
+                }
+            }
+        }
+        catch
+        {
+            localIP = "Error retrieving IP";
+        }
+
+        if (IP_Text != null)
+        {
+            IP_Text.text = $"{localIP}";
+        }
+
+        
+        IP_Text.gameObject.SetActive(true);
     }
 
     public void UpdateSlotState(int slotIndex, CharacterSelectState state, bool isLocalPlayer, bool isHost)
