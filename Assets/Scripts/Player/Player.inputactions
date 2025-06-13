@@ -222,7 +222,7 @@
                 {
                     "name": "",
                     "id": "a6adc5e8-7818-4b8b-a1cf-965eb17b606c",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard;GamePad",

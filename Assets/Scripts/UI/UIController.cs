@@ -38,7 +38,6 @@ public class UIController : MonoBehaviour
     [Header(" Audio Clip ")]
     [SerializeField] private AudioClip buttonClickSFX;
 
-    [HideInInspector]
     public UIPanelState state = UIPanelState.None;
     private UIPanelState oldState = UIPanelState.None;
 

@@ -55,7 +55,7 @@ public class PlayerAttack : NetworkBehaviour
     {
         if(!isLocalPlayer) return;
 
-        if (inputActions.FindAction(Constraints.InputKey.Attack).triggered && canAtk)
+        if (inputActions.FindAction(Constraints.InputKey.FarAttack).triggered && canAtk)
         {
             player.animator.SetTrigger("Attack");
             FarAttack();
@@ -67,7 +67,7 @@ public class PlayerAttack : NetworkBehaviour
     public void OnTriggerStay(Collider c)
     {
         if (!isLocalPlayer) return;
-        if (inputActions.FindAction(Constraints.InputKey.FarAttack).triggered && canAtk)
+        if (inputActions.FindAction(Constraints.InputKey.Attack).triggered && canAtk)
         {
             NrmATK(c);
             if (NrmATK_SFX != null && SoundManager.instance != null)
