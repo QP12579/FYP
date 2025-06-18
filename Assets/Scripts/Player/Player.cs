@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using Whisper.Samples;
 
 public class Player : NetworkBehaviour
 {
@@ -54,9 +55,35 @@ public class Player : NetworkBehaviour
 
     [Header("KeyCode")]
     [SerializeField] private InputActionAsset inputActions;
+
+    [SerializeField] private PlayerInput playerInput;
+
+    private MicrophoneTestDemo microphoneTestDemo;
+
+    private UIController uiController;
+
     private void Start()
     {
+        inputActions.bindingMask = InputBinding.MaskByGroup(InputSystemData.instance.controlScheme);
+
+        if (inputActions.bindingMask == InputBinding.MaskByGroup(Constraints.ControlScheme.GamePad))
+        {
+            playerInput.SwitchCurrentControlScheme(InputSystemData.instance.controlScheme, Gamepad.current);
+        }
+        else if (inputActions.bindingMask == InputBinding.MaskByGroup(Constraints.ControlScheme.Keyboard))
+        {
+            playerInput.SwitchCurrentControlScheme(InputSystemData.instance.controlScheme, Keyboard.current, Mouse.current);
+        }
+
+        microphoneTestDemo = FindObjectOfType<MicrophoneTestDemo>();
+        uiController = FindObjectOfType<UIController>();
+
         InitializeUI();
+    }
+
+    public InputActionAsset GetInputActions()
+    {
+        return inputActions;
     }
 
     private void InitializeUI()
@@ -124,7 +151,7 @@ public class Player : NetworkBehaviour
             {
                 GetMP(30);
             }
-        } 
+        }
     }
 
     public Player()
@@ -141,7 +168,7 @@ public class Player : NetworkBehaviour
         if (persistentUI != null)
             persistentUI.UpdatePlayerUI(HP, CurrentMaxHP, MP, CurrentMaxMP, SP, level);
 
-        
+
     }
 
     public void TakeDamage(float damage, GameObject attacker = null)
@@ -165,12 +192,12 @@ public class Player : NetworkBehaviour
             Debug.Log("Normal Block");
         }
         float realDamage = Mathf.Min(damage * (1 - abilityDamageReduction - PlayerBuffSystem.instance.GetBuffValue(BuffType.DamageReduction)), HP);
-        HP -= realDamage * DamageMultiplier ;
+        HP -= realDamage * DamageMultiplier;
 
         UpdatePlayerUIInfo();
         animator.SetTrigger("Hurt");
 
-        if (GetHurt_SFX != null && SoundManager.instance!= null)
+        if (GetHurt_SFX != null && SoundManager.instance != null)
             SoundManager.instance.PlaySFX(GetHurt_SFX);
 
         if (HP <= 0)
@@ -208,9 +235,9 @@ public class Player : NetworkBehaviour
         if (Die_SFX != null && SoundManager.instance != null)
             SoundManager.instance.PlaySFX(Die_SFX);
 
-            CmdPlayerDied();
+        CmdPlayerDied();
 
-            Destroy(gameObject, 1f);
+        Destroy(gameObject, 1f);
     }
 
     public void Heal(float h)
@@ -223,7 +250,7 @@ public class Player : NetworkBehaviour
         UpdatePlayerUIInfo();
     }
 
-    public void AddSkillPoint (int addPoint)
+    public void AddSkillPoint(int addPoint)
     {
         SkillManager.instance.AddSkillPoints(addPoint);
     }
@@ -329,10 +356,47 @@ public class Player : NetworkBehaviour
         move.ResetSpeed();
     }
 
+    public void OnRecordTrigger()
+    {
+        microphoneTestDemo.OnRecordButtonDown();
+    }
 
+    public void OnTabTrigger()
+    {
+        if (isLocalPlayer)
+        {
+            uiController.OnTabButtonClick();
+        }
+    }
 
+    public void OnTTrigger()
+    {
+        if (isLocalPlayer)
+        {
+            uiController.OnTButtonClick();
+        }
+    }
 
+    public void OnEseTrigger()
+    {
+        if (isLocalPlayer)
+        {
+            uiController.OnEseButtonClick();
+        }
+    }
 
+    public void OnPurchaseTrigger()
+    {
+        if (isLocalPlayer)
+        {
+            // Find the ShopItem component in the scene
+            ShopItem shopItem = FindObjectOfType<ShopItem>();
+            if (shopItem != null)
+            {
+                shopItem.OnPurchaseButtonClicked();
+            }
+        }
+    }
 
     /* // LevelUP
         private void OnCollisionEnter(Collision collision)

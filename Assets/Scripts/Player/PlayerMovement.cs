@@ -18,8 +18,7 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 SpawnPoint;
     private float LowerYPosi = -1;
 
-    [Header("KeyCode")]
-    [SerializeField] private InputActionAsset inputActions;
+    private InputActionAsset inputActions;
 
     [Header("Defense/Rolling")]
     public bool isReflect = false;
@@ -55,14 +54,10 @@ public class PlayerMovement : NetworkBehaviour
 
     // x, y
     private float x, y, rx, ry;
-
-   private void Start() 
-   {    
-        inputActions.bindingMask = InputBinding.MaskByGroup(InputSystemData.instance.controlScheme);
-   }
-
+ 
     void Awake()
     {
+        inputActions = this.GetComponentInParent<Player>().GetInputActions();
         anim = gameObject.GetComponentInParent<Animator>();
         rb = gameObject.GetComponentInParent<Rigidbody>();
         sr = gameObject.GetComponentInParent<SpriteRenderer>();
@@ -102,37 +97,16 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (!isLocalPlayer)
-        {
-           
+        {            
             return;
         }
 
-        bool isActive = this.gameObject.activeSelf;
-        if (!isActive)
+        if (!this.gameObject.activeSelf)
         {
             this.gameObject.SetActive(true);
         }
 
-        // x = inputActions.FindAction(Constraints.InputKey.Move).ReadValue<Vector2>().x;
-        // y = inputActions.FindAction(Constraints.InputKey.Move).ReadValue<Vector2>().y;
-
-        // if  (isGrounded && canMove && inputActions.FindAction(Constraints.InputKey.Jump).triggered)
-        // {
-        //     jumpRequest = true;
-        //     if(Jump_SFX!=null&&SoundManager.instance!=null)
-        //         SoundManager.instance.PlaySFX(Jump_SFX);
-        // }
-
-        // if (canMove)
-        // {
-            
-        //     if (inputActions.FindAction(Constraints.InputKey.Defense).triggered && Time.time > blockTimes + defenceDelayTime) //delay time
-        //     {
-        //         BlockAttack();
-        //     }
-        // }
         ChracterFacing();
         GroundCheck();
     }
@@ -142,7 +116,7 @@ public class PlayerMovement : NetworkBehaviour
         x = context.ReadValue<Vector2>().x;
         y = context.ReadValue<Vector2>().y;
 
-        Debug.Log($"Move: [{x}, {y}]");
+        // Debug.Log($"Move: [{x}, {y}]");
     }
 
     public void OnJump (InputAction.CallbackContext context)
@@ -207,7 +181,10 @@ public class PlayerMovement : NetworkBehaviour
             Vector3 moveDir = new Vector3(x, 0, y);
             anim.SetFloat("moveSpeed", x);
             anim.SetFloat("vmoveSpeed", y);
-            rb.velocity = new Vector3(moveDir.x * speed * Time.deltaTime, rb.velocity.y, moveDir.z * speed * Time.deltaTime);
+            rb.velocity = new Vector3(moveDir.x * speed * Time.fixedDeltaTime, rb.velocity.y, moveDir.z * speed * Time.fixedDeltaTime);
+
+            Debug.Log($"rb.velocity: {rb.velocity}, MoveDir: {moveDir}, Speed: {speed}");
+
             if (isGrounded && jumpRequest)
             {
                 rb.AddForce(Vector3.up * jumpForce);
@@ -217,11 +194,14 @@ public class PlayerMovement : NetworkBehaviour
             {
                 jumpRequest = false;
             }
-            
-            if (isGrounded && inputActions.FindAction(Constraints.InputKey.Roll).triggered)
-            {
-                Rolling();
-            }
+        }
+    }
+
+    public void OnRollTrigger()
+    {
+        if (canMove && isGrounded)
+        {
+            Rolling();
         }
     }
 
@@ -229,8 +209,8 @@ public class PlayerMovement : NetworkBehaviour
     {
         isReflect = Reflect;
         anim.SetTrigger("Defence");
-        if(!isSkill)
-        canMove = false;
+        if (!isSkill)
+            canMove = false;
         blockTimes = Time.time + defenceTime;
         Debug.Log("blockTimes:" + blockTimes + "\nTime: " + Time.time);
         LeanTween.delayedCall(defenceTime, CanMove);

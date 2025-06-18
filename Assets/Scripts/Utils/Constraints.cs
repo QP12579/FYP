@@ -60,4 +60,10 @@ public static class Constraints
         public readonly static string GetMP = "GetMP";
         public readonly static string Heal = "Heal";
     }
+
+    public static class ControlScheme
+    {
+        public readonly static string GamePad = "Gamepad";
+        public readonly static string Keyboard = "Keyboard";
+    }
 }

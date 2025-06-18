@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "FYP.sln"
+    "dotnet.defaultSolution": "AY2425_FYP_ConvergenceDecision.sln"
 }

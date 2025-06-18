@@ -72,8 +72,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   player: {fileID: 4060613948888035280}
-  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
-    type: 3}
   attack: 5
   waitTime: 0.5
   ATKPrefab: {fileID: 3012694611995259989, guid: 4270f321096639a4a95167693e338849,
@@ -218,8 +216,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   spawn: {fileID: 0}
-  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
-    type: 3}
   isReflect: 0
   reflectDamageMultiplier: 1
   RollingATK: 0
@@ -556,6 +552,7 @@ MonoBehaviour:
   isMagic: 0
   inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
     type: 3}
+  playerInput: {fileID: 4098345793112750159}
 --- !u!114 &4644512618354947791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,7 +819,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7009772212783186518}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnRollTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 70288be4-d83e-48a3-b8aa-0923819e915d
     m_ActionName: Player/Roll[/DualSenseGamepadHID/leftStickPress,/Keyboard/leftShift]
   - m_PersistentCalls:
@@ -858,15 +867,51 @@ MonoBehaviour:
     m_ActionId: 2bfac141-eeb5-4b1a-9ef6-6504fa92ced7
     m_ActionName: Player/Defense[/DualSenseGamepadHID/buttonWest,/Keyboard/f]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4531287546228673341}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: OnAttackTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2f0e9186-93ce-4a92-a774-bea26670f6b4
     m_ActionName: Player/Attack[/DualSenseGamepadHID/rightShoulder,/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4060613948888035280}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnRecordTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8a1fcfd1-393d-406c-8692-cf9b1c371767
     m_ActionName: Player/Record[/DualSenseGamepadHID/rightStickPress,/Keyboard/c]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4491888813917609520}
+        m_TargetAssemblyTypeName: PointerController, Assembly-CSharp
+        m_MethodName: SetGamePadAimPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 59948ea6-d2c9-4f57-8821-7628b2b5177f
     m_ActionName: Player/Aim[/DualSenseGamepadHID/rightStick,/Mouse/position]
   - m_PersistentCalls:
@@ -886,27 +931,99 @@ MonoBehaviour:
     m_ActionId: 48b52ea9-1b3a-4f1b-8f01-679ea13e781a
     m_ActionName: Player/Move[/DualSenseGamepadHID/leftStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4531287546228673341}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: OnFarAttackTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 28305f8a-b071-4402-8f64-9468ebc9a5cc
     m_ActionName: Player/FarAttack[/DualSenseGamepadHID/rightTrigger,/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4644512618354947791}
+        m_TargetAssemblyTypeName: PlayerSkillController, Assembly-CSharp
+        m_MethodName: OnSkill1Trigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 54288b8a-80c0-429f-8af3-e269a1cfa4e3
     m_ActionName: Player/Skill1[/DualSenseGamepadHID/leftShoulder,/Keyboard/q]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4644512618354947791}
+        m_TargetAssemblyTypeName: PlayerSkillController, Assembly-CSharp
+        m_MethodName: OnSkill2Trigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4d26e151-69e5-4428-828d-67012ef15277
     m_ActionName: Player/Skill2[/DualSenseGamepadHID/leftTrigger,/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4060613948888035280}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnTabTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 46944df5-13f8-4c84-bca4-c3627c5ee685
     m_ActionName: Player/Tab[/DualSenseGamepadHID/start,/Keyboard/tab]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4060613948888035280}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnEseTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 03ea9972-b241-41de-a6fb-00996379503b
     m_ActionName: Player/Escape[/DualSenseGamepadHID/buttonEast,/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4060613948888035280}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnTTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 48df19a7-f856-4188-87e9-9f1cbc766cb7
     m_ActionName: Player/T[/DualSenseGamepadHID/dpad/up,/Keyboard/t]
   - m_PersistentCalls:
@@ -942,7 +1059,19 @@ MonoBehaviour:
     m_ActionId: 464a3b8b-5b6e-45c1-a243-a2d0d13f2fdc
     m_ActionName: Cheat/GetMP[/Keyboard/k]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4060613948888035280}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnPurchaseTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: c1324105-2b51-4103-9ca4-f9c6dbc1c85f
     m_ActionName: Player/Purchase[/DualSenseGamepadHID/buttonNorth,/Keyboard/r]
   - m_PersistentCalls:
@@ -1015,5 +1144,3 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  inputActions: {fileID: -944628639613478452, guid: 8107e841e8766104eac605f86097f643,
-    type: 3}

@@ -130,12 +130,14 @@ public class PersistentUI : NetworkBehaviour
     [ClientRpc]
    public void ShowMagicWin()
     {
+        Time.timeScale = 0f;
         magicPanel.gameObject.SetActive(true);
     }
 
     [ClientRpc]
     public void ShowTechWin()
     {
+        Time.timeScale = 0f;
         techPanel.gameObject.SetActive(true);
     }
 }

@@ -60,22 +60,8 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        if (inputActions.FindAction(Constraints.InputKey.Tab).triggered)
-        {
-            OnTabButtonClick(TabButton);
-        }
-        
-        if (inputActions.FindAction(Constraints.InputKey.T).triggered)
-        {
-            OnTButtonClick(TButton);
-        }
-
-        if (inputActions.FindAction(Constraints.InputKey.ESC).triggered)
-        {
-            OnEseButtonClick(EseButton);
-        }
-
         if (state == UIPanelState.None) return;
+        
         // get mouse scroll value
         float scrollDelta = inputActions.FindAction(Constraints.InputKey.Aim).ReadValue<Vector2>().y;
 
@@ -187,14 +173,14 @@ public class UIController : MonoBehaviour
         AbilityClickArea.gameObject.SetActive(true);
     }
 
-    public void OnTabButtonClick(Button but)
+    public void OnTabButtonClick()
     {
         GamingUI.SetActive(true);
         state = oldState;
-        OnClickButtonDOScaleVisual(but);
+        OnClickButtonDOScaleVisual(TabButton);
     }
 
-    public void OnTButtonClick(Button but)
+    public void OnTButtonClick()
     {
         Debug.Log(" Showing Panel ");
         GamingUI.SetActive(true);
@@ -202,16 +188,16 @@ public class UIController : MonoBehaviour
         ShowSkillPart();
         state = UIPanelState.SkillAbilityPanel;
 
-        OnClickButtonDOScaleVisual(but);
+        OnClickButtonDOScaleVisual(TButton);
     }
 
-    public void OnEseButtonClick(Button but)
+    public void OnEseButtonClick()
     {
         oldState = state;
         state = UIPanelState.None;
         GamingUI.SetActive(false);
 
-        OnClickButtonDOScaleVisual(but);
+        OnClickButtonDOScaleVisual(EseButton);
     }
 
     public void OnSkillOrAbilityButtonClick(Button but)

@@ -14,7 +14,7 @@ public class EnemyMovement1 : EnemyMovement
         }
         else
         {
-            Debug.Log("NoFound Player, Cannot Follow.");
+            Debug.LogWarning("NoFound Player, Cannot Follow.");
         }
     }
 

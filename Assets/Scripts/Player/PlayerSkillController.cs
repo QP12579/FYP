@@ -78,16 +78,17 @@ public class PlayerSkillController : NetworkBehaviour
         PlayerMorT = gameObject.name[0] == 'M' ? "Magic" : "Tech";
     }
 
-    private void Update()
+    public void OnSkill1Trigger()
     {
-        // Check key press
-        // if (Input.GetKeyDown(equippedSkills[0].activationKey) && equippedSkills[0].cooldownTimer <= 0)
-        if (inputActions.FindAction(Constraints.InputKey.Skill1).triggered && equippedSkills[0].cooldownTimer <= 0)
+        if (equippedSkills[0].cooldownTimer <= 0)
         {
             ActivateSkill(0);
         }
-        // if (Input.GetKeyDown(equippedSkills[1].activationKey) && equippedSkills[1].cooldownTimer <= 0)
-        if (inputActions.FindAction(Constraints.InputKey.Skill2).triggered && equippedSkills[1].cooldownTimer <= 0)
+    }
+
+    public void OnSkill2Trigger()
+    {
+        if (equippedSkills[1].cooldownTimer <= 0)
         {
             ActivateSkill(1);
         }

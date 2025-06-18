@@ -8,9 +8,7 @@ public class PlayerAttack : NetworkBehaviour
 {
     [Header(" Components ")]
     public Player player;
-
-    [Header("KeyCode")]
-    [SerializeField] private InputActionAsset inputActions;
+    private InputActionAsset inputActions;
 
     [Header("NormalAttack")]
     public float attack = 5;
@@ -40,38 +38,79 @@ public class PlayerAttack : NetworkBehaviour
     public float AbilityATKArea = 0;
     [HideInInspector]
     private BoxCollider ATKCollider;
+    private Collider triggerStayCollider;
 
     private void Start()
     {
         if (!isLocalPlayer) return;
         animator = GetComponent<Animator>();
         canAtk = true;
-        if(player == null)
+        if (player == null)
             player = GetComponentInParent<Player>();
         ATKCollider = GetComponent<BoxCollider>();
+
+        inputActions = player.GetInputActions();
     }
 
-    private void Update()
+    // private void Update()
+    // {
+    //     if(!isLocalPlayer) return;
+
+    //     if (inputActions.FindAction(Constraints.InputKey.FarAttack).triggered && canAtk)
+    //     {
+    //         player.animator.SetTrigger("Attack");
+    //         FarAttack();
+    //         if(FarATK_SFX!=null&&SoundManager.instance!=null)
+    //             SoundManager.instance.PlaySFX(FarATK_SFX);
+    //     }
+    // }
+
+    public void OnTriggerStay(Collider c)
+    {
+        if (!isLocalPlayer) return;
+
+        triggerStayCollider = c;
+
+        // if (inputActions.FindAction(Constraints.InputKey.Attack).triggered && canAtk)
+        // {
+        //     NrmATK(c);
+        //     if (NrmATK_SFX != null && SoundManager.instance != null)
+        //         SoundManager.instance.PlaySFX(NrmATK_SFX);
+        // }
+    }
+
+    void OnTriggerExit(Collider c)
+    {
+        if (!isLocalPlayer) return;
+
+        if (triggerStayCollider == c)
+        {
+            triggerStayCollider = null;
+        }
+    }
+
+    public void OnAttackTrigger()
     {
         if(!isLocalPlayer) return;
 
-        if (inputActions.FindAction(Constraints.InputKey.FarAttack).triggered && canAtk)
+        if (triggerStayCollider != null && canAtk)
+        {
+            NrmATK(triggerStayCollider);
+            if (NrmATK_SFX != null && SoundManager.instance != null)
+                SoundManager.instance.PlaySFX(NrmATK_SFX);
+        }
+    }
+
+    public void OnFarAttackTrigger()
+    {
+        if(!isLocalPlayer) return;
+
+        if (canAtk)
         {
             player.animator.SetTrigger("Attack");
             FarAttack();
             if(FarATK_SFX!=null&&SoundManager.instance!=null)
                 SoundManager.instance.PlaySFX(FarATK_SFX);
-        }
-    }
-
-    public void OnTriggerStay(Collider c)
-    {
-        if (!isLocalPlayer) return;
-        if (inputActions.FindAction(Constraints.InputKey.Attack).triggered && canAtk)
-        {
-            NrmATK(c);
-            if (NrmATK_SFX != null && SoundManager.instance != null)
-                SoundManager.instance.PlaySFX(NrmATK_SFX);
         }
     }
 

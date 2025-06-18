@@ -25,9 +25,6 @@ namespace Whisper.Samples
         
         private string _buffer;
 
-        [Header("KeyCode")]
-        [SerializeField] private InputActionAsset inputActions;
-
         private void Awake()
         {
             whisper.OnNewSegment += OnNewSegment;
@@ -39,21 +36,7 @@ namespace Whisper.Samples
 
         }
 
-        private void Update()
-        {
-            // if (Input.GetKeyDown(KeyCode.C))
-            if (inputActions.FindAction(Constraints.InputKey.Record).triggered)
-            {
-                OnKeyDown();
-            }
-        }
-
-        private void OnVadChanged(bool vadStop)
-        {
-            microphoneRecord.vadStop = vadStop;
-        }
-
-        private void OnKeyDown()
+        public void OnRecordButtonDown()
         {
             if (!microphoneRecord.IsRecording)
             {
@@ -65,6 +48,11 @@ namespace Whisper.Samples
                 microphoneRecord.StopRecord();
                 outputText.text = $"<color=yellow>Sending...</color>";
             }
+        }
+
+        private void OnVadChanged(bool vadStop)
+        {
+            microphoneRecord.vadStop = vadStop;
         }
         
         private async void OnRecordStop(AudioChunk recordedAudio)

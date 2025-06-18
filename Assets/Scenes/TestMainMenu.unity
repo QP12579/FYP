@@ -3106,7 +3106,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -15.000061, y: -32.999905}
+  m_AnchoredPosition: {x: -15.000061, y: -33}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &657558107
@@ -5008,7 +5008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -15.000061, y: -32.999905}
+  m_AnchoredPosition: {x: -15.000061, y: -33}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1101821994
@@ -6429,7 +6429,7 @@ GameObject:
   - component: {fileID: 1610002918}
   - component: {fileID: 1610002917}
   m_Layer: 0
-  m_Name: BT_PAD
+  m_Name: BT_KB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6501,7 +6501,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2128390102}
         m_TargetAssemblyTypeName: InputSystemController, Assembly-CSharp
-        m_MethodName: OnGamePadSelected
+        m_MethodName: OnKeyboardSelected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7671,7 +7671,7 @@ GameObject:
   - component: {fileID: 1934206384}
   - component: {fileID: 1934206383}
   m_Layer: 0
-  m_Name: BT_KB
+  m_Name: BT_PAD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7743,7 +7743,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2128390102}
         m_TargetAssemblyTypeName: InputSystemController, Assembly-CSharp
-        m_MethodName: OnKeyboardSelected
+        m_MethodName: OnGamePadSelected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8643,8 +8643,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31353230b5d33df43938b53407d3c471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GamePadButton: {fileID: 1610002917}
-  KeyboardButton: {fileID: 1934206383}
+  GamePadButton: {fileID: 1934206383}
+  KeyboardButton: {fileID: 1610002917}
 --- !u!1 &2135686852
 GameObject:
   m_ObjectHideFlags: 0

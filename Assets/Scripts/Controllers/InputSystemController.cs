@@ -15,8 +15,7 @@ public class InputSystemController : MonoBehaviour
     public void OnGamePadSelected()
     {
         // Switch to gamepad control scheme
-        InputSystemData.instance.controlScheme = "GamePad";
-        
+        InputSystemData.instance.controlScheme = Constraints.ControlScheme.GamePad;        
         // Update button states
         GamePadButton.interactable = false;
         KeyboardButton.interactable = true;
@@ -25,7 +24,7 @@ public class InputSystemController : MonoBehaviour
     public void OnKeyboardSelected()
     {
         // Switch to keyboard control scheme
-        InputSystemData.instance.controlScheme = "Keyboard";
+        InputSystemData.instance.controlScheme = Constraints.ControlScheme.Keyboard;
         
         // Update button states
         GamePadButton.interactable = true;

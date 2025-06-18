@@ -22,6 +22,8 @@ public class CustomDisconnect : MonoBehaviour
 
     private void HandleDisconnect()
     {
+        Time.timeScale = 1f; // Ensure time scale is reset before disconnecting
+        
         // Check if we're running as a host (server and client)
         if (NetworkServer.active && NetworkClient.isConnected)
         {

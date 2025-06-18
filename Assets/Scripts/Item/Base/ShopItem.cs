@@ -36,9 +36,9 @@ public class ShopItem : MonoBehaviour
         if (purchasePrompt != null) purchasePrompt.SetActive(false);
     }
 
-    private void Update()
+    public void OnPurchaseButtonClicked()
     {
-        if (playerInRange && inputActions.FindAction(Constraints.InputKey.Purchase).triggered)
+        if (playerInRange)
         {
             AttemptPurchase();
         }
