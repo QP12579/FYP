@@ -9,6 +9,7 @@ public class InputSystemController : MonoBehaviour
 
     private void Start() 
     {
+        Time.timeScale = 1f; // Ensure time scale is normal
         OnGamePadSelected();
     }
     

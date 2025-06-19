@@ -630,7 +630,7 @@
                     "path": "<Keyboard>/g",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad;Keyboard",
                     "action": "AddCoins",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -641,7 +641,7 @@
                     "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad;Keyboard",
                     "action": "AddSkillPoints",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -652,7 +652,7 @@
                     "path": "<Keyboard>/v",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad;Keyboard",
                     "action": "GetSP",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -663,7 +663,7 @@
                     "path": "<Keyboard>/h",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad;Keyboard",
                     "action": "Heal",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -674,7 +674,7 @@
                     "path": "<Keyboard>/k",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad;Keyboard",
                     "action": "GetMP",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -183,8 +183,6 @@ public class PlayerMovement : NetworkBehaviour
             anim.SetFloat("vmoveSpeed", y);
             rb.velocity = new Vector3(moveDir.x * speed * Time.fixedDeltaTime, rb.velocity.y, moveDir.z * speed * Time.fixedDeltaTime);
 
-            Debug.Log($"rb.velocity: {rb.velocity}, MoveDir: {moveDir}, Speed: {speed}");
-
             if (isGrounded && jumpRequest)
             {
                 rb.AddForce(Vector3.up * jumpForce);

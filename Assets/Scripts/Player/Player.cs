@@ -356,9 +356,13 @@ public class Player : NetworkBehaviour
         move.ResetSpeed();
     }
 
-    public void OnRecordTrigger()
+    public void OnRecordTrigger(InputAction.CallbackContext context)
     {
-        microphoneTestDemo.OnRecordButtonDown();
+        if (context.performed && isLocalPlayer)
+        {
+            Debug.Log(gameObject.name + " OnRecordTrigger");
+            microphoneTestDemo.OnRecordButtonDown();
+        }
     }
 
     public void OnTabTrigger()

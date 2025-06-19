@@ -62,7 +62,7 @@ public class PlayerSpeechSkill : NetworkBehaviour
             }
         },
 
-        { "burn", () => {
+        { "fire", () => {
                 if (otherPlayer != null)
                 {
                     Vector3 spawnPosition = otherPlayer.transform.position + vfxSpawnOffset;
